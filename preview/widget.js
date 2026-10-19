@@ -1,4 +1,4 @@
-/* SRCHN city chat widget - preview only (/preview/, noindex).
+/* SRCHN city chat widget v4 - preview only (/preview/, noindex).
    Self-contained: no keys in the browser. Calls the SRCHN Worker API.
    Load with: <script src="widget.js" defer></script> on the preview page. */
 (function () {
@@ -76,41 +76,54 @@
   btn.onclick = function () { panel.classList.toggle('open'); if (panel.classList.contains('open')) ensureTurnstile(); };
   panel.querySelector('#srchn-x').onclick = function () { panel.classList.remove('open'); };
 
-  /* ---------- turnstile (managed, mostly invisible; token is single-use, 5-min TTL) ---------- */
+  /* ---------- turnstile (managed, mostly invisible; token is single-use, 5-min TTL).
+     Auto-run + pre-issue: the challenge starts when the widget renders (panel open),
+     and a fresh widget is rendered right after every send so the next message usually
+     has a token ready by the time it is sent. ---------- */
   var tsLoading = false;
+  var tsError = false;
+  function renderWidget() {
+    if (typeof turnstile === 'undefined' || tsWidgetId !== null) return;
+    try {
+      tsWidgetId = turnstile.render('#cf-slot', {
+        sitekey: TURNSTILE_SITEKEY,
+        size: 'compact',
+        appearance: 'interaction-only', // hidden unless a human check is actually needed
+        callback: function (t) { tsToken = t; tsError = false; },
+        'expired-callback': function () { tsToken = null; },
+        'error-callback': function () { tsToken = null; tsError = true; }
+      });
+    } catch (e) { tsWidgetId = null; }
+  }
   function ensureTurnstile() {
     if (tsWidgetId !== null || tsLoading) return;
+    if (typeof turnstile !== 'undefined') { renderWidget(); return; }
     tsLoading = true;
     var s = document.createElement('script');
     s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    s.onload = function () {
-      try {
-        tsWidgetId = turnstile.render('#cf-slot', {
-          sitekey: TURNSTILE_SITEKEY,
-          size: 'compact',
-          callback: function (t) { tsToken = t; },
-          'expired-callback': function () { tsToken = null; },
-          'error-callback': function () { tsToken = null; }
-        });
-      } catch (e) { tsLoading = false; }
-    };
+    s.onload = function () { tsLoading = false; renderWidget(); };
     s.onerror = function () { tsLoading = false; };
     document.head.appendChild(s);
   }
-  function reRender() { // full re-render: more reliable than reset() for re-issue
+  function reRender() { // full remove + render fresh: the challenge restarts immediately
     try { if (tsWidgetId !== null) turnstile.remove(tsWidgetId); } catch (e) {}
-    tsWidgetId = null; tsLoading = false;
-    ensureTurnstile();
+    tsWidgetId = null; tsToken = null; tsError = false;
+    renderWidget();
   }
   function getToken() {
     return new Promise(function (resolve) {
       ensureTurnstile();
-      var tries = 0;
+      var tries = 0, rerenders = 0;
       (function poll() {
         if (tsToken) return resolve(tsToken);
-        if (++tries > 100) return resolve(null); // ~20s, treat as unavailable
-        if (tries === 20) { try { if (tsWidgetId !== null) turnstile.reset(tsWidgetId); } catch (e) {} }
-        if (tries === 45) reRender(); // reset did not re-issue: rebuild the widget
+        ++tries;
+        // Every ~8s without a token (or on an explicit error), rebuild the
+        // widget so a fresh challenge starts; give up after ~24s total.
+        if ((tsError || tries % 40 === 0) && rerenders < 2) {
+          rerenders++; tsError = false; reRender();
+        } else if (tries > 120) {
+          return resolve(null);
+        }
         setTimeout(poll, 200);
       })();
     });
@@ -145,12 +158,13 @@
       acts.appendChild(link('Read / Visit', sheet));
       acts.appendChild(link('Book this slot', sheet + '&step=book'));
       acts.appendChild(link('Pay UPI (demo)', sheet));
-    } else if (p.mapsUrl) {
+    } else if (p.mapsUrl && httpsOnly(p.mapsUrl)) {
       var a = link('View on Google Maps', p.mapsUrl); a.target = '_blank'; a.rel = 'noopener'; acts.appendChild(a);
     }
     el.appendChild(acts); body.appendChild(el); body.scrollTop = body.scrollHeight;
   }
   function link(label, href) { var a = document.createElement('a'); a.href = href; a.textContent = label; return a; }
+  function httpsOnly(u) { return typeof u === 'string' && /^https:\/\//i.test(u); }
   function suggestions(html) {
     /* Google requires showing Search Suggestions with grounded answers. Render the
        Google-provided HTML inside a sandboxed iframe: no scripts, no same-origin
@@ -163,12 +177,14 @@
     body.appendChild(f); body.scrollTop = body.scrollHeight;
   }
   function sourceLine(w) {
+    if (!w || !httpsOnly(w.link)) return;
     var d = document.createElement('div'); d.className = 'msg note';
     var a = link(w.title || w.link, w.link); a.target = '_blank'; a.rel = 'noopener';
     d.appendChild(document.createTextNode('Source: ')); d.appendChild(a);
     body.appendChild(d); body.scrollTop = body.scrollHeight;
   }
   function mapsCard(url) {
+    if (!httpsOnly(url)) return;
     var el = document.createElement('div'); el.className = 'place';
     var nm = document.createElement('div'); nm.className = 'nm';
     nm.textContent = 'Not in SRCHN yet'; el.appendChild(nm);
@@ -181,6 +197,7 @@
     var d = document.createElement('div'); d.className = 'place vids';
     var t = document.createElement('div'); t.className = 'nm'; t.textContent = 'Videos'; d.appendChild(t);
     list.forEach(function (v) {
+      if (!httpsOnly(v.url)) return;
       var a = link(v.title || 'Watch on YouTube', v.url); a.target = '_blank'; a.rel = 'noopener'; d.appendChild(a);
     });
     body.appendChild(d); body.scrollTop = body.scrollHeight;
@@ -197,7 +214,7 @@
     getToken().then(function (token) {
       if (!token) {
         thinking.remove();
-        bubble('Could not verify you are human - please refresh the page and try again.', 'note');
+        bubble('Human check did not complete - if you see a checkbox above the Send button, tick it, then resend. Otherwise refresh the page and try again.', 'note');
         sending = false; sendBtn.disabled = false;
         return Promise.reject('no-token');
       }
@@ -220,7 +237,7 @@
       bubble('Something went wrong - please try again.', 'bot');
     }).finally(function () {
       tsToken = null;
-      try { if (tsWidgetId !== null) turnstile.reset(tsWidgetId); } catch (e) {}
+      reRender(); // fresh widget for the next message (reset() proved unreliable)
       sending = false; sendBtn.disabled = false; input.focus();
     });
   }
