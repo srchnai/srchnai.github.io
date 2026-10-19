@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  var API_URL = 'https://srchn-city-chat.gireeshchalla.workers.dev/api/chat';
+  var API_URL = '/api/chat'; // same-origin via Cloudflare route on srchn.in
   var TURNSTILE_SITEKEY = '0x4AAAAAAFb1xd3vvqDeAQMZ';
   var PREVIEW_BASE = 'https://srchn.in/preview/';
 
