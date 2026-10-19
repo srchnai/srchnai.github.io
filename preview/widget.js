@@ -57,7 +57,7 @@
   var panel = document.createElement('div'); panel.id = 'srchn-chat-panel';
   panel.innerHTML =
     '<div class="srchn-head"><div><b>SRCHN city assistant</b>' +
-    '<span>Bangalore only. Answers from SRCHN listings + AI knowledge. Not live data.' +
+    '<span>Bangalore only. Answers from SRCHN listings + AI knowledge. Not live data.</span></div>' +
     '<button aria-label="Close" id="srchn-x">&times;</button></div>' +
     '<div id="srchn-body"></div>' +
     '<div class="foot">' +
