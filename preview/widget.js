@@ -57,7 +57,7 @@
   var panel = document.createElement('div'); panel.id = 'srchn-chat-panel';
   panel.innerHTML =
     '<div class="srchn-head"><div><b>SRCHN city assistant</b>' +
-    '<span>Bangalore only. Answers grounded in Google Search &amp; Maps.</span></div>' +
+    '<span>Bangalore only. Answers from SRCHN listings + AI knowledge. Not live data.' +
     '<button aria-label="Close" id="srchn-x">&times;</button></div>' +
     '<div id="srchn-body"></div>' +
     '<div class="foot">' +
@@ -77,19 +77,30 @@
   panel.querySelector('#srchn-x').onclick = function () { panel.classList.remove('open'); };
 
   /* ---------- turnstile (managed, mostly invisible; token is single-use, 5-min TTL) ---------- */
+  var tsLoading = false;
   function ensureTurnstile() {
-    if (tsWidgetId !== null) return;
+    if (tsWidgetId !== null || tsLoading) return;
+    tsLoading = true;
     var s = document.createElement('script');
     s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
     s.onload = function () {
-      tsWidgetId = turnstile.render('#cf-slot', {
-        sitekey: TURNSTILE_SITEKEY,
-        size: 'compact',
-        callback: function (t) { tsToken = t; },
-        'expired-callback': function () { tsToken = null; }
-      });
+      try {
+        tsWidgetId = turnstile.render('#cf-slot', {
+          sitekey: TURNSTILE_SITEKEY,
+          size: 'compact',
+          callback: function (t) { tsToken = t; },
+          'expired-callback': function () { tsToken = null; },
+          'error-callback': function () { tsToken = null; }
+        });
+      } catch (e) { tsLoading = false; }
     };
+    s.onerror = function () { tsLoading = false; };
     document.head.appendChild(s);
+  }
+  function reRender() { // full re-render: more reliable than reset() for re-issue
+    try { if (tsWidgetId !== null) turnstile.remove(tsWidgetId); } catch (e) {}
+    tsWidgetId = null; tsLoading = false;
+    ensureTurnstile();
   }
   function getToken() {
     return new Promise(function (resolve) {
@@ -98,7 +109,8 @@
       (function poll() {
         if (tsToken) return resolve(tsToken);
         if (++tries > 100) return resolve(null); // ~20s, treat as unavailable
-        if (tsWidgetId !== null && tries === 20) { try { turnstile.reset(tsWidgetId); } catch (e) {} }
+        if (tries === 20) { try { if (tsWidgetId !== null) turnstile.reset(tsWidgetId); } catch (e) {} }
+        if (tries === 45) reRender(); // reset did not re-issue: rebuild the widget
         setTimeout(poll, 200);
       })();
     });
@@ -150,6 +162,21 @@
     f.srcdoc = html + '<base target="_blank">';
     body.appendChild(f); body.scrollTop = body.scrollHeight;
   }
+  function sourceLine(w) {
+    var d = document.createElement('div'); d.className = 'msg note';
+    var a = link(w.title || w.link, w.link); a.target = '_blank'; a.rel = 'noopener';
+    d.appendChild(document.createTextNode('Source: ')); d.appendChild(a);
+    body.appendChild(d); body.scrollTop = body.scrollHeight;
+  }
+  function mapsCard(url) {
+    var el = document.createElement('div'); el.className = 'place';
+    var nm = document.createElement('div'); nm.className = 'nm';
+    nm.textContent = 'Not in SRCHN yet'; el.appendChild(nm);
+    var acts = document.createElement('div'); acts.className = 'acts';
+    var a = link('Search on Google Maps', url); a.target = '_blank'; a.rel = 'noopener';
+    acts.appendChild(a); el.appendChild(acts);
+    body.appendChild(el); body.scrollTop = body.scrollHeight;
+  }
   function videos(list) {
     var d = document.createElement('div'); d.className = 'place vids';
     var t = document.createElement('div'); t.className = 'nm'; t.textContent = 'Videos'; d.appendChild(t);
@@ -168,6 +195,12 @@
     bubble(text, 'user');
     var thinking = bubble('...', 'bot');
     getToken().then(function (token) {
+      if (!token) {
+        thinking.remove();
+        bubble('Could not verify you are human - please refresh the page and try again.', 'note');
+        sending = false; sendBtn.disabled = false;
+        return Promise.reject('no-token');
+      }
       var payload = { message: text, sessionId: sessionId, turnstileToken: token };
       if (coords) { payload.lat = coords.lat; payload.lng = coords.lng; }
       return fetch(API_URL, {
@@ -178,13 +211,16 @@
       bubble((r && r.reply) || 'Something went wrong - please try again.', 'bot');
       if (r && r.searchSuggestionsHtml) suggestions(r.searchSuggestionsHtml);
       if (r && r.places) r.places.forEach(placeCard);
+      if (r && r.sources) r.sources.forEach(sourceLine);
+      if (r && r.mapsSearchUrl) mapsCard(r.mapsSearchUrl);
       if (r && r.videos) videos(r.videos);
-    }).catch(function () {
+    }).catch(function (e) {
+      if (e === 'no-token') return;
       thinking.remove();
       bubble('Something went wrong - please try again.', 'bot');
     }).finally(function () {
       tsToken = null;
-      if (tsWidgetId !== null) { try { turnstile.reset(tsWidgetId); } catch (e) {} }
+      try { if (tsWidgetId !== null) turnstile.reset(tsWidgetId); } catch (e) {}
       sending = false; sendBtn.disabled = false; input.focus();
     });
   }
