@@ -113,15 +113,16 @@
   function getToken() {
     return new Promise(function (resolve) {
       ensureTurnstile();
-      var tries = 0, rerenders = 0;
+      var tries = 0, rebuilt = false;
       (function poll() {
         if (tsToken) return resolve(tsToken);
         ++tries;
-        // Every ~8s without a token (or on an explicit error), rebuild the
-        // widget so a fresh challenge starts; give up after ~24s total.
-        if ((tsError || tries % 40 === 0) && rerenders < 2) {
-          rerenders++; tsError = false; reRender();
-        } else if (tries > 120) {
+        // Patience beats churn: rebuilding cancels an in-flight challenge, and
+        // slow environments issue late. Only rebuild on an explicit error, and
+        // allow ~50s total before giving up.
+        if (tsError && !rebuilt) {
+          rebuilt = true; tsError = false; reRender();
+        } else if (tries > 250) {
           return resolve(null);
         }
         setTimeout(poll, 200);
