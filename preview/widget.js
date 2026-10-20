@@ -1,4 +1,4 @@
-/* SRCHN city chat widget v9 - preview only (/preview/, noindex). White-first pastel theme.
+/* SRCHN city chat widget v10 - preview only (/preview/, noindex). White-first pastel theme.
    Self-contained: no keys in the browser. Calls the SRCHN Worker API.
    Load with: <script src="widget.js" defer></script> on the preview page. */
 (function () {
@@ -9,6 +9,7 @@
   var PREVIEW_BASE = 'https://srchn.in/preview/';
 
   /* studio condenser mic - inline SVG, decorative (buttons carry text labels) */
+  var ICON_IMG = '<img src="' + PREVIEW_BASE + 'voice/srchn-voice.svg" alt="" width="22" height="22" style="display:block">';
   var MIC_SVG = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" '
     + 'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="flex:0 0 auto">'
     + '<rect x="8.5" y="2.5" width="7" height="11" rx="3.5"/>'
@@ -27,11 +28,11 @@
 
   /* ---------- styles ---------- */
   var css = ''
-    + '@keyframes srchn-pulse{0%,100%{box-shadow:0 6px 22px rgba(150,130,240,.35),0 0 0 0 rgba(180,150,245,.4)}'
-    + '50%{box-shadow:0 6px 22px rgba(150,130,240,.45),0 0 0 12px rgba(180,150,245,0)}}'
-    + '#srchn-chat-btn{position:fixed;right:20px;bottom:20px;z-index:99990;border:1px solid rgba(120,100,220,.25);border-radius:999px;display:inline-flex;align-items:center;gap:7px;'
-    + 'padding:13px 20px;background:linear-gradient(135deg,#a9c1ff 0%,#cbb6f7 55%,#f6bfd7 100%);color:#23233a;font:600 14px/1 system-ui,sans-serif;cursor:pointer;'
-    + 'box-shadow:0 6px 22px rgba(150,130,240,.35);animation:srchn-pulse 3s ease-in-out infinite;transition:filter .15s}'
+    + '@keyframes srchn-pulse{0%,100%{box-shadow:0 6px 22px rgba(248,0,80,.28),0 0 0 0 rgba(248,0,80,.3)}'
+    + '50%{box-shadow:0 6px 22px rgba(248,0,80,.34),0 0 0 12px rgba(248,0,80,0)}}'
+    + '#srchn-chat-btn{position:fixed;right:20px;bottom:20px;z-index:99990;border:1px solid #E6004A;border-radius:999px;display:inline-flex;align-items:center;gap:7px;'
+    + 'padding:11px 20px 11px 14px;background:#E6004A;color:#fff;font:600 14px/1 system-ui,sans-serif;cursor:pointer;'
+    + 'box-shadow:0 6px 22px rgba(248,0,80,.28);animation:srchn-pulse 3s ease-in-out infinite;transition:filter .15s}'
     + '#srchn-chat-btn:hover{filter:saturate(1.15)}'
     + '@media (prefers-reduced-motion: reduce){#srchn-chat-btn{animation:none}}'
     + '#srchn-chat-panel{position:fixed;right:20px;bottom:76px;z-index:99991;width:min(380px,calc(100vw - 32px));'
@@ -41,46 +42,50 @@
     + '#srchn-chat-panel.open{display:flex}'
     + '.srchn-head{padding:12px 14px;border-bottom:1px solid #efedf5;display:flex;justify-content:space-between;align-items:center}'
     + '.srchn-head b{font-size:14px}.srchn-head button{background:none;border:0;color:#9a9aa6;font-size:18px;cursor:pointer}'
-    + '.srchn-ht{display:flex;align-items:center;gap:6px;color:#8b7ff0}'
+    + '.srchn-ht{display:flex;align-items:center;gap:6px;color:#E6004A}'
     + '.srchn-ht b{color:#1c1c24}'
     + '.srchn-head span{display:block;font-size:11px;color:#8f8f9a;font-weight:400;margin-top:2px}'
     + '#srchn-body{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}'
     + '.msg{max-width:88%;padding:9px 12px;border-radius:12px;white-space:pre-wrap;word-break:break-word}'
-    + '.msg.user{align-self:flex-end;background:#e7edff;color:#1c2b52;border:1px solid #d4dffc;border-bottom-right-radius:4px}'
+    + '.msg.user{align-self:flex-end;background:#fff1f6;color:#17151a;border:1px solid #ffd9e6;border-bottom-right-radius:4px}'
     + '.msg.bot{align-self:flex-start;background:#f6f6f9;border:1px solid #e9e9f0;color:#1c1c24;border-bottom-left-radius:4px}'
     + '.msg.note{align-self:center;background:none;color:#9a9aa3;font-size:12px;text-align:center;padding:2px}'
     + '.place{align-self:stretch;background:#fbfbff;border:1px solid #e9e7f2;border-radius:10px;padding:10px 12px;color:#1c1c24}'
     + '.place .nm{font-weight:600}.place .lc{color:#7d7d88;font-size:12px;font-weight:400}'
     + '.place .acts{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}'
-    + '.place a{color:#4a5fc1;text-decoration:none;font-size:13px;border:1px solid #c9d3f5;border-radius:8px;padding:5px 9px}'
-    + '.place a:hover{background:#eef1ff}'
-    + '.vids a{display:block;color:#4a5fc1;font-size:13px;margin:4px 0}'
+    + '.place a{color:#C4003F;text-decoration:none;font-size:13px;border:1px solid #ffd0e0;border-radius:8px;padding:5px 9px}'
+    + '.place a:hover{background:#fff1f6}'
+    + '.vids a{display:block;color:#C4003F;font-size:13px;margin:4px 0}'
     + 'iframe.sugg{align-self:stretch;width:100%;border:0;height:52px;background:transparent}'
     + '.foot{border-top:1px solid #efedf5;padding:10px}'
     + '.foot .row{display:flex;gap:8px}'
     + '#srchn-in{flex:1;background:#fcfcfe;border:1px solid #ddddea;color:#1c1c24;border-radius:10px;'
     + 'padding:10px;font:14px system-ui,sans-serif;outline:none;resize:none;min-height:20px;max-height:90px}'
-    + '#srchn-send{background:#4f63e8;border:0;color:#fff;border-radius:10px;padding:0 16px;cursor:pointer;font-weight:600}'
+    + '#srchn-send{background:#E6004A;border:0;color:#fff;border-radius:10px;padding:0 16px;cursor:pointer;font-weight:600}'
     + '#srchn-send:disabled{opacity:.5;cursor:default}'
     + '.loc-row{display:flex;align-items:center;gap:8px;margin-top:8px}'
     + '#srchn-loc{background:none;border:1px solid #ddddea;color:#8a8a95;border-radius:8px;font-size:12px;padding:4px 9px;cursor:pointer}'
     + '#srchn-loc.on{color:#3f9d63;border-color:#bfe3cd}'
     + '.loc-note{font-size:11px;color:#a6a6ae}'
+    + '#srchn-mic{background:#fff;border:1px solid #e8e6ec;color:#17151a;border-radius:10px;padding:0 10px;cursor:pointer}#srchn-mic.on{background:#E6004A;color:#fff;border-color:#E6004A}'
+    + '#srchn-mic[hidden],#srchn-tts-l[hidden]{display:none}#srchn-tts-l{display:block;margin-top:6px}'
     + '#cf-slot{margin-top:8px;min-height:0}';
 
   /* ---------- dom ---------- */
   var style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
-  var btn = document.createElement('button'); btn.id = 'srchn-chat-btn'; btn.setAttribute('aria-label', 'Ask about Bangalore');
-  btn.innerHTML = MIC_SVG + '<span>Ask about Bangalore</span>';
+  var btn = document.createElement('button'); btn.id = 'srchn-chat-btn'; btn.setAttribute('aria-label', 'Ask SRCHN: open SRCHN Voice');
+  btn.innerHTML = '<span style="background:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center">' + ICON_IMG + '</span><span>Ask SRCHN</span>';
   var panel = document.createElement('div'); panel.id = 'srchn-chat-panel';
   panel.innerHTML =
-    '<div class="srchn-head"><div><div class="srchn-ht">' + MIC_SVG + '<b>SRCHN city assistant</b></div>' +
-    '<span>Bangalore only. Answers from SRCHN listings + AI knowledge. Not live data.</span></div>' +
+    '<div class="srchn-head"><div><div class="srchn-ht">' + ICON_IMG + '<b>SRCHN Voice</b></div>' +
+    '<span>Ask anything about Bangalore. Answers from SRCHN listings + AI knowledge. Not live data.</span></div>' +
     '<button aria-label="Close" id="srchn-x">&times;</button></div>' +
     '<div id="srchn-body"></div>' +
     '<div class="foot">' +
-    '<div class="row"><textarea id="srchn-in" rows="1" maxlength="500" placeholder="Ask about Bangalore - places, food, areas..."></textarea>' +
+    '<div class="row"><textarea id="srchn-in" rows="1" maxlength="500" placeholder="Ask anything about Bangalore"></textarea>' +
+    '<button id="srchn-mic" type="button" aria-label="Speak your question" title="Speak your question" hidden>' + MIC_SVG + '</button>' +
     '<button id="srchn-send">Send</button></div>' +
+    '<label class="loc-note" id="srchn-tts-l" hidden><input type="checkbox" id="srchn-tts"> Read answers aloud</label>' +
     '<div class="loc-row"><button id="srchn-loc" type="button">Use my location</button>' +
     '<span class="loc-note">Optional. Used only for that answer, never stored.</span></div>' +
     '<div id="cf-slot"></div></div>';
@@ -90,6 +95,32 @@
   var input = panel.querySelector('#srchn-in');
   var sendBtn = panel.querySelector('#srchn-send');
   var locBtn = panel.querySelector('#srchn-loc');
+  var micBtn = panel.querySelector('#srchn-mic');
+  var ttsBox = panel.querySelector('#srchn-tts');
+
+  /* ---------- voice input/output: free browser APIs only (Web Speech), nothing leaves the browser except the final text ---------- */
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var rec = null, listening = false;
+  if (SR) {
+    micBtn.hidden = false;
+    micBtn.onclick = function () {
+      if (listening && rec) { rec.stop(); return; }
+      try {
+        rec = new SR(); rec.lang = 'en-IN'; rec.interimResults = true; rec.maxAlternatives = 1;
+        rec.onstart = function () { listening = true; micBtn.classList.add('on'); micBtn.setAttribute('aria-pressed', 'true'); };
+        rec.onresult = function (ev) { var t = ''; for (var i = 0; i < ev.results.length; i++) t += ev.results[i][0].transcript; input.value = t; };
+        rec.onerror = function () { listening = false; micBtn.classList.remove('on'); micBtn.setAttribute('aria-pressed', 'false'); };
+        rec.onend = function () { listening = false; micBtn.classList.remove('on'); micBtn.setAttribute('aria-pressed', 'false'); input.focus(); };
+        rec.start();
+      } catch (e) { listening = false; }
+    };
+  }
+  if (window.speechSynthesis && window.SpeechSynthesisUtterance) panel.querySelector('#srchn-tts-l').hidden = false;
+  function speak(t) {
+    if (!ttsBox || !ttsBox.checked || !window.speechSynthesis) return;
+    try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(String(t).slice(0, 600)); u.lang = 'en-IN'; speechSynthesis.speak(u); } catch (e) {}
+  }
+  window.SRCHNVoice = { open: function () { panel.classList.add('open'); ensureTurnstile(); setTimeout(function () { input.focus(); }, 50); } };
 
   btn.onclick = function () { panel.classList.toggle('open'); if (panel.classList.contains('open')) ensureTurnstile(); };
   panel.querySelector('#srchn-x').onclick = function () { panel.classList.remove('open'); };
@@ -311,6 +342,7 @@
         return;
       }
       bubble((r && r.reply) || 'Something went wrong - please try again.', 'bot');
+      if (r && r.reply) speak(r.reply);
       if (r && r.searchSuggestionsHtml) suggestions(r.searchSuggestionsHtml);
       if (r && r.places) r.places.forEach(placeCard);
       if (r && r.sources) r.sources.forEach(sourceLine);
