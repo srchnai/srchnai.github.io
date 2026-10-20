@@ -1,4 +1,4 @@
-/* SRCHN city chat widget v10 - preview only (/preview/, noindex). White-first pastel theme.
+/* SRCHN city chat widget v11 - preview only (/preview/, noindex). White-first pastel theme.
    Self-contained: no keys in the browser. Calls the SRCHN Worker API.
    Load with: <script src="widget.js" defer></script> on the preview page. */
 (function () {
@@ -263,7 +263,7 @@
     if (LITE) return Promise.resolve(LITE);
     return fetch(PREVIEW_BASE + 'places-lite.json').then(function (r) { return r.ok ? r.json() : []; }).then(function (j) { LITE = j; return j; }).catch(function () { LITE = []; return LITE; });
   }
-  var STOP = { where: 1, is: 1, the: 1, a: 1, an: 1, in: 1, at: 1, find: 1, show: 1, me: 1, location: 1, address: 1, of: 1, located: 1, whats: 1, what: 1, to: 1, tell: 1, about: 1, directions: 1, map: 1, bangalore: 1, bengaluru: 1 };
+  var STOP = { hi: 1, hello: 1, hey: 1, please: 1, can: 1, you: 1, could: 1, would: 1, thanks: 1, where: 1, is: 1, the: 1, a: 1, an: 1, in: 1, at: 1, find: 1, show: 1, me: 1, location: 1, address: 1, of: 1, located: 1, whats: 1, what: 1, to: 1, tell: 1, about: 1, directions: 1, map: 1, bangalore: 1, bengaluru: 1 };
   function norm(t) { return t.toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
   var GEN = { cafe: 1, cafes: 1, coffee: 1, restaurant: 1, bar: 1, pub: 1, hotel: 1, shop: 1, store: 1, bengaluru: 1, bangalore: 1, the: 1, and: 1 };
   function lev(a, b, max) {
@@ -277,7 +277,7 @@
     }
     return prev[b.length];
   }
-  function isAsk(text) { return /^(where( is| are|s)?|find|show( me)?|location of|address of|directions to|locate)\b/.test(norm(text)); }
+  function isAsk(text) { text = norm(text).replace(/^(?:(?:hi|hello|hey|please)\s+)+/, ''); return /^(where( is| are|s)?|find|show( me)?|location of|address of|directions to|locate)\b/.test(norm(text)); }
   function coreOf(text) {
     var t = norm(text).split(' ').filter(function (w) { return w && !STOP[w] && !GEN[w]; });
     if (!t.length) t = norm(text).split(' ').filter(function (w) { return w && !STOP[w]; });
@@ -297,7 +297,8 @@
       if (hit) ok++;
     });
     if (ok === core.length) return 2;
-    if (core.length > 1 && ok >= 1 && ok >= core.length - 1) return 1;
+    // Do not treat a partial name match as a different business.
+    // A missing distinctive token must never yield a place card.
     return 0;
   }
   function localMatch(text, list) {
@@ -330,7 +331,7 @@
     if (!core.length) return out;
     for (var i = 0; i < rows.length; i++) {
       var sc = score(core, rows[i][1] || '');
-      if (sc >= 1) out.push([sc, rows[i]]);
+      if (sc >= 2) out.push([sc, rows[i]]);
     }
     out.sort(function (a, b) { return b[0] - a[0]; });
     return out.slice(0, 5).map(function (x) { return x[1]; });
@@ -378,7 +379,7 @@
     sending = true; sendBtn.disabled = true;
     input.value = '';
     bubble(text, 'user');
-    var localHit = null;
+
     return loadLite().then(function (list) {
       var hits = localMatch(text, list);
       if (hits.length) { showLocal(hits); sending = false; sendBtn.disabled = false; return; }
@@ -391,11 +392,6 @@
         else bubble('I could not find that in the SRCHN listings. Check the spelling, or try the area or category, for example "cafes in HSR Layout".', 'bot');
         sending = false; sendBtn.disabled = false;
       });
-    });
-  }
-  function _unused() {
-    return Promise.resolve().then(function () {
-      return sendRemote(text);
     });
   }
   function sendRemote(text) {
@@ -426,7 +422,12 @@
       bubble((r && r.reply) || 'Something went wrong - please try again.', 'bot');
       if (r && r.reply) speak(r.reply);
       if (r && r.searchSuggestionsHtml) suggestions(r.searchSuggestionsHtml);
-      if (r && r.places) r.places.forEach(placeCard);
+      // Cards supplement an answer only when their business name matches
+      // the question, or is explicitly named in the answer. No fallback cards.
+      if (r && r.places) r.places.filter(function (p) {
+        var name = norm(p.name || '');
+        return name && (score(coreOf(text), name) >= 2 || norm(r.reply || '').indexOf(name) >= 0);
+      }).forEach(placeCard);
       if (r && r.sources) r.sources.forEach(sourceLine);
       if (r && r.mapsSearchUrl) mapsCard(r.mapsSearchUrl);
       if (r && r.videos) videos(r.videos);
