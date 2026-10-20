@@ -267,14 +267,14 @@
   function norm(t) { return t.toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
   function localMatch(text, list) {
     var q = norm(text);
-    if (!/^(where( is| are|'s)?|find|show( me)?|location of|address of|directions to|locate)\b/.test(q) && q.split(' ').length > 3) return [];
+    var ask = /^(where( is| are|s)?|find|show( me)?|location of|address of|directions to|locate)\b/.test(q);
     var toks = q.split(' ').filter(function (w) { return w && !STOP[w]; });
     if (!toks.length) return [];
     var phrase = toks.join(' '), hits = [];
     for (var i = 0; i < list.length; i++) {
       var nm = norm(list[i][0]);
       if (nm === phrase) { hits.unshift(list[i]); }
-      else if (toks.length >= 1 && (' ' + nm + ' ').indexOf(' ' + phrase + ' ') >= 0) { hits.push(list[i]); }
+      else if (ask && (' ' + nm + ' ').indexOf(' ' + phrase + ' ') >= 0) { hits.push(list[i]); }
     }
     return hits.slice(0, 5);
   }
