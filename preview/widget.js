@@ -291,7 +291,7 @@
     if (flat.indexOf(q) >= 0) return 2.5;
     var nt = nm.split(' '), ok = 0;
     core.forEach(function (w) {
-      var d = w.length >= 8 ? 2 : (w.length >= 4 ? 1 : 0), hit = false;
+      var d = w.length >= 9 ? 2 : (w.length >= 5 ? 1 : 0), hit = false;
       for (var i = 0; i < nt.length && !hit; i++) { if (nt[i] === w || lev(nt[i], w, d) <= d) hit = true; }
       if (!hit && flat.indexOf(w) >= 0) hit = true;
       if (hit) ok++;
