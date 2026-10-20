@@ -312,6 +312,7 @@
     }
     if (!ask) out = out.filter(function (x) { return x[0] >= 2.5; });
     out.sort(function (a, b) { return b[0] - a[0]; });
+    if (out.length) { var top = out[0][0]; out = out.filter(function (x) { return top >= 2.5 ? x[0] >= 2.5 : x[0] >= top; }); }
     return out.slice(0, 5).map(function (x) { return x[1]; });
   }
   /* open-data: lazy-load every category chunk, only for where-is questions with no listing match */
