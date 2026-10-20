@@ -1,4 +1,4 @@
-/* SRCHN city chat widget v6 - preview only (/preview/, noindex). White-first pastel theme.
+/* SRCHN city chat widget v8 - preview only (/preview/, noindex). White-first pastel theme.
    Self-contained: no keys in the browser. Calls the SRCHN Worker API.
    Load with: <script src="widget.js" defer></script> on the preview page. */
 (function () {
@@ -100,16 +100,19 @@
      has a token ready by the time it is sent. ---------- */
   var tsLoading = false;
   var tsError = false;
+  var tsGen = 0; // ignores late callbacks from widgets that were removed
   function renderWidget() {
     if (typeof turnstile === 'undefined' || tsWidgetId !== null) return;
     try {
+      var gen = ++tsGen;
       tsWidgetId = turnstile.render('#cf-slot', {
         sitekey: TURNSTILE_SITEKEY,
+        retry: 'auto', 'refresh-expired': 'auto', 'refresh-timeout': 'auto',
         size: 'compact',
         appearance: 'interaction-only', // hidden unless a human check is actually needed
-        callback: function (t) { tsToken = t; tsError = false; },
-        'expired-callback': function () { tsToken = null; },
-        'error-callback': function () { tsToken = null; tsError = true; }
+        callback: function (t) { if (gen !== tsGen) return; tsToken = t; tsError = false; },
+        'expired-callback': function () { if (gen === tsGen) tsToken = null; },
+        'error-callback': function () { if (gen === tsGen) { tsToken = null; tsError = true; } }
       });
     } catch (e) { tsWidgetId = null; }
   }
@@ -223,25 +226,39 @@
   }
 
   /* ---------- send ---------- */
+  function post(text, token) {
+    var payload = { message: text, sessionId: sessionId, turnstileToken: token };
+    if (coords) { payload.lat = coords.lat; payload.lng = coords.lng; }
+    return fetch(API_URL, {
+      method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload)
+    }).then(function (r) {
+      if (!r.ok) { var err = new Error('http-' + r.status); err.status = r.status; throw err; }
+      return r.json();
+    });
+  }
   function send() {
     var text = input.value.trim();
     if (!text || sending) return;
     sending = true; sendBtn.disabled = true;
     input.value = '';
     bubble(text, 'user');
-    var thinking = bubble('...', 'bot');
+    var thinking = bubble('Checking you are human, then asking...', 'bot');
+    var failed = false;
     getToken().then(function (token) {
-      if (!token) {
-        thinking.remove();
-        bubble('Human check did not complete - if you see a checkbox above the Send button, tick it, then resend. Otherwise refresh the page and try again.', 'note');
-        sending = false; sendBtn.disabled = false;
-        return Promise.reject('no-token');
-      }
-      var payload = { message: text, sessionId: sessionId, turnstileToken: token };
-      if (coords) { payload.lat = coords.lat; payload.lng = coords.lng; }
-      return fetch(API_URL, {
-        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload)
-      }).then(function (r) { return r.json(); });
+      if (!token) { failed = true; return Promise.reject('no-token'); }
+      tsToken = null; // single-use: spent on this request whatever the outcome
+      return post(text, token).catch(function (e) {
+        // The worker refused the token (used, expired or invalid): get a fresh one and try once more.
+        if (e && (e.status === 403 || e.status === 401 || e.status === 400)) {
+          reRender();
+          return getToken().then(function (t2) {
+            if (!t2) { failed = true; return Promise.reject('no-token'); }
+            tsToken = null;
+            return post(text, t2);
+          });
+        }
+        throw e;
+      });
     }).then(function (r) {
       thinking.remove();
       bubble((r && r.reply) || 'Something went wrong - please try again.', 'bot');
@@ -251,12 +268,17 @@
       if (r && r.mapsSearchUrl) mapsCard(r.mapsSearchUrl);
       if (r && r.videos) videos(r.videos);
     }).catch(function (e) {
-      if (e === 'no-token') return;
       thinking.remove();
-      bubble('Something went wrong - please try again.', 'bot');
+      if (failed || e === 'no-token') {
+        input.value = text; // keep what they typed
+        bubble('The human check did not finish. Your question is back in the box: press Send again. If a checkbox appears above the Send button, tick it first.', 'note');
+      } else {
+        input.value = text;
+        bubble('Something went wrong. Your question is back in the box: press Send to try again.', 'bot');
+      }
     }).finally(function () {
       tsToken = null;
-      reRender(); // fresh widget for the next message (reset() proved unreliable)
+      reRender(); // fresh challenge for the next message
       sending = false; sendBtn.disabled = false; input.focus();
     });
   }
