@@ -9,7 +9,7 @@
   var PREVIEW_BASE = 'https://srchn.in/preview/';
 
   /* studio condenser mic - inline SVG, decorative (buttons carry text labels) */
-  var ICON_IMG = '<img src="' + PREVIEW_BASE + 'voice/srchn-voice.svg" alt="" width="22" height="22" style="display:block">';
+  var ICON_IMG = '<img src="' + PREVIEW_BASE + 'voice/srchn-voice.svg?v=2" alt="" width="22" height="22" style="display:block">';
   var MIC_SVG = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" '
     + 'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="flex:0 0 auto">'
     + '<rect x="8.5" y="2.5" width="7" height="11" rx="3.5"/>'
@@ -265,18 +265,86 @@
   }
   var STOP = { where: 1, is: 1, the: 1, a: 1, an: 1, in: 1, at: 1, find: 1, show: 1, me: 1, location: 1, address: 1, of: 1, located: 1, whats: 1, what: 1, to: 1, tell: 1, about: 1, directions: 1, map: 1, bangalore: 1, bengaluru: 1 };
   function norm(t) { return t.toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
-  function localMatch(text, list) {
-    var q = norm(text);
-    var ask = /^(where( is| are|s)?|find|show( me)?|location of|address of|directions to|locate)\b/.test(q);
-    var toks = q.split(' ').filter(function (w) { return w && !STOP[w]; });
-    if (!toks.length) return [];
-    var phrase = toks.join(' '), hits = [];
-    for (var i = 0; i < list.length; i++) {
-      var nm = norm(list[i][0]);
-      if (nm === phrase) { hits.unshift(list[i]); }
-      else if (ask && (' ' + nm + ' ').indexOf(' ' + phrase + ' ') >= 0) { hits.push(list[i]); }
+  var GEN = { cafe: 1, cafes: 1, coffee: 1, restaurant: 1, bar: 1, pub: 1, hotel: 1, shop: 1, store: 1, bengaluru: 1, bangalore: 1, the: 1, and: 1 };
+  function lev(a, b, max) {
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    var prev = [], cur = [], i, j;
+    for (j = 0; j <= b.length; j++) prev[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      cur = [i];
+      for (j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
     }
-    return hits.slice(0, 5);
+    return prev[b.length];
+  }
+  function isAsk(text) { return /^(where( is| are|s)?|find|show( me)?|location of|address of|directions to|locate)\b/.test(norm(text)); }
+  function coreOf(text) {
+    var t = norm(text).split(' ').filter(function (w) { return w && !STOP[w] && !GEN[w]; });
+    if (!t.length) t = norm(text).split(' ').filter(function (w) { return w && !STOP[w]; });
+    return t;
+  }
+  /* score 0..3 (higher better); 0 = no match. rows: [name, ...] */
+  function score(core, name) {
+    var nm = norm(name), flat = nm.replace(/ /g, ''), q = core.join('');
+    if (!q) return 0;
+    if (nm === core.join(' ')) return 3;
+    if (flat.indexOf(q) >= 0) return 2.5;
+    var nt = nm.split(' '), ok = 0;
+    core.forEach(function (w) {
+      var d = w.length >= 8 ? 2 : (w.length >= 4 ? 1 : 0), hit = false;
+      for (var i = 0; i < nt.length && !hit; i++) { if (nt[i] === w || lev(nt[i], w, d) <= d) hit = true; }
+      if (!hit && flat.indexOf(w) >= 0) hit = true;
+      if (hit) ok++;
+    });
+    if (ok === core.length) return 2;
+    if (core.length > 1 && ok >= 1 && ok >= core.length - 1) return 1;
+    return 0;
+  }
+  function localMatch(text, list) {
+    var q = norm(text), ask = isAsk(text);
+    var core = coreOf(text);
+    if (!core.length) return [];
+    var out = [];
+    for (var i = 0; i < list.length; i++) {
+      var sc = score(core, list[i][0]);
+      if (sc >= 2 || (ask && sc >= 1)) out.push([sc, list[i]]);
+      else if (!ask && sc === 0) continue;
+    }
+    if (!ask) out = out.filter(function (x) { return x[0] >= 2.5; });
+    out.sort(function (a, b) { return b[0] - a[0]; });
+    return out.slice(0, 5).map(function (x) { return x[1]; });
+  }
+  /* open-data: lazy-load every category chunk, only for where-is questions with no listing match */
+  var ODALL = null;
+  function loadOd() {
+    if (ODALL) return Promise.resolve(ODALL);
+    return fetch(PREVIEW_BASE + 'od/index.json').then(function (r) { return r.json(); }).then(function (idx) {
+      return Promise.all(Object.keys(idx).map(function (c) {
+        return fetch(PREVIEW_BASE + 'od/' + c + '.json').then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
+      }));
+    }).then(function (arr) { ODALL = [].concat.apply([], arr); return ODALL; }).catch(function () { ODALL = []; return ODALL; });
+  }
+  function odMatch(text, rows) {
+    var core = coreOf(text), out = [];
+    if (!core.length) return out;
+    for (var i = 0; i < rows.length; i++) {
+      var sc = score(core, rows[i][1] || '');
+      if (sc >= 1) out.push([sc, rows[i]]);
+    }
+    out.sort(function (a, b) { return b[0] - a[0]; });
+    return out.slice(0, 5).map(function (x) { return x[1]; });
+  }
+  function showOd(hits, exact) {
+    bubble(exact ? 'Found it in the open-data places (not a full SRCHN page):' : 'I did not find that exact name, but these look similar:', 'bot');
+    hits.forEach(function (r) {
+      var el = document.createElement('div'); el.className = 'place';
+      var nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = r[1];
+      var lc = document.createElement('span'); lc.className = 'lc'; lc.textContent = r[4] ? ' - ' + r[4] : ' - Bengaluru'; nm.appendChild(lc); el.appendChild(nm);
+      var acts = document.createElement('div'); acts.className = 'acts';
+      var a = link('View on OpenStreetMap', 'https://www.openstreetmap.org/?mlat=' + r[2] + '&mlon=' + r[3] + '#map=18/' + r[2] + '/' + r[3]); a.target = '_blank'; a.rel = 'noopener'; acts.appendChild(a);
+      el.appendChild(acts); body.appendChild(el);
+    });
+    body.scrollTop = body.scrollHeight;
   }
   function showLocal(hits) {
     bubble(hits.length === 1 ? 'Found it in the SRCHN listings:' : 'Found these in the SRCHN listings:', 'bot');
@@ -313,6 +381,19 @@
     return loadLite().then(function (list) {
       var hits = localMatch(text, list);
       if (hits.length) { showLocal(hits); sending = false; sendBtn.disabled = false; return; }
+      if (!isAsk(text)) return sendRemote(text);
+      return loadOd().then(function (rows) {
+        var oh = odMatch(text, rows);
+        var core = coreOf(text).join('');
+        var exact = oh.length && score(coreOf(text), oh[0][1]) >= 2;
+        if (oh.length) showOd(oh, exact);
+        else bubble('I could not find that in the SRCHN listings. Check the spelling, or try the area or category, for example "cafes in HSR Layout".', 'bot');
+        sending = false; sendBtn.disabled = false;
+      });
+    });
+  }
+  function _unused() {
+    return Promise.resolve().then(function () {
       return sendRemote(text);
     });
   }
