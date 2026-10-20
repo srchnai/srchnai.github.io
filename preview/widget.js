@@ -1,4 +1,4 @@
-/* SRCHN city chat widget v8 - preview only (/preview/, noindex). White-first pastel theme.
+/* SRCHN city chat widget v9 - preview only (/preview/, noindex). White-first pastel theme.
    Self-contained: no keys in the browser. Calls the SRCHN Worker API.
    Load with: <script src="widget.js" defer></script> on the preview page. */
 (function () {
@@ -225,6 +225,42 @@
     body.appendChild(d); body.scrollTop = body.scrollHeight;
   }
 
+
+  /* ---------- local listing lookup (no network call to the AI worker) ---------- */
+  var LITE = null;
+  function loadLite() {
+    if (LITE) return Promise.resolve(LITE);
+    return fetch(PREVIEW_BASE + 'places-lite.json').then(function (r) { return r.ok ? r.json() : []; }).then(function (j) { LITE = j; return j; }).catch(function () { LITE = []; return LITE; });
+  }
+  var STOP = { where: 1, is: 1, the: 1, a: 1, an: 1, in: 1, at: 1, find: 1, show: 1, me: 1, location: 1, address: 1, of: 1, located: 1, whats: 1, what: 1, to: 1, tell: 1, about: 1, directions: 1, map: 1, bangalore: 1, bengaluru: 1 };
+  function norm(t) { return t.toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function localMatch(text, list) {
+    var q = norm(text);
+    if (!/^(where( is| are|'s)?|find|show( me)?|location of|address of|directions to|locate)\b/.test(q) && q.split(' ').length > 3) return [];
+    var toks = q.split(' ').filter(function (w) { return w && !STOP[w]; });
+    if (!toks.length) return [];
+    var phrase = toks.join(' '), hits = [];
+    for (var i = 0; i < list.length; i++) {
+      var nm = norm(list[i][0]);
+      if (nm === phrase) { hits.unshift(list[i]); }
+      else if (toks.length >= 1 && (' ' + nm + ' ').indexOf(' ' + phrase + ' ') >= 0) { hits.push(list[i]); }
+    }
+    return hits.slice(0, 5);
+  }
+  function showLocal(hits) {
+    bubble(hits.length === 1 ? 'Found it in the SRCHN listings:' : 'Found these in the SRCHN listings:', 'bot');
+    hits.forEach(function (h) {
+      var el = document.createElement('div'); el.className = 'place';
+      var nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = h[0];
+      var lc = document.createElement('span'); lc.className = 'lc'; lc.textContent = h[1] ? ' - ' + h[1] + ', Bengaluru' : ''; nm.appendChild(lc); el.appendChild(nm);
+      var acts = document.createElement('div'); acts.className = 'acts';
+      if (h[3]) acts.appendChild(link('Open SRCHN page', PREVIEW_BASE + 'place/' + h[3] + '/'));
+      if (h[4] && httpsOnly(h[4])) { var a = link('View on Google Maps', h[4]); a.target = '_blank'; a.rel = 'noopener'; acts.appendChild(a); }
+      el.appendChild(acts); body.appendChild(el);
+    });
+    body.scrollTop = body.scrollHeight;
+  }
+
   /* ---------- send ---------- */
   function post(text, token) {
     var payload = { message: text, sessionId: sessionId, turnstileToken: token };
@@ -242,6 +278,14 @@
     sending = true; sendBtn.disabled = true;
     input.value = '';
     bubble(text, 'user');
+    var localHit = null;
+    return loadLite().then(function (list) {
+      var hits = localMatch(text, list);
+      if (hits.length) { showLocal(hits); sending = false; sendBtn.disabled = false; return; }
+      return sendRemote(text);
+    });
+  }
+  function sendRemote(text) {
     var thinking = bubble('Checking you are human, then asking...', 'bot');
     var failed = false;
     getToken().then(function (token) {
@@ -261,6 +305,11 @@
       });
     }).then(function (r) {
       thinking.remove();
+      if (r && r.reply && /busy right now|try again a little later/i.test(r.reply)) {
+        input.value = text;
+        bubble('The AI service behind this assistant did not answer (its free usage limit may be used up, or it had an error). This is not a problem with your question or phone. Your question is back in the box. Meanwhile, type a place name such as "Toit" and I will look it up in the SRCHN listings.', 'bot');
+        return;
+      }
       bubble((r && r.reply) || 'Something went wrong - please try again.', 'bot');
       if (r && r.searchSuggestionsHtml) suggestions(r.searchSuggestionsHtml);
       if (r && r.places) r.places.forEach(placeCard);
