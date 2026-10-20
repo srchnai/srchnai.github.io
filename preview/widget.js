@@ -1,4 +1,4 @@
-/* SRCHN city chat widget v4 - preview only (/preview/, noindex).
+/* SRCHN city chat widget v5 - preview only (/preview/, noindex).
    Self-contained: no keys in the browser. Calls the SRCHN Worker API.
    Load with: <script src="widget.js" defer></script> on the preview page. */
 (function () {
@@ -8,6 +8,17 @@
   var TURNSTILE_SITEKEY = '0x4AAAAAAFb1xd3vvqDeAQMZ';
   var PREVIEW_BASE = 'https://srchn.in/preview/';
 
+  /* studio condenser mic - inline SVG, decorative (buttons carry text labels) */
+  var MIC_SVG = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" '
+    + 'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="flex:0 0 auto">'
+    + '<rect x="8.5" y="2.5" width="7" height="11" rx="3.5"/>'
+    + '<line x1="8.5" y1="6" x2="15.5" y2="6"/>'
+    + '<line x1="8.5" y1="9" x2="15.5" y2="9"/>'
+    + '<path d="M5.5 10.5v1a6.5 6.5 0 0 0 13 0v-1"/>'
+    + '<line x1="12" y1="18" x2="12" y2="21.5"/>'
+    + '<line x1="8" y1="21.5" x2="16" y2="21.5"/>'
+    + '</svg>';
+
   var sessionId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
   var coords = null;            // {lat, lng} only after explicit opt-in; never stored or sent elsewhere
   var tsWidgetId = null;
@@ -16,47 +27,54 @@
 
   /* ---------- styles ---------- */
   var css = ''
-    + '#srchn-chat-btn{position:fixed;right:20px;bottom:20px;z-index:99990;border:0;border-radius:999px;'
-    + 'padding:13px 20px;background:#111;color:#fff;font:600 14px/1 system-ui,sans-serif;cursor:pointer;'
-    + 'box-shadow:0 6px 24px rgba(0,0,0,.35)}'
+    + '@keyframes srchn-pulse{0%,100%{box-shadow:0 6px 24px rgba(43,92,255,.45),0 0 0 0 rgba(123,63,242,.35)}'
+    + '50%{box-shadow:0 6px 24px rgba(43,92,255,.55),0 0 0 12px rgba(123,63,242,0)}}'
+    + '#srchn-chat-btn{position:fixed;right:20px;bottom:20px;z-index:99990;border:0;border-radius:999px;display:inline-flex;align-items:center;gap:7px;'
+    + 'padding:13px 20px;background:linear-gradient(135deg,#2b5cff 0%,#7b3ff2 55%,#e0457b 100%);color:#fff;font:600 14px/1 system-ui,sans-serif;cursor:pointer;'
+    + 'box-shadow:0 6px 24px rgba(43,92,255,.45);animation:srchn-pulse 3s ease-in-out infinite;transition:filter .15s}'
+    + '#srchn-chat-btn:hover{filter:brightness(1.1)}'
+    + '@media (prefers-reduced-motion: reduce){#srchn-chat-btn{animation:none}}'
     + '#srchn-chat-panel{position:fixed;right:20px;bottom:76px;z-index:99991;width:min(380px,calc(100vw - 32px));'
-    + 'height:min(560px,calc(100vh - 110px));display:none;flex-direction:column;background:#141414;color:#eee;'
-    + 'border:1px solid #2a2a2a;border-radius:14px;overflow:hidden;font:14px/1.45 system-ui,sans-serif;'
-    + 'box-shadow:0 12px 40px rgba(0,0,0,.5)}'
+    + 'height:min(560px,calc(100vh - 110px));display:none;flex-direction:column;background:#fff;color:#17151a;'
+    + 'border:1px solid #e8e6ec;border-radius:14px;overflow:hidden;font:14px/1.45 system-ui,sans-serif;'
+    + 'box-shadow:0 12px 40px rgba(23,21,26,.18)}'
     + '#srchn-chat-panel.open{display:flex}'
-    + '.srchn-head{padding:12px 14px;border-bottom:1px solid #262626;display:flex;justify-content:space-between;align-items:center}'
-    + '.srchn-head b{font-size:14px}.srchn-head button{background:none;border:0;color:#999;font-size:18px;cursor:pointer}'
-    + '.srchn-head span{display:block;font-size:11px;color:#888;font-weight:400;margin-top:2px}'
+    + '.srchn-head{padding:12px 14px;border-bottom:1px solid #e8e6ec;background:linear-gradient(135deg,#ebe5fb,#dff0fd);display:flex;justify-content:space-between;align-items:center}'
+    + '.srchn-head b{font-size:14px}.srchn-head button{background:none;border:0;color:#4a4458;font-size:20px;min-width:44px;min-height:44px;cursor:pointer}'
+    + '.srchn-ht{display:flex;align-items:center;gap:6px;color:#4a35a3}'
+    + '.srchn-ht b{color:#17151a}'
+    + '.srchn-head span{display:block;font-size:11.5px;color:#5b566a;font-weight:400;margin-top:2px}'
     + '#srchn-body{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}'
     + '.msg{max-width:88%;padding:9px 12px;border-radius:12px;white-space:pre-wrap;word-break:break-word}'
     + '.msg.user{align-self:flex-end;background:#2b5cff;color:#fff;border-bottom-right-radius:4px}'
-    + '.msg.bot{align-self:flex-start;background:#222;border:1px solid #2e2e2e;border-bottom-left-radius:4px}'
-    + '.msg.note{align-self:center;background:none;color:#777;font-size:12px;text-align:center;padding:2px}'
-    + '.place{align-self:stretch;background:#1c1c1c;border:1px solid #2c2c2c;border-radius:10px;padding:10px 12px}'
-    + '.place .nm{font-weight:600}.place .lc{color:#999;font-size:12px;font-weight:400}'
+    + '.msg.bot{align-self:flex-start;background:#f6f4fb;color:#17151a;border:1px solid #e8e6ec;border-bottom-left-radius:4px}'
+    + '.msg.note{align-self:center;background:none;color:#5b566a;font-size:12px;text-align:center;padding:2px}'
+    + '.place{align-self:stretch;background:#fff;border:1px solid #e8e6ec;box-shadow:0 1px 6px rgba(23,21,26,.06);border-radius:10px;padding:10px 12px}'
+    + '.place .nm{font-weight:600}.place .lc{color:#5b566a;font-size:12px;font-weight:400}'
     + '.place .acts{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}'
-    + '.place a{color:#7ea2ff;text-decoration:none;font-size:13px;border:1px solid #35406b;border-radius:8px;padding:5px 9px}'
-    + '.place a:hover{background:#1d2647}'
-    + '.vids a{display:block;color:#7ea2ff;font-size:13px;margin:4px 0}'
+    + '.place a{color:#2b4fb8;text-decoration:none;font-size:13px;border:1px solid #cfd9f5;background:#f1f5ff;border-radius:999px;padding:8px 12px;min-height:20px}'
+    + '.place a:hover{background:#e3ebff}'
+    + '.vids a{display:block;color:#2b4fb8;font-size:13px;margin:4px 0}'
     + 'iframe.sugg{align-self:stretch;width:100%;border:0;height:52px;background:transparent}'
-    + '.foot{border-top:1px solid #262626;padding:10px}'
+    + '.foot{border-top:1px solid #e8e6ec;padding:10px}'
     + '.foot .row{display:flex;gap:8px}'
-    + '#srchn-in{flex:1;background:#0f0f0f;border:1px solid #333;color:#eee;border-radius:10px;'
+    + '#srchn-in{flex:1;background:#fff;border:1px solid #cfcad9;color:#17151a;border-radius:10px;'
     + 'padding:10px;font:14px system-ui,sans-serif;outline:none;resize:none;min-height:20px;max-height:90px}'
     + '#srchn-send{background:#2b5cff;border:0;color:#fff;border-radius:10px;padding:0 16px;cursor:pointer;font-weight:600}'
     + '#srchn-send:disabled{opacity:.5;cursor:default}'
     + '.loc-row{display:flex;align-items:center;gap:8px;margin-top:8px}'
-    + '#srchn-loc{background:none;border:1px solid #333;color:#aaa;border-radius:8px;font-size:12px;padding:4px 9px;cursor:pointer}'
-    + '#srchn-loc.on{color:#8fd18f;border-color:#3c5a3c}'
-    + '.loc-note{font-size:11px;color:#666}'
+    + '#srchn-loc{background:none;border:1px solid #cfcad9;color:#4a4458;border-radius:8px;font-size:12px;padding:4px 9px;cursor:pointer}'
+    + '#srchn-loc.on{color:#1f6a52;border-color:#9ad3bc}'
+    + '.loc-note{font-size:11.5px;color:#5b566a}'
     + '#cf-slot{margin-top:8px;min-height:0}';
 
   /* ---------- dom ---------- */
   var style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
-  var btn = document.createElement('button'); btn.id = 'srchn-chat-btn'; btn.textContent = 'Ask about Bangalore';
+  var btn = document.createElement('button'); btn.id = 'srchn-chat-btn'; btn.setAttribute('aria-label', 'Ask about Bangalore');
+  btn.innerHTML = MIC_SVG + '<span>Ask about Bangalore</span>';
   var panel = document.createElement('div'); panel.id = 'srchn-chat-panel';
   panel.innerHTML =
-    '<div class="srchn-head"><div><b>SRCHN city assistant</b>' +
+    '<div class="srchn-head"><div><div class="srchn-ht">' + MIC_SVG + '<b>SRCHN city assistant</b></div>' +
     '<span>Bangalore only. Answers from SRCHN listings + AI knowledge. Not live data.</span></div>' +
     '<button aria-label="Close" id="srchn-x">&times;</button></div>' +
     '<div id="srchn-body"></div>' +
