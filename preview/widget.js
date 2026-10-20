@@ -200,6 +200,7 @@
     var d = document.createElement('div'); d.className = 'msg ' + who; d.textContent = text;
     body.appendChild(d); body.scrollTop = body.scrollHeight; return d;
   }
+  function osmSearch(name, area) { return 'https://www.openstreetmap.org/search?query=' + encodeURIComponent([name, area, 'Bengaluru'].filter(Boolean).join(', ')); }
   function placeCard(p) {
     var el = document.createElement('div'); el.className = 'place';
     var nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = p.name || 'Place';
@@ -211,8 +212,8 @@
       acts.appendChild(link('Read / Visit', sheet));
       acts.appendChild(link('Book this slot', sheet + '&step=book'));
       acts.appendChild(link('Pay UPI (demo)', sheet));
-    } else if (p.mapsUrl && httpsOnly(p.mapsUrl)) {
-      var a = link('View on Google Maps', p.mapsUrl); a.target = '_blank'; a.rel = 'noopener'; acts.appendChild(a);
+    } else if (p.name) {
+      var a = link('Open on OpenStreetMap', osmSearch(p.name, p.loc)); a.target = '_blank'; a.rel = 'noopener'; acts.appendChild(a);
     }
     el.appendChild(acts); body.appendChild(el); body.scrollTop = body.scrollHeight;
   }
@@ -242,7 +243,7 @@
     var nm = document.createElement('div'); nm.className = 'nm';
     nm.textContent = 'Not in SRCHN yet'; el.appendChild(nm);
     var acts = document.createElement('div'); acts.className = 'acts';
-    var a = link('Search on Google Maps', url); a.target = '_blank'; a.rel = 'noopener';
+    var a = link('Open on OpenStreetMap', url); a.target = '_blank'; a.rel = 'noopener';
     acts.appendChild(a); el.appendChild(acts);
     body.appendChild(el); body.scrollTop = body.scrollHeight;
   }
@@ -356,7 +357,7 @@
       var lc = document.createElement('span'); lc.className = 'lc'; lc.textContent = h[1] ? ' - ' + h[1] + ', Bengaluru' : ''; nm.appendChild(lc); el.appendChild(nm);
       var acts = document.createElement('div'); acts.className = 'acts';
       if (h[3]) acts.appendChild(link('Open SRCHN page', PREVIEW_BASE + 'place/' + h[3] + '/'));
-      if (h[4] && httpsOnly(h[4])) { var a = link('View on Google Maps', h[4]); a.target = '_blank'; a.rel = 'noopener'; acts.appendChild(a); }
+      if (h[0]) { var a = link('Open on OpenStreetMap', osmSearch(h[0], h[1])); a.target = '_blank'; a.rel = 'noopener'; acts.appendChild(a); }
       el.appendChild(acts); body.appendChild(el);
     });
     body.scrollTop = body.scrollHeight;
@@ -429,7 +430,7 @@
         return name && (score(coreOf(text), name) >= 2 || norm(r.reply || '').indexOf(name) >= 0);
       }).forEach(placeCard);
       if (r && r.sources) r.sources.forEach(sourceLine);
-      if (r && r.mapsSearchUrl) mapsCard(r.mapsSearchUrl);
+      if (r && r.mapsSearchUrl) mapsCard(osmSearch(text));
       if (r && r.videos) videos(r.videos);
     }).catch(function (e) {
       thinking.remove();
