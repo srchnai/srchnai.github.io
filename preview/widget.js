@@ -264,7 +264,7 @@
     if (LITE) return Promise.resolve(LITE);
     return fetch(PREVIEW_BASE + 'places-lite.json').then(function (r) { return r.ok ? r.json() : []; }).then(function (j) { LITE = j; return j; }).catch(function () { LITE = []; return LITE; });
   }
-  var STOP = { hi: 1, hello: 1, hey: 1, please: 1, can: 1, you: 1, could: 1, would: 1, thanks: 1, where: 1, is: 1, the: 1, a: 1, an: 1, in: 1, at: 1, find: 1, show: 1, me: 1, location: 1, address: 1, of: 1, located: 1, whats: 1, what: 1, to: 1, tell: 1, about: 1, directions: 1, map: 1, bangalore: 1, bengaluru: 1 };
+  var STOP = { exactly: 1, actually: 1, near: 1, nearest: 1, nearby: 1, give: 1, get: 1, do: 1, know: 1, hi: 1, hello: 1, hey: 1, please: 1, can: 1, you: 1, could: 1, would: 1, thanks: 1, where: 1, is: 1, the: 1, a: 1, an: 1, in: 1, at: 1, find: 1, show: 1, me: 1, location: 1, address: 1, of: 1, located: 1, whats: 1, what: 1, to: 1, tell: 1, about: 1, directions: 1, map: 1, bangalore: 1, bengaluru: 1 };
   function norm(t) { return t.toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
   var GEN = { cafe: 1, cafes: 1, coffee: 1, restaurant: 1, bar: 1, pub: 1, hotel: 1, shop: 1, store: 1, bengaluru: 1, bangalore: 1, the: 1, and: 1 };
   function lev(a, b, max) {
