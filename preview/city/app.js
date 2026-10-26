@@ -47,12 +47,17 @@ async function wiki(query,signal){
  if(groups.some(([,words])=>words.some(w=>(' '+norm(query)+' ').includes(' '+w+' '))))return [];
  if(/^(hi|hello|hey|thanks|thank you)$/i.test(query.trim()))return [];
 
- if(l.code==='en'&&/^places to visit( in)?( bangalore| bengaluru)?$/i.test(query))text='Tourist attractions in Bengaluru';
- const p=new URLSearchParams({action:'query',generator:'search',gsrsearch:text+' '+l.city,gsrlimit:'6',gsrnamespace:'0',prop:'extracts|info',exintro:'1',explaintext:'1',exsentences:'4',inprop:'url',format:'json',origin:'*'});
+ let preferred='';
+ if(l.code==='en'&&/^places to visit( in)?( bangalore| bengaluru)?$/i.test(query)){text='intitle:"List of tourist attractions in Bengaluru"';preferred='List of tourist attractions in Bengaluru';}
+ if(l.code==='en'&&/^(bangalore|bengaluru) history$|^history of (bangalore|bengaluru)$/i.test(query)){text='intitle:"History of Bengaluru"';preferred='History of Bengaluru';}
+ if(l.code==='en'&&/^(bangalore|bengaluru|namma) metro$/i.test(query)){text='intitle:"Namma Metro"';preferred='Namma Metro';}
+
+ const p=new URLSearchParams({action:'query',generator:'search',gsrsearch:preferred?text:text+' '+l.city,gsrlimit:'6',gsrnamespace:'0',prop:'extracts|info',exintro:'1',explaintext:'1',exsentences:'4',inprop:'url',format:'json',origin:'*'});
  const r=await fetch(`https://${l.code}.wikipedia.org/w/api.php?${p}`,{signal,credentials:'omit'});if(!r.ok)throw Error('Wikipedia unavailable');
  const data=await r.json();if(data.error)throw Error('Wikipedia unavailable');
  const local=/bangalore|bengaluru|bengalour|ಬೆಂಗಳೂರು|बेंगल|बंगल|பெங்கள|பெங்க|బెంగళ|ബെംഗ|ബാംഗ|বেঙ্গাল|بنگلور|بنگلورو|ベンガル|バンガロ|бенгалур|бангалор/i;
- return Object.values(data.query?.pages||{}).filter(p=>p.extract&&local.test(p.title+' '+p.extract)&&safeURL(p.fullurl)).sort((a,b)=>a.index-b.index).slice(0,3);
+ const tokens=norm(query).split(' ').filter(t=>t.length>2&&!stops.has(t));
+ return Object.values(data.query?.pages||{}).filter(p=>(!preferred||p.title===preferred)&&(!tokens.length||preferred||tokens.some(t=>norm(p.title).includes(t)))&&p.extract&&local.test(p.title+' '+p.extract)&&safeURL(p.fullurl)).sort((a,b)=>a.index-b.index).slice(0,3);
 }
 function renderPlaces(hits){const container=$('#places');if(!hits.length)return;
  label('PLACES / OPEN-DATA MATCHES',container);
@@ -80,7 +85,7 @@ async function search(query){
  if(!hits.length&&!pages.length)$('#next').append(node('p','No reliable match found in these sources. Try a place name, neighbourhood, category or city topic. For languages with sparse source coverage, try English. This preview will not invent an answer.','notice'));
  if(places.status==='rejected')$('#next').append(node('p','The place index could not load. City excerpts are shown independently. Try again later.','notice'));
  if(knowledge.status==='rejected')$('#next').append(node('p','Wikipedia could not be reached in time. Local place matches still work; no AI fallback or invented answer has been used.','notice'));
- if(/open now|today|tonight|price|cost|fare|safe|hours|timing|available/i.test(query))$('#next').append(node('p','This search cannot confirm current hours, prices, safety or availability. Check the official provider or contact the place before travelling.','notice'));
+ if(/open now|today|tonight|price|cost|fare|safe|hours|timing|available|weather|traffic/i.test(query))$('#next').append(node('p','This search cannot confirm current hours, prices, safety or availability. Check the official provider or contact the place before travelling.','notice'));
  state.spoken=pages.map(p=>p.title+'. '+p.extract).join('\n')||hits.map(r=>r.name+'. '+r.area).join('\n');$('#read').hidden=!state.spoken||!('speechSynthesis'in window);
  $('#status').textContent='Search complete. Follow the source before making plans.';
  $('#results').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
