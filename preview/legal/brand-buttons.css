@@ -1,0 +1,21 @@
+/* Preview-only brand and button update. User-supplied logo, no app logic changes. */
+.srchn-legal-brand{display:inline-flex;align-items:center;flex-shrink:0;max-width:100%;vertical-align:middle}
+.srchn-legal-logo{display:block;width:208px;max-width:100%;height:auto;object-fit:contain}
+@media(max-width:639px){.srchn-legal-logo{width:172px}}
+/* White labels need opaque dark surfaces, including formerly ghost buttons. */
+button,[role="button"],.btn{color:#fff!important;background-color:#334155!important;border-color:#334155!important}
+button *,[role="button"] *,.btn *{color:#fff!important}
+button:hover,[role="button"]:hover,.btn:hover{background-color:#1e293b!important;border-color:#1e293b!important}
+button:active,[role="button"]:active,.btn:active{background-color:#0f172a!important}
+button.btn-primary,.btn-primary,button[aria-selected="true"],button[aria-pressed="true"],button.tab.active{background-color:#0057e6!important;border-color:#0057e6!important}
+button.btn-primary:hover,.btn-primary:hover,button[aria-selected="true"]:hover,button[aria-pressed="true"]:hover{background-color:#0041b3!important}
+button.btn-danger,.btn-danger{background-color:#b42318!important;border-color:#b42318!important}
+button.btn-danger:hover,.btn-danger:hover{background-color:#8f1c12!important}
+button:disabled,button[aria-disabled="true"],.btn:disabled{color:#fff!important;background-color:#64748b!important;border-color:#64748b!important;opacity:1!important;cursor:not-allowed}
+button:focus-visible,[role="button"]:focus-visible,.btn:focus-visible{outline:3px solid #0057ff!important;outline-offset:3px;box-shadow:0 0 0 2px #fff!important}
+button.tab{border-radius:7px 7px 0 0;margin-right:3px}
+/* Prevent pale badges or step circles inside buttons from hiding white labels. */
+button *,[role="button"] *,.btn *{background-color:transparent!important}
+button:not(.btn):not(.tab){border-radius:7px}
+button.flex-1.text-left{padding:6px 8px}
+button[aria-label]:not(.tab){min-width:36px;min-height:36px}
