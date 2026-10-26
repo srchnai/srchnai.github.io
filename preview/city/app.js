@@ -65,10 +65,10 @@ function renderKnowledge(pages){const container=$('#knowledge');if(!pages.length
 }
 async function search(query){
  if(/\b(porn|nude|nudes|rape|harass|kill|murder|bomb|steal|theft|buy drugs|illegal drugs|sexual)\b/i.test(query)){ $('#results').hidden=false;$('#result-title').textContent='City discovery only';$('#summary').textContent='This preview does not help with sexual content, harassment or wrongdoing. Try a Bangalore place, neighbourhood or city topic.';for(const id of ['#knowledge','#places','#next'])$(id).replaceChildren();$('#read').hidden=true;return;}
- const run=++state.run;state.controller?.abort();state.controller=new AbortController();const timer=setTimeout(()=>state.controller?.abort(),14000);
+ const run=++state.run;state.controller?.abort();state.controller=new AbortController();const controller=state.controller;const timer=setTimeout(()=>controller.abort(),14000);
  window.speechSynthesis?.cancel();$('#query').value=query;$('#results').hidden=false;$('#result-title').textContent=query;$('#summary').textContent='Searching open place records and sourced city information...';
  for(const s of ['#knowledge','#places','#next'])$(s).replaceChildren();$('#read').hidden=true;$('#status').textContent='Searching Bangalore...';$('#submit').disabled=true;
- const [places,knowledge]=await Promise.allSettled([loadPlaces().then(rows=>matchPlaces(query,rows)),wiki(query,state.controller.signal)]);clearTimeout(timer);if(run!==state.run)return;
+ const [places,knowledge]=await Promise.allSettled([loadPlaces().then(rows=>matchPlaces(query,rows)),wiki(query,controller.signal)]);clearTimeout(timer);if(run!==state.run)return;
  $('#submit').disabled=false;
  const hits=places.status==='fulfilled'?places.value:[],pages=knowledge.status==='fulfilled'?knowledge.value:[];
  renderKnowledge(pages);renderPlaces(hits);
