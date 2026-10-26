@@ -1,8 +1,8 @@
-:root{--pink:#ff2d87;--ink:#16141c;--mut:#6b6676;--line:#eee9f4;--sky:#e6f2ff;--lav:#efe9ff;--mint:#e3f8ee;--blush:#ffe8f1;--peach:#fff0e3}
+:root{--pink:#0057ff;--ink:#16141c;--mut:#6b6676;--line:#eee9f4;--sky:#e6f2ff;--lav:#efe9ff;--mint:#e3f8ee;--blush:#e8eeff;--peach:#fff0e3}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:#fff;color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 .top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px)}
-.brand{font-weight:800;letter-spacing:.04em;color:var(--ink);text-decoration:none}.brand span{color:var(--pink)}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}.brand img{height:26px;width:auto;display:block}.brand span{font-weight:700;font-size:13px;color:var(--pink);border-left:1px solid var(--line);padding-left:8px}
 .pill{font-size:12px;background:var(--peach);padding:4px 10px;border-radius:99px}
 main{max-width:980px;margin:0 auto;padding:8px 20px 40px}
 .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;padding:24px;border-radius:28px;background:linear-gradient(135deg,var(--sky),var(--lav) 55%,var(--blush));animation:rise .7s both}
@@ -34,7 +34,7 @@ details[open] summary::after{transform:rotate(45deg)}
 .row{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:flex-start}
 .row .n{color:var(--mut);min-width:28px;font-size:13px;padding-top:3px}.row .t{flex:1}.row .t small{display:block;color:var(--mut)}
 .facts div{padding:10px 0;border-bottom:1px solid var(--line)}.facts b{display:block;font-size:14px}
-a{color:#d4146b;word-break:break-word}
+a{color:#0047d6;word-break:break-word}
 .foot{max-width:980px;margin:0 auto;padding:20px;color:var(--mut);font-size:13px;border-top:1px solid var(--line)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.chips button{border:0;padding:6px 12px;border-radius:99px;background:#f7f4fb;cursor:pointer;font:inherit;font-size:13px}.chips button.on{background:var(--ink);color:#fff}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
