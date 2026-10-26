@@ -43,6 +43,10 @@ export function matchPlaces(query,rows){
 }
 async function wiki(query,signal){
  const l=lang();let text=query;
+ // Place/category searches use the place index, not weak encyclopedia associations.
+ if(groups.some(([,words])=>words.some(w=>(' '+norm(query)+' ').includes(' '+w+' '))))return [];
+ if(/^(hi|hello|hey|thanks|thank you)$/i.test(query.trim()))return [];
+
  if(l.code==='en'&&/^places to visit( in)?( bangalore| bengaluru)?$/i.test(query))text='Tourist attractions in Bengaluru';
  const p=new URLSearchParams({action:'query',generator:'search',gsrsearch:text+' '+l.city,gsrlimit:'6',gsrnamespace:'0',prop:'extracts|info',exintro:'1',explaintext:'1',exsentences:'4',inprop:'url',format:'json',origin:'*'});
  const r=await fetch(`https://${l.code}.wikipedia.org/w/api.php?${p}`,{signal,credentials:'omit'});if(!r.ok)throw Error('Wikipedia unavailable');
