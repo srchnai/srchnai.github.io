@@ -41,3 +41,6 @@ a{color:#d4146b;word-break:break-word}
 @keyframes float{50%{transform:translateY(-8px)}}
 @media(max-width:700px){.hero{grid-template-columns:1fr;padding:18px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.btn{border:0;background:var(--pink);color:#fff;padding:10px 18px;border-radius:99px;font:inherit;cursor:pointer}label{display:inline-block;margin:6px 10px 6px 0;font-size:14px}input[type=number]{padding:6px 8px;border:1px solid var(--line);border-radius:10px;width:110px}
+@media(min-width:900px){nav.tabs{flex-wrap:wrap}}
