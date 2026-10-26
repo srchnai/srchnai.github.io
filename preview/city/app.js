@@ -2,7 +2,7 @@
 const $ = s => document.querySelector(s);
 const state = { places: null, controller: null, run: 0, voices: [], spoken: '', recognition: null };
 const languages = {en:'Bangalore',kn:'ಬೆಂಗಳೂರು',hi:'बेंगलुरु',ta:'பெங்களூர்',te:'బెంగళూరు',ml:'ബെംഗളൂരു',mr:'बंगळूर',bn:'বেঙ্গালুরু',ur:'بنگلور',fr:'Bangalore',de:'Bangalore',es:'Bangalore',ja:'ベンガルール'};
-const norm = s => s.toLowerCase().normalize('NFKC').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
+const norm = s => s.toLowerCase().normalize('NFKC').replace(/[^\p{L}\p{M}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
 const groups = [
  ['cafes',['cafe','cafes','coffee','ಕಾಫಿ','ಕೆಫೆ','कैफे','कॉफी','காபி','కాఫీ']],
  ['restaurants',['restaurant','restaurants','food','eat','ಊಟ','ರೆಸ್ಟೋರೆಂಟ್','खाना','रेस्तरां','உணவு','భోజనం']],
@@ -26,7 +26,7 @@ function lang(){const o=$('#language').selectedOptions[0];return {code:o.dataset
 function safeURL(raw){try{const u=new URL(raw);return u.protocol==='https:'?u.href:null;}catch{return null;}}
 async function loadPlaces(){if(!state.places){const r=await fetch('./city/places.json');if(!r.ok)throw Error('Place index unavailable');state.places=await r.json();}return state.places;}
 export function matchPlaces(query,rows){
- let q=norm(query);for(const [from,to] of areaAliases)q=q.replaceAll(from,to);
+ let q=norm(query);if(/^(hi|hello|hey|thanks|thank you)$/.test(q))return [];for(const [from,to] of areaAliases)q=q.replaceAll(from,to);
  const chosen=groups.filter(([,words])=>words.some(w=>new RegExp('(^|\\s)'+w+'($|\\s)','u').test(q)));
  for(const [,words] of chosen)for(const w of words)q=q.replace(new RegExp('(^|\\s)'+w+'(?=$|\\s)','gu'),' ');
  const tokens=q.split(/\s+/).filter(t=>t.length>1&&!stops.has(t));
