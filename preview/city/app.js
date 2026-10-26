@@ -26,7 +26,7 @@ function lang(){const o=$('#language').selectedOptions[0];return {code:o.dataset
 function safeURL(raw){try{const u=new URL(raw);return u.protocol==='https:'?u.href:null;}catch{return null;}}
 async function loadPlaces(){if(!state.places){const r=await fetch('./city/places.json');if(!r.ok)throw Error('Place index unavailable');state.places=await r.json();}return state.places;}
 export function matchPlaces(query,rows){
- let q=norm(query);if(/^(hi|hello|hey|thanks|thank you)$/.test(q))return [];for(const [from,to] of areaAliases)q=q.replaceAll(from,to);
+ let q=norm(query);if(/^(hi|hello|hey|thanks|thank you)$/.test(q)||/^(bangalore|bengaluru) (history|metro|weather|traffic)$|^history of (bangalore|bengaluru)$/.test(q))return [];for(const [from,to] of areaAliases)q=q.replaceAll(from,to);
  const chosen=groups.filter(([,words])=>words.some(w=>new RegExp('(^|\\s)'+w+'($|\\s)','u').test(q)));
  for(const [,words] of chosen)for(const w of words)q=q.replace(new RegExp('(^|\\s)'+w+'(?=$|\\s)','gu'),' ');
  const tokens=q.split(/\s+/).filter(t=>t.length>1&&!stops.has(t));
