@@ -6,3 +6,11 @@
 .footer .brand-logo-horizontal{width:150px}
 .lg .brand-logo-horizontal{height:60px;width:auto}
 @media(max-width:650px){.brand-logo-link .brand-logo-horizontal{display:none}.brand-logo-link .brand-logo-icon{display:block}.footer .brand-logo-horizontal{display:block;width:132px}.footer.brand-logo-link .brand-logo-icon,.footer .brand-logo-link .brand-logo-icon{display:none}}
+/* Corrected master-kit artwork, 1 Nov 2026: supplied maze + supplied wordmark only. */
+.brand-lockup-nav{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.brand-lockup-nav .brand-maze{width:34px;height:34px;object-fit:contain;flex:0 0 34px}
+.brand-lockup-nav .brand-wordmark{width:164px;max-width:38vw;height:auto;display:block}
+.footer .brand-lockup-nav .brand-wordmark{width:150px}
+.lg .brand-lockup-nav .brand-maze{width:60px;height:60px;flex-basis:60px}
+.lg .brand-lockup-nav .brand-wordmark{width:210px;max-width:none}
+@media(max-width:650px){.brand-logo-link .brand-lockup-nav{display:none}.footer .brand-lockup-nav{display:flex}.footer .brand-lockup-nav .brand-wordmark{width:132px}}

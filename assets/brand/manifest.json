@@ -1,247 +1,532 @@
 [
   {
     "path": "/assets/brand/BRAND_VERSION.md",
-    "sha256": "db5b8bbc661173afe89021d8864de37c7b269d1f4c8b55e857178864b30a0b1f",
-    "bytes": 385
+    "sha256": "01c2d8f97d42695786fed4d9e497e4a15a591ba5f8824654c9dc7d1e2e861ef8",
+    "bytes": 841
   },
   {
     "path": "/assets/brand/apple-touch-icon.png",
-    "sha256": "32610131fca6eeb5cc13e388b58a32c60ce35a0129efea8bbe46c76b3c7cc26b",
-    "bytes": 9506
+    "sha256": "5585af46a4e00ebb3b7080bfa97b2e621670773846b6abfe983cba4559c73254",
+    "bytes": 19517
   },
   {
     "path": "/assets/brand/brand.css",
-    "sha256": "303686a96efd638f329a0fccd77fa3f610bc3d73148bc80cad5c4bc28d3a5496",
-    "bytes": 753
+    "sha256": "3d03b8fdcbbcb2eac1913dc7d6cbd492495d7ebba19a8e0c546ba3ed8744d801",
+    "bytes": 1492
   },
   {
     "path": "/assets/brand/favicon-128.png",
-    "sha256": "b7a5d8e95c685c9056f1f0cc6e8267b311147ae3934cd3d6471a6b7376987092",
-    "bytes": 6642
+    "sha256": "e05ba919c2bda1c06e575aa67def64b6d6bd6e72bf16617890ffd52bdbfec7c4",
+    "bytes": 12715
   },
   {
     "path": "/assets/brand/favicon-16.png",
-    "sha256": "31dfa42931b9e78064c4c0298c5e85fbe4d4e94e76261ad846b30a0f8bf7d0ad",
-    "bytes": 439
+    "sha256": "d7250aac7e49c18a6d59927849d04ea7c2b6157c317dea5292f008f719cb528b",
+    "bytes": 556
   },
   {
     "path": "/assets/brand/favicon-180.png",
-    "sha256": "32610131fca6eeb5cc13e388b58a32c60ce35a0129efea8bbe46c76b3c7cc26b",
-    "bytes": 9506
+    "sha256": "5585af46a4e00ebb3b7080bfa97b2e621670773846b6abfe983cba4559c73254",
+    "bytes": 19517
   },
   {
     "path": "/assets/brand/favicon-192.png",
-    "sha256": "30eaf7011fbb907c272874b64989672d0c9ae95bb9370f15b773b23d45786196",
-    "bytes": 10067
+    "sha256": "3ac3cc7a6456b0ba5ded65e751e5dc8e659c2068d2a632e6f2f84b218d60bcd2",
+    "bytes": 21216
   },
   {
     "path": "/assets/brand/favicon-24.png",
-    "sha256": "5d49e758f0cbbaf01d8f974d5d86759ca52e1b2a0c6c53b58a9536d19838e134",
-    "bytes": 868
+    "sha256": "5f345b4d8729afd94cffd81e65f6fd73d7dac355d07e094c4d8918a00fff6735",
+    "bytes": 625
   },
   {
     "path": "/assets/brand/favicon-256.png",
-    "sha256": "897c3bbd32dba5db43cac3f179fb7cb6e182a9f99f1c36ae5c22444373e7c5ab",
-    "bytes": 13712
+    "sha256": "278e5c77b0234b1de7b6bce95c277b45072bd141cadedba063532d31c9c0de70",
+    "bytes": 19172
   },
   {
     "path": "/assets/brand/favicon-32.png",
-    "sha256": "aa4c43d202a80c0af8a95307d98adaebc07093c36b0b0b0f6869947264cb51c7",
-    "bytes": 1217
+    "sha256": "d8392c114650e96cc0b474c663ac0d6e93ff3d6962ce9bd3a5a6059e58217eab",
+    "bytes": 2108
+  },
+  {
+    "path": "/assets/brand/favicon-384.png",
+    "sha256": "303f80398e8600f1699c4a609e0fd83d5737e246b62261ecc1aa0220b0978531",
+    "bytes": 36076
   },
   {
     "path": "/assets/brand/favicon-48.png",
-    "sha256": "145e60a0ddc071679eb3bb28a46c7708506960de7926bea82e09a0d2383c7aca",
-    "bytes": 2194
+    "sha256": "8fc04968037cf0f2be5fc8bf2987c728a89e25b8d4dd9da1c0fd32bd675526d2",
+    "bytes": 3334
   },
   {
     "path": "/assets/brand/favicon-512.png",
-    "sha256": "11aabac5bf1dc906e38428cb301494a1cb3a0a92f9e5bb3b76109ddfc571b0fb",
-    "bytes": 28306
+    "sha256": "c6bda108e02a39a3e543a7eaa12e411a606a15c09102ffb1f4b2dbcff5b856a7",
+    "bytes": 92618
   },
   {
     "path": "/assets/brand/favicon-64.png",
-    "sha256": "b07e8bb520940f1b93fe455a86282204a1d65c97c5a8fd07cadb9ab53e540708",
-    "bytes": 3128
-  },
-  {
-    "path": "/assets/brand/favicon.ico",
-    "sha256": "bed56115468bb262444d16f904e147c90f0be1b8cd4336f1c061a0e8242f2809",
-    "bytes": 15086
+    "sha256": "014c4a9177e63ec198f3c65a23eb66c1788bd7d59b0edaa005481543924aef9f",
+    "bytes": 5058
   },
   {
     "path": "/assets/brand/icon-192.png",
-    "sha256": "30eaf7011fbb907c272874b64989672d0c9ae95bb9370f15b773b23d45786196",
-    "bytes": 10067
+    "sha256": "fed48fed9839897500cad70d1bf6008df9091d3707029710932b2fa3f76360d7",
+    "bytes": 21046
   },
   {
     "path": "/assets/brand/icon-512.png",
-    "sha256": "11aabac5bf1dc906e38428cb301494a1cb3a0a92f9e5bb3b76109ddfc571b0fb",
-    "bytes": 28306
-  },
-  {
-    "path": "/assets/brand/logos/png/srchn-horizontal-dark-1500.png",
-    "sha256": "3d6447b57fd95e5969c741a3e2fd5820217e7e4c403b0ebddbcdbcdf58131964",
-    "bytes": 39877
-  },
-  {
-    "path": "/assets/brand/logos/png/srchn-horizontal-light-1500.png",
-    "sha256": "1e3f326b52949b42a0137a6f306b67374e2a7a33d071514b2ddbd801f81df37e",
-    "bytes": 44550
-  },
-  {
-    "path": "/assets/brand/logos/png/srchn-icon-dark-1500.png",
-    "sha256": "d35e1fe0e3579e970111c8cc4bb3a1f5f22336c248242bd76af4b76214ad505d",
-    "bytes": 73673
-  },
-  {
-    "path": "/assets/brand/logos/png/srchn-icon-light-1500.png",
-    "sha256": "0db2e9df89859066db6f64839a279b35a0fe034b0d49dbccddc048730210f9fb",
-    "bytes": 78836
-  },
-  {
-    "path": "/assets/brand/logos/png/srchn-stacked-dark-1500.png",
-    "sha256": "1dbef88a5cc135f11736a31f2f4bd73a20b5598c89bee14272efe918ade3dc7f",
-    "bytes": 65994
-  },
-  {
-    "path": "/assets/brand/logos/png/srchn-stacked-light-1500.png",
-    "sha256": "175af4119cace2d32013b40dcb6aaa44b857a59ff9bc4c9fb42a8cec26433c6c",
-    "bytes": 73305
-  },
-  {
-    "path": "/assets/brand/logos/png/srchn-wordmark-dark-1500.png",
-    "sha256": "3a95772a67b0e78a51eaa40e396b465772b88ccdde9958c41eacf79ec0bc65d0",
-    "bytes": 14229
-  },
-  {
-    "path": "/assets/brand/logos/png/srchn-wordmark-light-1500.png",
-    "sha256": "9ef887a8f4045922220f9395c8f15b31c5bfca59995bf3da0e07911356ac0077",
-    "bytes": 15229
-  },
-  {
-    "path": "/assets/brand/logos/svg/srchn-horizontal-dark.svg",
-    "sha256": "c5c9da91571cabc1d3cda0156d2b4669b57cac33618f9a7b49d592ec9d2e1f11",
-    "bytes": 27842
-  },
-  {
-    "path": "/assets/brand/logos/svg/srchn-horizontal-light.svg",
-    "sha256": "391ce1b5ae1ec5cbb8ccc72736df4fd602ae5ef9b8d9bf96cc5a5ea1030b3a2b",
-    "bytes": 27842
-  },
-  {
-    "path": "/assets/brand/logos/svg/srchn-icon-dark.svg",
-    "sha256": "f3b539e861c7a018cdc01cb7ee3c3054f7ec5c1188854ec35bff4bfa2fa3fa76",
-    "bytes": 27518
-  },
-  {
-    "path": "/assets/brand/logos/svg/srchn-icon-light.svg",
-    "sha256": "d388de8e730c0f1446e488541015b14152839230a594361269f1a63375eae04f",
-    "bytes": 27445
-  },
-  {
-    "path": "/assets/brand/logos/svg/srchn-stacked-dark.svg",
-    "sha256": "0ec63c3c73f383ebdd9b5026a1819e3cb43415b25c7ece4ea94bed3fa4d909a9",
-    "bytes": 27799
-  },
-  {
-    "path": "/assets/brand/logos/svg/srchn-stacked-light.svg",
-    "sha256": "4768ceb2d8af2856fab0101c15eaef48cb4bbcee01fb9e8e941e3a4e57db29a3",
-    "bytes": 27799
-  },
-  {
-    "path": "/assets/brand/logos/svg/srchn-wordmark-dark.svg",
-    "sha256": "4872910e63c54c4f2681ffc3dd8dba50d15ed329c781fd3d58d51cc9ac6c3968",
-    "bytes": 317
-  },
-  {
-    "path": "/assets/brand/logos/svg/srchn-wordmark-light.svg",
-    "sha256": "96aa49d60f41d222037b5a66088108c102eec6aacda8bfc90c35815fb3470716",
-    "bytes": 317
+    "sha256": "31a24039d04c51701a8219e73ddd33967250f4f8e0174fe6a34b6d6c3efa07cd",
+    "bytes": 91649
   },
   {
     "path": "/assets/brand/manifest.json",
-    "sha256": "89794b51264f58fb4899adec440369fb54a98985f75345f7a3cbd45ad74508f7",
-    "bytes": 8284
+    "sha256": "f1cb977454e9ca0d73d69b68ba5b4a0725b6d94f00beaca72ed967c99f24413f",
+    "bytes": 8609
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-icon-dark-1080.png",
-    "sha256": "12684792c50f4e76e717209f02b0ea0c86d1e9c00520cca9a5bc41642a1d16ce",
-    "bytes": 157407
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Approved_Original_Reference_1536.png",
+    "sha256": "d597ec36bdc36858d5a78fbc047b60ca9d4b07b7e3399662eac490af856ae185",
+    "bytes": 741378
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-icon-dark-1080.svg",
-    "sha256": "f3b539e861c7a018cdc01cb7ee3c3054f7ec5c1188854ec35bff4bfa2fa3fa76",
-    "bytes": 27518
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Full_Lockup_Black.png",
+    "sha256": "21ec3b00d76edee4aa96e6ee56c99be6fadf1e0df3cc3f173fd848424a10febf",
+    "bytes": 329046
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-icon-light-1080.png",
-    "sha256": "73b9b4bc184383b2d230f6ecfcffcdc354f891341ec8a390aaedafbbd46e0de9",
-    "bytes": 114437
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Full_Lockup_White.png",
+    "sha256": "e008c411933cc5cbae137539634e1e8311ad8a25a690f78f24487ac8c3484f8c",
+    "bytes": 328108
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-icon-light-1080.svg",
-    "sha256": "d388de8e730c0f1446e488541015b14152839230a594361269f1a63375eae04f",
-    "bytes": 27445
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Logo_1x1_2000_Black_on_White.png",
+    "sha256": "8f0c99166ca1367fd645febee45525b7efbc4fd665ffba3dfd8dd598aa743c38",
+    "bytes": 769637
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-icon-only-dark-1080.png",
-    "sha256": "12684792c50f4e76e717209f02b0ea0c86d1e9c00520cca9a5bc41642a1d16ce",
-    "bytes": 157407
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Logo_1x1_2000_White_on_Black.png",
+    "sha256": "5b86300b9445ca88269c42541019ca43cddc509e1770b8952f10dc17e307fbe9",
+    "bytes": 769409
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-icon-only-dark-1080.svg",
-    "sha256": "f3b539e861c7a018cdc01cb7ee3c3054f7ec5c1188854ec35bff4bfa2fa3fa76",
-    "bytes": 27518
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Tagline_Black.png",
+    "sha256": "84f2f23cffa58dacb37640a51185d34682029ce9d7093fd0d13f69a9ea2f6769",
+    "bytes": 29632
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-icon-only-light-1080.png",
-    "sha256": "73b9b4bc184383b2d230f6ecfcffcdc354f891341ec8a390aaedafbbd46e0de9",
-    "bytes": 114437
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Tagline_White.png",
+    "sha256": "dbd6b927c88626c88e0ba3bdc6c12d0876efbff3c0a9620c8b7cb103b60823ff",
+    "bytes": 29661
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-icon-only-light-1080.svg",
-    "sha256": "d388de8e730c0f1446e488541015b14152839230a594361269f1a63375eae04f",
-    "bytes": 27445
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png",
+    "sha256": "df5fc4cd107b826ce0a0d74cfdffc365556a519d54c17ec733d7bbe2c2f1252d",
+    "bytes": 56074
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-social-lockup-dark-1080.png",
-    "sha256": "3ade4c977680b1b3e3f6f860c9e0f7874ac5373e2df1a11615de00a1a8a290fc",
-    "bytes": 81595
+    "path": "/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_White.png",
+    "sha256": "62777675649799416bb0e10ac8a1b4ce76872b62defd28b87fa949fc05cf3ce5",
+    "bytes": 56091
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-social-lockup-dark-1080.svg",
-    "sha256": "bf36d2319ec1746b207e733805e7e1d019702a15ddcb11dd1e8d87301ff37e6e",
-    "bytes": 27799
+    "path": "/assets/brand/master-kit/01_Master_Logo/SVG/SRCHN_Full_Lockup_Black.svg",
+    "sha256": "8d46e841c311383d362c3c355e02fe52bd78567f960b730031a1d39bdad809dc",
+    "bytes": 454594
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-social-lockup-light-1080.png",
-    "sha256": "af7080022ce33676bd364a783b0afd901ec25f4f743c55257eadcedce5ae4800",
-    "bytes": 86553
+    "path": "/assets/brand/master-kit/01_Master_Logo/SVG/SRCHN_Full_Lockup_White.svg",
+    "sha256": "568f93db6097f59c6c5c00f743cee1ec73535adfa98fd51a1c0e178737603b66",
+    "bytes": 454842
   },
   {
-    "path": "/assets/brand/social/1x1/srchn-social-lockup-light-1080.svg",
-    "sha256": "1471e76eb0d8f8401cd5505658566224f1131f886a820be1455fb7b1f2206ed4",
-    "bytes": 27799
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/SRCHN_Icon_1x1_1024_Black_on_White.png",
+    "sha256": "a7a7d3586980299c11de037ce4135d244c30171fd49d5dd17f62f8fc5840be44",
+    "bytes": 311172
   },
   {
-    "path": "/assets/brand/social/story/srchn-icon-dark-story.png",
-    "sha256": "655b7b844c85659534df8bff14a2da5811eba2c414da3f01a5175e6090e8791a",
-    "bytes": 76375
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/SRCHN_Icon_1x1_1024_White_on_Black.png",
+    "sha256": "394e53bf1702a85424b2923960ad1ae7055cec82547ce4480739878af0d781b4",
+    "bytes": 312465
   },
   {
-    "path": "/assets/brand/social/story/srchn-icon-dark-story.svg",
-    "sha256": "e5e0539af61a79ea17af4244c9aa6bd7ab673b1e0d759de5c637d2d00f2acb27",
-    "bytes": 27741
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/SRCHN_Maze_Icon_Black.png",
+    "sha256": "2387102a90ff195c5cde808e1c14e68e163a6f7bb8c12658ac54dacbe9683e2f",
+    "bytes": 234507
   },
   {
-    "path": "/assets/brand/social/story/srchn-icon-light-story.png",
-    "sha256": "26f1bcf33fabf5307e439bff2dde59ddd00cd6a1cf05c9deda30339defbecc34",
-    "bytes": 83620
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/SRCHN_Maze_Icon_White.png",
+    "sha256": "591cd145f9b9a2cbbfa90c01684905e1edcf9cde67b0a1727dc95fc051c45a6d",
+    "bytes": 233296
   },
   {
-    "path": "/assets/brand/social/story/srchn-icon-light-story.svg",
-    "sha256": "7b867384773f0ce2c8a013d7cd32ba7894c6e2a3b52897018ff94da3c202f4af",
-    "bytes": 27741
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-1024.png",
+    "sha256": "f9ed91025e4e9bdc462ca6410102733a2cbef2ae8be5fa64eb2cbb398f8f590e",
+    "bytes": 240470
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-128.png",
+    "sha256": "761a8c4133bb0bf24d4c22165003f978509d3a2d9f99dd9b41cc966e6b4f800a",
+    "bytes": 8449
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-144.png",
+    "sha256": "22593dc9db89a36c524e97e01eb33f596cb3569c56f827ee7e094f343ec82798",
+    "bytes": 10157
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-152.png",
+    "sha256": "699e08da1e0c3090c8b652cae2290843cafe716262594c13fecdedc72f24585a",
+    "bytes": 10817
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-16.png",
+    "sha256": "feee0601dab9ccb21de8040704e28b18003bfcfb7c0c27379740ea08d59b5433",
+    "bytes": 387
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-167.png",
+    "sha256": "c93d08b4594f1448b9d98f7438945c0597e88b5d7898828a0a72f01ffd427581",
+    "bytes": 12466
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-180.png",
+    "sha256": "2c5ce51d486f01f7d668bb03ba9979969bc7cba2799f8de65f0ff872738c692d",
+    "bytes": 13751
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-192.png",
+    "sha256": "330ef61d3645d9a58383403eb43789a71ed19aa3eb6eaac7ed517db67c8993b1",
+    "bytes": 15143
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-2048.png",
+    "sha256": "2c8d6c34085cfc6a54fb5b9ae3e3d22cf26b463c277a7ec12fb18b89f1e3a6f3",
+    "bytes": 675510
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-24.png",
+    "sha256": "8fd001acefa2fb3d96ff0e706cfd2a0d79c0a25fbd2fe8a6339634688e6bfc7d",
+    "bytes": 707
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-256.png",
+    "sha256": "b5a5757654e7b4842f8075999f974f9ee625866e83ccb7d5a6f1552444f2ce7b",
+    "bytes": 22382
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-32.png",
+    "sha256": "dbe5d44a45b8cf9105c6e9d6f90c17f6cfb83a4d415731bdcf9d4a876db6143e",
+    "bytes": 1092
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-384.png",
+    "sha256": "bf9858e26c618a3a6b748ffc64753c8f9e6c67a52b1248c17099e5a4126fb2ea",
+    "bytes": 41954
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-4096.png",
+    "sha256": "33fff6794e15292ef47a42dd0ba780fe3c68f8fe276a101136151fddbc0eb6da",
+    "bytes": 1739790
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-48.png",
+    "sha256": "fa25b34a4e9d79b55d1d742244bd739f8278d83a882188371eb120c6527b4fc3",
+    "bytes": 1885
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-512.png",
+    "sha256": "a58f54aaa62d72ad5246c5fb8c05f90c5c8edd29eb7252ac845cfed943ce1024",
+    "bytes": 68584
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png",
+    "sha256": "105649dc341c59747325880209218648236eb2519bce36230f7eeb76d8f0af2a",
+    "bytes": 2904
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-96.png",
+    "sha256": "6d3087f70dd51fc58e043e1e97724a9e1f24bef969410c62eb0d632e622a98f6",
+    "bytes": 5301
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/SVG/SRCHN_Maze_Icon_Black.svg",
+    "sha256": "32c4f0b960cd9277a5851912f2ac7143d2cd792b8c1db234331e8aa22bfb6483",
+    "bytes": 323684
+  },
+  {
+    "path": "/assets/brand/master-kit/02_Maze_Icon/SVG/SRCHN_Maze_Icon_White.svg",
+    "sha256": "16d2e8526f776c1903534b993587d9abfc394b160d589cee98a7af3a9cab133b",
+    "bytes": 323552
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_1024_black.png",
+    "sha256": "394e53bf1702a85424b2923960ad1ae7055cec82547ce4480739878af0d781b4",
+    "bytes": 312465
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_1024_white.png",
+    "sha256": "a7a7d3586980299c11de037ce4135d244c30171fd49d5dd17f62f8fc5840be44",
+    "bytes": 311172
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_120_black.png",
+    "sha256": "16a1d9c7063c460c84b316703222c0a1ea22bd2fb652c5b30ad82a0648cb2bf5",
+    "bytes": 11353
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_120_white.png",
+    "sha256": "e3b603ea5991f80d920169cdb8cc8d802bc3b0fc2536ef7cb50da8b5b97fccb6",
+    "bytes": 11605
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_152_black.png",
+    "sha256": "2cb908eeca5f93e81e7a1ff9d1b7dfef166100fc6a2c92e77b0d09912f62a501",
+    "bytes": 15462
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_152_white.png",
+    "sha256": "507cf4367f1302c7f89f5569b5db71778b6f75cc336525ed1a145095f51805ad",
+    "bytes": 15610
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_167_black.png",
+    "sha256": "8aa7bda5d873f27c3ad2a9a44c20a47a0c147ebdcfb1d011f7716eef85aff4a0",
+    "bytes": 17710
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_167_white.png",
+    "sha256": "1ee86db89071593d12ee7ee0e7056f0380b9332ae828cb62cba7c8d14c19f9e1",
+    "bytes": 17939
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_180_black.png",
+    "sha256": "26725080938b715270a5ed3420017d5e263c07a9a9615ba995a4b8eba446f2ee",
+    "bytes": 19412
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_180_white.png",
+    "sha256": "5585af46a4e00ebb3b7080bfa97b2e621670773846b6abfe983cba4559c73254",
+    "bytes": 19517
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_192_black.png",
+    "sha256": "fed48fed9839897500cad70d1bf6008df9091d3707029710932b2fa3f76360d7",
+    "bytes": 21046
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_192_white.png",
+    "sha256": "3ac3cc7a6456b0ba5ded65e751e5dc8e659c2068d2a632e6f2f84b218d60bcd2",
+    "bytes": 21216
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_256_black.png",
+    "sha256": "880b960f86f634668b2fdab51b0ac28584ece45120e069a6f9a956258a98081f",
+    "bytes": 30692
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_256_white.png",
+    "sha256": "cd8999afa7e96818a1cb787bd4327e3ff35367cecad01d5941d005ec8434853f",
+    "bytes": 31203
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_512_black.png",
+    "sha256": "31a24039d04c51701a8219e73ddd33967250f4f8e0174fe6a34b6d6c3efa07cd",
+    "bytes": 91649
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/App_Icons/SRCHN_AppIcon_512_white.png",
+    "sha256": "c6bda108e02a39a3e543a7eaa12e411a606a15c09102ffb1f4b2dbcff5b856a7",
+    "bytes": 92618
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/apple-touch-icon.png",
+    "sha256": "5585af46a4e00ebb3b7080bfa97b2e621670773846b6abfe983cba4559c73254",
+    "bytes": 19517
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/favicon-128.png",
+    "sha256": "e05ba919c2bda1c06e575aa67def64b6d6bd6e72bf16617890ffd52bdbfec7c4",
+    "bytes": 12715
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/favicon-16.png",
+    "sha256": "d7250aac7e49c18a6d59927849d04ea7c2b6157c317dea5292f008f719cb528b",
+    "bytes": 556
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/favicon-180.png",
+    "sha256": "5585af46a4e00ebb3b7080bfa97b2e621670773846b6abfe983cba4559c73254",
+    "bytes": 19517
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/favicon-192.png",
+    "sha256": "3ac3cc7a6456b0ba5ded65e751e5dc8e659c2068d2a632e6f2f84b218d60bcd2",
+    "bytes": 21216
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/favicon-32.png",
+    "sha256": "d8392c114650e96cc0b474c663ac0d6e93ff3d6962ce9bd3a5a6059e58217eab",
+    "bytes": 2108
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/favicon-48.png",
+    "sha256": "8fc04968037cf0f2be5fc8bf2987c728a89e25b8d4dd9da1c0fd32bd675526d2",
+    "bytes": 3334
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/favicon-512.png",
+    "sha256": "c6bda108e02a39a3e543a7eaa12e411a606a15c09102ffb1f4b2dbcff5b856a7",
+    "bytes": 92618
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Favicons/favicon-64.png",
+    "sha256": "014c4a9177e63ec198f3c65a23eb66c1788bd7d59b0edaa005481543924aef9f",
+    "bytes": 5058
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Desktop_4K_Black.jpg",
+    "sha256": "1f51ec515793f36b25cc35ac0f28143e8b722745a75e3360e2d57d16cc7627fb",
+    "bytes": 93001
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Desktop_4K_White.jpg",
+    "sha256": "3808a97dd3c7882352866772b3ed4975f6f62fadb7c28d3fa5ac092b787f15d3",
+    "bytes": 93036
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Desktop_FHD_Black.jpg",
+    "sha256": "f503fd50e3ec051227bcb5c0a3e1733368704ff6e703ad297432524df24ee430",
+    "bytes": 32907
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Desktop_FHD_White.jpg",
+    "sha256": "77cd70054553d014cdb9dcba31dcd2cf99d75172220cc8ebaa2982c03db59fb2",
+    "bytes": 32917
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Desktop_QHD_Black.jpg",
+    "sha256": "451b0b2224afdef4a0a04c0ee56a47e5635fbd5b44f81a5afd65f81a2ef213e3",
+    "bytes": 51215
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Desktop_QHD_White.jpg",
+    "sha256": "b021ca302da8f05c2ecd989cca6290ec26effcd9f57bab498f81d5063eea95c3",
+    "bytes": 51196
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Laptop_16x10_Black.jpg",
+    "sha256": "f0e8c8aac6766ad08dbadfa15eb10734d07ae72812834e4d476bc1713660cc5c",
+    "bytes": 68103
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Laptop_16x10_White.jpg",
+    "sha256": "7cb6b69ef6f14105dd590eb02adb6031bb988d87874a0c1784b6ca6a38689f76",
+    "bytes": 68100
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Mobile_1080x1920_Black.jpg",
+    "sha256": "3fb83faeb4270947c2a63bc4fb9f491ca921783c9d332d1841e8d7df86ce2ac8",
+    "bytes": 65260
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Mobile_1080x1920_White.jpg",
+    "sha256": "a75ef08b8b18e882be5b6fcea2ffc3c94c1c67454ed139d0082ff9fbcb6714a9",
+    "bytes": 65245
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Mobile_HighRes_Black.jpg",
+    "sha256": "87f6bee5accd4a8334a4d75c7931873fd1395f1cfd15d8840715b99b3180591a",
+    "bytes": 95083
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Mobile_HighRes_White.jpg",
+    "sha256": "b85bf00b977a86ec9e6bb226b48f9bda3f1a439e44f180a821ff76273ac80a49",
+    "bytes": 95135
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Tablet_Black.jpg",
+    "sha256": "a4e5c7ced5c6ef7926a6805aacf624433ab5aa982ca0a6819caa0def15455ade",
+    "bytes": 128214
+  },
+  {
+    "path": "/assets/brand/master-kit/04_Website_Assets/Wallpapers/Tablet_White.jpg",
+    "sha256": "49cdb4a10bba02dddf2703614e3c9b053b9e450a5efe195fad0aea2b163c2a33",
+    "bytes": 128156
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/Facebook_Cover_820x312_BlackLogo.jpg",
+    "sha256": "d8ee9b2ba4937956a5845082807b585912c8edf7b66d58014cf725855cd1d143",
+    "bytes": 23834
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/Facebook_Cover_820x312_WhiteLogo.jpg",
+    "sha256": "087dbd1bbb47a6485192352cfb810ca49a93037998ede46a48bddd8d2a23fdbd",
+    "bytes": 23816
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/Instagram_Square_1080_BlackLogo.jpg",
+    "sha256": "3fd670d0892859ce0b0d0bc413c30a68111d9c98622ddd02fe6dd163b293a005",
+    "bytes": 100424
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/Instagram_Square_1080_WhiteLogo.jpg",
+    "sha256": "4d3eeff1fa5dbb6699eb1e36f6131f94b055bc670139dabf7aec3d4e59157e64",
+    "bytes": 100363
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/Instagram_Square_2160_BlackLogo.jpg",
+    "sha256": "553104f324c0a1ef669911209eea13af8e1fc1f39df3175e407cbcab7ebd574b",
+    "bytes": 229669
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/Instagram_Square_2160_WhiteLogo.jpg",
+    "sha256": "2d2c5c2fcc1db364dd891f5e37333cf1887a0a07298ebb4aee67dbd986d89420",
+    "bytes": 229937
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/LinkedIn_Cover_1584x396_BlackLogo.jpg",
+    "sha256": "8593a381534405839ebe2017b9577b62afc7dab9daee7551fcd99f4ce1fdb0f6",
+    "bytes": 34839
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/LinkedIn_Cover_1584x396_WhiteLogo.jpg",
+    "sha256": "b73ffd6904ee2497611e9db198e9defbe907fa332c192a0e7b845709fcdb0f98",
+    "bytes": 34811
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/OpenGraph_1200x630_BlackLogo.jpg",
+    "sha256": "cb268b8405140089638df46c3787a6777f798cedecb9c8ce291f9880e005daec",
+    "bytes": 58553
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/OpenGraph_1200x630_WhiteLogo.jpg",
+    "sha256": "27aae88d67682ca7f64a22fb67286748d6e860bd95a430816c466c85488c4b57",
+    "bytes": 58510
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/Story_Reel_1080x1920_BlackLogo.jpg",
+    "sha256": "1fb7d55d9cd86e29ec7acc23a2543a6910a22f88ef54d0f4824a5213fa234698",
+    "bytes": 114371
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/Story_Reel_1080x1920_WhiteLogo.jpg",
+    "sha256": "d4bac243135ca13508ce261350a9f53f9540fb6e9e190ee6ab79ed844dc35592",
+    "bytes": 114381
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/X_Cover_1500x500_BlackLogo.jpg",
+    "sha256": "2bc0c5c98fe51ab3f853f3fc31750c414cdd1d04ec88c3f2e9980fc9320511f2",
+    "bytes": 47545
+  },
+  {
+    "path": "/assets/brand/master-kit/05_Social_Media/X_Cover_1500x500_WhiteLogo.jpg",
+    "sha256": "726024ec755ada2e80f97290a436e4735049a1124b22a395e1219069229afa7c",
+    "bytes": 47491
+  },
+  {
+    "path": "/assets/brand/social/open-graph-1200x630.jpg",
+    "sha256": "cb268b8405140089638df46c3787a6777f798cedecb9c8ce291f9880e005daec",
+    "bytes": 58553
   }
 ]
