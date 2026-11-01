@@ -1,9 +1,8 @@
-/* SRCHN supplied brand assets. Masters remain unchanged in this directory. */
-.brand-logo-link{display:inline-flex;align-items:center;min-width:max-content;text-decoration:none}
+/* SRCHN Approved Brand & Website Master Kit - supplied raster masters preserved in assets/brand/master-kit/. */
+.brand-logo-link{display:inline-flex;align-items:center;min-width:max-content;text-decoration:none;color:#000}
 .brand-logo{display:block;max-width:none}
 .brand-logo-horizontal{width:164px;height:auto}
-.brand-logo-link .brand-logo-icon{display:none;width:40px;height:40px;flex:0 0 40px}
+.brand-logo-link .brand-logo-icon{display:none;width:34px;height:34px;flex:0 0 34px;object-fit:contain}
 .footer .brand-logo-horizontal{width:150px}
 .lg .brand-logo-horizontal{height:60px;width:auto}
-@media(max-width:650px){.brand-logo-link .brand-logo-horizontal{display:none}.brand-logo-link .brand-logo-icon{display:block}.footer .brand-logo-horizontal{display:block}.footer.brand-logo-link .brand-logo-icon,.footer .brand-logo-link .brand-logo-icon{display:none}}
-@media(prefers-color-scheme:dark){}
+@media(max-width:650px){.brand-logo-link .brand-logo-horizontal{display:none}.brand-logo-link .brand-logo-icon{display:block}.footer .brand-logo-horizontal{display:block;width:132px}.footer.brand-logo-link .brand-logo-icon,.footer .brand-logo-link .brand-logo-icon{display:none}}

@@ -70,7 +70,7 @@ function brands(){const s=$('#t-brands');
  $('#scn').innerHTML=SCENES.map((t,i)=>`<label class="chk"><input type="checkbox" data-sc="${i}"> ${t}</label>`).join('');
  s.addEventListener('input',e=>{if(e.target.dataset.sc!==undefined){const n=[...document.querySelectorAll('[data-sc]')].filter(x=>x.checked).length;$('#scn-sum').textContent=n+' of '+SCENES.length+' scenes captured. Unchecked scenes stay absent from the video.'}});}
 scores();econ();brands();
-const st=document.createElement('style');st.textContent='.chk{display:flex;gap:8px;align-items:flex-start;min-height:44px;padding:8px 0}.chk input{width:22px;height:22px;flex:none}fieldset{border:1px solid #ddd;border-radius:12px;margin:8px 0}.tbl{width:100%;border-collapse:collapse;font-size:.9rem}.tbl td,.tbl th{border-bottom:1px solid #eee;padding:8px;text-align:left;vertical-align:top}#t-econ label,#t-scores .row label{display:flex;flex-direction:column;gap:4px;font-size:.9rem}#t-econ input,#t-scores input[type=text],#t-scores .row input{min-height:44px;padding:0 10px;border:1px solid #bbb;border-radius:10px}';document.head.appendChild(st);
+const st=document.createElement('style');st.textContent='.chk{display:flex;gap:8px;align-items:flex-start;min-height:44px;padding:8px 0}.chk input{width:22px;height:22px;flex:none}fieldset{border:1px solid #d4d4d4;border-radius:12px;margin:8px 0}.tbl{width:100%;border-collapse:collapse;font-size:.9rem}.tbl td,.tbl th{border-bottom:1px solid #e5e5e5;padding:8px;text-align:left;vertical-align:top}#t-econ label,#t-scores .row label{display:flex;flex-direction:column;gap:4px;font-size:.9rem}#t-econ input,#t-scores input[type=text],#t-scores .row input{min-height:44px;padding:0 10px;border:1px solid #a3a3a3;border-radius:10px}';document.head.appendChild(st);
 /* ---------- Video templates: tour / product / ad, up to 30 s, vertical ---------- */
 const TPL={
  tour:{label:'Venue or property tour',fields:[['place','Place name'],['locality','Locality'],['claim','One factual line you can prove (optional)']],scenes:SCENES,caps:s=>s},
@@ -88,7 +88,7 @@ function tpl(){const s=$('#t-tpl');
  <label>Seconds per scene <input type="number" id="tp-sec" min="1" max="6" value="3" style="width:80px"></label>
  <p class="note" id="tp-info">Tick the permission box to choose photos.</p><ol id="tp-scenes"></ol>
  <button class="s" id="tp-go" disabled>Make video</button> <a id="tp-dl" class="s" hidden download>Download</a>
- <video id="tp-vid" controls playsinline hidden style="aspect-ratio:9/16;max-width:300px;width:100%;display:block;margin:8px auto;border-radius:12px;background:#14213d"></video><p class="note" id="tp-out"></p>`;
+ <video id="tp-vid" controls playsinline hidden style="aspect-ratio:9/16;max-width:300px;width:100%;display:block;margin:8px auto;border-radius:12px;background:#111111"></video><p class="note" id="tp-out"></p>`;
  const kind=()=>$('#tp-kind').value;
  const draw=()=>{const t=TPL[kind()];$('#tp-adwrap').hidden=kind()!=='ad';$('#tp-fields').innerHTML=t.fields.map(([k,l])=>`<label>${esc(l)}<input id="tp-f-${k}" maxlength="${k==='hook'?60:90}"></label>`).join('');$('#tp-scenes').innerHTML=t.scenes.map(x=>`<li>${esc(x)}</li>`).join('')};
  draw();

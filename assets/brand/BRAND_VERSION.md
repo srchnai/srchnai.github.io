@@ -1,3 +1,4 @@
-# SRCHN Brand Identity Version 1.0
+# SRCHN Approved Brand & Website Master Kit
 
-Applied from the user-supplied 157-file package received on 2026-11-01. SVG masters in `logos/svg/` are byte-for-byte copies of the package masters under established site filenames. Favicon 24px, favicon.ico, 1080px social icon derivatives and the campaign poster composite are generated derivatives; all other copied logo assets are package files.
+Applied from the user-supplied 111-file package received on 2026-11-01. Supplied masters are preserved in `master-kit/`. The compact navigation PNG is a derivative that places the supplied maze and wordmark crops side-by-side without redrawing, recolouring, stretching or changing their geometry. Favicon.ico is derived from the supplied 16/32/48 PNGs. Typography is the supplied self-hosted Inter family; Noto Sans remains the Indic fallback.
+Package QA note: the standalone `SRCHN_Wordmark_*.png` and `SRCHN_Tagline_*.png` files in the supplied package are miscrops (the wordmark file contains maze/letter fragments and the tagline file contains the wordmark). The live wordmark and compact navigation assets therefore use exact, unmodified crops from the supplied full lockups; no logo geometry was redrawn.
