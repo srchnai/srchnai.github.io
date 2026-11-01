@@ -36,6 +36,9 @@ h3{margin:0 0 8px;font-size:20px;line-height:1.2}
 .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 14px}
 .hero-art{position:relative;border-radius:28px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}
 .hero-art img,.hero-art svg{display:block;width:100%;height:auto}
+.hero-art picture{display:block;width:100%}
+.poster-hotspot{position:absolute;left:8.2%;top:48.8%;width:32.2%;height:5.5%;border-radius:999px}
+.poster-hotspot:focus-visible{outline:3px solid #111;outline-offset:4px}
 .hero-art .caption{position:absolute;left:16px;bottom:14px;padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.86);color:#4e5967;font-size:12px}
 .section{padding:34px 0}
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}
