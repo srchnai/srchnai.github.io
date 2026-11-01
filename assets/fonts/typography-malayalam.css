@@ -1,0 +1,11 @@
+/*
+SRCHN typography system.
+Plus Jakarta Sans and Noto Sans families are licensed under the SIL Open Font License 1.1.
+Exact licence notices are stored beside these files as OFL-*.txt.
+Font files are self-hosted WOFF2 subsets with font-display: swap.
+*/
+@font-face{font-family:'Noto Sans Malayalam';font-style:normal;font-weight:400;font-display:swap;font-synthesis:none;src:url('/assets/fonts/noto-sans-malayalam-malayalam.woff2') format('woff2');unicode-range:U+0307, U+0323, U+0951-0952, U+0964-0965, U+0B83, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;}
+@font-face{font-family:'Noto Sans Malayalam';font-style:normal;font-weight:500;font-display:swap;font-synthesis:none;src:url('/assets/fonts/noto-sans-malayalam-malayalam.woff2') format('woff2');unicode-range:U+0307, U+0323, U+0951-0952, U+0964-0965, U+0B83, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;}
+@font-face{font-family:'Noto Sans Malayalam';font-style:normal;font-weight:600;font-display:swap;font-synthesis:none;src:url('/assets/fonts/noto-sans-malayalam-malayalam.woff2') format('woff2');unicode-range:U+0307, U+0323, U+0951-0952, U+0964-0965, U+0B83, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;}
+@font-face{font-family:'Noto Sans Malayalam';font-style:normal;font-weight:700;font-display:swap;font-synthesis:none;src:url('/assets/fonts/noto-sans-malayalam-malayalam.woff2') format('woff2');unicode-range:U+0307, U+0323, U+0951-0952, U+0964-0965, U+0B83, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;}
+:lang(ml){font-family:"Noto Sans Malayalam","Plus Jakarta Sans",sans-serif!important;letter-spacing:normal!important;line-height:1.75}
