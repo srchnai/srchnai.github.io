@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320" viewBox="0 0 480 320" role="img" aria-labelledby="title desc">
+<title id="title">Beauty &amp; Cosmetics illustration</title><desc id="desc">Original decorative illustration for the SRCHN SHOP subcategory Beauty &amp; Cosmetics.</desc>
+<rect width="480" height="320" rx="28" fill="#F8EEF0"/>
+<circle cx="385" cy="76" r="92" fill="#E9C2CD" opacity=".48"/><circle cx="74" cy="277" r="100" fill="#E9C2CD" opacity=".25"/>
+<path d="M0 246 Q115 208 218 246 T480 235 V320 H0Z" fill="#E9C2CD" opacity=".28"/>
+<g transform="translate(168 46) scale(1.18)"><g fill="none" stroke="#9C5266" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="60" cy="58" r="42"/><path d="M45 43 83 58 45 75z"/></g></g>
+<rect x="28" y="258" width="424" height="42" rx="12" fill="#FFFFFF" opacity=".84"/>
+<text x="44" y="285" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="650" fill="#9C5266">Beauty &amp; Cosmetics</text>
+<circle cx="438" cy="279" r="5" fill="#9C5266"/>
+</svg>

@@ -1,0 +1,173 @@
+id,category,subcategory,lucideReactComponent,lucideKebabName,illustration,iconFallbackSvg
+live-homes,LIVE,Homes,House,house,illustrations/live/homes.svg,icons/live/homes.svg
+live-apartments,LIVE,Apartments,Building2,building2,illustrations/live/apartments.svg,icons/live/apartments.svg
+live-rentals,LIVE,Rentals,KeyRound,key-round,illustrations/live/rentals.svg,icons/live/rentals.svg
+live-co-living,LIVE,Co-Living,UsersRound,users-round,illustrations/live/co-living.svg,icons/live/co-living.svg
+live-stays,LIVE,Stays,BedDouble,bed-double,illustrations/live/stays.svg,icons/live/stays.svg
+work-coworking-spaces,WORK,Coworking Spaces,Laptop,laptop,illustrations/work/coworking-spaces.svg,icons/work/coworking-spaces.svg
+work-managed-offices,WORK,Managed Offices,Building,building,illustrations/work/managed-offices.svg,icons/work/managed-offices.svg
+work-private-offices,WORK,Private Offices,BriefcaseBusiness,briefcase-business,illustrations/work/private-offices.svg,icons/work/private-offices.svg
+work-virtual-offices,WORK,Virtual Offices,Globe,globe,illustrations/work/virtual-offices.svg,icons/work/virtual-offices.svg
+work-commercial-office-spaces,WORK,Commercial Office Spaces,Building2,building2,illustrations/work/commercial-office-spaces.svg,icons/work/commercial-office-spaces.svg
+work-business-centres,WORK,Business Centres,Landmark,landmark,illustrations/work/business-centres.svg,icons/work/business-centres.svg
+work-meeting-rooms,WORK,Meeting Rooms,Users,users,illustrations/work/meeting-rooms.svg,icons/work/meeting-rooms.svg
+work-conference-rooms,WORK,Conference Rooms,Presentation,presentation,illustrations/work/conference-rooms.svg,icons/work/conference-rooms.svg
+work-training-centres,WORK,Training Centres,GraduationCap,graduation-cap,illustrations/work/training-centres.svg,icons/work/training-centres.svg
+work-startup-incubators,WORK,Startup Incubators,Rocket,rocket,illustrations/work/startup-incubators.svg,icons/work/startup-incubators.svg
+work-corporate-campuses,WORK,Corporate Campuses,Factory,factory,illustrations/work/corporate-campuses.svg,icons/work/corporate-campuses.svg
+work-flexible-workspaces,WORK,Flexible Workspaces,PanelsTopLeft,panels-top-left,illustrations/work/flexible-workspaces.svg,icons/work/flexible-workspaces.svg
+eat-restaurants,EAT,Restaurants,Utensils,utensils,illustrations/eat/restaurants.svg,icons/eat/restaurants.svg
+eat-cafes,EAT,Cafés,Coffee,coffee,illustrations/eat/cafes.svg,icons/eat/cafes.svg
+eat-fine-dining,EAT,Fine Dining,ConciergeBell,concierge-bell,illustrations/eat/fine-dining.svg,icons/eat/fine-dining.svg
+eat-casual-dining,EAT,Casual Dining,ChefHat,chef-hat,illustrations/eat/casual-dining.svg,icons/eat/casual-dining.svg
+eat-south-indian-restaurants,EAT,South Indian Restaurants,Soup,soup,illustrations/eat/south-indian-restaurants.svg,icons/eat/south-indian-restaurants.svg
+eat-north-indian-restaurants,EAT,North Indian Restaurants,CookingPot,cooking-pot,illustrations/eat/north-indian-restaurants.svg,icons/eat/north-indian-restaurants.svg
+eat-street-food,EAT,Street Food,Sandwich,sandwich,illustrations/eat/street-food.svg,icons/eat/street-food.svg
+eat-bakeries,EAT,Bakeries,Croissant,croissant,illustrations/eat/bakeries.svg,icons/eat/bakeries.svg
+eat-dessert-parlours,EAT,Dessert Parlours,IceCreamBowl,ice-cream-bowl,illustrations/eat/dessert-parlours.svg,icons/eat/dessert-parlours.svg
+eat-breakfast-and-brunch,EAT,Breakfast & Brunch,Sunrise,sunrise,illustrations/eat/breakfast-and-brunch.svg,icons/eat/breakfast-and-brunch.svg
+eat-family-restaurants,EAT,Family Restaurants,UsersRound,users-round,illustrations/eat/family-restaurants.svg,icons/eat/family-restaurants.svg
+eat-buffets,EAT,Buffets,Salad,salad,illustrations/eat/buffets.svg,icons/eat/buffets.svg
+eat-cloud-kitchens,EAT,Cloud Kitchens,Package,package,illustrations/eat/cloud-kitchens.svg,icons/eat/cloud-kitchens.svg
+eat-food-courts,EAT,Food Courts,Store,store,illustrations/eat/food-courts.svg,icons/eat/food-courts.svg
+eat-vegetarian-restaurants,EAT,Vegetarian Restaurants,Leaf,leaf,illustrations/eat/vegetarian-restaurants.svg,icons/eat/vegetarian-restaurants.svg
+eat-vegan-restaurants,EAT,Vegan Restaurants,Sprout,sprout,illustrations/eat/vegan-restaurants.svg,icons/eat/vegan-restaurants.svg
+eat-fast-food,EAT,Fast Food,Pizza,pizza,illustrations/eat/fast-food.svg,icons/eat/fast-food.svg
+eat-specialty-cuisine,EAT,Specialty Cuisine,CookingPot,cooking-pot,illustrations/eat/specialty-cuisine.svg,icons/eat/specialty-cuisine.svg
+drink-pubs-and-bars,DRINK,Pubs & Bars,Beer,beer,illustrations/drink/pubs-and-bars.svg,icons/drink/pubs-and-bars.svg
+drink-breweries-and-microbreweries,DRINK,Breweries & Microbreweries,Wheat,wheat,illustrations/drink/breweries-and-microbreweries.svg,icons/drink/breweries-and-microbreweries.svg
+drink-whisky-bars,DRINK,Whisky Bars,GlassWater,glass-water,illustrations/drink/whisky-bars.svg,icons/drink/whisky-bars.svg
+drink-cocktail-bars,DRINK,Cocktail Bars,Martini,martini,illustrations/drink/cocktail-bars.svg,icons/drink/cocktail-bars.svg
+drink-wine-bars,DRINK,Wine Bars,Wine,wine,illustrations/drink/wine-bars.svg,icons/drink/wine-bars.svg
+drink-rooftop-bars,DRINK,Rooftop Bars,Building2,building2,illustrations/drink/rooftop-bars.svg,icons/drink/rooftop-bars.svg
+drink-nightclubs-and-discotheques,DRINK,Nightclubs & Discotheques,Music2,music2,illustrations/drink/nightclubs-and-discotheques.svg,icons/drink/nightclubs-and-discotheques.svg
+drink-dj-nights-and-party-bars,DRINK,DJ Nights & Party Bars,Disc3,disc3,illustrations/drink/dj-nights-and-party-bars.svg,icons/drink/dj-nights-and-party-bars.svg
+drink-luxury-hotel-bars,DRINK,Luxury Hotel Bars,Wine,wine,illustrations/drink/luxury-hotel-bars.svg,icons/drink/luxury-hotel-bars.svg
+drink-sports-bars,DRINK,Sports Bars,Trophy,trophy,illustrations/drink/sports-bars.svg,icons/drink/sports-bars.svg
+drink-live-music-bars,DRINK,Live Music Bars,Mic2,mic2,illustrations/drink/live-music-bars.svg,icons/drink/live-music-bars.svg
+drink-lounge-bars,DRINK,Lounge Bars,Armchair,armchair,illustrations/drink/lounge-bars.svg,icons/drink/lounge-bars.svg
+drink-taprooms,DRINK,Taprooms,Beer,beer,illustrations/drink/taprooms.svg,icons/drink/taprooms.svg
+drink-beer-gardens,DRINK,Beer Gardens,TreePalm,tree-palm,illustrations/drink/beer-gardens.svg,icons/drink/beer-gardens.svg
+drink-karaoke-bars,DRINK,Karaoke Bars,MicVocal,mic-vocal,illustrations/drink/karaoke-bars.svg,icons/drink/karaoke-bars.svg
+play-gaming-zones-and-arcades,PLAY,Gaming Zones & Arcades,Gamepad2,gamepad2,illustrations/play/gaming-zones-and-arcades.svg,icons/play/gaming-zones-and-arcades.svg
+play-bowling-alleys,PLAY,Bowling Alleys,BowlingBall,bowling-ball,illustrations/play/bowling-alleys.svg,icons/play/bowling-alleys.svg
+play-sports-arenas,PLAY,Sports Arenas,Trophy,trophy,illustrations/play/sports-arenas.svg,icons/play/sports-arenas.svg
+play-indoor-sports,PLAY,Indoor Sports,Dumbbell,dumbbell,illustrations/play/indoor-sports.svg,icons/play/indoor-sports.svg
+play-outdoor-sports,PLAY,Outdoor Sports,Bike,bike,illustrations/play/outdoor-sports.svg,icons/play/outdoor-sports.svg
+play-adventure-activities,PLAY,Adventure Activities,Mountain,mountain,illustrations/play/adventure-activities.svg,icons/play/adventure-activities.svg
+play-escape-rooms,PLAY,Escape Rooms,DoorOpen,door-open,illustrations/play/escape-rooms.svg,icons/play/escape-rooms.svg
+play-amusement-parks,PLAY,Amusement Parks,FerrisWheel,ferris-wheel,illustrations/play/amusement-parks.svg,icons/play/amusement-parks.svg
+play-trampoline-parks,PLAY,Trampoline Parks,Activity,activity,illustrations/play/trampoline-parks.svg,icons/play/trampoline-parks.svg
+play-go-karting,PLAY,Go-Karting,Flag,flag,illustrations/play/go-karting.svg,icons/play/go-karting.svg
+play-paintball,PLAY,Paintball,Target,target,illustrations/play/paintball.svg,icons/play/paintball.svg
+play-laser-tag,PLAY,Laser Tag,Crosshair,crosshair,illustrations/play/laser-tag.svg,icons/play/laser-tag.svg
+play-swimming-pools,PLAY,Swimming Pools,Waves,waves,illustrations/play/swimming-pools.svg,icons/play/swimming-pools.svg
+play-fitness-and-recreation,PLAY,Fitness & Recreation,Dumbbell,dumbbell,illustrations/play/fitness-and-recreation.svg,icons/play/fitness-and-recreation.svg
+play-vr-experiences,PLAY,VR Experiences,Glasses,glasses,illustrations/play/vr-experiences.svg,icons/play/vr-experiences.svg
+play-board-game-cafes,PLAY,Board Game Cafés,ChessKnight,chess-knight,illustrations/play/board-game-cafes.svg,icons/play/board-game-cafes.svg
+play-badminton-and-squash,PLAY,Badminton & Squash,Trophy,trophy,illustrations/play/badminton-and-squash.svg,icons/play/badminton-and-squash.svg
+play-cricket-and-football-grounds,PLAY,Cricket & Football Grounds,Goal,goal,illustrations/play/cricket-and-football-grounds.svg,icons/play/cricket-and-football-grounds.svg
+play-trekking-and-outdoor-adventures,PLAY,Trekking & Outdoor Adventures,Backpack,backpack,illustrations/play/trekking-and-outdoor-adventures.svg,icons/play/trekking-and-outdoor-adventures.svg
+play-family-entertainment-centres,PLAY,Family Entertainment Centres,PartyPopper,party-popper,illustrations/play/family-entertainment-centres.svg,icons/play/family-entertainment-centres.svg
+shop-shopping-malls,SHOP,Shopping Malls,ShoppingBag,shopping-bag,illustrations/shop/shopping-malls.svg,icons/shop/shopping-malls.svg
+shop-fashion-and-apparel,SHOP,Fashion & Apparel,Shirt,shirt,illustrations/shop/fashion-and-apparel.svg,icons/shop/fashion-and-apparel.svg
+shop-luxury-boutiques,SHOP,Luxury Boutiques,Gem,gem,illustrations/shop/luxury-boutiques.svg,icons/shop/luxury-boutiques.svg
+shop-footwear,SHOP,Footwear,Footprints,footprints,illustrations/shop/footwear.svg,icons/shop/footwear.svg
+shop-jewellery,SHOP,Jewellery,Gem,gem,illustrations/shop/jewellery.svg,icons/shop/jewellery.svg
+shop-watches-and-accessories,SHOP,Watches & Accessories,Watch,watch,illustrations/shop/watches-and-accessories.svg,icons/shop/watches-and-accessories.svg
+shop-electronics,SHOP,Electronics,Monitor,monitor,illustrations/shop/electronics.svg,icons/shop/electronics.svg
+shop-mobile-and-gadgets,SHOP,Mobile & Gadgets,Smartphone,smartphone,illustrations/shop/mobile-and-gadgets.svg,icons/shop/mobile-and-gadgets.svg
+shop-furniture-and-home-decor,SHOP,Furniture & Home Décor,Sofa,sofa,illustrations/shop/furniture-and-home-decor.svg,icons/shop/furniture-and-home-decor.svg
+shop-beauty-and-cosmetics,SHOP,Beauty & Cosmetics,Sparkles,sparkles,illustrations/shop/beauty-and-cosmetics.svg,icons/shop/beauty-and-cosmetics.svg
+shop-supermarkets,SHOP,Supermarkets,ShoppingCart,shopping-cart,illustrations/shop/supermarkets.svg,icons/shop/supermarkets.svg
+shop-department-stores,SHOP,Department Stores,Store,store,illustrations/shop/department-stores.svg,icons/shop/department-stores.svg
+shop-bookstores,SHOP,Bookstores,BookOpen,book-open,illustrations/shop/bookstores.svg,icons/shop/bookstores.svg
+shop-sports-and-fitness-stores,SHOP,Sports & Fitness Stores,Dumbbell,dumbbell,illustrations/shop/sports-and-fitness-stores.svg,icons/shop/sports-and-fitness-stores.svg
+shop-lifestyle-stores,SHOP,Lifestyle Stores,ShoppingBasket,shopping-basket,illustrations/shop/lifestyle-stores.svg,icons/shop/lifestyle-stores.svg
+shop-home-improvement,SHOP,Home Improvement,Hammer,hammer,illustrations/shop/home-improvement.svg,icons/shop/home-improvement.svg
+shop-gift-shops,SHOP,Gift Shops,Gift,gift,illustrations/shop/gift-shops.svg,icons/shop/gift-shops.svg
+shop-local-markets,SHOP,Local Markets,Store,store,illustrations/shop/local-markets.svg,icons/shop/local-markets.svg
+shop-organic-and-specialty-stores,SHOP,Organic & Specialty Stores,Sprout,sprout,illustrations/shop/organic-and-specialty-stores.svg,icons/shop/organic-and-specialty-stores.svg
+shop-kids-and-baby-stores,SHOP,Kids & Baby Stores,Baby,baby,illustrations/shop/kids-and-baby-stores.svg,icons/shop/kids-and-baby-stores.svg
+travel-hotels,TRAVEL,Hotels,Hotel,hotel,illustrations/travel/hotels.svg,icons/travel/hotels.svg
+travel-luxury-resorts,TRAVEL,Luxury Resorts,Palmtree,palmtree,illustrations/travel/luxury-resorts.svg,icons/travel/luxury-resorts.svg
+travel-boutique-hotels,TRAVEL,Boutique Hotels,BedDouble,bed-double,illustrations/travel/boutique-hotels.svg,icons/travel/boutique-hotels.svg
+travel-homestays,TRAVEL,Homestays,House,house,illustrations/travel/homestays.svg,icons/travel/homestays.svg
+travel-serviced-apartments,TRAVEL,Serviced Apartments,Building2,building2,illustrations/travel/serviced-apartments.svg,icons/travel/serviced-apartments.svg
+travel-hostels,TRAVEL,Hostels,Bed,bed,illustrations/travel/hostels.svg,icons/travel/hostels.svg
+travel-villas,TRAVEL,Villas,Castle,castle,illustrations/travel/villas.svg,icons/travel/villas.svg
+travel-weekend-getaways,TRAVEL,Weekend Getaways,Luggage,luggage,illustrations/travel/weekend-getaways.svg,icons/travel/weekend-getaways.svg
+travel-hill-stations,TRAVEL,Hill Stations,MountainSnow,mountain-snow,illustrations/travel/hill-stations.svg,icons/travel/hill-stations.svg
+travel-beach-destinations,TRAVEL,Beach Destinations,Waves,waves,illustrations/travel/beach-destinations.svg,icons/travel/beach-destinations.svg
+travel-adventure-travel,TRAVEL,Adventure Travel,Compass,compass,illustrations/travel/adventure-travel.svg,icons/travel/adventure-travel.svg
+travel-nature-retreats,TRAVEL,Nature Retreats,Trees,trees,illustrations/travel/nature-retreats.svg,icons/travel/nature-retreats.svg
+travel-wildlife-and-safari,TRAVEL,Wildlife & Safari,Binoculars,binoculars,illustrations/travel/wildlife-and-safari.svg,icons/travel/wildlife-and-safari.svg
+travel-road-trips,TRAVEL,Road Trips,CarFront,car-front,illustrations/travel/road-trips.svg,icons/travel/road-trips.svg
+travel-international-travel,TRAVEL,International Travel,Plane,plane,illustrations/travel/international-travel.svg,icons/travel/international-travel.svg
+travel-domestic-travel,TRAVEL,Domestic Travel,TrainFront,train-front,illustrations/travel/domestic-travel.svg,icons/travel/domestic-travel.svg
+travel-travel-experiences,TRAVEL,Travel Experiences,MapPinned,map-pinned,illustrations/travel/travel-experiences.svg,icons/travel/travel-experiences.svg
+travel-camping-and-glamping,TRAVEL,Camping & Glamping,TentTree,tent-tree,illustrations/travel/camping-and-glamping.svg,icons/travel/camping-and-glamping.svg
+travel-spa-and-wellness-retreats,TRAVEL,Spa & Wellness Retreats,Waves,waves,illustrations/travel/spa-and-wellness-retreats.svg,icons/travel/spa-and-wellness-retreats.svg
+travel-travel-agencies,TRAVEL,Travel Agencies,Map,map,illustrations/travel/travel-agencies.svg,icons/travel/travel-agencies.svg
+events-live-music,EVENTS,Live Music,Music,music,illustrations/events/live-music.svg,icons/events/live-music.svg
+events-concerts,EVENTS,Concerts,Ticket,ticket,illustrations/events/concerts.svg,icons/events/concerts.svg
+events-music-festivals,EVENTS,Music Festivals,PartyPopper,party-popper,illustrations/events/music-festivals.svg,icons/events/music-festivals.svg
+events-dj-nights,EVENTS,DJ Nights,Disc3,disc3,illustrations/events/dj-nights.svg,icons/events/dj-nights.svg
+events-comedy-shows,EVENTS,Comedy Shows,Laugh,laugh,illustrations/events/comedy-shows.svg,icons/events/comedy-shows.svg
+events-stand-up-comedy,EVENTS,Stand-up Comedy,MicVocal,mic-vocal,illustrations/events/stand-up-comedy.svg,icons/events/stand-up-comedy.svg
+events-cultural-festivals,EVENTS,Cultural Festivals,Drama,drama,illustrations/events/cultural-festivals.svg,icons/events/cultural-festivals.svg
+events-art-exhibitions,EVENTS,Art Exhibitions,Palette,palette,illustrations/events/art-exhibitions.svg,icons/events/art-exhibitions.svg
+events-food-festivals,EVENTS,Food Festivals,Utensils,utensils,illustrations/events/food-festivals.svg,icons/events/food-festivals.svg
+events-beer-festivals,EVENTS,Beer Festivals,Beer,beer,illustrations/events/beer-festivals.svg,icons/events/beer-festivals.svg
+events-startup-events,EVENTS,Startup Events,Rocket,rocket,illustrations/events/startup-events.svg,icons/events/startup-events.svg
+events-business-conferences,EVENTS,Business Conferences,Presentation,presentation,illustrations/events/business-conferences.svg,icons/events/business-conferences.svg
+events-networking-events,EVENTS,Networking Events,Handshake,handshake,illustrations/events/networking-events.svg,icons/events/networking-events.svg
+events-workshops,EVENTS,Workshops,Wrench,wrench,illustrations/events/workshops.svg,icons/events/workshops.svg
+events-masterclasses,EVENTS,Masterclasses,GraduationCap,graduation-cap,illustrations/events/masterclasses.svg,icons/events/masterclasses.svg
+events-college-festivals,EVENTS,College Festivals,Flag,flag,illustrations/events/college-festivals.svg,icons/events/college-festivals.svg
+events-sports-events,EVENTS,Sports Events,Trophy,trophy,illustrations/events/sports-events.svg,icons/events/sports-events.svg
+events-fashion-shows,EVENTS,Fashion Shows,Shirt,shirt,illustrations/events/fashion-shows.svg,icons/events/fashion-shows.svg
+events-theatre-and-performing-arts,EVENTS,Theatre & Performing Arts,Theater,theater,illustrations/events/theatre-and-performing-arts.svg,icons/events/theatre-and-performing-arts.svg
+events-community-events,EVENTS,Community Events,Users,users,illustrations/events/community-events.svg,icons/events/community-events.svg
+events-pop-up-markets,EVENTS,Pop-up Markets,Store,store,illustrations/events/pop-up-markets.svg,icons/events/pop-up-markets.svg
+events-seasonal-celebrations,EVENTS,Seasonal Celebrations,CalendarDays,calendar-days,illustrations/events/seasonal-celebrations.svg,icons/events/seasonal-celebrations.svg
+movies-multiplex-cinemas,MOVIES,Multiplex Cinemas,Clapperboard,clapperboard,illustrations/movies/multiplex-cinemas.svg,icons/movies/multiplex-cinemas.svg
+movies-imax,MOVIES,IMAX,MonitorPlay,monitor-play,illustrations/movies/imax.svg,icons/movies/imax.svg
+movies-4dx-cinemas,MOVIES,4DX Cinemas,Sparkles,sparkles,illustrations/movies/4dx-cinemas.svg,icons/movies/4dx-cinemas.svg
+movies-dolby-atmos,MOVIES,Dolby Atmos,Volume2,volume2,illustrations/movies/dolby-atmos.svg,icons/movies/dolby-atmos.svg
+movies-premium-large-format-screens,MOVIES,Premium Large Format Screens,ScreenShare,screen-share,illustrations/movies/premium-large-format-screens.svg,icons/movies/premium-large-format-screens.svg
+movies-luxury-cinemas,MOVIES,Luxury Cinemas,Armchair,armchair,illustrations/movies/luxury-cinemas.svg,icons/movies/luxury-cinemas.svg
+movies-independent-cinemas,MOVIES,Independent Cinemas,Film,film,illustrations/movies/independent-cinemas.svg,icons/movies/independent-cinemas.svg
+movies-regional-movies,MOVIES,Regional Movies,Languages,languages,illustrations/movies/regional-movies.svg,icons/movies/regional-movies.svg
+movies-english-movies,MOVIES,English Movies,Captions,captions,illustrations/movies/english-movies.svg,icons/movies/english-movies.svg
+movies-hindi-movies,MOVIES,Hindi Movies,Languages,languages,illustrations/movies/hindi-movies.svg,icons/movies/hindi-movies.svg
+movies-kannada-movies,MOVIES,Kannada Movies,Languages,languages,illustrations/movies/kannada-movies.svg,icons/movies/kannada-movies.svg
+movies-tamil-movies,MOVIES,Tamil Movies,Languages,languages,illustrations/movies/tamil-movies.svg,icons/movies/tamil-movies.svg
+movies-telugu-movies,MOVIES,Telugu Movies,Languages,languages,illustrations/movies/telugu-movies.svg,icons/movies/telugu-movies.svg
+movies-malayalam-movies,MOVIES,Malayalam Movies,Languages,languages,illustrations/movies/malayalam-movies.svg,icons/movies/malayalam-movies.svg
+movies-film-festivals,MOVIES,Film Festivals,Award,award,illustrations/movies/film-festivals.svg,icons/movies/film-festivals.svg
+movies-special-screenings,MOVIES,Special Screenings,Projector,projector,illustrations/movies/special-screenings.svg,icons/movies/special-screenings.svg
+movies-classic-movie-screenings,MOVIES,Classic Movie Screenings,Film,film,illustrations/movies/classic-movie-screenings.svg,icons/movies/classic-movie-screenings.svg
+movies-movie-premieres,MOVIES,Movie Premieres,Ticket,ticket,illustrations/movies/movie-premieres.svg,icons/movies/movie-premieres.svg
+movies-drive-in-cinemas,MOVIES,Drive-in Cinemas,CarFront,car-front,illustrations/movies/drive-in-cinemas.svg,icons/movies/drive-in-cinemas.svg
+movies-private-theatre-experiences,MOVIES,Private Theatre Experiences,Tv,tv,illustrations/movies/private-theatre-experiences.svg,icons/movies/private-theatre-experiences.svg
+clubs-founders-and-startup-clubs,CLUBS,Founders & Startup Clubs,Rocket,rocket,illustrations/clubs/founders-and-startup-clubs.svg,icons/clubs/founders-and-startup-clubs.svg
+clubs-business-and-networking-clubs,CLUBS,Business & Networking Clubs,Handshake,handshake,illustrations/clubs/business-and-networking-clubs.svg,icons/clubs/business-and-networking-clubs.svg
+clubs-sports-and-fitness-clubs,CLUBS,Sports & Fitness Clubs,Dumbbell,dumbbell,illustrations/clubs/sports-and-fitness-clubs.svg,icons/clubs/sports-and-fitness-clubs.svg
+clubs-travel-and-adventure-clubs,CLUBS,Travel & Adventure Clubs,Mountain,mountain,illustrations/clubs/travel-and-adventure-clubs.svg,icons/clubs/travel-and-adventure-clubs.svg
+clubs-photography-and-creative-clubs,CLUBS,Photography & Creative Clubs,Camera,camera,illustrations/clubs/photography-and-creative-clubs.svg,icons/clubs/photography-and-creative-clubs.svg
+clubs-automobile-and-bike-clubs,CLUBS,Automobile & Bike Clubs,CarFront,car-front,illustrations/clubs/automobile-and-bike-clubs.svg,icons/clubs/automobile-and-bike-clubs.svg
+clubs-book-and-reading-clubs,CLUBS,Book & Reading Clubs,BookOpen,book-open,illustrations/clubs/book-and-reading-clubs.svg,icons/clubs/book-and-reading-clubs.svg
+clubs-foodie-clubs,CLUBS,Foodie Clubs,Utensils,utensils,illustrations/clubs/foodie-clubs.svg,icons/clubs/foodie-clubs.svg
+clubs-gaming-and-esports-clubs,CLUBS,Gaming & Esports Clubs,Gamepad2,gamepad2,illustrations/clubs/gaming-and-esports-clubs.svg,icons/clubs/gaming-and-esports-clubs.svg
+clubs-social-and-lifestyle-clubs,CLUBS,Social & Lifestyle Clubs,UsersRound,users-round,illustrations/clubs/social-and-lifestyle-clubs.svg,icons/clubs/social-and-lifestyle-clubs.svg
+clubs-alumni-clubs,CLUBS,Alumni Clubs,GraduationCap,graduation-cap,illustrations/clubs/alumni-clubs.svg,icons/clubs/alumni-clubs.svg
+clubs-pet-lovers-clubs,CLUBS,Pet Lovers Clubs,PawPrint,paw-print,illustrations/clubs/pet-lovers-clubs.svg,icons/clubs/pet-lovers-clubs.svg
+clubs-music-and-entertainment-clubs,CLUBS,Music & Entertainment Clubs,Music2,music2,illustrations/clubs/music-and-entertainment-clubs.svg,icons/clubs/music-and-entertainment-clubs.svg
+clubs-technology-and-developer-clubs,CLUBS,Technology & Developer Clubs,Code2,code2,illustrations/clubs/technology-and-developer-clubs.svg,icons/clubs/technology-and-developer-clubs.svg
+clubs-women-entrepreneurs-clubs,CLUBS,Women Entrepreneurs Clubs,BriefcaseBusiness,briefcase-business,illustrations/clubs/women-entrepreneurs-clubs.svg,icons/clubs/women-entrepreneurs-clubs.svg
+clubs-running-and-cycling-clubs,CLUBS,Running & Cycling Clubs,Bike,bike,illustrations/clubs/running-and-cycling-clubs.svg,icons/clubs/running-and-cycling-clubs.svg
+clubs-art-and-culture-clubs,CLUBS,Art & Culture Clubs,Palette,palette,illustrations/clubs/art-and-culture-clubs.svg,icons/clubs/art-and-culture-clubs.svg
+clubs-wellness-and-yoga-clubs,CLUBS,Wellness & Yoga Clubs,Flower2,flower2,illustrations/clubs/wellness-and-yoga-clubs.svg,icons/clubs/wellness-and-yoga-clubs.svg
+clubs-volunteering-and-social-impact-clubs,CLUBS,Volunteering & Social Impact Clubs,HeartHandshake,heart-handshake,illustrations/clubs/volunteering-and-social-impact-clubs.svg,icons/clubs/volunteering-and-social-impact-clubs.svg
+clubs-neighbourhood-clubs,CLUBS,Neighbourhood Clubs,MapPinned,map-pinned,illustrations/clubs/neighbourhood-clubs.svg,icons/clubs/neighbourhood-clubs.svg

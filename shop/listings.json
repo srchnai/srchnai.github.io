@@ -1,0 +1,58 @@
+[
+  {
+    "id": "ikea-nagasandra",
+    "name": "IKEA Nagasandra",
+    "brand": "IKEA",
+    "area": "Nagasandra / Manjunatha Nagar",
+    "address": "Nelamangala-Majestic Service Road, Manjunatha Nagar, Nagasandra, Bengaluru 560073",
+    "types": [
+      "Furniture & Home D\u00e9cor"
+    ],
+    "description": "Furniture and home furnishing store. Operator page links visitors to its range; local product stock and prices are not reproduced here.",
+    "facilities": [
+      "Parking",
+      "EV charging",
+      "Wide-access parking"
+    ],
+    "accessibility": "Operator lists designated wide-access parking at P1, Rows C8-9 and D8-9. This is not a full accessibility audit.",
+    "hours": "Store: Monday-Sunday 11 AM-10 PM. Other facilities have separate hours; confirm directly.",
+    "contact": "18004194532",
+    "source": "https://www.ikea.com/in/en/stores/bengaluru/",
+    "map": "https://www.google.com/maps/search/?api=1&query=IKEA+Nagasandra+Bengaluru&query_place_id=ChIJgcKanpE9rjsReocM_J5cHdY",
+    "price": null,
+    "rating": null,
+    "offers": null,
+    "availability": null,
+    "video": null,
+    "photos": [],
+    "enquiry": false,
+    "checked": "30 October 2026",
+    "catalogue": null
+  },
+  {
+    "id": "decathlon-brigade",
+    "name": "Decathlon Brigade Road (EVA Mall)",
+    "brand": "Decathlon",
+    "area": "Brigade Road / Ashok Nagar",
+    "address": "Ground Floor, EVA Mall, 60, Brigade Road, Ashok Nagar, Bengaluru 560025",
+    "types": [
+      "Sports & Fitness Stores"
+    ],
+    "description": "Sports retail store on Brigade Road. Operator store page provides store details; local stock, product prices and offers are not connected here.",
+    "facilities": [],
+    "accessibility": null,
+    "hours": "Operator lists Monday-Sunday 10 AM-10 PM. Confirm current hours directly.",
+    "contact": "+919513746228",
+    "source": "https://www.decathlon.in/store/brigaderoad",
+    "map": "https://www.google.com/maps/search/?api=1&query=Decathlon+Sports+-+Brigade+Road&query_place_id=ChIJ_SkxLn4WrjsR-Am7U8F3amE",
+    "price": null,
+    "rating": null,
+    "offers": null,
+    "availability": null,
+    "video": null,
+    "photos": [],
+    "enquiry": false,
+    "checked": "30 October 2026",
+    "catalogue": null
+  }
+]

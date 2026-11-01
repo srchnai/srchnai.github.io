@@ -1,0 +1,62 @@
+[
+  {
+    "id": "jw-marriott-bengaluru",
+    "name": "JW Marriott Hotel Bengaluru",
+    "destination": "Bengaluru",
+    "area": "Vittal Mallya Road / Ashok Nagar",
+    "address": "24/1 Vittal Mallya Road, Bengaluru 560001",
+    "types": [
+      "Hotels"
+    ],
+    "description": "Central Bengaluru hotel near Cubbon Park and UB City. Hotel rooms and suites are listed by the operator; no specific room offer or availability is asserted.",
+    "amenities": [
+      "Outdoor pool",
+      "Fitness centre",
+      "Spa"
+    ],
+    "operating": "Check-in 3 PM; check-out noon; minimum check-in age 18. Operator states pets not allowed. Confirm policies directly.",
+    "pet_friendly": false,
+    "source": "https://www.marriott.com/en-us/hotels/blrjw-jw-marriott-hotel-bengaluru/overview/",
+    "contact": "+918067189999",
+    "map": "https://www.google.com/maps/search/?api=1&query=JW+Marriott+Hotel+Bengaluru&query_place_id=ChIJSWBhxHkWrjsRK6iI2w8G5yE",
+    "video": null,
+    "photos": [],
+    "price": null,
+    "rating": null,
+    "availability": null,
+    "booking": false,
+    "guest_capacity": null,
+    "family_friendly": null,
+    "checked": "30 October 2026"
+  },
+  {
+    "id": "taj-west-end",
+    "name": "Taj West End, Bengaluru",
+    "destination": "Bengaluru",
+    "area": "Race Course Road / High Grounds",
+    "address": "Race Course Road, Bengaluru 560001",
+    "types": [
+      "Hotels"
+    ],
+    "description": "Garden-set Bengaluru hotel with rooms and suites. Operator describes historic gardens, dining and wellness facilities. No dated room rate or package is represented here.",
+    "amenities": [
+      "Fitness centre",
+      "Spa",
+      "Business centre"
+    ],
+    "operating": "Operator lists check-in from 2 PM. Check-out, guest capacity and pet policy not verified here; confirm directly.",
+    "pet_friendly": null,
+    "source": "https://www.tajhotels.com/en-in/hotels/taj-west-end-bengaluru",
+    "contact": "+918066605660",
+    "map": "https://www.google.com/maps/search/?api=1&query=Taj+West+End%2C+Bengaluru&query_place_id=ChIJyyFOrhQWrjsROz0aOwul40M",
+    "video": null,
+    "photos": [],
+    "price": null,
+    "rating": null,
+    "availability": null,
+    "booking": false,
+    "guest_capacity": null,
+    "family_friendly": null,
+    "checked": "30 October 2026"
+  }
+]

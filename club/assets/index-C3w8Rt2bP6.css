@@ -9,7 +9,7 @@ html,body,#root{margin:0;min-height:100%;scroll-behavior:smooth}@media(prefers-r
 .pass-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px;max-width:1180px}
 .pass-card{border:2px solid #2b59ff;border-radius:20px;padding:24px 20px;background:#1d2027;display:flex;flex-direction:column;gap:6px;transition:transform .15s ease,box-shadow .15s ease}
 .pass-card:hover{transform:translateY(-4px);box-shadow:0 10px 0 #2b59ff}
-.pass-ladies{border-color:#e05194}.pass-ladies:hover{box-shadow:0 10px 0 #e05194}.pass-ladies .pass-cat{color:#f28bc0}
+.pass-ladies{border-color:#2b59ff}.pass-ladies:hover{box-shadow:0 10px 0 #2b59ff}.pass-ladies .pass-cat{color:#f28bc0}
 .pass-stag{border-color:#2b59ff}.pass-stag:hover{box-shadow:0 10px 0 #2b59ff}
 .pass-couple{border-color:#d9a441}.pass-couple:hover{box-shadow:0 10px 0 #d9a441}.pass-couple .pass-cat{color:#e8c476}
 .pass-vip{border-color:#9b6bff}.pass-vip:hover{box-shadow:0 10px 0 #9b6bff}.pass-vip .pass-cat{color:#c4a6ff}
@@ -35,3 +35,20 @@ html,body,#root{margin:0;min-height:100%;scroll-behavior:smooth}@media(prefers-r
 
 @media(max-width:1100px){.pass-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.pass-grid{grid-template-columns:1fr}.pass-price{font-size:38px}}
+.logo-button img,.logo-button img:is(*){width:auto!important;height:48px!important;max-width:170px;object-fit:contain}
+@media(max-width:600px){.logo-button img,.logo-button img:is(*){height:44px!important;max-width:150px}}
+.footer-logo,.footer-logo:is(*){width:auto!important;height:64px!important;max-width:240px;border:0!important;border-radius:0!important;padding:0!important;background:transparent;object-fit:contain}
+.block-dark,.block-passes{background:#fff!important;color:#16181d!important;border-top:2px solid #16181d}
+.block-dark *,.block-passes *{color:inherit}
+.block-dark .btn-blue,.block-passes .btn-blue{color:#fff}
+.pass-card{background:#fff!important;color:#16181d}
+.ticket{background:#fff!important;color:#16181d}
+.marquee{background:#fff!important;color:#16181d}
+.block-dark :not(.btn):not(.btn *):not(.tag):not(svg *),.block-passes :not(.btn):not(.btn *):not(.tag):not(svg *),.pass-card :not(.btn):not(.btn *){color:#16181d!important}
+.block-dark .btn,.block-passes .btn,.pass-card .btn{color:#fff!important}
+.block-dark .btn-ghost,.block-passes .btn-ghost{color:#16181d!important}
+.block-dark .btn-ghost,.block-passes .btn-ghost,.pass-card .btn-ghost{border-color:#16181d!important}.block-dark .btn-white,.block-passes .btn-white{border:2px solid #16181d}
+.final{background:#fff!important;color:#16181d!important;border-top:2px solid #16181d}
+.final-meta{color:#16181d!important}
+.final .paren{color:#585254!important}
+.final .btn,.final .btn-white{background:#16181d!important;color:#fff!important;border:2px solid #16181d}

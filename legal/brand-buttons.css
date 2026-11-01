@@ -19,3 +19,4 @@ button *,[role="button"] *,.btn *{background-color:transparent!important}
 button:not(.btn):not(.tab){border-radius:7px}
 button.flex-1.text-left{padding:6px 8px}
 button[aria-label]:not(.tab){min-width:36px;min-height:36px}
+.srchn-legal-brand{gap:10px}.srchn-legal-brand::after{content:"Legal";font:600 13px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#334155;border-left:1px solid #c9ced8;padding-left:10px}.srchn-legal-logo{width:150px!important}

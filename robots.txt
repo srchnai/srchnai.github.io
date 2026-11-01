@@ -1,5 +1,10 @@
 User-agent: *
 Allow: /
-Disallow: /preview/
-
+Disallow: /bangalore/
+Disallow: /demo/
+Disallow: /studio/
+Disallow: /feed/
+Disallow: /story/
+Disallow: /submit-place/
+Disallow: /api/
 Sitemap: https://srchn.in/sitemap.xml

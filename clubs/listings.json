@@ -1,0 +1,72 @@
+[
+  {
+    "id": "runners-high",
+    "name": "Runner's High",
+    "types": [
+      "Running & Cycling Clubs",
+      "Sports & Fitness Clubs"
+    ],
+    "interests": [
+      "Running",
+      "Fitness"
+    ],
+    "location": "Bengaluru; contact office at Doddakannahalli, Sarjapur Road, not a meetup location",
+    "description": "Running and fitness community with coached programmes from beginner distances to longer runs. Exact training venues and current registration windows must be confirmed directly.",
+    "organizer": "Runner's High team",
+    "requirements": "Programme-specific suitability applies. The official beginner 5 KM programme says above age 5; this is not blanket age or health clearance for every programme.",
+    "guidelines": "Official values include environmental care, inclusion and community participation. Confirm current programme rules directly.",
+    "source": "https://runnershigh.in/",
+    "sources": [
+      "https://runnershigh.in/",
+      "https://runnershigh.in/contact.html"
+    ],
+    "contact": "mailto:support@runnershigh.in",
+    "contact_label": "Email published support address",
+    "member_count": null,
+    "fee": null,
+    "upcoming_meetups": null,
+    "age": null,
+    "language": null,
+    "format": null,
+    "video": null,
+    "photos": [],
+    "membership_action": false,
+    "follow": false,
+    "checked": "30 October 2026"
+  },
+  {
+    "id": "bangpypers",
+    "name": "BangPypers",
+    "types": [
+      "Technology & Developer Clubs"
+    ],
+    "interests": [
+      "Python",
+      "Technology"
+    ],
+    "location": "Bengaluru; venues vary by event",
+    "description": "Bangalore Python User Group. Official site documents talks, workshops and developer sprints. Its latest visible October 2026 post describes a past meetup, not an upcoming event.",
+    "organizer": "BangPypers volunteer community",
+    "requirements": "Current membership and event-specific registration rules not verified. A 2017 organizer article is historical and does not establish current free entry, RSVP policy or capacity.",
+    "guidelines": "Official code of conduct prohibits harassment and bullying across physical events and online interactions. Read the full policy before participating.",
+    "source": "https://bangalore.pythonindia.org/",
+    "sources": [
+      "https://bangalore.pythonindia.org/",
+      "https://bangalore.pythonindia.org/coc/",
+      "https://bangalore.pythonindia.org/blog/2017/06/03/how-bangpypers-is-run/"
+    ],
+    "contact": "https://bangalore.pythonindia.org/coc/",
+    "contact_label": "Read community guidelines",
+    "member_count": null,
+    "fee": null,
+    "upcoming_meetups": null,
+    "age": null,
+    "language": null,
+    "format": null,
+    "video": null,
+    "photos": [],
+    "membership_action": false,
+    "follow": false,
+    "checked": "30 October 2026"
+  }
+]

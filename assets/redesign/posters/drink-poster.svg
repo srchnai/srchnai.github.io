@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+<rect width="800" height="1000" rx="34" fill="#F1EAF7"/>
+<circle cx="660" cy="130" r="110" fill="#D8C4E4" opacity=".55"/>
+<circle cx="120" cy="780" r="150" fill="#D8C4E4" opacity=".32"/>
+<text x="70" y="100" font-family="Arial,sans-serif" font-size="26" letter-spacing="7" fill="#4C355D">SRCHN • BENGALURU</text>
+<g><path d="M260 160H540L500 390Q400 455 300 390Z" fill="#D8C4E4" stroke="#79528F" stroke-width="15"/><path d="M300 280H500L485 365Q400 415 315 365Z" fill="#79528F"/><path d="M430 160L510 70" stroke="#4C355D" stroke-width="15" stroke-linecap="round"/><circle cx="520" cy="75" r="34" fill="#F1EAF7" stroke="#79528F" stroke-width="10"/></g>
+<text x="70" y="650" font-family="Georgia,serif" font-size="66" fill="#4C355D">DRINK</text>
+<text x="70" y="720" font-family="Arial,sans-serif" font-size="28" fill="#4C355D">Pubs, bars, breweries and nightlife</text>
+<path d="M70 790H730" stroke="#79528F" stroke-width="3" opacity=".55"/>
+<text x="70" y="855" font-family="Arial,sans-serif" font-size="32" font-weight="bold" fill="#4C355D">SEE IT BEFORE YOU GO.</text>
+<text x="70" y="920" font-family="Arial,sans-serif" font-size="20" fill="#4C355D" opacity=".8">Karnataka at heart. India in character.</text>
+</svg>

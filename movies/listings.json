@@ -1,0 +1,61 @@
+[
+  {
+    "id": "pvr-koramangala",
+    "name": "PVR IMAX, Koramangala",
+    "area": "Koramangala",
+    "address": "The Forum (now Nexus), 21–22 Adugodi Main Road, Koramangala, Bengaluru 560095",
+    "formats": [
+      "IMAX",
+      "IMAX with Laser"
+    ],
+    "source": "https://www.imax.com/theatre/pvr-imax",
+    "description": "IMAX official directory lists this theatre at The Forum, Koramangala, with IMAX with Laser and stadium seating. Maps identifies the matching address as Nexus Mall. No current films or showtimes are verified.",
+    "types": [
+      "IMAX"
+    ],
+    "amenities": [
+      "Stadium seating"
+    ],
+    "map": "https://www.google.com/maps/search/?api=1&query=PVR+Cinemas%2C+The+NEXUS+Mall%2C+Koramangala&query_place_id=ChIJO_zpj00UrjsRXS55DWfGeac",
+    "media": null,
+    "photos": [],
+    "movies": null,
+    "showtimes": null,
+    "prices": null,
+    "seats": null,
+    "food": null,
+    "rating": null,
+    "booking": false,
+    "accessibility": null,
+    "checked": "30 October 2026"
+  },
+  {
+    "id": "pvr-vr-bengaluru",
+    "name": "PVR Xanders & IMAX, VR Bengaluru",
+    "area": "Mahadevpura / Whitefield Main Road",
+    "address": "3rd Floor, VR Mall, Main Whitefield Road, Mahadevpura, Bengaluru 560048",
+    "formats": [
+      "IMAX"
+    ],
+    "source": "https://www.imax.com/theatre/pvr-xanders-imax",
+    "description": "IMAX official directory lists this theatre at VR Mall with stadium seating. No laser or other screen specification is inferred for this branch. No current films or showtimes are verified.",
+    "types": [
+      "IMAX"
+    ],
+    "amenities": [
+      "Stadium seating"
+    ],
+    "map": "https://www.google.com/maps/search/?api=1&query=PVR+Bengaluru&query_place_id=ChIJrbfBbTQRrjsR3Hs8tY6kE7M",
+    "media": null,
+    "photos": [],
+    "movies": null,
+    "showtimes": null,
+    "prices": null,
+    "seats": null,
+    "food": null,
+    "rating": null,
+    "booking": false,
+    "accessibility": null,
+    "checked": "30 October 2026"
+  }
+]

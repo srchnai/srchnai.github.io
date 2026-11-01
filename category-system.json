@@ -1,0 +1,122 @@
+[
+  {
+    "name": "LIVE",
+    "key": "Live",
+    "description": "Homes, Apartments and Stays.",
+    "alt": "Supplied LIVE category artwork: balcony and city skyline; location not verified.",
+    "supplied": true,
+    "bytes": [
+      19010,
+      57574,
+      103678
+    ]
+  },
+  {
+    "name": "WORK",
+    "key": "Work",
+    "description": "Offices, coworking and workspaces.",
+    "alt": "Supplied WORK category artwork: desks and a city-facing office; location not verified.",
+    "supplied": true,
+    "bytes": [
+      6578,
+      15898,
+      27008
+    ]
+  },
+  {
+    "name": "EAT",
+    "key": "Eat",
+    "description": "Restaurants, caf\u00e9s and food.",
+    "alt": "Supplied EAT artwork; location not verified.",
+    "supplied": true,
+    "bytes": [
+      8028,
+      19282,
+      31858
+    ]
+  },
+  {
+    "name": "DRINK",
+    "key": "Drink",
+    "description": "Pubs, bars and breweries.",
+    "alt": "Supplied DRINK artwork; location not verified.",
+    "supplied": true,
+    "bytes": [
+      18430,
+      47546,
+      72264
+    ]
+  },
+  {
+    "name": "PLAY",
+    "key": "Play",
+    "description": "Activities, entertainment, gaming and sports.",
+    "alt": "Supplied PLAY artwork: bowling, arcade games and a pool table; location not verified.",
+    "supplied": true,
+    "bytes": [
+      22662,
+      67348,
+      118326
+    ]
+  },
+  {
+    "name": "SHOP",
+    "key": "Shop",
+    "description": "Retail and lifestyle.",
+    "alt": "Supplied SHOP artwork: retail walkways and storefronts; location not verified.",
+    "supplied": true,
+    "bytes": [
+      25056,
+      73906,
+      126386
+    ]
+  },
+  {
+    "name": "TRAVEL",
+    "key": "Travel",
+    "description": "Flights, stays and getaways.",
+    "alt": "Supplied TRAVEL artwork: airport and skyline; location not verified.",
+    "supplied": true,
+    "bytes": [
+      21310,
+      61476,
+      106028
+    ]
+  },
+  {
+    "name": "EVENTS",
+    "key": "Events",
+    "description": "Concerts, festivals and experiences.",
+    "alt": "Supplied EVENTS artwork: illustrative stage and festival setting; not a listed event.",
+    "supplied": true,
+    "bytes": [
+      23418,
+      68014,
+      115894
+    ]
+  },
+  {
+    "name": "MOVIES",
+    "key": "Movies",
+    "description": "Cinemas, IMAX and entertainment.",
+    "alt": "Supplied MOVIES artwork: illustrative cinema and posters; not a real venue or current film listing.",
+    "supplied": true,
+    "bytes": [
+      25930,
+      79788,
+      143106
+    ]
+  },
+  {
+    "name": "CLUBS",
+    "key": "Clubs",
+    "description": "Find your people. Find your tribe.",
+    "alt": "Supplied CLUBS artwork: illustrative social gathering; not a verified club or meetup.",
+    "supplied": true,
+    "bytes": [
+      24786,
+      71640,
+      124486
+    ]
+  }
+]

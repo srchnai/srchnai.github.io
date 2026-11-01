@@ -1,0 +1,2783 @@
+{
+  "project": "SRCHN Subcategory Visual Kit",
+  "website": "https://srchn.in",
+  "audited": "2026-11-01",
+  "categoryCount": 10,
+  "subcategoryCount": 172,
+  "categories": {
+    "LIVE": [
+      "Homes",
+      "Apartments",
+      "Rentals",
+      "Co-Living",
+      "Stays"
+    ],
+    "WORK": [
+      "Coworking Spaces",
+      "Managed Offices",
+      "Private Offices",
+      "Virtual Offices",
+      "Commercial Office Spaces",
+      "Business Centres",
+      "Meeting Rooms",
+      "Conference Rooms",
+      "Training Centres",
+      "Startup Incubators",
+      "Corporate Campuses",
+      "Flexible Workspaces"
+    ],
+    "EAT": [
+      "Restaurants",
+      "Cafés",
+      "Fine Dining",
+      "Casual Dining",
+      "South Indian Restaurants",
+      "North Indian Restaurants",
+      "Street Food",
+      "Bakeries",
+      "Dessert Parlours",
+      "Breakfast & Brunch",
+      "Family Restaurants",
+      "Buffets",
+      "Cloud Kitchens",
+      "Food Courts",
+      "Vegetarian Restaurants",
+      "Vegan Restaurants",
+      "Fast Food",
+      "Specialty Cuisine"
+    ],
+    "DRINK": [
+      "Pubs & Bars",
+      "Breweries & Microbreweries",
+      "Whisky Bars",
+      "Cocktail Bars",
+      "Wine Bars",
+      "Rooftop Bars",
+      "Nightclubs & Discotheques",
+      "DJ Nights & Party Bars",
+      "Luxury Hotel Bars",
+      "Sports Bars",
+      "Live Music Bars",
+      "Lounge Bars",
+      "Taprooms",
+      "Beer Gardens",
+      "Karaoke Bars"
+    ],
+    "PLAY": [
+      "Gaming Zones & Arcades",
+      "Bowling Alleys",
+      "Sports Arenas",
+      "Indoor Sports",
+      "Outdoor Sports",
+      "Adventure Activities",
+      "Escape Rooms",
+      "Amusement Parks",
+      "Trampoline Parks",
+      "Go-Karting",
+      "Paintball",
+      "Laser Tag",
+      "Swimming Pools",
+      "Fitness & Recreation",
+      "VR Experiences",
+      "Board Game Cafés",
+      "Badminton & Squash",
+      "Cricket & Football Grounds",
+      "Trekking & Outdoor Adventures",
+      "Family Entertainment Centres"
+    ],
+    "SHOP": [
+      "Shopping Malls",
+      "Fashion & Apparel",
+      "Luxury Boutiques",
+      "Footwear",
+      "Jewellery",
+      "Watches & Accessories",
+      "Electronics",
+      "Mobile & Gadgets",
+      "Furniture & Home Décor",
+      "Beauty & Cosmetics",
+      "Supermarkets",
+      "Department Stores",
+      "Bookstores",
+      "Sports & Fitness Stores",
+      "Lifestyle Stores",
+      "Home Improvement",
+      "Gift Shops",
+      "Local Markets",
+      "Organic & Specialty Stores",
+      "Kids & Baby Stores"
+    ],
+    "TRAVEL": [
+      "Hotels",
+      "Luxury Resorts",
+      "Boutique Hotels",
+      "Homestays",
+      "Serviced Apartments",
+      "Hostels",
+      "Villas",
+      "Weekend Getaways",
+      "Hill Stations",
+      "Beach Destinations",
+      "Adventure Travel",
+      "Nature Retreats",
+      "Wildlife & Safari",
+      "Road Trips",
+      "International Travel",
+      "Domestic Travel",
+      "Travel Experiences",
+      "Camping & Glamping",
+      "Spa & Wellness Retreats",
+      "Travel Agencies"
+    ],
+    "EVENTS": [
+      "Live Music",
+      "Concerts",
+      "Music Festivals",
+      "DJ Nights",
+      "Comedy Shows",
+      "Stand-up Comedy",
+      "Cultural Festivals",
+      "Art Exhibitions",
+      "Food Festivals",
+      "Beer Festivals",
+      "Startup Events",
+      "Business Conferences",
+      "Networking Events",
+      "Workshops",
+      "Masterclasses",
+      "College Festivals",
+      "Sports Events",
+      "Fashion Shows",
+      "Theatre & Performing Arts",
+      "Community Events",
+      "Pop-up Markets",
+      "Seasonal Celebrations"
+    ],
+    "MOVIES": [
+      "Multiplex Cinemas",
+      "IMAX",
+      "4DX Cinemas",
+      "Dolby Atmos",
+      "Premium Large Format Screens",
+      "Luxury Cinemas",
+      "Independent Cinemas",
+      "Regional Movies",
+      "English Movies",
+      "Hindi Movies",
+      "Kannada Movies",
+      "Tamil Movies",
+      "Telugu Movies",
+      "Malayalam Movies",
+      "Film Festivals",
+      "Special Screenings",
+      "Classic Movie Screenings",
+      "Movie Premieres",
+      "Drive-in Cinemas",
+      "Private Theatre Experiences"
+    ],
+    "CLUBS": [
+      "Founders & Startup Clubs",
+      "Business & Networking Clubs",
+      "Sports & Fitness Clubs",
+      "Travel & Adventure Clubs",
+      "Photography & Creative Clubs",
+      "Automobile & Bike Clubs",
+      "Book & Reading Clubs",
+      "Foodie Clubs",
+      "Gaming & Esports Clubs",
+      "Social & Lifestyle Clubs",
+      "Alumni Clubs",
+      "Pet Lovers Clubs",
+      "Music & Entertainment Clubs",
+      "Technology & Developer Clubs",
+      "Women Entrepreneurs Clubs",
+      "Running & Cycling Clubs",
+      "Art & Culture Clubs",
+      "Wellness & Yoga Clubs",
+      "Volunteering & Social Impact Clubs",
+      "Neighbourhood Clubs"
+    ]
+  },
+  "assets": [
+    {
+      "id": "live-homes",
+      "category": "LIVE",
+      "subcategory": "Homes",
+      "slug": "homes",
+      "lucideReactComponent": "House",
+      "lucideKebabName": "house",
+      "illustration": "illustrations/live/homes.svg",
+      "iconFallbackSvg": "icons/live/homes.svg",
+      "categoryColors": {
+        "background": "#E8F2EC",
+        "foreground": "#2F765A",
+        "accent": "#B8D8C4"
+      }
+    },
+    {
+      "id": "live-apartments",
+      "category": "LIVE",
+      "subcategory": "Apartments",
+      "slug": "apartments",
+      "lucideReactComponent": "Building2",
+      "lucideKebabName": "building2",
+      "illustration": "illustrations/live/apartments.svg",
+      "iconFallbackSvg": "icons/live/apartments.svg",
+      "categoryColors": {
+        "background": "#E8F2EC",
+        "foreground": "#2F765A",
+        "accent": "#B8D8C4"
+      }
+    },
+    {
+      "id": "live-rentals",
+      "category": "LIVE",
+      "subcategory": "Rentals",
+      "slug": "rentals",
+      "lucideReactComponent": "KeyRound",
+      "lucideKebabName": "key-round",
+      "illustration": "illustrations/live/rentals.svg",
+      "iconFallbackSvg": "icons/live/rentals.svg",
+      "categoryColors": {
+        "background": "#E8F2EC",
+        "foreground": "#2F765A",
+        "accent": "#B8D8C4"
+      }
+    },
+    {
+      "id": "live-co-living",
+      "category": "LIVE",
+      "subcategory": "Co-Living",
+      "slug": "co-living",
+      "lucideReactComponent": "UsersRound",
+      "lucideKebabName": "users-round",
+      "illustration": "illustrations/live/co-living.svg",
+      "iconFallbackSvg": "icons/live/co-living.svg",
+      "categoryColors": {
+        "background": "#E8F2EC",
+        "foreground": "#2F765A",
+        "accent": "#B8D8C4"
+      }
+    },
+    {
+      "id": "live-stays",
+      "category": "LIVE",
+      "subcategory": "Stays",
+      "slug": "stays",
+      "lucideReactComponent": "BedDouble",
+      "lucideKebabName": "bed-double",
+      "illustration": "illustrations/live/stays.svg",
+      "iconFallbackSvg": "icons/live/stays.svg",
+      "categoryColors": {
+        "background": "#E8F2EC",
+        "foreground": "#2F765A",
+        "accent": "#B8D8C4"
+      }
+    },
+    {
+      "id": "work-coworking-spaces",
+      "category": "WORK",
+      "subcategory": "Coworking Spaces",
+      "slug": "coworking-spaces",
+      "lucideReactComponent": "Laptop",
+      "lucideKebabName": "laptop",
+      "illustration": "illustrations/work/coworking-spaces.svg",
+      "iconFallbackSvg": "icons/work/coworking-spaces.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-managed-offices",
+      "category": "WORK",
+      "subcategory": "Managed Offices",
+      "slug": "managed-offices",
+      "lucideReactComponent": "Building",
+      "lucideKebabName": "building",
+      "illustration": "illustrations/work/managed-offices.svg",
+      "iconFallbackSvg": "icons/work/managed-offices.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-private-offices",
+      "category": "WORK",
+      "subcategory": "Private Offices",
+      "slug": "private-offices",
+      "lucideReactComponent": "BriefcaseBusiness",
+      "lucideKebabName": "briefcase-business",
+      "illustration": "illustrations/work/private-offices.svg",
+      "iconFallbackSvg": "icons/work/private-offices.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-virtual-offices",
+      "category": "WORK",
+      "subcategory": "Virtual Offices",
+      "slug": "virtual-offices",
+      "lucideReactComponent": "Globe",
+      "lucideKebabName": "globe",
+      "illustration": "illustrations/work/virtual-offices.svg",
+      "iconFallbackSvg": "icons/work/virtual-offices.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-commercial-office-spaces",
+      "category": "WORK",
+      "subcategory": "Commercial Office Spaces",
+      "slug": "commercial-office-spaces",
+      "lucideReactComponent": "Building2",
+      "lucideKebabName": "building2",
+      "illustration": "illustrations/work/commercial-office-spaces.svg",
+      "iconFallbackSvg": "icons/work/commercial-office-spaces.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-business-centres",
+      "category": "WORK",
+      "subcategory": "Business Centres",
+      "slug": "business-centres",
+      "lucideReactComponent": "Landmark",
+      "lucideKebabName": "landmark",
+      "illustration": "illustrations/work/business-centres.svg",
+      "iconFallbackSvg": "icons/work/business-centres.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-meeting-rooms",
+      "category": "WORK",
+      "subcategory": "Meeting Rooms",
+      "slug": "meeting-rooms",
+      "lucideReactComponent": "Users",
+      "lucideKebabName": "users",
+      "illustration": "illustrations/work/meeting-rooms.svg",
+      "iconFallbackSvg": "icons/work/meeting-rooms.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-conference-rooms",
+      "category": "WORK",
+      "subcategory": "Conference Rooms",
+      "slug": "conference-rooms",
+      "lucideReactComponent": "Presentation",
+      "lucideKebabName": "presentation",
+      "illustration": "illustrations/work/conference-rooms.svg",
+      "iconFallbackSvg": "icons/work/conference-rooms.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-training-centres",
+      "category": "WORK",
+      "subcategory": "Training Centres",
+      "slug": "training-centres",
+      "lucideReactComponent": "GraduationCap",
+      "lucideKebabName": "graduation-cap",
+      "illustration": "illustrations/work/training-centres.svg",
+      "iconFallbackSvg": "icons/work/training-centres.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-startup-incubators",
+      "category": "WORK",
+      "subcategory": "Startup Incubators",
+      "slug": "startup-incubators",
+      "lucideReactComponent": "Rocket",
+      "lucideKebabName": "rocket",
+      "illustration": "illustrations/work/startup-incubators.svg",
+      "iconFallbackSvg": "icons/work/startup-incubators.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-corporate-campuses",
+      "category": "WORK",
+      "subcategory": "Corporate Campuses",
+      "slug": "corporate-campuses",
+      "lucideReactComponent": "Factory",
+      "lucideKebabName": "factory",
+      "illustration": "illustrations/work/corporate-campuses.svg",
+      "iconFallbackSvg": "icons/work/corporate-campuses.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "work-flexible-workspaces",
+      "category": "WORK",
+      "subcategory": "Flexible Workspaces",
+      "slug": "flexible-workspaces",
+      "lucideReactComponent": "PanelsTopLeft",
+      "lucideKebabName": "panels-top-left",
+      "illustration": "illustrations/work/flexible-workspaces.svg",
+      "iconFallbackSvg": "icons/work/flexible-workspaces.svg",
+      "categoryColors": {
+        "background": "#EAF0F8",
+        "foreground": "#42658D",
+        "accent": "#B8CBE2"
+      }
+    },
+    {
+      "id": "eat-restaurants",
+      "category": "EAT",
+      "subcategory": "Restaurants",
+      "slug": "restaurants",
+      "lucideReactComponent": "Utensils",
+      "lucideKebabName": "utensils",
+      "illustration": "illustrations/eat/restaurants.svg",
+      "iconFallbackSvg": "icons/eat/restaurants.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-cafes",
+      "category": "EAT",
+      "subcategory": "Cafés",
+      "slug": "cafes",
+      "lucideReactComponent": "Coffee",
+      "lucideKebabName": "coffee",
+      "illustration": "illustrations/eat/cafes.svg",
+      "iconFallbackSvg": "icons/eat/cafes.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-fine-dining",
+      "category": "EAT",
+      "subcategory": "Fine Dining",
+      "slug": "fine-dining",
+      "lucideReactComponent": "ConciergeBell",
+      "lucideKebabName": "concierge-bell",
+      "illustration": "illustrations/eat/fine-dining.svg",
+      "iconFallbackSvg": "icons/eat/fine-dining.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-casual-dining",
+      "category": "EAT",
+      "subcategory": "Casual Dining",
+      "slug": "casual-dining",
+      "lucideReactComponent": "ChefHat",
+      "lucideKebabName": "chef-hat",
+      "illustration": "illustrations/eat/casual-dining.svg",
+      "iconFallbackSvg": "icons/eat/casual-dining.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-south-indian-restaurants",
+      "category": "EAT",
+      "subcategory": "South Indian Restaurants",
+      "slug": "south-indian-restaurants",
+      "lucideReactComponent": "Soup",
+      "lucideKebabName": "soup",
+      "illustration": "illustrations/eat/south-indian-restaurants.svg",
+      "iconFallbackSvg": "icons/eat/south-indian-restaurants.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-north-indian-restaurants",
+      "category": "EAT",
+      "subcategory": "North Indian Restaurants",
+      "slug": "north-indian-restaurants",
+      "lucideReactComponent": "CookingPot",
+      "lucideKebabName": "cooking-pot",
+      "illustration": "illustrations/eat/north-indian-restaurants.svg",
+      "iconFallbackSvg": "icons/eat/north-indian-restaurants.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-street-food",
+      "category": "EAT",
+      "subcategory": "Street Food",
+      "slug": "street-food",
+      "lucideReactComponent": "Sandwich",
+      "lucideKebabName": "sandwich",
+      "illustration": "illustrations/eat/street-food.svg",
+      "iconFallbackSvg": "icons/eat/street-food.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-bakeries",
+      "category": "EAT",
+      "subcategory": "Bakeries",
+      "slug": "bakeries",
+      "lucideReactComponent": "Croissant",
+      "lucideKebabName": "croissant",
+      "illustration": "illustrations/eat/bakeries.svg",
+      "iconFallbackSvg": "icons/eat/bakeries.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-dessert-parlours",
+      "category": "EAT",
+      "subcategory": "Dessert Parlours",
+      "slug": "dessert-parlours",
+      "lucideReactComponent": "IceCreamBowl",
+      "lucideKebabName": "ice-cream-bowl",
+      "illustration": "illustrations/eat/dessert-parlours.svg",
+      "iconFallbackSvg": "icons/eat/dessert-parlours.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-breakfast-and-brunch",
+      "category": "EAT",
+      "subcategory": "Breakfast & Brunch",
+      "slug": "breakfast-and-brunch",
+      "lucideReactComponent": "Sunrise",
+      "lucideKebabName": "sunrise",
+      "illustration": "illustrations/eat/breakfast-and-brunch.svg",
+      "iconFallbackSvg": "icons/eat/breakfast-and-brunch.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-family-restaurants",
+      "category": "EAT",
+      "subcategory": "Family Restaurants",
+      "slug": "family-restaurants",
+      "lucideReactComponent": "UsersRound",
+      "lucideKebabName": "users-round",
+      "illustration": "illustrations/eat/family-restaurants.svg",
+      "iconFallbackSvg": "icons/eat/family-restaurants.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-buffets",
+      "category": "EAT",
+      "subcategory": "Buffets",
+      "slug": "buffets",
+      "lucideReactComponent": "Salad",
+      "lucideKebabName": "salad",
+      "illustration": "illustrations/eat/buffets.svg",
+      "iconFallbackSvg": "icons/eat/buffets.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-cloud-kitchens",
+      "category": "EAT",
+      "subcategory": "Cloud Kitchens",
+      "slug": "cloud-kitchens",
+      "lucideReactComponent": "Package",
+      "lucideKebabName": "package",
+      "illustration": "illustrations/eat/cloud-kitchens.svg",
+      "iconFallbackSvg": "icons/eat/cloud-kitchens.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-food-courts",
+      "category": "EAT",
+      "subcategory": "Food Courts",
+      "slug": "food-courts",
+      "lucideReactComponent": "Store",
+      "lucideKebabName": "store",
+      "illustration": "illustrations/eat/food-courts.svg",
+      "iconFallbackSvg": "icons/eat/food-courts.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-vegetarian-restaurants",
+      "category": "EAT",
+      "subcategory": "Vegetarian Restaurants",
+      "slug": "vegetarian-restaurants",
+      "lucideReactComponent": "Leaf",
+      "lucideKebabName": "leaf",
+      "illustration": "illustrations/eat/vegetarian-restaurants.svg",
+      "iconFallbackSvg": "icons/eat/vegetarian-restaurants.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-vegan-restaurants",
+      "category": "EAT",
+      "subcategory": "Vegan Restaurants",
+      "slug": "vegan-restaurants",
+      "lucideReactComponent": "Sprout",
+      "lucideKebabName": "sprout",
+      "illustration": "illustrations/eat/vegan-restaurants.svg",
+      "iconFallbackSvg": "icons/eat/vegan-restaurants.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-fast-food",
+      "category": "EAT",
+      "subcategory": "Fast Food",
+      "slug": "fast-food",
+      "lucideReactComponent": "Pizza",
+      "lucideKebabName": "pizza",
+      "illustration": "illustrations/eat/fast-food.svg",
+      "iconFallbackSvg": "icons/eat/fast-food.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "eat-specialty-cuisine",
+      "category": "EAT",
+      "subcategory": "Specialty Cuisine",
+      "slug": "specialty-cuisine",
+      "lucideReactComponent": "CookingPot",
+      "lucideKebabName": "cooking-pot",
+      "illustration": "illustrations/eat/specialty-cuisine.svg",
+      "iconFallbackSvg": "icons/eat/specialty-cuisine.svg",
+      "categoryColors": {
+        "background": "#FFF0E4",
+        "foreground": "#B85E36",
+        "accent": "#F0C6A7"
+      }
+    },
+    {
+      "id": "drink-pubs-and-bars",
+      "category": "DRINK",
+      "subcategory": "Pubs & Bars",
+      "slug": "pubs-and-bars",
+      "lucideReactComponent": "Beer",
+      "lucideKebabName": "beer",
+      "illustration": "illustrations/drink/pubs-and-bars.svg",
+      "iconFallbackSvg": "icons/drink/pubs-and-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-breweries-and-microbreweries",
+      "category": "DRINK",
+      "subcategory": "Breweries & Microbreweries",
+      "slug": "breweries-and-microbreweries",
+      "lucideReactComponent": "Wheat",
+      "lucideKebabName": "wheat",
+      "illustration": "illustrations/drink/breweries-and-microbreweries.svg",
+      "iconFallbackSvg": "icons/drink/breweries-and-microbreweries.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-whisky-bars",
+      "category": "DRINK",
+      "subcategory": "Whisky Bars",
+      "slug": "whisky-bars",
+      "lucideReactComponent": "GlassWater",
+      "lucideKebabName": "glass-water",
+      "illustration": "illustrations/drink/whisky-bars.svg",
+      "iconFallbackSvg": "icons/drink/whisky-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-cocktail-bars",
+      "category": "DRINK",
+      "subcategory": "Cocktail Bars",
+      "slug": "cocktail-bars",
+      "lucideReactComponent": "Martini",
+      "lucideKebabName": "martini",
+      "illustration": "illustrations/drink/cocktail-bars.svg",
+      "iconFallbackSvg": "icons/drink/cocktail-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-wine-bars",
+      "category": "DRINK",
+      "subcategory": "Wine Bars",
+      "slug": "wine-bars",
+      "lucideReactComponent": "Wine",
+      "lucideKebabName": "wine",
+      "illustration": "illustrations/drink/wine-bars.svg",
+      "iconFallbackSvg": "icons/drink/wine-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-rooftop-bars",
+      "category": "DRINK",
+      "subcategory": "Rooftop Bars",
+      "slug": "rooftop-bars",
+      "lucideReactComponent": "Building2",
+      "lucideKebabName": "building2",
+      "illustration": "illustrations/drink/rooftop-bars.svg",
+      "iconFallbackSvg": "icons/drink/rooftop-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-nightclubs-and-discotheques",
+      "category": "DRINK",
+      "subcategory": "Nightclubs & Discotheques",
+      "slug": "nightclubs-and-discotheques",
+      "lucideReactComponent": "Music2",
+      "lucideKebabName": "music2",
+      "illustration": "illustrations/drink/nightclubs-and-discotheques.svg",
+      "iconFallbackSvg": "icons/drink/nightclubs-and-discotheques.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-dj-nights-and-party-bars",
+      "category": "DRINK",
+      "subcategory": "DJ Nights & Party Bars",
+      "slug": "dj-nights-and-party-bars",
+      "lucideReactComponent": "Disc3",
+      "lucideKebabName": "disc3",
+      "illustration": "illustrations/drink/dj-nights-and-party-bars.svg",
+      "iconFallbackSvg": "icons/drink/dj-nights-and-party-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-luxury-hotel-bars",
+      "category": "DRINK",
+      "subcategory": "Luxury Hotel Bars",
+      "slug": "luxury-hotel-bars",
+      "lucideReactComponent": "Wine",
+      "lucideKebabName": "wine",
+      "illustration": "illustrations/drink/luxury-hotel-bars.svg",
+      "iconFallbackSvg": "icons/drink/luxury-hotel-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-sports-bars",
+      "category": "DRINK",
+      "subcategory": "Sports Bars",
+      "slug": "sports-bars",
+      "lucideReactComponent": "Trophy",
+      "lucideKebabName": "trophy",
+      "illustration": "illustrations/drink/sports-bars.svg",
+      "iconFallbackSvg": "icons/drink/sports-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-live-music-bars",
+      "category": "DRINK",
+      "subcategory": "Live Music Bars",
+      "slug": "live-music-bars",
+      "lucideReactComponent": "Mic2",
+      "lucideKebabName": "mic2",
+      "illustration": "illustrations/drink/live-music-bars.svg",
+      "iconFallbackSvg": "icons/drink/live-music-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-lounge-bars",
+      "category": "DRINK",
+      "subcategory": "Lounge Bars",
+      "slug": "lounge-bars",
+      "lucideReactComponent": "Armchair",
+      "lucideKebabName": "armchair",
+      "illustration": "illustrations/drink/lounge-bars.svg",
+      "iconFallbackSvg": "icons/drink/lounge-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-taprooms",
+      "category": "DRINK",
+      "subcategory": "Taprooms",
+      "slug": "taprooms",
+      "lucideReactComponent": "Beer",
+      "lucideKebabName": "beer",
+      "illustration": "illustrations/drink/taprooms.svg",
+      "iconFallbackSvg": "icons/drink/taprooms.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-beer-gardens",
+      "category": "DRINK",
+      "subcategory": "Beer Gardens",
+      "slug": "beer-gardens",
+      "lucideReactComponent": "TreePalm",
+      "lucideKebabName": "tree-palm",
+      "illustration": "illustrations/drink/beer-gardens.svg",
+      "iconFallbackSvg": "icons/drink/beer-gardens.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "drink-karaoke-bars",
+      "category": "DRINK",
+      "subcategory": "Karaoke Bars",
+      "slug": "karaoke-bars",
+      "lucideReactComponent": "MicVocal",
+      "lucideKebabName": "mic-vocal",
+      "illustration": "illustrations/drink/karaoke-bars.svg",
+      "iconFallbackSvg": "icons/drink/karaoke-bars.svg",
+      "categoryColors": {
+        "background": "#F2EAF7",
+        "foreground": "#78518D",
+        "accent": "#D6BCE5"
+      }
+    },
+    {
+      "id": "play-gaming-zones-and-arcades",
+      "category": "PLAY",
+      "subcategory": "Gaming Zones & Arcades",
+      "slug": "gaming-zones-and-arcades",
+      "lucideReactComponent": "Gamepad2",
+      "lucideKebabName": "gamepad2",
+      "illustration": "illustrations/play/gaming-zones-and-arcades.svg",
+      "iconFallbackSvg": "icons/play/gaming-zones-and-arcades.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-bowling-alleys",
+      "category": "PLAY",
+      "subcategory": "Bowling Alleys",
+      "slug": "bowling-alleys",
+      "lucideReactComponent": "BowlingBall",
+      "lucideKebabName": "bowling-ball",
+      "illustration": "illustrations/play/bowling-alleys.svg",
+      "iconFallbackSvg": "icons/play/bowling-alleys.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-sports-arenas",
+      "category": "PLAY",
+      "subcategory": "Sports Arenas",
+      "slug": "sports-arenas",
+      "lucideReactComponent": "Trophy",
+      "lucideKebabName": "trophy",
+      "illustration": "illustrations/play/sports-arenas.svg",
+      "iconFallbackSvg": "icons/play/sports-arenas.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-indoor-sports",
+      "category": "PLAY",
+      "subcategory": "Indoor Sports",
+      "slug": "indoor-sports",
+      "lucideReactComponent": "Dumbbell",
+      "lucideKebabName": "dumbbell",
+      "illustration": "illustrations/play/indoor-sports.svg",
+      "iconFallbackSvg": "icons/play/indoor-sports.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-outdoor-sports",
+      "category": "PLAY",
+      "subcategory": "Outdoor Sports",
+      "slug": "outdoor-sports",
+      "lucideReactComponent": "Bike",
+      "lucideKebabName": "bike",
+      "illustration": "illustrations/play/outdoor-sports.svg",
+      "iconFallbackSvg": "icons/play/outdoor-sports.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-adventure-activities",
+      "category": "PLAY",
+      "subcategory": "Adventure Activities",
+      "slug": "adventure-activities",
+      "lucideReactComponent": "Mountain",
+      "lucideKebabName": "mountain",
+      "illustration": "illustrations/play/adventure-activities.svg",
+      "iconFallbackSvg": "icons/play/adventure-activities.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-escape-rooms",
+      "category": "PLAY",
+      "subcategory": "Escape Rooms",
+      "slug": "escape-rooms",
+      "lucideReactComponent": "DoorOpen",
+      "lucideKebabName": "door-open",
+      "illustration": "illustrations/play/escape-rooms.svg",
+      "iconFallbackSvg": "icons/play/escape-rooms.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-amusement-parks",
+      "category": "PLAY",
+      "subcategory": "Amusement Parks",
+      "slug": "amusement-parks",
+      "lucideReactComponent": "FerrisWheel",
+      "lucideKebabName": "ferris-wheel",
+      "illustration": "illustrations/play/amusement-parks.svg",
+      "iconFallbackSvg": "icons/play/amusement-parks.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-trampoline-parks",
+      "category": "PLAY",
+      "subcategory": "Trampoline Parks",
+      "slug": "trampoline-parks",
+      "lucideReactComponent": "Activity",
+      "lucideKebabName": "activity",
+      "illustration": "illustrations/play/trampoline-parks.svg",
+      "iconFallbackSvg": "icons/play/trampoline-parks.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-go-karting",
+      "category": "PLAY",
+      "subcategory": "Go-Karting",
+      "slug": "go-karting",
+      "lucideReactComponent": "Flag",
+      "lucideKebabName": "flag",
+      "illustration": "illustrations/play/go-karting.svg",
+      "iconFallbackSvg": "icons/play/go-karting.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-paintball",
+      "category": "PLAY",
+      "subcategory": "Paintball",
+      "slug": "paintball",
+      "lucideReactComponent": "Target",
+      "lucideKebabName": "target",
+      "illustration": "illustrations/play/paintball.svg",
+      "iconFallbackSvg": "icons/play/paintball.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-laser-tag",
+      "category": "PLAY",
+      "subcategory": "Laser Tag",
+      "slug": "laser-tag",
+      "lucideReactComponent": "Crosshair",
+      "lucideKebabName": "crosshair",
+      "illustration": "illustrations/play/laser-tag.svg",
+      "iconFallbackSvg": "icons/play/laser-tag.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-swimming-pools",
+      "category": "PLAY",
+      "subcategory": "Swimming Pools",
+      "slug": "swimming-pools",
+      "lucideReactComponent": "Waves",
+      "lucideKebabName": "waves",
+      "illustration": "illustrations/play/swimming-pools.svg",
+      "iconFallbackSvg": "icons/play/swimming-pools.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-fitness-and-recreation",
+      "category": "PLAY",
+      "subcategory": "Fitness & Recreation",
+      "slug": "fitness-and-recreation",
+      "lucideReactComponent": "Dumbbell",
+      "lucideKebabName": "dumbbell",
+      "illustration": "illustrations/play/fitness-and-recreation.svg",
+      "iconFallbackSvg": "icons/play/fitness-and-recreation.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-vr-experiences",
+      "category": "PLAY",
+      "subcategory": "VR Experiences",
+      "slug": "vr-experiences",
+      "lucideReactComponent": "Glasses",
+      "lucideKebabName": "glasses",
+      "illustration": "illustrations/play/vr-experiences.svg",
+      "iconFallbackSvg": "icons/play/vr-experiences.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-board-game-cafes",
+      "category": "PLAY",
+      "subcategory": "Board Game Cafés",
+      "slug": "board-game-cafes",
+      "lucideReactComponent": "ChessKnight",
+      "lucideKebabName": "chess-knight",
+      "illustration": "illustrations/play/board-game-cafes.svg",
+      "iconFallbackSvg": "icons/play/board-game-cafes.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-badminton-and-squash",
+      "category": "PLAY",
+      "subcategory": "Badminton & Squash",
+      "slug": "badminton-and-squash",
+      "lucideReactComponent": "Trophy",
+      "lucideKebabName": "trophy",
+      "illustration": "illustrations/play/badminton-and-squash.svg",
+      "iconFallbackSvg": "icons/play/badminton-and-squash.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-cricket-and-football-grounds",
+      "category": "PLAY",
+      "subcategory": "Cricket & Football Grounds",
+      "slug": "cricket-and-football-grounds",
+      "lucideReactComponent": "Goal",
+      "lucideKebabName": "goal",
+      "illustration": "illustrations/play/cricket-and-football-grounds.svg",
+      "iconFallbackSvg": "icons/play/cricket-and-football-grounds.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-trekking-and-outdoor-adventures",
+      "category": "PLAY",
+      "subcategory": "Trekking & Outdoor Adventures",
+      "slug": "trekking-and-outdoor-adventures",
+      "lucideReactComponent": "Backpack",
+      "lucideKebabName": "backpack",
+      "illustration": "illustrations/play/trekking-and-outdoor-adventures.svg",
+      "iconFallbackSvg": "icons/play/trekking-and-outdoor-adventures.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "play-family-entertainment-centres",
+      "category": "PLAY",
+      "subcategory": "Family Entertainment Centres",
+      "slug": "family-entertainment-centres",
+      "lucideReactComponent": "PartyPopper",
+      "lucideKebabName": "party-popper",
+      "illustration": "illustrations/play/family-entertainment-centres.svg",
+      "iconFallbackSvg": "icons/play/family-entertainment-centres.svg",
+      "categoryColors": {
+        "background": "#E8F4F5",
+        "foreground": "#287D83",
+        "accent": "#B5DFDF"
+      }
+    },
+    {
+      "id": "shop-shopping-malls",
+      "category": "SHOP",
+      "subcategory": "Shopping Malls",
+      "slug": "shopping-malls",
+      "lucideReactComponent": "ShoppingBag",
+      "lucideKebabName": "shopping-bag",
+      "illustration": "illustrations/shop/shopping-malls.svg",
+      "iconFallbackSvg": "icons/shop/shopping-malls.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-fashion-and-apparel",
+      "category": "SHOP",
+      "subcategory": "Fashion & Apparel",
+      "slug": "fashion-and-apparel",
+      "lucideReactComponent": "Shirt",
+      "lucideKebabName": "shirt",
+      "illustration": "illustrations/shop/fashion-and-apparel.svg",
+      "iconFallbackSvg": "icons/shop/fashion-and-apparel.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-luxury-boutiques",
+      "category": "SHOP",
+      "subcategory": "Luxury Boutiques",
+      "slug": "luxury-boutiques",
+      "lucideReactComponent": "Gem",
+      "lucideKebabName": "gem",
+      "illustration": "illustrations/shop/luxury-boutiques.svg",
+      "iconFallbackSvg": "icons/shop/luxury-boutiques.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-footwear",
+      "category": "SHOP",
+      "subcategory": "Footwear",
+      "slug": "footwear",
+      "lucideReactComponent": "Footprints",
+      "lucideKebabName": "footprints",
+      "illustration": "illustrations/shop/footwear.svg",
+      "iconFallbackSvg": "icons/shop/footwear.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-jewellery",
+      "category": "SHOP",
+      "subcategory": "Jewellery",
+      "slug": "jewellery",
+      "lucideReactComponent": "Gem",
+      "lucideKebabName": "gem",
+      "illustration": "illustrations/shop/jewellery.svg",
+      "iconFallbackSvg": "icons/shop/jewellery.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-watches-and-accessories",
+      "category": "SHOP",
+      "subcategory": "Watches & Accessories",
+      "slug": "watches-and-accessories",
+      "lucideReactComponent": "Watch",
+      "lucideKebabName": "watch",
+      "illustration": "illustrations/shop/watches-and-accessories.svg",
+      "iconFallbackSvg": "icons/shop/watches-and-accessories.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-electronics",
+      "category": "SHOP",
+      "subcategory": "Electronics",
+      "slug": "electronics",
+      "lucideReactComponent": "Monitor",
+      "lucideKebabName": "monitor",
+      "illustration": "illustrations/shop/electronics.svg",
+      "iconFallbackSvg": "icons/shop/electronics.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-mobile-and-gadgets",
+      "category": "SHOP",
+      "subcategory": "Mobile & Gadgets",
+      "slug": "mobile-and-gadgets",
+      "lucideReactComponent": "Smartphone",
+      "lucideKebabName": "smartphone",
+      "illustration": "illustrations/shop/mobile-and-gadgets.svg",
+      "iconFallbackSvg": "icons/shop/mobile-and-gadgets.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-furniture-and-home-decor",
+      "category": "SHOP",
+      "subcategory": "Furniture & Home Décor",
+      "slug": "furniture-and-home-decor",
+      "lucideReactComponent": "Sofa",
+      "lucideKebabName": "sofa",
+      "illustration": "illustrations/shop/furniture-and-home-decor.svg",
+      "iconFallbackSvg": "icons/shop/furniture-and-home-decor.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-beauty-and-cosmetics",
+      "category": "SHOP",
+      "subcategory": "Beauty & Cosmetics",
+      "slug": "beauty-and-cosmetics",
+      "lucideReactComponent": "Sparkles",
+      "lucideKebabName": "sparkles",
+      "illustration": "illustrations/shop/beauty-and-cosmetics.svg",
+      "iconFallbackSvg": "icons/shop/beauty-and-cosmetics.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-supermarkets",
+      "category": "SHOP",
+      "subcategory": "Supermarkets",
+      "slug": "supermarkets",
+      "lucideReactComponent": "ShoppingCart",
+      "lucideKebabName": "shopping-cart",
+      "illustration": "illustrations/shop/supermarkets.svg",
+      "iconFallbackSvg": "icons/shop/supermarkets.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-department-stores",
+      "category": "SHOP",
+      "subcategory": "Department Stores",
+      "slug": "department-stores",
+      "lucideReactComponent": "Store",
+      "lucideKebabName": "store",
+      "illustration": "illustrations/shop/department-stores.svg",
+      "iconFallbackSvg": "icons/shop/department-stores.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-bookstores",
+      "category": "SHOP",
+      "subcategory": "Bookstores",
+      "slug": "bookstores",
+      "lucideReactComponent": "BookOpen",
+      "lucideKebabName": "book-open",
+      "illustration": "illustrations/shop/bookstores.svg",
+      "iconFallbackSvg": "icons/shop/bookstores.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-sports-and-fitness-stores",
+      "category": "SHOP",
+      "subcategory": "Sports & Fitness Stores",
+      "slug": "sports-and-fitness-stores",
+      "lucideReactComponent": "Dumbbell",
+      "lucideKebabName": "dumbbell",
+      "illustration": "illustrations/shop/sports-and-fitness-stores.svg",
+      "iconFallbackSvg": "icons/shop/sports-and-fitness-stores.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-lifestyle-stores",
+      "category": "SHOP",
+      "subcategory": "Lifestyle Stores",
+      "slug": "lifestyle-stores",
+      "lucideReactComponent": "ShoppingBasket",
+      "lucideKebabName": "shopping-basket",
+      "illustration": "illustrations/shop/lifestyle-stores.svg",
+      "iconFallbackSvg": "icons/shop/lifestyle-stores.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-home-improvement",
+      "category": "SHOP",
+      "subcategory": "Home Improvement",
+      "slug": "home-improvement",
+      "lucideReactComponent": "Hammer",
+      "lucideKebabName": "hammer",
+      "illustration": "illustrations/shop/home-improvement.svg",
+      "iconFallbackSvg": "icons/shop/home-improvement.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-gift-shops",
+      "category": "SHOP",
+      "subcategory": "Gift Shops",
+      "slug": "gift-shops",
+      "lucideReactComponent": "Gift",
+      "lucideKebabName": "gift",
+      "illustration": "illustrations/shop/gift-shops.svg",
+      "iconFallbackSvg": "icons/shop/gift-shops.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-local-markets",
+      "category": "SHOP",
+      "subcategory": "Local Markets",
+      "slug": "local-markets",
+      "lucideReactComponent": "Store",
+      "lucideKebabName": "store",
+      "illustration": "illustrations/shop/local-markets.svg",
+      "iconFallbackSvg": "icons/shop/local-markets.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-organic-and-specialty-stores",
+      "category": "SHOP",
+      "subcategory": "Organic & Specialty Stores",
+      "slug": "organic-and-specialty-stores",
+      "lucideReactComponent": "Sprout",
+      "lucideKebabName": "sprout",
+      "illustration": "illustrations/shop/organic-and-specialty-stores.svg",
+      "iconFallbackSvg": "icons/shop/organic-and-specialty-stores.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "shop-kids-and-baby-stores",
+      "category": "SHOP",
+      "subcategory": "Kids & Baby Stores",
+      "slug": "kids-and-baby-stores",
+      "lucideReactComponent": "Baby",
+      "lucideKebabName": "baby",
+      "illustration": "illustrations/shop/kids-and-baby-stores.svg",
+      "iconFallbackSvg": "icons/shop/kids-and-baby-stores.svg",
+      "categoryColors": {
+        "background": "#F8EEF0",
+        "foreground": "#9C5266",
+        "accent": "#E9C2CD"
+      }
+    },
+    {
+      "id": "travel-hotels",
+      "category": "TRAVEL",
+      "subcategory": "Hotels",
+      "slug": "hotels",
+      "lucideReactComponent": "Hotel",
+      "lucideKebabName": "hotel",
+      "illustration": "illustrations/travel/hotels.svg",
+      "iconFallbackSvg": "icons/travel/hotels.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-luxury-resorts",
+      "category": "TRAVEL",
+      "subcategory": "Luxury Resorts",
+      "slug": "luxury-resorts",
+      "lucideReactComponent": "Palmtree",
+      "lucideKebabName": "palmtree",
+      "illustration": "illustrations/travel/luxury-resorts.svg",
+      "iconFallbackSvg": "icons/travel/luxury-resorts.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-boutique-hotels",
+      "category": "TRAVEL",
+      "subcategory": "Boutique Hotels",
+      "slug": "boutique-hotels",
+      "lucideReactComponent": "BedDouble",
+      "lucideKebabName": "bed-double",
+      "illustration": "illustrations/travel/boutique-hotels.svg",
+      "iconFallbackSvg": "icons/travel/boutique-hotels.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-homestays",
+      "category": "TRAVEL",
+      "subcategory": "Homestays",
+      "slug": "homestays",
+      "lucideReactComponent": "House",
+      "lucideKebabName": "house",
+      "illustration": "illustrations/travel/homestays.svg",
+      "iconFallbackSvg": "icons/travel/homestays.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-serviced-apartments",
+      "category": "TRAVEL",
+      "subcategory": "Serviced Apartments",
+      "slug": "serviced-apartments",
+      "lucideReactComponent": "Building2",
+      "lucideKebabName": "building2",
+      "illustration": "illustrations/travel/serviced-apartments.svg",
+      "iconFallbackSvg": "icons/travel/serviced-apartments.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-hostels",
+      "category": "TRAVEL",
+      "subcategory": "Hostels",
+      "slug": "hostels",
+      "lucideReactComponent": "Bed",
+      "lucideKebabName": "bed",
+      "illustration": "illustrations/travel/hostels.svg",
+      "iconFallbackSvg": "icons/travel/hostels.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-villas",
+      "category": "TRAVEL",
+      "subcategory": "Villas",
+      "slug": "villas",
+      "lucideReactComponent": "Castle",
+      "lucideKebabName": "castle",
+      "illustration": "illustrations/travel/villas.svg",
+      "iconFallbackSvg": "icons/travel/villas.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-weekend-getaways",
+      "category": "TRAVEL",
+      "subcategory": "Weekend Getaways",
+      "slug": "weekend-getaways",
+      "lucideReactComponent": "Luggage",
+      "lucideKebabName": "luggage",
+      "illustration": "illustrations/travel/weekend-getaways.svg",
+      "iconFallbackSvg": "icons/travel/weekend-getaways.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-hill-stations",
+      "category": "TRAVEL",
+      "subcategory": "Hill Stations",
+      "slug": "hill-stations",
+      "lucideReactComponent": "MountainSnow",
+      "lucideKebabName": "mountain-snow",
+      "illustration": "illustrations/travel/hill-stations.svg",
+      "iconFallbackSvg": "icons/travel/hill-stations.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-beach-destinations",
+      "category": "TRAVEL",
+      "subcategory": "Beach Destinations",
+      "slug": "beach-destinations",
+      "lucideReactComponent": "Waves",
+      "lucideKebabName": "waves",
+      "illustration": "illustrations/travel/beach-destinations.svg",
+      "iconFallbackSvg": "icons/travel/beach-destinations.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-adventure-travel",
+      "category": "TRAVEL",
+      "subcategory": "Adventure Travel",
+      "slug": "adventure-travel",
+      "lucideReactComponent": "Compass",
+      "lucideKebabName": "compass",
+      "illustration": "illustrations/travel/adventure-travel.svg",
+      "iconFallbackSvg": "icons/travel/adventure-travel.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-nature-retreats",
+      "category": "TRAVEL",
+      "subcategory": "Nature Retreats",
+      "slug": "nature-retreats",
+      "lucideReactComponent": "Trees",
+      "lucideKebabName": "trees",
+      "illustration": "illustrations/travel/nature-retreats.svg",
+      "iconFallbackSvg": "icons/travel/nature-retreats.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-wildlife-and-safari",
+      "category": "TRAVEL",
+      "subcategory": "Wildlife & Safari",
+      "slug": "wildlife-and-safari",
+      "lucideReactComponent": "Binoculars",
+      "lucideKebabName": "binoculars",
+      "illustration": "illustrations/travel/wildlife-and-safari.svg",
+      "iconFallbackSvg": "icons/travel/wildlife-and-safari.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-road-trips",
+      "category": "TRAVEL",
+      "subcategory": "Road Trips",
+      "slug": "road-trips",
+      "lucideReactComponent": "CarFront",
+      "lucideKebabName": "car-front",
+      "illustration": "illustrations/travel/road-trips.svg",
+      "iconFallbackSvg": "icons/travel/road-trips.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-international-travel",
+      "category": "TRAVEL",
+      "subcategory": "International Travel",
+      "slug": "international-travel",
+      "lucideReactComponent": "Plane",
+      "lucideKebabName": "plane",
+      "illustration": "illustrations/travel/international-travel.svg",
+      "iconFallbackSvg": "icons/travel/international-travel.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-domestic-travel",
+      "category": "TRAVEL",
+      "subcategory": "Domestic Travel",
+      "slug": "domestic-travel",
+      "lucideReactComponent": "TrainFront",
+      "lucideKebabName": "train-front",
+      "illustration": "illustrations/travel/domestic-travel.svg",
+      "iconFallbackSvg": "icons/travel/domestic-travel.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-travel-experiences",
+      "category": "TRAVEL",
+      "subcategory": "Travel Experiences",
+      "slug": "travel-experiences",
+      "lucideReactComponent": "MapPinned",
+      "lucideKebabName": "map-pinned",
+      "illustration": "illustrations/travel/travel-experiences.svg",
+      "iconFallbackSvg": "icons/travel/travel-experiences.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-camping-and-glamping",
+      "category": "TRAVEL",
+      "subcategory": "Camping & Glamping",
+      "slug": "camping-and-glamping",
+      "lucideReactComponent": "TentTree",
+      "lucideKebabName": "tent-tree",
+      "illustration": "illustrations/travel/camping-and-glamping.svg",
+      "iconFallbackSvg": "icons/travel/camping-and-glamping.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-spa-and-wellness-retreats",
+      "category": "TRAVEL",
+      "subcategory": "Spa & Wellness Retreats",
+      "slug": "spa-and-wellness-retreats",
+      "lucideReactComponent": "Waves",
+      "lucideKebabName": "waves",
+      "illustration": "illustrations/travel/spa-and-wellness-retreats.svg",
+      "iconFallbackSvg": "icons/travel/spa-and-wellness-retreats.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "travel-travel-agencies",
+      "category": "TRAVEL",
+      "subcategory": "Travel Agencies",
+      "slug": "travel-agencies",
+      "lucideReactComponent": "Map",
+      "lucideKebabName": "map",
+      "illustration": "illustrations/travel/travel-agencies.svg",
+      "iconFallbackSvg": "icons/travel/travel-agencies.svg",
+      "categoryColors": {
+        "background": "#EAF1F8",
+        "foreground": "#456B9A",
+        "accent": "#C0D3EA"
+      }
+    },
+    {
+      "id": "events-live-music",
+      "category": "EVENTS",
+      "subcategory": "Live Music",
+      "slug": "live-music",
+      "lucideReactComponent": "Music",
+      "lucideKebabName": "music",
+      "illustration": "illustrations/events/live-music.svg",
+      "iconFallbackSvg": "icons/events/live-music.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-concerts",
+      "category": "EVENTS",
+      "subcategory": "Concerts",
+      "slug": "concerts",
+      "lucideReactComponent": "Ticket",
+      "lucideKebabName": "ticket",
+      "illustration": "illustrations/events/concerts.svg",
+      "iconFallbackSvg": "icons/events/concerts.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-music-festivals",
+      "category": "EVENTS",
+      "subcategory": "Music Festivals",
+      "slug": "music-festivals",
+      "lucideReactComponent": "PartyPopper",
+      "lucideKebabName": "party-popper",
+      "illustration": "illustrations/events/music-festivals.svg",
+      "iconFallbackSvg": "icons/events/music-festivals.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-dj-nights",
+      "category": "EVENTS",
+      "subcategory": "DJ Nights",
+      "slug": "dj-nights",
+      "lucideReactComponent": "Disc3",
+      "lucideKebabName": "disc3",
+      "illustration": "illustrations/events/dj-nights.svg",
+      "iconFallbackSvg": "icons/events/dj-nights.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-comedy-shows",
+      "category": "EVENTS",
+      "subcategory": "Comedy Shows",
+      "slug": "comedy-shows",
+      "lucideReactComponent": "Laugh",
+      "lucideKebabName": "laugh",
+      "illustration": "illustrations/events/comedy-shows.svg",
+      "iconFallbackSvg": "icons/events/comedy-shows.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-stand-up-comedy",
+      "category": "EVENTS",
+      "subcategory": "Stand-up Comedy",
+      "slug": "stand-up-comedy",
+      "lucideReactComponent": "MicVocal",
+      "lucideKebabName": "mic-vocal",
+      "illustration": "illustrations/events/stand-up-comedy.svg",
+      "iconFallbackSvg": "icons/events/stand-up-comedy.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-cultural-festivals",
+      "category": "EVENTS",
+      "subcategory": "Cultural Festivals",
+      "slug": "cultural-festivals",
+      "lucideReactComponent": "Drama",
+      "lucideKebabName": "drama",
+      "illustration": "illustrations/events/cultural-festivals.svg",
+      "iconFallbackSvg": "icons/events/cultural-festivals.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-art-exhibitions",
+      "category": "EVENTS",
+      "subcategory": "Art Exhibitions",
+      "slug": "art-exhibitions",
+      "lucideReactComponent": "Palette",
+      "lucideKebabName": "palette",
+      "illustration": "illustrations/events/art-exhibitions.svg",
+      "iconFallbackSvg": "icons/events/art-exhibitions.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-food-festivals",
+      "category": "EVENTS",
+      "subcategory": "Food Festivals",
+      "slug": "food-festivals",
+      "lucideReactComponent": "Utensils",
+      "lucideKebabName": "utensils",
+      "illustration": "illustrations/events/food-festivals.svg",
+      "iconFallbackSvg": "icons/events/food-festivals.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-beer-festivals",
+      "category": "EVENTS",
+      "subcategory": "Beer Festivals",
+      "slug": "beer-festivals",
+      "lucideReactComponent": "Beer",
+      "lucideKebabName": "beer",
+      "illustration": "illustrations/events/beer-festivals.svg",
+      "iconFallbackSvg": "icons/events/beer-festivals.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-startup-events",
+      "category": "EVENTS",
+      "subcategory": "Startup Events",
+      "slug": "startup-events",
+      "lucideReactComponent": "Rocket",
+      "lucideKebabName": "rocket",
+      "illustration": "illustrations/events/startup-events.svg",
+      "iconFallbackSvg": "icons/events/startup-events.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-business-conferences",
+      "category": "EVENTS",
+      "subcategory": "Business Conferences",
+      "slug": "business-conferences",
+      "lucideReactComponent": "Presentation",
+      "lucideKebabName": "presentation",
+      "illustration": "illustrations/events/business-conferences.svg",
+      "iconFallbackSvg": "icons/events/business-conferences.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-networking-events",
+      "category": "EVENTS",
+      "subcategory": "Networking Events",
+      "slug": "networking-events",
+      "lucideReactComponent": "Handshake",
+      "lucideKebabName": "handshake",
+      "illustration": "illustrations/events/networking-events.svg",
+      "iconFallbackSvg": "icons/events/networking-events.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-workshops",
+      "category": "EVENTS",
+      "subcategory": "Workshops",
+      "slug": "workshops",
+      "lucideReactComponent": "Wrench",
+      "lucideKebabName": "wrench",
+      "illustration": "illustrations/events/workshops.svg",
+      "iconFallbackSvg": "icons/events/workshops.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-masterclasses",
+      "category": "EVENTS",
+      "subcategory": "Masterclasses",
+      "slug": "masterclasses",
+      "lucideReactComponent": "GraduationCap",
+      "lucideKebabName": "graduation-cap",
+      "illustration": "illustrations/events/masterclasses.svg",
+      "iconFallbackSvg": "icons/events/masterclasses.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-college-festivals",
+      "category": "EVENTS",
+      "subcategory": "College Festivals",
+      "slug": "college-festivals",
+      "lucideReactComponent": "Flag",
+      "lucideKebabName": "flag",
+      "illustration": "illustrations/events/college-festivals.svg",
+      "iconFallbackSvg": "icons/events/college-festivals.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-sports-events",
+      "category": "EVENTS",
+      "subcategory": "Sports Events",
+      "slug": "sports-events",
+      "lucideReactComponent": "Trophy",
+      "lucideKebabName": "trophy",
+      "illustration": "illustrations/events/sports-events.svg",
+      "iconFallbackSvg": "icons/events/sports-events.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-fashion-shows",
+      "category": "EVENTS",
+      "subcategory": "Fashion Shows",
+      "slug": "fashion-shows",
+      "lucideReactComponent": "Shirt",
+      "lucideKebabName": "shirt",
+      "illustration": "illustrations/events/fashion-shows.svg",
+      "iconFallbackSvg": "icons/events/fashion-shows.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-theatre-and-performing-arts",
+      "category": "EVENTS",
+      "subcategory": "Theatre & Performing Arts",
+      "slug": "theatre-and-performing-arts",
+      "lucideReactComponent": "Theater",
+      "lucideKebabName": "theater",
+      "illustration": "illustrations/events/theatre-and-performing-arts.svg",
+      "iconFallbackSvg": "icons/events/theatre-and-performing-arts.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-community-events",
+      "category": "EVENTS",
+      "subcategory": "Community Events",
+      "slug": "community-events",
+      "lucideReactComponent": "Users",
+      "lucideKebabName": "users",
+      "illustration": "illustrations/events/community-events.svg",
+      "iconFallbackSvg": "icons/events/community-events.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-pop-up-markets",
+      "category": "EVENTS",
+      "subcategory": "Pop-up Markets",
+      "slug": "pop-up-markets",
+      "lucideReactComponent": "Store",
+      "lucideKebabName": "store",
+      "illustration": "illustrations/events/pop-up-markets.svg",
+      "iconFallbackSvg": "icons/events/pop-up-markets.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "events-seasonal-celebrations",
+      "category": "EVENTS",
+      "subcategory": "Seasonal Celebrations",
+      "slug": "seasonal-celebrations",
+      "lucideReactComponent": "CalendarDays",
+      "lucideKebabName": "calendar-days",
+      "illustration": "illustrations/events/seasonal-celebrations.svg",
+      "iconFallbackSvg": "icons/events/seasonal-celebrations.svg",
+      "categoryColors": {
+        "background": "#FFF1E8",
+        "foreground": "#B66A42",
+        "accent": "#F0C9AD"
+      }
+    },
+    {
+      "id": "movies-multiplex-cinemas",
+      "category": "MOVIES",
+      "subcategory": "Multiplex Cinemas",
+      "slug": "multiplex-cinemas",
+      "lucideReactComponent": "Clapperboard",
+      "lucideKebabName": "clapperboard",
+      "illustration": "illustrations/movies/multiplex-cinemas.svg",
+      "iconFallbackSvg": "icons/movies/multiplex-cinemas.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-imax",
+      "category": "MOVIES",
+      "subcategory": "IMAX",
+      "slug": "imax",
+      "lucideReactComponent": "MonitorPlay",
+      "lucideKebabName": "monitor-play",
+      "illustration": "illustrations/movies/imax.svg",
+      "iconFallbackSvg": "icons/movies/imax.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-4dx-cinemas",
+      "category": "MOVIES",
+      "subcategory": "4DX Cinemas",
+      "slug": "4dx-cinemas",
+      "lucideReactComponent": "Sparkles",
+      "lucideKebabName": "sparkles",
+      "illustration": "illustrations/movies/4dx-cinemas.svg",
+      "iconFallbackSvg": "icons/movies/4dx-cinemas.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-dolby-atmos",
+      "category": "MOVIES",
+      "subcategory": "Dolby Atmos",
+      "slug": "dolby-atmos",
+      "lucideReactComponent": "Volume2",
+      "lucideKebabName": "volume2",
+      "illustration": "illustrations/movies/dolby-atmos.svg",
+      "iconFallbackSvg": "icons/movies/dolby-atmos.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-premium-large-format-screens",
+      "category": "MOVIES",
+      "subcategory": "Premium Large Format Screens",
+      "slug": "premium-large-format-screens",
+      "lucideReactComponent": "ScreenShare",
+      "lucideKebabName": "screen-share",
+      "illustration": "illustrations/movies/premium-large-format-screens.svg",
+      "iconFallbackSvg": "icons/movies/premium-large-format-screens.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-luxury-cinemas",
+      "category": "MOVIES",
+      "subcategory": "Luxury Cinemas",
+      "slug": "luxury-cinemas",
+      "lucideReactComponent": "Armchair",
+      "lucideKebabName": "armchair",
+      "illustration": "illustrations/movies/luxury-cinemas.svg",
+      "iconFallbackSvg": "icons/movies/luxury-cinemas.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-independent-cinemas",
+      "category": "MOVIES",
+      "subcategory": "Independent Cinemas",
+      "slug": "independent-cinemas",
+      "lucideReactComponent": "Film",
+      "lucideKebabName": "film",
+      "illustration": "illustrations/movies/independent-cinemas.svg",
+      "iconFallbackSvg": "icons/movies/independent-cinemas.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-regional-movies",
+      "category": "MOVIES",
+      "subcategory": "Regional Movies",
+      "slug": "regional-movies",
+      "lucideReactComponent": "Languages",
+      "lucideKebabName": "languages",
+      "illustration": "illustrations/movies/regional-movies.svg",
+      "iconFallbackSvg": "icons/movies/regional-movies.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-english-movies",
+      "category": "MOVIES",
+      "subcategory": "English Movies",
+      "slug": "english-movies",
+      "lucideReactComponent": "Captions",
+      "lucideKebabName": "captions",
+      "illustration": "illustrations/movies/english-movies.svg",
+      "iconFallbackSvg": "icons/movies/english-movies.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-hindi-movies",
+      "category": "MOVIES",
+      "subcategory": "Hindi Movies",
+      "slug": "hindi-movies",
+      "lucideReactComponent": "Languages",
+      "lucideKebabName": "languages",
+      "illustration": "illustrations/movies/hindi-movies.svg",
+      "iconFallbackSvg": "icons/movies/hindi-movies.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-kannada-movies",
+      "category": "MOVIES",
+      "subcategory": "Kannada Movies",
+      "slug": "kannada-movies",
+      "lucideReactComponent": "Languages",
+      "lucideKebabName": "languages",
+      "illustration": "illustrations/movies/kannada-movies.svg",
+      "iconFallbackSvg": "icons/movies/kannada-movies.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-tamil-movies",
+      "category": "MOVIES",
+      "subcategory": "Tamil Movies",
+      "slug": "tamil-movies",
+      "lucideReactComponent": "Languages",
+      "lucideKebabName": "languages",
+      "illustration": "illustrations/movies/tamil-movies.svg",
+      "iconFallbackSvg": "icons/movies/tamil-movies.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-telugu-movies",
+      "category": "MOVIES",
+      "subcategory": "Telugu Movies",
+      "slug": "telugu-movies",
+      "lucideReactComponent": "Languages",
+      "lucideKebabName": "languages",
+      "illustration": "illustrations/movies/telugu-movies.svg",
+      "iconFallbackSvg": "icons/movies/telugu-movies.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-malayalam-movies",
+      "category": "MOVIES",
+      "subcategory": "Malayalam Movies",
+      "slug": "malayalam-movies",
+      "lucideReactComponent": "Languages",
+      "lucideKebabName": "languages",
+      "illustration": "illustrations/movies/malayalam-movies.svg",
+      "iconFallbackSvg": "icons/movies/malayalam-movies.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-film-festivals",
+      "category": "MOVIES",
+      "subcategory": "Film Festivals",
+      "slug": "film-festivals",
+      "lucideReactComponent": "Award",
+      "lucideKebabName": "award",
+      "illustration": "illustrations/movies/film-festivals.svg",
+      "iconFallbackSvg": "icons/movies/film-festivals.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-special-screenings",
+      "category": "MOVIES",
+      "subcategory": "Special Screenings",
+      "slug": "special-screenings",
+      "lucideReactComponent": "Projector",
+      "lucideKebabName": "projector",
+      "illustration": "illustrations/movies/special-screenings.svg",
+      "iconFallbackSvg": "icons/movies/special-screenings.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-classic-movie-screenings",
+      "category": "MOVIES",
+      "subcategory": "Classic Movie Screenings",
+      "slug": "classic-movie-screenings",
+      "lucideReactComponent": "Film",
+      "lucideKebabName": "film",
+      "illustration": "illustrations/movies/classic-movie-screenings.svg",
+      "iconFallbackSvg": "icons/movies/classic-movie-screenings.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-movie-premieres",
+      "category": "MOVIES",
+      "subcategory": "Movie Premieres",
+      "slug": "movie-premieres",
+      "lucideReactComponent": "Ticket",
+      "lucideKebabName": "ticket",
+      "illustration": "illustrations/movies/movie-premieres.svg",
+      "iconFallbackSvg": "icons/movies/movie-premieres.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-drive-in-cinemas",
+      "category": "MOVIES",
+      "subcategory": "Drive-in Cinemas",
+      "slug": "drive-in-cinemas",
+      "lucideReactComponent": "CarFront",
+      "lucideKebabName": "car-front",
+      "illustration": "illustrations/movies/drive-in-cinemas.svg",
+      "iconFallbackSvg": "icons/movies/drive-in-cinemas.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "movies-private-theatre-experiences",
+      "category": "MOVIES",
+      "subcategory": "Private Theatre Experiences",
+      "slug": "private-theatre-experiences",
+      "lucideReactComponent": "Tv",
+      "lucideKebabName": "tv",
+      "illustration": "illustrations/movies/private-theatre-experiences.svg",
+      "iconFallbackSvg": "icons/movies/private-theatre-experiences.svg",
+      "categoryColors": {
+        "background": "#ECECF6",
+        "foreground": "#555A91",
+        "accent": "#C7C9E5"
+      }
+    },
+    {
+      "id": "clubs-founders-and-startup-clubs",
+      "category": "CLUBS",
+      "subcategory": "Founders & Startup Clubs",
+      "slug": "founders-and-startup-clubs",
+      "lucideReactComponent": "Rocket",
+      "lucideKebabName": "rocket",
+      "illustration": "illustrations/clubs/founders-and-startup-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/founders-and-startup-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-business-and-networking-clubs",
+      "category": "CLUBS",
+      "subcategory": "Business & Networking Clubs",
+      "slug": "business-and-networking-clubs",
+      "lucideReactComponent": "Handshake",
+      "lucideKebabName": "handshake",
+      "illustration": "illustrations/clubs/business-and-networking-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/business-and-networking-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-sports-and-fitness-clubs",
+      "category": "CLUBS",
+      "subcategory": "Sports & Fitness Clubs",
+      "slug": "sports-and-fitness-clubs",
+      "lucideReactComponent": "Dumbbell",
+      "lucideKebabName": "dumbbell",
+      "illustration": "illustrations/clubs/sports-and-fitness-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/sports-and-fitness-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-travel-and-adventure-clubs",
+      "category": "CLUBS",
+      "subcategory": "Travel & Adventure Clubs",
+      "slug": "travel-and-adventure-clubs",
+      "lucideReactComponent": "Mountain",
+      "lucideKebabName": "mountain",
+      "illustration": "illustrations/clubs/travel-and-adventure-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/travel-and-adventure-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-photography-and-creative-clubs",
+      "category": "CLUBS",
+      "subcategory": "Photography & Creative Clubs",
+      "slug": "photography-and-creative-clubs",
+      "lucideReactComponent": "Camera",
+      "lucideKebabName": "camera",
+      "illustration": "illustrations/clubs/photography-and-creative-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/photography-and-creative-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-automobile-and-bike-clubs",
+      "category": "CLUBS",
+      "subcategory": "Automobile & Bike Clubs",
+      "slug": "automobile-and-bike-clubs",
+      "lucideReactComponent": "CarFront",
+      "lucideKebabName": "car-front",
+      "illustration": "illustrations/clubs/automobile-and-bike-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/automobile-and-bike-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-book-and-reading-clubs",
+      "category": "CLUBS",
+      "subcategory": "Book & Reading Clubs",
+      "slug": "book-and-reading-clubs",
+      "lucideReactComponent": "BookOpen",
+      "lucideKebabName": "book-open",
+      "illustration": "illustrations/clubs/book-and-reading-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/book-and-reading-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-foodie-clubs",
+      "category": "CLUBS",
+      "subcategory": "Foodie Clubs",
+      "slug": "foodie-clubs",
+      "lucideReactComponent": "Utensils",
+      "lucideKebabName": "utensils",
+      "illustration": "illustrations/clubs/foodie-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/foodie-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-gaming-and-esports-clubs",
+      "category": "CLUBS",
+      "subcategory": "Gaming & Esports Clubs",
+      "slug": "gaming-and-esports-clubs",
+      "lucideReactComponent": "Gamepad2",
+      "lucideKebabName": "gamepad2",
+      "illustration": "illustrations/clubs/gaming-and-esports-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/gaming-and-esports-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-social-and-lifestyle-clubs",
+      "category": "CLUBS",
+      "subcategory": "Social & Lifestyle Clubs",
+      "slug": "social-and-lifestyle-clubs",
+      "lucideReactComponent": "UsersRound",
+      "lucideKebabName": "users-round",
+      "illustration": "illustrations/clubs/social-and-lifestyle-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/social-and-lifestyle-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-alumni-clubs",
+      "category": "CLUBS",
+      "subcategory": "Alumni Clubs",
+      "slug": "alumni-clubs",
+      "lucideReactComponent": "GraduationCap",
+      "lucideKebabName": "graduation-cap",
+      "illustration": "illustrations/clubs/alumni-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/alumni-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-pet-lovers-clubs",
+      "category": "CLUBS",
+      "subcategory": "Pet Lovers Clubs",
+      "slug": "pet-lovers-clubs",
+      "lucideReactComponent": "PawPrint",
+      "lucideKebabName": "paw-print",
+      "illustration": "illustrations/clubs/pet-lovers-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/pet-lovers-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-music-and-entertainment-clubs",
+      "category": "CLUBS",
+      "subcategory": "Music & Entertainment Clubs",
+      "slug": "music-and-entertainment-clubs",
+      "lucideReactComponent": "Music2",
+      "lucideKebabName": "music2",
+      "illustration": "illustrations/clubs/music-and-entertainment-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/music-and-entertainment-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-technology-and-developer-clubs",
+      "category": "CLUBS",
+      "subcategory": "Technology & Developer Clubs",
+      "slug": "technology-and-developer-clubs",
+      "lucideReactComponent": "Code2",
+      "lucideKebabName": "code2",
+      "illustration": "illustrations/clubs/technology-and-developer-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/technology-and-developer-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-women-entrepreneurs-clubs",
+      "category": "CLUBS",
+      "subcategory": "Women Entrepreneurs Clubs",
+      "slug": "women-entrepreneurs-clubs",
+      "lucideReactComponent": "BriefcaseBusiness",
+      "lucideKebabName": "briefcase-business",
+      "illustration": "illustrations/clubs/women-entrepreneurs-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/women-entrepreneurs-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-running-and-cycling-clubs",
+      "category": "CLUBS",
+      "subcategory": "Running & Cycling Clubs",
+      "slug": "running-and-cycling-clubs",
+      "lucideReactComponent": "Bike",
+      "lucideKebabName": "bike",
+      "illustration": "illustrations/clubs/running-and-cycling-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/running-and-cycling-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-art-and-culture-clubs",
+      "category": "CLUBS",
+      "subcategory": "Art & Culture Clubs",
+      "slug": "art-and-culture-clubs",
+      "lucideReactComponent": "Palette",
+      "lucideKebabName": "palette",
+      "illustration": "illustrations/clubs/art-and-culture-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/art-and-culture-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-wellness-and-yoga-clubs",
+      "category": "CLUBS",
+      "subcategory": "Wellness & Yoga Clubs",
+      "slug": "wellness-and-yoga-clubs",
+      "lucideReactComponent": "Flower2",
+      "lucideKebabName": "flower2",
+      "illustration": "illustrations/clubs/wellness-and-yoga-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/wellness-and-yoga-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-volunteering-and-social-impact-clubs",
+      "category": "CLUBS",
+      "subcategory": "Volunteering & Social Impact Clubs",
+      "slug": "volunteering-and-social-impact-clubs",
+      "lucideReactComponent": "HeartHandshake",
+      "lucideKebabName": "heart-handshake",
+      "illustration": "illustrations/clubs/volunteering-and-social-impact-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/volunteering-and-social-impact-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    },
+    {
+      "id": "clubs-neighbourhood-clubs",
+      "category": "CLUBS",
+      "subcategory": "Neighbourhood Clubs",
+      "slug": "neighbourhood-clubs",
+      "lucideReactComponent": "MapPinned",
+      "lucideKebabName": "map-pinned",
+      "illustration": "illustrations/clubs/neighbourhood-clubs.svg",
+      "iconFallbackSvg": "icons/clubs/neighbourhood-clubs.svg",
+      "categoryColors": {
+        "background": "#EEF0E8",
+        "foreground": "#63754A",
+        "accent": "#CDD7B7"
+      }
+    }
+  ]
+}

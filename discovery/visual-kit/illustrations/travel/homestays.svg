@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320" viewBox="0 0 480 320" role="img" aria-labelledby="title desc">
+<title id="title">Homestays illustration</title><desc id="desc">Original decorative illustration for the SRCHN TRAVEL subcategory Homestays.</desc>
+<rect width="480" height="320" rx="28" fill="#EAF1F8"/>
+<circle cx="385" cy="76" r="92" fill="#C0D3EA" opacity=".48"/><circle cx="74" cy="277" r="100" fill="#C0D3EA" opacity=".25"/>
+<path d="M0 246 Q115 208 218 246 T480 235 V320 H0Z" fill="#C0D3EA" opacity=".28"/>
+<g transform="translate(168 46) scale(1.18)"><g fill="none" stroke="#456B9A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 47 64 12 108 47"/><path d="M31 43v51h66V43M54 94V64h22v30"/></g></g>
+<rect x="28" y="258" width="424" height="42" rx="12" fill="#FFFFFF" opacity=".84"/>
+<text x="44" y="285" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="650" fill="#456B9A">Homestays</text>
+<circle cx="438" cy="279" r="5" fill="#456B9A"/>
+</svg>

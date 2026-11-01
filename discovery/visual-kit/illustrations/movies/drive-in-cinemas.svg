@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320" viewBox="0 0 480 320" role="img" aria-labelledby="title desc">
+<title id="title">Drive-in Cinemas illustration</title><desc id="desc">Original decorative illustration for the SRCHN MOVIES subcategory Drive-in Cinemas.</desc>
+<rect width="480" height="320" rx="28" fill="#ECECF6"/>
+<circle cx="385" cy="76" r="92" fill="#C7C9E5" opacity=".48"/><circle cx="74" cy="277" r="100" fill="#C7C9E5" opacity=".25"/>
+<path d="M0 246 Q115 208 218 246 T480 235 V320 H0Z" fill="#C7C9E5" opacity=".28"/>
+<g transform="translate(168 46) scale(1.18)"><g fill="none" stroke="#555A91" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M60 12 72 48l31 18-4 9-34-10-5 27-9 5-2-35-27-14 3-9 29 8z"/></g></g>
+<rect x="28" y="258" width="424" height="42" rx="12" fill="#FFFFFF" opacity=".84"/>
+<text x="44" y="285" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="650" fill="#555A91">Drive-in Cinemas</text>
+<circle cx="438" cy="279" r="5" fill="#555A91"/>
+</svg>

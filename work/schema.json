@@ -1,0 +1,44 @@
+{
+  "category": "WORK",
+  "tagline": "OFFICES, COWORKING AND WORKSPACES",
+  "subcategories": [
+    "Coworking Spaces",
+    "Managed Offices",
+    "Private Offices",
+    "Virtual Offices",
+    "Commercial Office Spaces",
+    "Business Centres",
+    "Meeting Rooms",
+    "Conference Rooms",
+    "Training Centres",
+    "Startup Incubators",
+    "Corporate Campuses",
+    "Flexible Workspaces"
+  ],
+  "filters": [
+    "location",
+    "neighbourhood",
+    "budget",
+    "seating_capacity",
+    "workspace_type",
+    "amenities",
+    "availability"
+  ],
+  "listing_fields": [
+    "business_name",
+    "cinematic_video",
+    "photo_gallery",
+    "location",
+    "map",
+    "workspace_category",
+    "pricing",
+    "seating_capacity",
+    "amenities",
+    "operating_hours",
+    "contact_information",
+    "directions",
+    "enquiry_or_booking"
+  ],
+  "listings": [],
+  "policy": "Do not populate listings without current source evidence. Do not infer budget, availability, ratings or operating hours. Enquiry/booking disabled."
+}

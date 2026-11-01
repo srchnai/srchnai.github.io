@@ -1,0 +1,123 @@
+[
+  {
+    "id": "wework-prestige-cube",
+    "name": "WeWork Prestige Cube",
+    "city": "Bengaluru",
+    "neighbourhood": "Koramangala / Adugodi",
+    "address": "Site No. 26, Laskar Hosur Road, Adugodi, Bangalore, Karnataka 560029",
+    "types": [
+      "Coworking Spaces"
+    ],
+    "amenities": [
+      "Video facilities",
+      "Outdoor space",
+      "Coffee bar",
+      "Printing"
+    ],
+    "capacity": null,
+    "price": null,
+    "hours": null,
+    "phone": "08037856300",
+    "source": "https://wework.co.in/bangalore/koramangala/prestige-cube-laskar-hosur-road/",
+    "checked": "30 October 2026",
+    "verification": "Official operator page checked, not on-site inspected.",
+    "availability": null,
+    "video": null,
+    "photos": [],
+    "map": null,
+    "booking": false
+  },
+  {
+    "id": "wework-embassy-one",
+    "name": "WeWork Embassy One",
+    "city": "Bengaluru",
+    "neighbourhood": "Hebbal / Ganganagar",
+    "address": "Embassy One, 8, Bellary Road, Ganganagar, Bangalore, Karnataka 560032",
+    "types": [
+      "Coworking Spaces",
+      "Private Offices",
+      "Meeting Rooms"
+    ],
+    "amenities": [
+      "Coffee bar",
+      "Pet-friendly",
+      "Printing",
+      "IT services",
+      "Onsite staff"
+    ],
+    "capacity": null,
+    "price": null,
+    "hours": null,
+    "phone": "1800123777888",
+    "phone_scope": "WeWork India support",
+    "source": "https://wework.co.in/bangalore/hebbal/embassy-one/",
+    "checked": "30 October 2026",
+    "verification": "Official operator page checked, not on-site inspected.",
+    "availability": null,
+    "video": null,
+    "photos": [],
+    "map": "https://www.google.com/maps/search/?api=1&query=WeWork+Embassy+One+-+Coworking+%26+Office+Space+in+Hebbal%2C+Bangalore&query_place_id=ChIJQQCETH4XrjsRku6GvTrJWQE",
+    "booking": false
+  },
+  {
+    "id": "bhive-mg-road",
+    "name": "BHIVE Workspace MG Road",
+    "city": "Bengaluru",
+    "neighbourhood": "MG Road / Sivanchetti Gardens",
+    "address": "1st, 6th and 7th Floor, Mahalakshmi Chambers, 29, MG Road, Bengaluru 560001",
+    "types": [
+      "Coworking Spaces",
+      "Managed Offices",
+      "Conference Rooms",
+      "Flexible Workspaces"
+    ],
+    "amenities": [
+      "Cafe",
+      "Open lounge",
+      "Game zone",
+      "Conference rooms",
+      "Optional valet parking"
+    ],
+    "capacity": null,
+    "price": null,
+    "price_note": "Operator requests contact for detailed pricing.",
+    "hours": null,
+    "phone": "+919538677774",
+    "phone_scope": "BHIVE sales",
+    "source": "https://bhiveworkspace.com/locations-coworking/mg-road/",
+    "checked": "30 October 2026",
+    "verification": "Official operator page checked, not on-site inspected.",
+    "availability": null,
+    "video": null,
+    "photos": [],
+    "map": "https://www.google.com/maps/search/?api=1&query=BHIVE+Workspace+MG+Road&query_place_id=ChIJuRUk7doXrjsR8pL0tOCB3RI",
+    "booking": false
+  },
+  {
+    "id": "awfis-shantiniketan-pod",
+    "name": "Awfis Pod, Prestige Shantiniketan",
+    "city": "Bengaluru",
+    "neighbourhood": "Whitefield / Thigalarapalya",
+    "address": "Prestige Shantiniketan Commercial, Ground Floor, Crescent 3, ITPL Main Road, Thigalarapalya, Whitefield, Bengaluru 560048",
+    "types": [
+      "Meeting Rooms"
+    ],
+    "amenities": [
+      "Video conferencing",
+      "Private meeting pod"
+    ],
+    "capacity": 6,
+    "price": null,
+    "hours": null,
+    "phone": "18602586633",
+    "phone_scope": "Awfis information line",
+    "source": "https://www.awfis.com/meeting-room/meeting-pod",
+    "checked": "30 October 2026",
+    "verification": "Official operator page checked, not on-site inspected.",
+    "availability": null,
+    "video": null,
+    "photos": [],
+    "map": null,
+    "booking": false
+  }
+]

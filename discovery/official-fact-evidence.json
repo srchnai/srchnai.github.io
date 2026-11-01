@@ -1,0 +1,115 @@
+[
+  {
+    "place_id": "official-wework-prestige-cube",
+    "name": "WeWork Prestige Cube",
+    "description": "WeWork lists Prestige Cube on Laskar Hosur Road in Adugodi, Bengaluru. The centre page lists common areas, video facilities, parking, printing and a wellness room. Some amenities are marked as paid; desk, room and office availability is not checked by SRCHN.",
+    "evidence": {
+      "checkedAt": "2026-10-30 14:08 IST",
+      "sourceUrl": "https://wework.co.in/bangalore/koramangala/prestige-cube-laskar-hosur-road/",
+      "level": "Official website corroboration only; not independent venue verification",
+      "facts": [
+        "Official centre page confirms the name and street address.",
+        "Parking and some food services are marked as paid. No desk or room availability is claimed."
+      ]
+    }
+  },
+  {
+    "place_id": "official-mtr-lalbagh",
+    "name": "MTR, Lalbagh Road",
+    "description": "MTR lists a Lalbagh Road restaurant serving breakfast, meals and tiffin, including idli, vade and masala dose. The official location page says Monday is closed and lists separate weekday and weekend service periods. Menu items are subject to availability.",
+    "evidence": {
+      "checkedAt": "2026-10-30 14:08 IST",
+      "sourceUrl": "https://mavallitiffinrooms.com/locations/lalbagh-road",
+      "level": "Official website corroboration only; not independent venue verification",
+      "facts": [
+        "Monday listed as closed.",
+        "Service breaks and weekday/weekend schedules differ; use the official location page for the full timetable."
+      ]
+    }
+  },
+  {
+    "place_id": "official-play-arena",
+    "name": "PLaY Arena",
+    "description": "PLaY Arena lists sports, adventure activities, arcade games and areas for younger children at its Kasavanahalli venue. The site recommends pre-booking activities. Its listed activity hours are 6 AM to 11 PM; availability and prices must be checked with the operator.",
+    "evidence": {
+      "checkedAt": "2026-10-30 14:08 IST",
+      "sourceUrl": "https://playarena.in/",
+      "level": "Official website corroboration only; not independent venue verification",
+      "facts": [
+        "Activity hours listed: 6 AM-11 PM. Food and beverage hours listed: 10 AM-11 PM.",
+        "The operator lists parking; activity availability is not checked by SRCHN."
+      ]
+    }
+  },
+  {
+    "place_id": "official-ikea-nagasandra",
+    "name": "IKEA Nagasandra",
+    "description": "IKEA identifies its Bengaluru store in Nagasandra, with furniture, home furnishings, a restaurant and click-and-collect service. Its store page lists daily store hours of 11 AM to 10 PM. Check the official page before travelling; service hours differ.",
+    "evidence": {
+      "checkedAt": "2026-10-30 14:08 IST",
+      "sourceUrl": "https://www.ikea.com/in/en/stores/bengaluru/",
+      "level": "Official website corroboration only; not independent venue verification",
+      "facts": [
+        "Store hours listed: Monday-Sunday, 11 AM-10 PM. Restaurant and collection hours differ.",
+        "The official page lists parking and a Nagasandra metro connection."
+      ]
+    }
+  },
+  {
+    "place_id": "official-bts-2026",
+    "name": "Bengaluru Tech Summit 2026",
+    "description": "The Bengaluru Tech Summit website lists its 2026 event for 17-19 November at Bangalore International Exhibition Centre (BIEC), with the theme AI & Beyond. The listed daily event window is 9 AM-6 PM. Programme, entry terms and availability must be checked with the organiser.",
+    "evidence": {
+      "checkedAt": "2026-10-30 16:03 IST",
+      "sourceUrl": "https://www.bengalurutechsummit.com/",
+      "level": "Official website corroboration only; not independent venue verification",
+      "facts": [
+        "Organiser-listed event dates: 17-19 November 2026, Tuesday-Thursday.",
+        "Organiser-listed venue: BIEC, Tumkur Road. Listed daily hours: 9 AM-6 PM.",
+        "This is organiser information, not independent event verification or a ticket offer."
+      ]
+    }
+  },
+  {
+    "place_id": "official-pvr-koramangala",
+    "name": "PVR IMAX, Koramangala",
+    "description": "The IMAX theatre page identifies PVR IMAX at The Forum on Adugodi Main Road, Koramangala. It lists stadium seating and IMAX with Laser. IMAX.com currently supplies no showtimes for this theatre; use the theatre website for films, dates and tickets.",
+    "evidence": {
+      "checkedAt": "2026-10-30 16:03 IST",
+      "sourceUrl": "https://www.imax.com/theatre/pvr-imax",
+      "level": "Official website corroboration only; not independent venue verification",
+      "facts": [
+        "The official IMAX page lists IMAX with Laser and stadium seating.",
+        "No showtimes are supplied on IMAX.com for this theatre. No current film,seat availability or ticket price is claimed."
+      ]
+    }
+  },
+  {
+    "place_id": "official-runners-high",
+    "name": "Runner's High",
+    "description": "Runner's High describes a Bengaluru running community with training from 5 km through marathon and ultra-marathon distances. Its site lists a Sarjapur Road contact address. That address is not a confirmed meeting point or a schedule; check the current programme directly.",
+    "evidence": {
+      "checkedAt": "2026-10-30 14:08 IST",
+      "sourceUrl": "https://runnershigh.in/",
+      "level": "Official website corroboration only; not independent venue verification",
+      "facts": [
+        "The site lists 5 km,10 km,half-marathon,marathon and ultra-marathon training programmes.",
+        "The contact address is not a verified activity venue. No session date,fee or availability is supplied."
+      ]
+    }
+  },
+  {
+    "place_id": "official-bangpypers",
+    "name": "BangPypers",
+    "description": "BangPypers is the Bangalore Python User Group. Its site publishes meetup reports and community posts. The latest October 2026 post describes a meetup already held at EPAM Systems Bengaluru with Functional Programming India; it is not an invitation or confirmation of a future session.",
+    "evidence": {
+      "checkedAt": "2026-10-30 16:03 IST",
+      "sourceUrl": "https://bangalore.pythonindia.org/",
+      "level": "Official website corroboration only; not independent venue verification",
+      "facts": [
+        "The official community site identifies BangPypers as the Bangalore Python User Group.",
+        "The 24 October 2026 post is a report of a past meetup. No future date,venue,fee or available place is claimed."
+      ]
+    }
+  }
+]

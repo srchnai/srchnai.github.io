@@ -1,0 +1,127 @@
+{
+  "checked_at": "2026-10-30",
+  "records": [
+    {
+      "place_id": "w38773290",
+      "photo": {
+        "src": "/photos/bengaluru/shop-desktop.webp",
+        "srcset": "/photos/bengaluru/shop-mobile.webp 480w, /photos/bengaluru/shop-tablet.webp 800w, /photos/bengaluru/shop-desktop.webp 960w",
+        "alt": "Historical photograph of entrance stairs and escalators at UB City, Bengaluru",
+        "by": "Vishwanth Pindiboina",
+        "license": "Unsplash License",
+        "licenseUrl": "https://unsplash.com/license",
+        "file": "https://unsplash.com/photos/a-view-of-a-set-of-stairs-from-the-bottom-of-the-stairs-XSHA_CA10wQ",
+        "published": "2022-03-09",
+        "historical": true,
+        "changes": "Responsive crop and WebP conversion",
+        "identityEvidence": "Original source identifies UB City, Vittal Mallya Road, Bengaluru. Exact venue match only; not a current-condition or business-verification claim."
+      },
+      "assets": [
+        {
+          "path": "/photos/bengaluru/shop-tablet.webp",
+          "sha256": "215068cc3c6f8f4cfe307b60d42ffca43fdbea6c251524fc0d1999f84a66b7cb"
+        },
+        {
+          "path": "/photos/bengaluru/shop-desktop.webp",
+          "sha256": "e71517d00efed16cb06bfaa38dbd9ad5732200d9af9fc23b4c5378c508f5fee9"
+        },
+        {
+          "path": "/photos/bengaluru/shop-mobile.webp",
+          "sha256": "16ad1e976fcee5cb1066c14add2e1e24355fff48c1b6c1603bae0709858c9781"
+        }
+      ]
+    },
+    {
+      "place_id": "w437438963",
+      "photo": {
+        "src": "/photos/places/mantri-square-960.webp",
+        "srcset": "/photos/places/mantri-square-480.webp 480w, /photos/places/mantri-square-800.webp 800w, /photos/places/mantri-square-960.webp 960w",
+        "alt": "Historical food-court view at Mantri Square, Bengaluru, photographed in2010",
+        "by": "Prateek Karandikar",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "file": "https://commons.wikimedia.org/wiki/File:Mantri_Square_food_court_stalls.JPG",
+        "published": "2010-06-20",
+        "historical": true,
+        "changes": "Resized and converted to WebP; derivative under CC BY-SA 4.0",
+        "identityEvidence": "File description names food-court stalls at Mantri Square; exact venue category is also linked by mapped source record. Historical view only."
+      },
+      "assets": [
+        {
+          "path": "/photos/places/mantri-square-800.webp",
+          "sha256": "7fb425c71ab05904a32ba21fc31b151c4205460855910f8aa376b9729304cfb6"
+        },
+        {
+          "path": "/photos/places/mantri-square-480.webp",
+          "sha256": "9d4ec5fef58efe534bab6c47f7092d6ce284072594a038edbcf267b4bc46aef7"
+        },
+        {
+          "path": "/photos/places/mantri-square-960.webp",
+          "sha256": "73b6094f4c8b03c68555e3b0bd363f6d61499e92035bce4cdda69a8858247409"
+        }
+      ]
+    },
+    {
+      "place_id": "w111997549",
+      "photo": {
+        "src": "/photos/places/garuda-mall-960.webp",
+        "srcset": "/photos/places/garuda-mall-480.webp 480w, /photos/places/garuda-mall-800.webp 800w, /photos/places/garuda-mall-960.webp 960w",
+        "alt": "Historical exterior view of Garuda Mall, Bengaluru, photographed in2012",
+        "by": "Rameshng",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "file": "https://commons.wikimedia.org/wiki/File:Garuda_Mall_Bangalore_191717.jpg",
+        "published": "2012-08-15",
+        "historical": true,
+        "changes": "Resized and converted to WebP; derivative under CC BY-SA 3.0",
+        "identityEvidence": "File description and visible signage identify Garuda Mall; exact venue category is also linked by mapped source record. Historical view only.",
+        "title": "Garuda Mall Bangalore 191717.jpg"
+      },
+      "assets": [
+        {
+          "path": "/photos/places/garuda-mall-480.webp",
+          "sha256": "12ed5fab6a40b05596b68031113581d8c5a92aac28296f6735b9e2280c58220a"
+        },
+        {
+          "path": "/photos/places/garuda-mall-960.webp",
+          "sha256": "e1359b666a096db0ee404c080fbb01263f339391114798c1f19e155001e8e3d4"
+        },
+        {
+          "path": "/photos/places/garuda-mall-800.webp",
+          "sha256": "02cd52144e435099e13b3c21daa44cc8a25e35b6fc0b54239cddc39a72a59e66"
+        }
+      ]
+    },
+    {
+      "place_id": "w437438963",
+      "gallery_photo": {
+        "src": "/photos/places/mantri-square-top-960.webp",
+        "srcset": "/photos/places/mantri-square-top-480.webp 480w, /photos/places/mantri-square-top-800.webp 800w, /photos/places/mantri-square-top-960.webp 960w",
+        "alt": "Historical top-floor view inside Mantri Square in2010",
+        "by": "Prateek Karandikar",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "file": "https://commons.wikimedia.org/wiki/File:Mantri_Square_top_floor.JPG",
+        "published": "2010-06-20",
+        "historical": true,
+        "changes": "Resized and converted to WebP; derivative under CC BY-SA 4.0",
+        "identityEvidence": "File explicitly identifies top floor of Mantri Square. Source bytes visually show mall interior;historical2010view,notcurrenttenant evidence.",
+        "title": "Mantri Square top floor.JPG"
+      },
+      "assets": [
+        {
+          "path": "/photos/places/mantri-square-top-480.webp",
+          "sha256": "714129f75f5b2ce3e22c1f2d5630b60a6e0560ea072cd99a5213a141e9c33828"
+        },
+        {
+          "path": "/photos/places/mantri-square-top-960.webp",
+          "sha256": "11dda258c558d991ea701a09c664de5f100766dbab12614fb53e2ae292f4506d"
+        },
+        {
+          "path": "/photos/places/mantri-square-top-800.webp",
+          "sha256": "27c2bff73115922de90c50df02a75ed8e5baa2fceb7f7fcc900e5234c95a3df6"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1034 @@
+{
+  "live-homes": {
+    "category": "LIVE",
+    "subcategory": "Homes",
+    "lucideReactComponent": "House",
+    "lucideKebabName": "house"
+  },
+  "live-apartments": {
+    "category": "LIVE",
+    "subcategory": "Apartments",
+    "lucideReactComponent": "Building2",
+    "lucideKebabName": "building2"
+  },
+  "live-rentals": {
+    "category": "LIVE",
+    "subcategory": "Rentals",
+    "lucideReactComponent": "KeyRound",
+    "lucideKebabName": "key-round"
+  },
+  "live-co-living": {
+    "category": "LIVE",
+    "subcategory": "Co-Living",
+    "lucideReactComponent": "UsersRound",
+    "lucideKebabName": "users-round"
+  },
+  "live-stays": {
+    "category": "LIVE",
+    "subcategory": "Stays",
+    "lucideReactComponent": "BedDouble",
+    "lucideKebabName": "bed-double"
+  },
+  "work-coworking-spaces": {
+    "category": "WORK",
+    "subcategory": "Coworking Spaces",
+    "lucideReactComponent": "Laptop",
+    "lucideKebabName": "laptop"
+  },
+  "work-managed-offices": {
+    "category": "WORK",
+    "subcategory": "Managed Offices",
+    "lucideReactComponent": "Building",
+    "lucideKebabName": "building"
+  },
+  "work-private-offices": {
+    "category": "WORK",
+    "subcategory": "Private Offices",
+    "lucideReactComponent": "BriefcaseBusiness",
+    "lucideKebabName": "briefcase-business"
+  },
+  "work-virtual-offices": {
+    "category": "WORK",
+    "subcategory": "Virtual Offices",
+    "lucideReactComponent": "Globe",
+    "lucideKebabName": "globe"
+  },
+  "work-commercial-office-spaces": {
+    "category": "WORK",
+    "subcategory": "Commercial Office Spaces",
+    "lucideReactComponent": "Building2",
+    "lucideKebabName": "building2"
+  },
+  "work-business-centres": {
+    "category": "WORK",
+    "subcategory": "Business Centres",
+    "lucideReactComponent": "Landmark",
+    "lucideKebabName": "landmark"
+  },
+  "work-meeting-rooms": {
+    "category": "WORK",
+    "subcategory": "Meeting Rooms",
+    "lucideReactComponent": "Users",
+    "lucideKebabName": "users"
+  },
+  "work-conference-rooms": {
+    "category": "WORK",
+    "subcategory": "Conference Rooms",
+    "lucideReactComponent": "Presentation",
+    "lucideKebabName": "presentation"
+  },
+  "work-training-centres": {
+    "category": "WORK",
+    "subcategory": "Training Centres",
+    "lucideReactComponent": "GraduationCap",
+    "lucideKebabName": "graduation-cap"
+  },
+  "work-startup-incubators": {
+    "category": "WORK",
+    "subcategory": "Startup Incubators",
+    "lucideReactComponent": "Rocket",
+    "lucideKebabName": "rocket"
+  },
+  "work-corporate-campuses": {
+    "category": "WORK",
+    "subcategory": "Corporate Campuses",
+    "lucideReactComponent": "Factory",
+    "lucideKebabName": "factory"
+  },
+  "work-flexible-workspaces": {
+    "category": "WORK",
+    "subcategory": "Flexible Workspaces",
+    "lucideReactComponent": "PanelsTopLeft",
+    "lucideKebabName": "panels-top-left"
+  },
+  "eat-restaurants": {
+    "category": "EAT",
+    "subcategory": "Restaurants",
+    "lucideReactComponent": "Utensils",
+    "lucideKebabName": "utensils"
+  },
+  "eat-cafes": {
+    "category": "EAT",
+    "subcategory": "Cafés",
+    "lucideReactComponent": "Coffee",
+    "lucideKebabName": "coffee"
+  },
+  "eat-fine-dining": {
+    "category": "EAT",
+    "subcategory": "Fine Dining",
+    "lucideReactComponent": "ConciergeBell",
+    "lucideKebabName": "concierge-bell"
+  },
+  "eat-casual-dining": {
+    "category": "EAT",
+    "subcategory": "Casual Dining",
+    "lucideReactComponent": "ChefHat",
+    "lucideKebabName": "chef-hat"
+  },
+  "eat-south-indian-restaurants": {
+    "category": "EAT",
+    "subcategory": "South Indian Restaurants",
+    "lucideReactComponent": "Soup",
+    "lucideKebabName": "soup"
+  },
+  "eat-north-indian-restaurants": {
+    "category": "EAT",
+    "subcategory": "North Indian Restaurants",
+    "lucideReactComponent": "CookingPot",
+    "lucideKebabName": "cooking-pot"
+  },
+  "eat-street-food": {
+    "category": "EAT",
+    "subcategory": "Street Food",
+    "lucideReactComponent": "Sandwich",
+    "lucideKebabName": "sandwich"
+  },
+  "eat-bakeries": {
+    "category": "EAT",
+    "subcategory": "Bakeries",
+    "lucideReactComponent": "Croissant",
+    "lucideKebabName": "croissant"
+  },
+  "eat-dessert-parlours": {
+    "category": "EAT",
+    "subcategory": "Dessert Parlours",
+    "lucideReactComponent": "IceCreamBowl",
+    "lucideKebabName": "ice-cream-bowl"
+  },
+  "eat-breakfast-and-brunch": {
+    "category": "EAT",
+    "subcategory": "Breakfast & Brunch",
+    "lucideReactComponent": "Sunrise",
+    "lucideKebabName": "sunrise"
+  },
+  "eat-family-restaurants": {
+    "category": "EAT",
+    "subcategory": "Family Restaurants",
+    "lucideReactComponent": "UsersRound",
+    "lucideKebabName": "users-round"
+  },
+  "eat-buffets": {
+    "category": "EAT",
+    "subcategory": "Buffets",
+    "lucideReactComponent": "Salad",
+    "lucideKebabName": "salad"
+  },
+  "eat-cloud-kitchens": {
+    "category": "EAT",
+    "subcategory": "Cloud Kitchens",
+    "lucideReactComponent": "Package",
+    "lucideKebabName": "package"
+  },
+  "eat-food-courts": {
+    "category": "EAT",
+    "subcategory": "Food Courts",
+    "lucideReactComponent": "Store",
+    "lucideKebabName": "store"
+  },
+  "eat-vegetarian-restaurants": {
+    "category": "EAT",
+    "subcategory": "Vegetarian Restaurants",
+    "lucideReactComponent": "Leaf",
+    "lucideKebabName": "leaf"
+  },
+  "eat-vegan-restaurants": {
+    "category": "EAT",
+    "subcategory": "Vegan Restaurants",
+    "lucideReactComponent": "Sprout",
+    "lucideKebabName": "sprout"
+  },
+  "eat-fast-food": {
+    "category": "EAT",
+    "subcategory": "Fast Food",
+    "lucideReactComponent": "Pizza",
+    "lucideKebabName": "pizza"
+  },
+  "eat-specialty-cuisine": {
+    "category": "EAT",
+    "subcategory": "Specialty Cuisine",
+    "lucideReactComponent": "CookingPot",
+    "lucideKebabName": "cooking-pot"
+  },
+  "drink-pubs-and-bars": {
+    "category": "DRINK",
+    "subcategory": "Pubs & Bars",
+    "lucideReactComponent": "Beer",
+    "lucideKebabName": "beer"
+  },
+  "drink-breweries-and-microbreweries": {
+    "category": "DRINK",
+    "subcategory": "Breweries & Microbreweries",
+    "lucideReactComponent": "Wheat",
+    "lucideKebabName": "wheat"
+  },
+  "drink-whisky-bars": {
+    "category": "DRINK",
+    "subcategory": "Whisky Bars",
+    "lucideReactComponent": "GlassWater",
+    "lucideKebabName": "glass-water"
+  },
+  "drink-cocktail-bars": {
+    "category": "DRINK",
+    "subcategory": "Cocktail Bars",
+    "lucideReactComponent": "Martini",
+    "lucideKebabName": "martini"
+  },
+  "drink-wine-bars": {
+    "category": "DRINK",
+    "subcategory": "Wine Bars",
+    "lucideReactComponent": "Wine",
+    "lucideKebabName": "wine"
+  },
+  "drink-rooftop-bars": {
+    "category": "DRINK",
+    "subcategory": "Rooftop Bars",
+    "lucideReactComponent": "Building2",
+    "lucideKebabName": "building2"
+  },
+  "drink-nightclubs-and-discotheques": {
+    "category": "DRINK",
+    "subcategory": "Nightclubs & Discotheques",
+    "lucideReactComponent": "Music2",
+    "lucideKebabName": "music2"
+  },
+  "drink-dj-nights-and-party-bars": {
+    "category": "DRINK",
+    "subcategory": "DJ Nights & Party Bars",
+    "lucideReactComponent": "Disc3",
+    "lucideKebabName": "disc3"
+  },
+  "drink-luxury-hotel-bars": {
+    "category": "DRINK",
+    "subcategory": "Luxury Hotel Bars",
+    "lucideReactComponent": "Wine",
+    "lucideKebabName": "wine"
+  },
+  "drink-sports-bars": {
+    "category": "DRINK",
+    "subcategory": "Sports Bars",
+    "lucideReactComponent": "Trophy",
+    "lucideKebabName": "trophy"
+  },
+  "drink-live-music-bars": {
+    "category": "DRINK",
+    "subcategory": "Live Music Bars",
+    "lucideReactComponent": "Mic2",
+    "lucideKebabName": "mic2"
+  },
+  "drink-lounge-bars": {
+    "category": "DRINK",
+    "subcategory": "Lounge Bars",
+    "lucideReactComponent": "Armchair",
+    "lucideKebabName": "armchair"
+  },
+  "drink-taprooms": {
+    "category": "DRINK",
+    "subcategory": "Taprooms",
+    "lucideReactComponent": "Beer",
+    "lucideKebabName": "beer"
+  },
+  "drink-beer-gardens": {
+    "category": "DRINK",
+    "subcategory": "Beer Gardens",
+    "lucideReactComponent": "TreePalm",
+    "lucideKebabName": "tree-palm"
+  },
+  "drink-karaoke-bars": {
+    "category": "DRINK",
+    "subcategory": "Karaoke Bars",
+    "lucideReactComponent": "MicVocal",
+    "lucideKebabName": "mic-vocal"
+  },
+  "play-gaming-zones-and-arcades": {
+    "category": "PLAY",
+    "subcategory": "Gaming Zones & Arcades",
+    "lucideReactComponent": "Gamepad2",
+    "lucideKebabName": "gamepad2"
+  },
+  "play-bowling-alleys": {
+    "category": "PLAY",
+    "subcategory": "Bowling Alleys",
+    "lucideReactComponent": "BowlingBall",
+    "lucideKebabName": "bowling-ball"
+  },
+  "play-sports-arenas": {
+    "category": "PLAY",
+    "subcategory": "Sports Arenas",
+    "lucideReactComponent": "Trophy",
+    "lucideKebabName": "trophy"
+  },
+  "play-indoor-sports": {
+    "category": "PLAY",
+    "subcategory": "Indoor Sports",
+    "lucideReactComponent": "Dumbbell",
+    "lucideKebabName": "dumbbell"
+  },
+  "play-outdoor-sports": {
+    "category": "PLAY",
+    "subcategory": "Outdoor Sports",
+    "lucideReactComponent": "Bike",
+    "lucideKebabName": "bike"
+  },
+  "play-adventure-activities": {
+    "category": "PLAY",
+    "subcategory": "Adventure Activities",
+    "lucideReactComponent": "Mountain",
+    "lucideKebabName": "mountain"
+  },
+  "play-escape-rooms": {
+    "category": "PLAY",
+    "subcategory": "Escape Rooms",
+    "lucideReactComponent": "DoorOpen",
+    "lucideKebabName": "door-open"
+  },
+  "play-amusement-parks": {
+    "category": "PLAY",
+    "subcategory": "Amusement Parks",
+    "lucideReactComponent": "FerrisWheel",
+    "lucideKebabName": "ferris-wheel"
+  },
+  "play-trampoline-parks": {
+    "category": "PLAY",
+    "subcategory": "Trampoline Parks",
+    "lucideReactComponent": "Activity",
+    "lucideKebabName": "activity"
+  },
+  "play-go-karting": {
+    "category": "PLAY",
+    "subcategory": "Go-Karting",
+    "lucideReactComponent": "Flag",
+    "lucideKebabName": "flag"
+  },
+  "play-paintball": {
+    "category": "PLAY",
+    "subcategory": "Paintball",
+    "lucideReactComponent": "Target",
+    "lucideKebabName": "target"
+  },
+  "play-laser-tag": {
+    "category": "PLAY",
+    "subcategory": "Laser Tag",
+    "lucideReactComponent": "Crosshair",
+    "lucideKebabName": "crosshair"
+  },
+  "play-swimming-pools": {
+    "category": "PLAY",
+    "subcategory": "Swimming Pools",
+    "lucideReactComponent": "Waves",
+    "lucideKebabName": "waves"
+  },
+  "play-fitness-and-recreation": {
+    "category": "PLAY",
+    "subcategory": "Fitness & Recreation",
+    "lucideReactComponent": "Dumbbell",
+    "lucideKebabName": "dumbbell"
+  },
+  "play-vr-experiences": {
+    "category": "PLAY",
+    "subcategory": "VR Experiences",
+    "lucideReactComponent": "Glasses",
+    "lucideKebabName": "glasses"
+  },
+  "play-board-game-cafes": {
+    "category": "PLAY",
+    "subcategory": "Board Game Cafés",
+    "lucideReactComponent": "ChessKnight",
+    "lucideKebabName": "chess-knight"
+  },
+  "play-badminton-and-squash": {
+    "category": "PLAY",
+    "subcategory": "Badminton & Squash",
+    "lucideReactComponent": "Trophy",
+    "lucideKebabName": "trophy"
+  },
+  "play-cricket-and-football-grounds": {
+    "category": "PLAY",
+    "subcategory": "Cricket & Football Grounds",
+    "lucideReactComponent": "Goal",
+    "lucideKebabName": "goal"
+  },
+  "play-trekking-and-outdoor-adventures": {
+    "category": "PLAY",
+    "subcategory": "Trekking & Outdoor Adventures",
+    "lucideReactComponent": "Backpack",
+    "lucideKebabName": "backpack"
+  },
+  "play-family-entertainment-centres": {
+    "category": "PLAY",
+    "subcategory": "Family Entertainment Centres",
+    "lucideReactComponent": "PartyPopper",
+    "lucideKebabName": "party-popper"
+  },
+  "shop-shopping-malls": {
+    "category": "SHOP",
+    "subcategory": "Shopping Malls",
+    "lucideReactComponent": "ShoppingBag",
+    "lucideKebabName": "shopping-bag"
+  },
+  "shop-fashion-and-apparel": {
+    "category": "SHOP",
+    "subcategory": "Fashion & Apparel",
+    "lucideReactComponent": "Shirt",
+    "lucideKebabName": "shirt"
+  },
+  "shop-luxury-boutiques": {
+    "category": "SHOP",
+    "subcategory": "Luxury Boutiques",
+    "lucideReactComponent": "Gem",
+    "lucideKebabName": "gem"
+  },
+  "shop-footwear": {
+    "category": "SHOP",
+    "subcategory": "Footwear",
+    "lucideReactComponent": "Footprints",
+    "lucideKebabName": "footprints"
+  },
+  "shop-jewellery": {
+    "category": "SHOP",
+    "subcategory": "Jewellery",
+    "lucideReactComponent": "Gem",
+    "lucideKebabName": "gem"
+  },
+  "shop-watches-and-accessories": {
+    "category": "SHOP",
+    "subcategory": "Watches & Accessories",
+    "lucideReactComponent": "Watch",
+    "lucideKebabName": "watch"
+  },
+  "shop-electronics": {
+    "category": "SHOP",
+    "subcategory": "Electronics",
+    "lucideReactComponent": "Monitor",
+    "lucideKebabName": "monitor"
+  },
+  "shop-mobile-and-gadgets": {
+    "category": "SHOP",
+    "subcategory": "Mobile & Gadgets",
+    "lucideReactComponent": "Smartphone",
+    "lucideKebabName": "smartphone"
+  },
+  "shop-furniture-and-home-decor": {
+    "category": "SHOP",
+    "subcategory": "Furniture & Home Décor",
+    "lucideReactComponent": "Sofa",
+    "lucideKebabName": "sofa"
+  },
+  "shop-beauty-and-cosmetics": {
+    "category": "SHOP",
+    "subcategory": "Beauty & Cosmetics",
+    "lucideReactComponent": "Sparkles",
+    "lucideKebabName": "sparkles"
+  },
+  "shop-supermarkets": {
+    "category": "SHOP",
+    "subcategory": "Supermarkets",
+    "lucideReactComponent": "ShoppingCart",
+    "lucideKebabName": "shopping-cart"
+  },
+  "shop-department-stores": {
+    "category": "SHOP",
+    "subcategory": "Department Stores",
+    "lucideReactComponent": "Store",
+    "lucideKebabName": "store"
+  },
+  "shop-bookstores": {
+    "category": "SHOP",
+    "subcategory": "Bookstores",
+    "lucideReactComponent": "BookOpen",
+    "lucideKebabName": "book-open"
+  },
+  "shop-sports-and-fitness-stores": {
+    "category": "SHOP",
+    "subcategory": "Sports & Fitness Stores",
+    "lucideReactComponent": "Dumbbell",
+    "lucideKebabName": "dumbbell"
+  },
+  "shop-lifestyle-stores": {
+    "category": "SHOP",
+    "subcategory": "Lifestyle Stores",
+    "lucideReactComponent": "ShoppingBasket",
+    "lucideKebabName": "shopping-basket"
+  },
+  "shop-home-improvement": {
+    "category": "SHOP",
+    "subcategory": "Home Improvement",
+    "lucideReactComponent": "Hammer",
+    "lucideKebabName": "hammer"
+  },
+  "shop-gift-shops": {
+    "category": "SHOP",
+    "subcategory": "Gift Shops",
+    "lucideReactComponent": "Gift",
+    "lucideKebabName": "gift"
+  },
+  "shop-local-markets": {
+    "category": "SHOP",
+    "subcategory": "Local Markets",
+    "lucideReactComponent": "Store",
+    "lucideKebabName": "store"
+  },
+  "shop-organic-and-specialty-stores": {
+    "category": "SHOP",
+    "subcategory": "Organic & Specialty Stores",
+    "lucideReactComponent": "Sprout",
+    "lucideKebabName": "sprout"
+  },
+  "shop-kids-and-baby-stores": {
+    "category": "SHOP",
+    "subcategory": "Kids & Baby Stores",
+    "lucideReactComponent": "Baby",
+    "lucideKebabName": "baby"
+  },
+  "travel-hotels": {
+    "category": "TRAVEL",
+    "subcategory": "Hotels",
+    "lucideReactComponent": "Hotel",
+    "lucideKebabName": "hotel"
+  },
+  "travel-luxury-resorts": {
+    "category": "TRAVEL",
+    "subcategory": "Luxury Resorts",
+    "lucideReactComponent": "Palmtree",
+    "lucideKebabName": "palmtree"
+  },
+  "travel-boutique-hotels": {
+    "category": "TRAVEL",
+    "subcategory": "Boutique Hotels",
+    "lucideReactComponent": "BedDouble",
+    "lucideKebabName": "bed-double"
+  },
+  "travel-homestays": {
+    "category": "TRAVEL",
+    "subcategory": "Homestays",
+    "lucideReactComponent": "House",
+    "lucideKebabName": "house"
+  },
+  "travel-serviced-apartments": {
+    "category": "TRAVEL",
+    "subcategory": "Serviced Apartments",
+    "lucideReactComponent": "Building2",
+    "lucideKebabName": "building2"
+  },
+  "travel-hostels": {
+    "category": "TRAVEL",
+    "subcategory": "Hostels",
+    "lucideReactComponent": "Bed",
+    "lucideKebabName": "bed"
+  },
+  "travel-villas": {
+    "category": "TRAVEL",
+    "subcategory": "Villas",
+    "lucideReactComponent": "Castle",
+    "lucideKebabName": "castle"
+  },
+  "travel-weekend-getaways": {
+    "category": "TRAVEL",
+    "subcategory": "Weekend Getaways",
+    "lucideReactComponent": "Luggage",
+    "lucideKebabName": "luggage"
+  },
+  "travel-hill-stations": {
+    "category": "TRAVEL",
+    "subcategory": "Hill Stations",
+    "lucideReactComponent": "MountainSnow",
+    "lucideKebabName": "mountain-snow"
+  },
+  "travel-beach-destinations": {
+    "category": "TRAVEL",
+    "subcategory": "Beach Destinations",
+    "lucideReactComponent": "Waves",
+    "lucideKebabName": "waves"
+  },
+  "travel-adventure-travel": {
+    "category": "TRAVEL",
+    "subcategory": "Adventure Travel",
+    "lucideReactComponent": "Compass",
+    "lucideKebabName": "compass"
+  },
+  "travel-nature-retreats": {
+    "category": "TRAVEL",
+    "subcategory": "Nature Retreats",
+    "lucideReactComponent": "Trees",
+    "lucideKebabName": "trees"
+  },
+  "travel-wildlife-and-safari": {
+    "category": "TRAVEL",
+    "subcategory": "Wildlife & Safari",
+    "lucideReactComponent": "Binoculars",
+    "lucideKebabName": "binoculars"
+  },
+  "travel-road-trips": {
+    "category": "TRAVEL",
+    "subcategory": "Road Trips",
+    "lucideReactComponent": "CarFront",
+    "lucideKebabName": "car-front"
+  },
+  "travel-international-travel": {
+    "category": "TRAVEL",
+    "subcategory": "International Travel",
+    "lucideReactComponent": "Plane",
+    "lucideKebabName": "plane"
+  },
+  "travel-domestic-travel": {
+    "category": "TRAVEL",
+    "subcategory": "Domestic Travel",
+    "lucideReactComponent": "TrainFront",
+    "lucideKebabName": "train-front"
+  },
+  "travel-travel-experiences": {
+    "category": "TRAVEL",
+    "subcategory": "Travel Experiences",
+    "lucideReactComponent": "MapPinned",
+    "lucideKebabName": "map-pinned"
+  },
+  "travel-camping-and-glamping": {
+    "category": "TRAVEL",
+    "subcategory": "Camping & Glamping",
+    "lucideReactComponent": "TentTree",
+    "lucideKebabName": "tent-tree"
+  },
+  "travel-spa-and-wellness-retreats": {
+    "category": "TRAVEL",
+    "subcategory": "Spa & Wellness Retreats",
+    "lucideReactComponent": "Waves",
+    "lucideKebabName": "waves"
+  },
+  "travel-travel-agencies": {
+    "category": "TRAVEL",
+    "subcategory": "Travel Agencies",
+    "lucideReactComponent": "Map",
+    "lucideKebabName": "map"
+  },
+  "events-live-music": {
+    "category": "EVENTS",
+    "subcategory": "Live Music",
+    "lucideReactComponent": "Music",
+    "lucideKebabName": "music"
+  },
+  "events-concerts": {
+    "category": "EVENTS",
+    "subcategory": "Concerts",
+    "lucideReactComponent": "Ticket",
+    "lucideKebabName": "ticket"
+  },
+  "events-music-festivals": {
+    "category": "EVENTS",
+    "subcategory": "Music Festivals",
+    "lucideReactComponent": "PartyPopper",
+    "lucideKebabName": "party-popper"
+  },
+  "events-dj-nights": {
+    "category": "EVENTS",
+    "subcategory": "DJ Nights",
+    "lucideReactComponent": "Disc3",
+    "lucideKebabName": "disc3"
+  },
+  "events-comedy-shows": {
+    "category": "EVENTS",
+    "subcategory": "Comedy Shows",
+    "lucideReactComponent": "Laugh",
+    "lucideKebabName": "laugh"
+  },
+  "events-stand-up-comedy": {
+    "category": "EVENTS",
+    "subcategory": "Stand-up Comedy",
+    "lucideReactComponent": "MicVocal",
+    "lucideKebabName": "mic-vocal"
+  },
+  "events-cultural-festivals": {
+    "category": "EVENTS",
+    "subcategory": "Cultural Festivals",
+    "lucideReactComponent": "Drama",
+    "lucideKebabName": "drama"
+  },
+  "events-art-exhibitions": {
+    "category": "EVENTS",
+    "subcategory": "Art Exhibitions",
+    "lucideReactComponent": "Palette",
+    "lucideKebabName": "palette"
+  },
+  "events-food-festivals": {
+    "category": "EVENTS",
+    "subcategory": "Food Festivals",
+    "lucideReactComponent": "Utensils",
+    "lucideKebabName": "utensils"
+  },
+  "events-beer-festivals": {
+    "category": "EVENTS",
+    "subcategory": "Beer Festivals",
+    "lucideReactComponent": "Beer",
+    "lucideKebabName": "beer"
+  },
+  "events-startup-events": {
+    "category": "EVENTS",
+    "subcategory": "Startup Events",
+    "lucideReactComponent": "Rocket",
+    "lucideKebabName": "rocket"
+  },
+  "events-business-conferences": {
+    "category": "EVENTS",
+    "subcategory": "Business Conferences",
+    "lucideReactComponent": "Presentation",
+    "lucideKebabName": "presentation"
+  },
+  "events-networking-events": {
+    "category": "EVENTS",
+    "subcategory": "Networking Events",
+    "lucideReactComponent": "Handshake",
+    "lucideKebabName": "handshake"
+  },
+  "events-workshops": {
+    "category": "EVENTS",
+    "subcategory": "Workshops",
+    "lucideReactComponent": "Wrench",
+    "lucideKebabName": "wrench"
+  },
+  "events-masterclasses": {
+    "category": "EVENTS",
+    "subcategory": "Masterclasses",
+    "lucideReactComponent": "GraduationCap",
+    "lucideKebabName": "graduation-cap"
+  },
+  "events-college-festivals": {
+    "category": "EVENTS",
+    "subcategory": "College Festivals",
+    "lucideReactComponent": "Flag",
+    "lucideKebabName": "flag"
+  },
+  "events-sports-events": {
+    "category": "EVENTS",
+    "subcategory": "Sports Events",
+    "lucideReactComponent": "Trophy",
+    "lucideKebabName": "trophy"
+  },
+  "events-fashion-shows": {
+    "category": "EVENTS",
+    "subcategory": "Fashion Shows",
+    "lucideReactComponent": "Shirt",
+    "lucideKebabName": "shirt"
+  },
+  "events-theatre-and-performing-arts": {
+    "category": "EVENTS",
+    "subcategory": "Theatre & Performing Arts",
+    "lucideReactComponent": "Theater",
+    "lucideKebabName": "theater"
+  },
+  "events-community-events": {
+    "category": "EVENTS",
+    "subcategory": "Community Events",
+    "lucideReactComponent": "Users",
+    "lucideKebabName": "users"
+  },
+  "events-pop-up-markets": {
+    "category": "EVENTS",
+    "subcategory": "Pop-up Markets",
+    "lucideReactComponent": "Store",
+    "lucideKebabName": "store"
+  },
+  "events-seasonal-celebrations": {
+    "category": "EVENTS",
+    "subcategory": "Seasonal Celebrations",
+    "lucideReactComponent": "CalendarDays",
+    "lucideKebabName": "calendar-days"
+  },
+  "movies-multiplex-cinemas": {
+    "category": "MOVIES",
+    "subcategory": "Multiplex Cinemas",
+    "lucideReactComponent": "Clapperboard",
+    "lucideKebabName": "clapperboard"
+  },
+  "movies-imax": {
+    "category": "MOVIES",
+    "subcategory": "IMAX",
+    "lucideReactComponent": "MonitorPlay",
+    "lucideKebabName": "monitor-play"
+  },
+  "movies-4dx-cinemas": {
+    "category": "MOVIES",
+    "subcategory": "4DX Cinemas",
+    "lucideReactComponent": "Sparkles",
+    "lucideKebabName": "sparkles"
+  },
+  "movies-dolby-atmos": {
+    "category": "MOVIES",
+    "subcategory": "Dolby Atmos",
+    "lucideReactComponent": "Volume2",
+    "lucideKebabName": "volume2"
+  },
+  "movies-premium-large-format-screens": {
+    "category": "MOVIES",
+    "subcategory": "Premium Large Format Screens",
+    "lucideReactComponent": "ScreenShare",
+    "lucideKebabName": "screen-share"
+  },
+  "movies-luxury-cinemas": {
+    "category": "MOVIES",
+    "subcategory": "Luxury Cinemas",
+    "lucideReactComponent": "Armchair",
+    "lucideKebabName": "armchair"
+  },
+  "movies-independent-cinemas": {
+    "category": "MOVIES",
+    "subcategory": "Independent Cinemas",
+    "lucideReactComponent": "Film",
+    "lucideKebabName": "film"
+  },
+  "movies-regional-movies": {
+    "category": "MOVIES",
+    "subcategory": "Regional Movies",
+    "lucideReactComponent": "Languages",
+    "lucideKebabName": "languages"
+  },
+  "movies-english-movies": {
+    "category": "MOVIES",
+    "subcategory": "English Movies",
+    "lucideReactComponent": "Captions",
+    "lucideKebabName": "captions"
+  },
+  "movies-hindi-movies": {
+    "category": "MOVIES",
+    "subcategory": "Hindi Movies",
+    "lucideReactComponent": "Languages",
+    "lucideKebabName": "languages"
+  },
+  "movies-kannada-movies": {
+    "category": "MOVIES",
+    "subcategory": "Kannada Movies",
+    "lucideReactComponent": "Languages",
+    "lucideKebabName": "languages"
+  },
+  "movies-tamil-movies": {
+    "category": "MOVIES",
+    "subcategory": "Tamil Movies",
+    "lucideReactComponent": "Languages",
+    "lucideKebabName": "languages"
+  },
+  "movies-telugu-movies": {
+    "category": "MOVIES",
+    "subcategory": "Telugu Movies",
+    "lucideReactComponent": "Languages",
+    "lucideKebabName": "languages"
+  },
+  "movies-malayalam-movies": {
+    "category": "MOVIES",
+    "subcategory": "Malayalam Movies",
+    "lucideReactComponent": "Languages",
+    "lucideKebabName": "languages"
+  },
+  "movies-film-festivals": {
+    "category": "MOVIES",
+    "subcategory": "Film Festivals",
+    "lucideReactComponent": "Award",
+    "lucideKebabName": "award"
+  },
+  "movies-special-screenings": {
+    "category": "MOVIES",
+    "subcategory": "Special Screenings",
+    "lucideReactComponent": "Projector",
+    "lucideKebabName": "projector"
+  },
+  "movies-classic-movie-screenings": {
+    "category": "MOVIES",
+    "subcategory": "Classic Movie Screenings",
+    "lucideReactComponent": "Film",
+    "lucideKebabName": "film"
+  },
+  "movies-movie-premieres": {
+    "category": "MOVIES",
+    "subcategory": "Movie Premieres",
+    "lucideReactComponent": "Ticket",
+    "lucideKebabName": "ticket"
+  },
+  "movies-drive-in-cinemas": {
+    "category": "MOVIES",
+    "subcategory": "Drive-in Cinemas",
+    "lucideReactComponent": "CarFront",
+    "lucideKebabName": "car-front"
+  },
+  "movies-private-theatre-experiences": {
+    "category": "MOVIES",
+    "subcategory": "Private Theatre Experiences",
+    "lucideReactComponent": "Tv",
+    "lucideKebabName": "tv"
+  },
+  "clubs-founders-and-startup-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Founders & Startup Clubs",
+    "lucideReactComponent": "Rocket",
+    "lucideKebabName": "rocket"
+  },
+  "clubs-business-and-networking-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Business & Networking Clubs",
+    "lucideReactComponent": "Handshake",
+    "lucideKebabName": "handshake"
+  },
+  "clubs-sports-and-fitness-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Sports & Fitness Clubs",
+    "lucideReactComponent": "Dumbbell",
+    "lucideKebabName": "dumbbell"
+  },
+  "clubs-travel-and-adventure-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Travel & Adventure Clubs",
+    "lucideReactComponent": "Mountain",
+    "lucideKebabName": "mountain"
+  },
+  "clubs-photography-and-creative-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Photography & Creative Clubs",
+    "lucideReactComponent": "Camera",
+    "lucideKebabName": "camera"
+  },
+  "clubs-automobile-and-bike-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Automobile & Bike Clubs",
+    "lucideReactComponent": "CarFront",
+    "lucideKebabName": "car-front"
+  },
+  "clubs-book-and-reading-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Book & Reading Clubs",
+    "lucideReactComponent": "BookOpen",
+    "lucideKebabName": "book-open"
+  },
+  "clubs-foodie-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Foodie Clubs",
+    "lucideReactComponent": "Utensils",
+    "lucideKebabName": "utensils"
+  },
+  "clubs-gaming-and-esports-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Gaming & Esports Clubs",
+    "lucideReactComponent": "Gamepad2",
+    "lucideKebabName": "gamepad2"
+  },
+  "clubs-social-and-lifestyle-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Social & Lifestyle Clubs",
+    "lucideReactComponent": "UsersRound",
+    "lucideKebabName": "users-round"
+  },
+  "clubs-alumni-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Alumni Clubs",
+    "lucideReactComponent": "GraduationCap",
+    "lucideKebabName": "graduation-cap"
+  },
+  "clubs-pet-lovers-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Pet Lovers Clubs",
+    "lucideReactComponent": "PawPrint",
+    "lucideKebabName": "paw-print"
+  },
+  "clubs-music-and-entertainment-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Music & Entertainment Clubs",
+    "lucideReactComponent": "Music2",
+    "lucideKebabName": "music2"
+  },
+  "clubs-technology-and-developer-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Technology & Developer Clubs",
+    "lucideReactComponent": "Code2",
+    "lucideKebabName": "code2"
+  },
+  "clubs-women-entrepreneurs-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Women Entrepreneurs Clubs",
+    "lucideReactComponent": "BriefcaseBusiness",
+    "lucideKebabName": "briefcase-business"
+  },
+  "clubs-running-and-cycling-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Running & Cycling Clubs",
+    "lucideReactComponent": "Bike",
+    "lucideKebabName": "bike"
+  },
+  "clubs-art-and-culture-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Art & Culture Clubs",
+    "lucideReactComponent": "Palette",
+    "lucideKebabName": "palette"
+  },
+  "clubs-wellness-and-yoga-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Wellness & Yoga Clubs",
+    "lucideReactComponent": "Flower2",
+    "lucideKebabName": "flower2"
+  },
+  "clubs-volunteering-and-social-impact-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Volunteering & Social Impact Clubs",
+    "lucideReactComponent": "HeartHandshake",
+    "lucideKebabName": "heart-handshake"
+  },
+  "clubs-neighbourhood-clubs": {
+    "category": "CLUBS",
+    "subcategory": "Neighbourhood Clubs",
+    "lucideReactComponent": "MapPinned",
+    "lucideKebabName": "map-pinned"
+  }
+}

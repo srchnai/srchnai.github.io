@@ -1,0 +1,58 @@
+{
+  "subcategories": [
+    "Founders & Startup Clubs",
+    "Business & Networking Clubs",
+    "Sports & Fitness Clubs",
+    "Travel & Adventure Clubs",
+    "Photography & Creative Clubs",
+    "Automobile & Bike Clubs",
+    "Book & Reading Clubs",
+    "Foodie Clubs",
+    "Gaming & Esports Clubs",
+    "Social & Lifestyle Clubs",
+    "Alumni Clubs",
+    "Pet Lovers Clubs",
+    "Music & Entertainment Clubs",
+    "Technology & Developer Clubs",
+    "Women Entrepreneurs Clubs",
+    "Running & Cycling Clubs",
+    "Art & Culture Clubs",
+    "Wellness & Yoga Clubs",
+    "Volunteering & Social Impact Clubs",
+    "Neighbourhood Clubs"
+  ],
+  "filters": [
+    "location",
+    "interest",
+    "type",
+    "free_or_paid",
+    "age",
+    "upcoming_meetups",
+    "format",
+    "size",
+    "requirements",
+    "language"
+  ],
+  "fields": [
+    "name",
+    "media",
+    "description",
+    "category",
+    "location",
+    "members",
+    "fee",
+    "meetups",
+    "organizer",
+    "guidelines",
+    "join",
+    "contact",
+    "social"
+  ],
+  "backend": {
+    "follow": false,
+    "join": false,
+    "connect": false,
+    "save": "browser local storage only",
+    "share": "copy profile URL only"
+  }
+}

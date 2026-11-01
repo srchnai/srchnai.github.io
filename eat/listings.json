@@ -1,0 +1,61 @@
+[
+  {
+    "id": "mtr-lalbagh",
+    "name": "MTR, Lalbagh Road",
+    "neighbourhood": "Lalbagh Road",
+    "address": "14, Lal Bagh Main Rd, Doddamavalli, Sudhama Nagar, Bengaluru, Karnataka 560027, India",
+    "types": [
+      "Restaurants",
+      "South Indian Restaurants",
+      "Breakfast & Brunch"
+    ],
+    "cuisine": "South Indian tiffin and meals",
+    "menu": "Rice idli, rave idli, masala dose and meals are listed; items subject to availability.",
+    "hours": "Monday closed. Tue-Fri breakfast 6:30-11:00, meals/tiffin 12:30-15:30, tiffin 15:30-20:30. Sat-Sun breakfast 6:30-11:00, meals 12:30-15:30, tiffin/meals 15:30-21:30.",
+    "source": "https://mavallitiffinrooms.com/locations/lalbagh-road",
+    "menu_url": "https://mavallitiffinrooms.com/locations/lalbagh-road",
+    "phone": null,
+    "features": [],
+    "price": null,
+    "checked": "30 October 2026",
+    "video": null,
+    "photos": [],
+    "rating": null,
+    "offers": null,
+    "availability": null,
+    "reservation": false,
+    "price_note": "Meal price range not verified. Individual menu-item prices are not a total meal estimate.",
+    "map": "https://www.google.com/maps/search/?api=1&query=MTR&query_place_id=ChIJaaWjpN0VrjsRAsmfiafDlN4",
+    "address_source": "Google Maps place record, matched to the official Lalbagh Road restaurant."
+  },
+  {
+    "id": "jw-kitchen",
+    "name": "JW Kitchen",
+    "neighbourhood": "Vittal Mallya Road / Ashok Nagar",
+    "address": "JW Marriott Bengaluru, 24/1, Vittal Mallya Road, Ashok Nagar, Bengaluru 560001",
+    "types": [
+      "Restaurants",
+      "Buffets",
+      "Breakfast & Brunch"
+    ],
+    "cuisine": "International",
+    "menu": "\u00c0 la carte and Sunday brunch listed by Marriott. See current operator menu for dishes.",
+    "hours": "Sources differ: Marriott says daily 06:00-01:00; restaurant menu page lists separate breakfast/lunch/dinner service windows. Confirm directly.",
+    "source": "https://www.marriott.com/en-us/hotels/blrjw-jw-marriott-hotel-bengaluru/dining/",
+    "menu_url": "https://www.jwkitchenbengaluru.com/our-menus",
+    "phone": "+918884494037",
+    "features": [
+      "Buffet"
+    ],
+    "price": null,
+    "checked": "30 October 2026",
+    "video": null,
+    "photos": [],
+    "rating": null,
+    "offers": null,
+    "availability": null,
+    "reservation": false,
+    "price_note": "Meal price range not verified. Individual menu-item prices are not a total meal estimate.",
+    "map": "https://www.google.com/maps/search/?api=1&query=JW+Kitchen&query_place_id=ChIJ_x_iR3cWrjsRwrvKa9lpKMA"
+  }
+]

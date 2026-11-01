@@ -1,0 +1,136 @@
+{
+  "stats": {
+    "raw": 10793,
+    "inside": 10659
+  },
+  "counts": [
+    [
+      "cafes",
+      "Cafes",
+      "Eat",
+      1136
+    ],
+    [
+      "restaurants",
+      "Restaurants",
+      "Eat",
+      3255
+    ],
+    [
+      "fast-food",
+      "Fast food",
+      "Eat",
+      1727
+    ],
+    [
+      "ice-cream",
+      "Ice cream shops",
+      "Eat",
+      201
+    ],
+    [
+      "coworking",
+      "Coworking spaces",
+      "Work",
+      119
+    ],
+    [
+      "stays",
+      "Hotels, hostels and guest houses",
+      "Travel",
+      947
+    ],
+    [
+      "parks",
+      "Parks",
+      "Play",
+      606
+    ],
+    [
+      "sports-centres",
+      "Sports centres",
+      "Play",
+      364
+    ],
+    [
+      "fitness",
+      "Fitness",
+      "Play",
+      236
+    ],
+    [
+      "turfs",
+      "Turfs",
+      "Play",
+      153
+    ],
+    [
+      "cinemas",
+      "Cinemas",
+      "Movies",
+      106
+    ],
+    [
+      "theatres",
+      "Theatres",
+      "Events",
+      113
+    ],
+    [
+      "event-spaces",
+      "Event spaces",
+      "Events",
+      178
+    ],
+    [
+      "community-spaces",
+      "Community spaces",
+      "Community",
+      243
+    ],
+    [
+      "clubs",
+      "Clubs",
+      "Community",
+      50
+    ],
+    [
+      "malls",
+      "Malls",
+      "Shop",
+      73
+    ],
+    [
+      "shopping",
+      "Shopping",
+      "Shop",
+      96
+    ],
+    [
+      "attractions",
+      "Attractions",
+      "Travel",
+      60
+    ],
+    [
+      "resorts",
+      "Resorts",
+      "Travel",
+      40
+    ],
+    [
+      "museums",
+      "Museums",
+      "Travel",
+      32
+    ],
+    [
+      "galleries",
+      "Galleries",
+      "Events",
+      26
+    ]
+  ],
+  "release_note": "Alcohol-category snapshot not distributed in this release pending review. Other records remain raw historical map features, not verified businesses.",
+  "published_count": 9761
+}

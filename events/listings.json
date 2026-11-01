@@ -1,0 +1,81 @@
+[
+  {
+    "id": "bts-2026",
+    "name": "Bengaluru Tech Summit 2026",
+    "types": [
+      "Business Conferences",
+      "Startup Events",
+      "Networking Events"
+    ],
+    "start": "2026-11-17",
+    "end": "2026-11-19",
+    "date_label": "17–19 November 2026 (Tuesday–Thursday), IST",
+    "format": "In-person",
+    "description": "Technology conference and exhibition under the operator theme AI & Beyond. Programme details may change; this is not a performer or session guarantee.",
+    "schedule": "Main page gives 9 AM–6 PM overall. Exhibition page is more specific: 17 Nov 9 AM–6 PM; 18 Nov 10 AM–6 PM; 19 Nov 10 AM–4 PM. Confirm your pass and session schedule with the organizer.",
+    "organizer": "MM Activ Sci-Tech Communications / Government of Karnataka, as listed by BIEC",
+    "source": "https://www.bengalurutechsummit.com/",
+    "sources": [
+      "https://www.bengalurutechsummit.com/",
+      "https://www.bengalurutechsummit.com/exhibition.php",
+      "https://www.biec.in/events",
+      "https://www.biec.in/Calendar_event/2k26/bangalore-tech-summit-2026.php"
+    ],
+    "contact": "+918069328400",
+    "contact_label": "Call event secretariat",
+    "venue": "Bangalore International Exhibition Centre (BIEC)",
+    "location": "10th Mile, Tumkur Road, Madavara Post, Bengaluru",
+    "map": "https://www.google.com/maps/search/?api=1&query=Bangalore+International+Exhibition+Centre&query_place_id=ChIJlbKqg1YjrjsR_yY59ef8_n0",
+    "age": null,
+    "language": null,
+    "genre": null,
+    "family_friendly": null,
+    "price": null,
+    "free": null,
+    "ticket_availability": null,
+    "video": null,
+    "photos": [],
+    "booking": false,
+    "registration": false,
+    "checked": "30 October 2026"
+  },
+  {
+    "id": "didac-2026",
+    "name": "Didac India 2026 & Didac Skills 2026",
+    "types": [
+      "Business Conferences",
+      "Networking Events"
+    ],
+    "start": "2026-11-25",
+    "end": "2026-11-27",
+    "date_label": "25–27 November 2026 (Wednesday–Friday), IST",
+    "format": "In-person",
+    "description": "Education and skills exhibition/conference for education-sector professionals. Event and venue pages agree on dates. Do not infer public or child admission from the education theme.",
+    "schedule": "Venue calendar lists start 25 November 9 AM and end 27 November 6 PM. Daily visitor hours and session schedule not verified; confirm with the organizer.",
+    "organizer": "India Didactics Association & Landesmesse Stuttgart GmbH & Co. KG, as listed by BIEC",
+    "source": "https://didacindia.com/",
+    "sources": [
+      "https://didacindia.com/",
+      "https://didacindia.com/visitors/the-event/",
+      "https://www.biec.in/events",
+      "https://www.biec.in/Calendar_event/2k26/didac-india.php"
+    ],
+    "contact": "+918066246600",
+    "contact_label": "Call venue, not organizer",
+    "venue": "Bangalore International Exhibition Centre (BIEC)",
+    "location": "10th Mile, Tumkur Road, Madavara Post, Bengaluru",
+    "map": "https://www.google.com/maps/search/?api=1&query=Bangalore+International+Exhibition+Centre&query_place_id=ChIJlbKqg1YjrjsR_yY59ef8_n0",
+    "age": null,
+    "language": null,
+    "genre": null,
+    "family_friendly": null,
+    "price": null,
+    "free": null,
+    "ticket_availability": null,
+    "video": null,
+    "photos": [],
+    "booking": false,
+    "registration": false,
+    "checked": "30 October 2026"
+  }
+]

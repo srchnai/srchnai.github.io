@@ -1,0 +1,476 @@
+[
+  {
+    "category": "Live",
+    "candidate": true,
+    "approved": false,
+    "source_photo_id": "36392046",
+    "actual_location": "Bengaluru, Karnataka; residential complex name not supplied",
+    "photographer_or_owner": "Binil Babu",
+    "source_page": "https://www.pexels.com/photo/urban-high-rise-residential-apartments-in-bengaluru-36392046/",
+    "licence": "Pexels License",
+    "licence_url": "https://www.pexels.com/license/",
+    "permission_status": "Copyright reuse under stated free commercial licence, subject to no implied endorsement; not venue approval",
+    "location_evidence": "Location supplied by photographer; named community unresolved",
+    "alt": "Residential apartment buildings in Bengaluru",
+    "variants": [
+      {
+        "path": "assets/live-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 64520
+      },
+      {
+        "path": "assets/live-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 80592
+      },
+      {
+        "path": "assets/live-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 69854
+      }
+    ],
+    "source_dimensions": [
+      563,
+      750
+    ],
+    "checked_at": "2026-10-29",
+    "deployed": true,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Work",
+    "candidate": true,
+    "approved": false,
+    "deployed": true,
+    "source_photo_id": "zEuHs45hZlU",
+    "actual_location": "Bengaluru, Karnataka; exact Smartworks branch not supplied",
+    "photographer_or_owner": "Smartworks Coworking",
+    "source_page": "https://unsplash.com/photos/zEuHs45hZlU",
+    "licence": "Unsplash License",
+    "licence_url": "https://unsplash.com/license",
+    "permission_status": "Free commercial reuse under stated licence; no venue endorsement",
+    "alt": "Conference table and office chairs in a Smartworks Bengaluru coworking space",
+    "variants": [
+      {
+        "path": "assets/work-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 18636
+      },
+      {
+        "path": "assets/work-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 28398
+      },
+      {
+        "path": "assets/work-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 29836
+      }
+    ],
+    "source_dimensions": [
+      3000,
+      2000
+    ],
+    "checked_at": "2026-10-29",
+    "modifications": "Responsive crop and WebP conversion. Drink crops exclude right-hand flowers.",
+    "derivative_licence": null,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Eat",
+    "candidate": true,
+    "approved": false,
+    "source_photo_id": "38201890",
+    "actual_location": "Bengaluru, Karnataka; restaurant not supplied",
+    "photographer_or_owner": "Muhammed Shasal A V",
+    "source_page": "https://www.pexels.com/photo/crispy-masala-dosa-with-chutneys-in-bengaluru-38201890/",
+    "licence": "Pexels License",
+    "licence_url": "https://www.pexels.com/license/",
+    "permission_status": "Copyright reuse under stated free commercial licence, subject to no implied endorsement; not venue approval",
+    "location_evidence": "City supplied by photographer; restaurant unspecified",
+    "alt": "Masala dosa with chutneys photographed in Bengaluru",
+    "variants": [
+      {
+        "path": "assets/eat-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 28830
+      },
+      {
+        "path": "assets/eat-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 37010
+      },
+      {
+        "path": "assets/eat-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 35610
+      }
+    ],
+    "source_dimensions": [
+      563,
+      750
+    ],
+    "checked_at": "2026-10-29",
+    "deployed": true,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Drink",
+    "candidate": true,
+    "approved": false,
+    "deployed": true,
+    "source_photo_id": "14545435",
+    "actual_location": "Bengaluru, Karnataka; bar name not supplied",
+    "photographer_or_owner": "Suraj",
+    "source_page": "https://www.pexels.com/photo/man-preparing-a-restaurant-14545435/",
+    "licence": "Pexels License",
+    "licence_url": "https://www.pexels.com/license/",
+    "permission_status": "Free commercial reuse under stated licence; no venue endorsement",
+    "alt": "Bar counter, stools and bottles in a Bengaluru bar interior",
+    "variants": [
+      {
+        "path": "assets/drink-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 70470
+      },
+      {
+        "path": "assets/drink-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 78050
+      },
+      {
+        "path": "assets/drink-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 75350
+      }
+    ],
+    "source_dimensions": [
+      563,
+      750
+    ],
+    "checked_at": "2026-10-29",
+    "modifications": "Responsive crop and WebP conversion. Drink crops exclude right-hand flowers.",
+    "derivative_licence": null,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Play",
+    "candidate": true,
+    "approved": false,
+    "deployed": true,
+    "source_photo_id": "30858416",
+    "actual_location": "Bengaluru, Karnataka; exact venue unspecified",
+    "photographer_or_owner": "Anil Sharma",
+    "source_page": "https://www.pexels.com/photo/dynamic-taekwondo-match-in-bengaluru-open-air-30858416/",
+    "licence": "Pexels License",
+    "licence_url": "https://www.pexels.com/license/",
+    "permission_status": "Free commercial reuse under stated licence; no venue endorsement",
+    "alt": "Taekwondo athletes sparring outdoors in Bengaluru",
+    "variants": [
+      {
+        "path": "assets/play-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 46722
+      },
+      {
+        "path": "assets/play-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 69690
+      },
+      {
+        "path": "assets/play-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 76622
+      }
+    ],
+    "source_dimensions": [
+      1125,
+      750
+    ],
+    "checked_at": "2026-10-29",
+    "modifications": "Responsive crop and WebP conversion. Drink crops exclude right-hand flowers.",
+    "derivative_licence": null,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Shop",
+    "candidate": true,
+    "approved": false,
+    "source_photo_id": "XSHA_CA10wQ",
+    "actual_location": "UB City, Vittal Mallya Road, Bengaluru",
+    "photographer_or_owner": "Vishwanth Pindiboina",
+    "source_page": "https://unsplash.com/photos/a-view-of-a-set-of-stairs-from-the-bottom-of-the-stairs-XSHA_CA10wQ",
+    "licence": "Unsplash License",
+    "licence_url": "https://unsplash.com/license",
+    "permission_status": "Copyright reuse under stated free commercial licence, subject to no implied endorsement; not venue approval",
+    "location_evidence": "Exact venue address and caption on source",
+    "alt": "Entrance stairs and escalators at UB City, Bengaluru",
+    "variants": [
+      {
+        "path": "assets/shop-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 77588
+      },
+      {
+        "path": "assets/shop-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 122362
+      },
+      {
+        "path": "assets/shop-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 125804
+      }
+    ],
+    "source_dimensions": [
+      3000,
+      4000
+    ],
+    "checked_at": "2026-10-29",
+    "deployed": true,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Travel",
+    "candidate": true,
+    "approved": false,
+    "source_photo_id": "23973679",
+    "actual_location": "Bangalore Palace, Bengaluru",
+    "photographer_or_owner": "Anurag Gusain",
+    "source_page": "https://www.pexels.com/photo/front-of-bangalore-palace-in-bangalore-in-india-23973679/",
+    "licence": "Pexels License",
+    "licence_url": "https://www.pexels.com/license/",
+    "permission_status": "Copyright reuse under stated free commercial licence, subject to no implied endorsement; not venue approval",
+    "location_evidence": "Named landmark and Bengaluru location on source",
+    "alt": "Front of Bangalore Palace in Bengaluru",
+    "variants": [
+      {
+        "path": "assets/travel-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 51496
+      },
+      {
+        "path": "assets/travel-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 76070
+      },
+      {
+        "path": "assets/travel-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 64268
+      }
+    ],
+    "source_dimensions": [
+      1000,
+      750
+    ],
+    "checked_at": "2026-10-29",
+    "deployed": true,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Events",
+    "candidate": true,
+    "approved": false,
+    "source_photo_id": "31351478",
+    "actual_location": "Aero India 2025, Bengaluru",
+    "photographer_or_owner": "Aseem Borkar",
+    "source_page": "https://www.pexels.com/photo/helicopter-on-display-at-aerospace-exhibition-31351478/",
+    "licence": "Pexels License",
+    "licence_url": "https://www.pexels.com/license/",
+    "permission_status": "Copyright reuse under stated free commercial licence, subject to no implied endorsement; not venue approval",
+    "location_evidence": "Past event, not a current listing",
+    "alt": "Helicopter displayed at Aero India 2025 in Bengaluru",
+    "variants": [
+      {
+        "path": "assets/events-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 41836
+      },
+      {
+        "path": "assets/events-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 69936
+      },
+      {
+        "path": "assets/events-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 79284
+      }
+    ],
+    "source_dimensions": [
+      1260,
+      709
+    ],
+    "checked_at": "2026-10-29",
+    "deployed": true,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Movies",
+    "candidate": true,
+    "approved": false,
+    "deployed": true,
+    "source_photo_id": "pvr-vega",
+    "actual_location": "PVR cinema, Vega City mall, Bengaluru",
+    "photographer_or_owner": "Soumendra Kumar Sahoo",
+    "source_page": "https://commons.wikimedia.org/wiki/File:PVR_Vega_city_mall%2C_Bengaluru_.jpg",
+    "licence": "CC BY-SA 3.0",
+    "licence_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "permission_status": "Free commercial reuse under stated licence; no venue endorsement",
+    "alt": "Cinema lobby inside PVR at Vega City mall, Bengaluru, photographed in 2018",
+    "variants": [
+      {
+        "path": "assets/movies-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 60006
+      },
+      {
+        "path": "assets/movies-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 76930
+      },
+      {
+        "path": "assets/movies-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 81872
+      }
+    ],
+    "source_dimensions": [
+      960,
+      540
+    ],
+    "checked_at": "2026-10-29",
+    "modifications": "Responsive crop and WebP conversion. Drink crops exclude right-hand flowers.",
+    "derivative_licence": "CC BY-SA 3.0",
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  },
+  {
+    "category": "Community",
+    "candidate": true,
+    "approved": false,
+    "source_photo_id": "7k9fT2W89Kw",
+    "actual_location": "Cubbon Park, Shivaji Nagar, Bengaluru",
+    "photographer_or_owner": "Pasqualino Capobianco",
+    "source_page": "https://unsplash.com/photos/a-path-in-a-park-lined-with-trees-7k9fT2W89Kw",
+    "licence": "Unsplash License",
+    "licence_url": "https://unsplash.com/license",
+    "permission_status": "Copyright reuse under stated free commercial licence, subject to no implied endorsement; not venue approval",
+    "location_evidence": "Exact park on source",
+    "alt": "Green arch-covered path in Cubbon Park, Bengaluru",
+    "variants": [
+      {
+        "path": "assets/community-mobile.webp",
+        "width": 480,
+        "height": 600,
+        "bytes": 102042
+      },
+      {
+        "path": "assets/community-tablet.webp",
+        "width": 800,
+        "height": 600,
+        "bytes": 146746
+      },
+      {
+        "path": "assets/community-desktop.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 147448
+      }
+    ],
+    "source_dimensions": [
+      3000,
+      2000
+    ],
+    "checked_at": "2026-10-29",
+    "deployed": true,
+    "deployed_preview": "https://launch34.srchn-city-preview.pages.dev/",
+    "visual_checked_widths": [
+      360,
+      390,
+      768,
+      1280
+    ]
+  }
+]
