@@ -117,7 +117,7 @@ document.addEventListener('error',function(e){
   var COLL=[['Cafes','cafes'],['Restaurants','restaurants'],['Bars, pubs and breweries','bars-pubs'],['Coworking spaces','coworking'],['Hotels, hostels and guest houses','stays'],['Parks','parks'],['Cinemas','cinemas'],['Event spaces','event-spaces'],['Community spaces','community-spaces'],['Malls','malls'],['Attractions','attractions']];
   var NB=[];
   function hero(img){var s=el('section','p0-hero');s.setAttribute('aria-label','SRCHN');s.setAttribute('data-p0e','1');
-    var tx=el('div','p0-ht');var lg=lk('/','','p0-logo');lg.setAttribute('aria-label','SRCHN home');var w=el('span','p0-lgw');var im=document.createElement('img');im.src='/srchn-logo.jpg';im.alt='SRCHN';im.width=1254;im.height=1254;w.append(im);lg.append(w);
+    var tx=el('div','p0-ht');var lg=lk('/','','p0-logo');lg.setAttribute('aria-label','SRCHN home');var w=el('span','p0-lgw');var im=document.createElement('img');im.src='/assets/brand/favicon.ico';im.alt='SRCHN';im.width=1254;im.height=1254;w.append(im);lg.append(w);
     tx.append(lg,el('p','p0-eb','BENGALURU'),el('h1',null,'See Bengaluru before you go.'),el('p','p0-lead','SRCHN helps people discover places, spaces and experiences through real visuals and local context.'));
     var r=el('div','p0-cta');r.append(lk('#feed','Explore Bengaluru','p0-b1'),lk('/bangalore/','Open Your Local Buddy','p0-b2'));tx.append(r);
     var q=el('p','p0-quick');[['Neighbourhoods','#p0-nb'],['Events','/feed/?c=Events'],['For Brands','#p0-brands'],['For Creators','/studio/']].forEach(function(x,i){if(i)q.append(document.createTextNode(' · '));q.append(lk(x[1],x[0]))});tx.append(q);s.append(tx);
