@@ -3,17 +3,13 @@
   Referrer-Policy: strict-origin-when-cross-origin
 /demo/*
   X-Robots-Tag: noindex, nofollow
-/studio/*
-  X-Robots-Tag: noindex, nofollow
-/feed/*
-  X-Robots-Tag: noindex, nofollow
 /story/*
   X-Robots-Tag: noindex, nofollow
 /bangalore/*
   X-Robots-Tag: noindex, nofollow
 /preview/*
   X-Robots-Tag: noindex, nofollow
-/submit-place/*
+/review/*
   X-Robots-Tag: noindex, nofollow
 /api/*
   X-Robots-Tag: noindex, nofollow
