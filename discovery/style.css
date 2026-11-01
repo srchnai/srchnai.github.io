@@ -24,3 +24,5 @@ header.discovery-header{background:#fff;border-bottom:1px solid var(--line);colo
 .photo strong,.photo span{color:#525252}
 .photo strong{position:absolute;left:12px;top:10px;font-size:11px;letter-spacing:.04em}.photo-note{position:absolute;right:12px;top:10px;max-width:45%;text-align:right;font-size:11px;line-height:1.2}
 main>a#back{display:inline-flex;align-items:center;gap:6px;min-height:44px}.toolbar>a,.result>a{display:inline-flex;align-items:center;gap:6px;min-height:44px}.result summary{min-height:44px;display:flex;align-items:center}.source-details a,.discovery-footer a{padding:12px 0;margin:-12px 0}.check-control{display:inline-flex!important;align-items:center;gap:8px;min-height:44px;margin:0;cursor:pointer}.check-control input{width:18px!important;height:18px;min-height:18px!important;margin:0}.check-control input:disabled{cursor:not-allowed;opacity:.45}
+
+#place a,main>p>a,.pilot-panel a{display:inline-flex;min-height:44px;align-items:center}
