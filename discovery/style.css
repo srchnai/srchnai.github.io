@@ -22,3 +22,4 @@ header.discovery-header{background:#fff;border-bottom:1px solid var(--line);colo
 
 /* Accessibility contrast pass: keep placeholder/source metadata readable on the neutral photo surface. */
 .photo strong,.photo span{color:#525252}
+.photo strong{position:absolute;left:12px;top:10px;font-size:11px;letter-spacing:.04em}.photo-note{position:absolute;right:12px;top:10px;max-width:45%;text-align:right;font-size:11px;line-height:1.2}
