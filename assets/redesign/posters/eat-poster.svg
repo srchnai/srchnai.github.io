@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
-<rect width="800" height="1000" rx="34" fill="#FFF0E5"/>
-<circle cx="660" cy="130" r="110" fill="#F0C7A9" opacity=".55"/>
-<circle cx="120" cy="780" r="150" fill="#F0C7A9" opacity=".32"/>
-<text x="70" y="100" font-family="Arial,sans-serif" font-size="26" letter-spacing="7" fill="#703C27">SRCHN • BENGALURU</text>
-<g><path d="M200 320Q400 500 600 320L570 400Q400 510 230 400Z" fill="#B7653D"/><ellipse cx="400" cy="310" rx="210" ry="95" fill="#F0C7A9"/><ellipse cx="400" cy="300" rx="165" ry="65" fill="#FFF0E5"/><circle cx="340" cy="285" r="16" fill="#B7653D"/><circle cx="430" cy="320" r="18" fill="#39765A"/><circle cx="475" cy="280" r="13" fill="#B7653D"/></g>
-<text x="70" y="650" font-family="Georgia,serif" font-size="66" fill="#703C27">EAT</text>
-<text x="70" y="720" font-family="Arial,sans-serif" font-size="28" fill="#703C27">Restaurants, cafés and food experiences</text>
-<path d="M70 790H730" stroke="#B7653D" stroke-width="3" opacity=".55"/>
-<text x="70" y="855" font-family="Arial,sans-serif" font-size="32" font-weight="bold" fill="#703C27">SEE IT BEFORE YOU GO.</text>
-<text x="70" y="920" font-family="Arial,sans-serif" font-size="20" fill="#703C27" opacity=".8">Karnataka at heart. India in character.</text>
+<rect width="800" height="1000" rx="34" fill="#f5f5f5"/>
+<circle cx="660" cy="130" r="110" fill="#d4d4d4" opacity=".55"/>
+<circle cx="120" cy="780" r="150" fill="#d4d4d4" opacity=".32"/>
+<text x="70" y="100" font-family="Arial,sans-serif" font-size="26" letter-spacing="7" fill="#525252">SRCHN • BENGALURU</text>
+<g><path d="M200 320Q400 500 600 320L570 400Q400 510 230 400Z" fill="#525252"/><ellipse cx="400" cy="310" rx="210" ry="95" fill="#d4d4d4"/><ellipse cx="400" cy="300" rx="165" ry="65" fill="#f5f5f5"/><circle cx="340" cy="285" r="16" fill="#525252"/><circle cx="430" cy="320" r="18" fill="#525252"/><circle cx="475" cy="280" r="13" fill="#525252"/></g>
+<text x="70" y="650" font-family="Georgia,serif" font-size="66" fill="#525252">EAT</text>
+<text x="70" y="720" font-family="Arial,sans-serif" font-size="28" fill="#525252">Restaurants, cafés and food experiences</text>
+<path d="M70 790H730" stroke="#525252" stroke-width="3" opacity=".55"/>
+<text x="70" y="855" font-family="Arial,sans-serif" font-size="32" font-weight="bold" fill="#525252">SEE IT BEFORE YOU GO.</text>
+<text x="70" y="920" font-family="Arial,sans-serif" font-size="20" fill="#525252" opacity=".8">Karnataka at heart. India in character.</text>
 </svg>
