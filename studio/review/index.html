@@ -207,7 +207,7 @@ async function openBrand(id){
   +'<div class="rv-actions">'
   +(b.status!=='PUBLISHED'?'<button class="rv-btn" id="bp">Publish brand</button>':'<button class="rv-btn danger" id="bu">Unpublish</button>')
   +'<a class="rv-btn ghost" href="/brands/'+esc(b.slug)+'/" target="_blank" rel="noopener" style="text-decoration:none">View public page</a></div>'
-  +'<div class="rv-card"><h3>Locations ('+locs.length+')</h3>'+(locs.length?locs.map(l=>'<p><b>'+esc(l.name)+'</b> · '+esc(l.locality||'')+' · '+esc(l.status)+(l.status!=='PUBLISHED'?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-locpub="'+esc(l.id)+'">Publish</button>':' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-locun="'+esc(l.id)+'">Unpublish</button>')+'</p>').join(''):'<p>None yet.</p>')+'</div>'
+  +'<div class="rv-card"><h3>Locations ('+locs.length+')</h3>'+(locs.length?locs.map(l=>'<p><b>'+esc(l.name)+'</b> · '+esc(l.locality||'')+' · '+esc(l.status)+(l.status!=='PUBLISHED'?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-locpub="'+esc(l.id)+'">Publish</button>':' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-locun="'+esc(l.id)+'">Unpublish</button>')+(b.club?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-loccfg="'+esc(l.id)+'" data-locname="'+esc(l.name)+'">Booking config</button>':'')+'</p>').join(''):'<p>None yet.</p>')+'</div>'
   +'<div class="rv-card"><h3>Products and services ('+prods.length+')</h3>'+(prods.length?prods.map(x=>'<p><b>'+esc(x.name)+'</b> · '+esc(x.price_text||'')+' · '+esc(x.status)+(x.status!=='PUBLISHED'?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-prodpub="'+esc(x.id)+'">Publish</button>':' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-produn="'+esc(x.id)+'">Unpublish</button>')+'</p>').join(''):'<p>None yet.</p>')+'</div>'
   +'<div class="rv-card"><h3>Team</h3>'+(mems.length?mems.map(m=>'<p>'+esc(m.display_name||m.creator_no||'')+' · '+esc(m.role)+' · '+esc(m.status)+'</p>').join(''):'<p>No members.</p>')+'</div>'
   +'<div class="rv-card"><h3>Subscription</h3>'
@@ -222,6 +222,13 @@ async function openBrand(id){
   if($('bu'))$('bu').onclick=async()=>{const r=await api('/studio/api/review/brand-status',{method:'POST',json:{brand_id:b.id,status:'DRAFT'}});if(r.data&&r.data.ok){msg($('rv-msg'),'Brand unpublished.',true);openBrand(b.id);loadBrandsRows()}};
   d.querySelectorAll('[data-locpub]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/location-status',{method:'POST',json:{location_id:x.dataset.locpub,status:'PUBLISHED'}});openBrand(b.id)});
   d.querySelectorAll('[data-locun]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/location-status',{method:'POST',json:{location_id:x.dataset.locun,status:'DRAFT'}});openBrand(b.id)});
+  d.querySelectorAll('[data-loccfg]').forEach(x=>x.onclick=async()=>{
+    const fee=prompt('Booking fee in Rs for '+x.dataset.locname+' (0 for free):')||'';if(!/^\d+$/.test(fee.trim()))return;
+    const terms=prompt('Booking conditions shown to members (optional):')||'';
+    const active=confirm('Activate Club booking for this location now? (OK = active, Cancel = save as inactive)');
+    const r=await api('/studio/api/review/club-booking-config',{method:'POST',json:{brand_id:b.id,location_id:x.dataset.loccfg,fee_inr:parseInt(fee),terms,active}});
+    msg($('rv-msg'),r.data&&r.data.ok?('Booking config saved ('+(active?'active':'inactive')+', fee Rs '+fee+').'):(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));
+  });
   d.querySelectorAll('[data-prodpub]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/product-status',{method:'POST',json:{product_id:x.dataset.prodpub,brand_id:b.id,status:'PUBLISHED'}});openBrand(b.id)});
   d.querySelectorAll('[data-produn]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/product-status',{method:'POST',json:{product_id:x.dataset.produn,brand_id:b.id,status:'DRAFT'}});openBrand(b.id)});
   $('sub-m').onclick=()=>recordPlan(b.id,'monthly');
@@ -256,11 +263,41 @@ async function loadClub(){
   h+='<h3 style="margin:22px 0 10px;font-size:15px">Club members ('+mem.length+')</h3>';
   if(!mem.length)h+='<p class="rv-empty">No members yet.</p>';
   else h+=mem.map(x=>'<div class="rv-row" style="cursor:default;align-items:center"><span class="pl"><b>'+esc(x.name)+'</b> · '+esc(x.email)+(x.city?' · '+esc(x.city):'')+'<br/><span class="mt">invited '+new Date(x.invited_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+(x.member_since?' · member since '+new Date(x.member_since).toLocaleDateString('en-IN',{day:'numeric',month:'short'}):' · not activated yet')+'</span></span><span class="st '+(x.status==='ACTIVE'?'PUBLISHED':x.status==='SUSPENDED'?'REJECTED':'UNDER_REVIEW')+'">'+esc(x.status)+'</span>'+(x.status==='ACTIVE'?'<button class="rv-btn danger" style="padding:6px 12px;font-size:12.5px" data-csus="'+esc(x.id)+'">Suspend</button>':x.status==='SUSPENDED'?'<button class="rv-btn ghost" style="padding:6px 12px;font-size:12.5px" data-crei="'+esc(x.id)+'">Reinstate</button>':'')+'</div>').join('');
+  const rl=await api('/studio/api/review/club-ledgers');
+  const lks=(rl.data&&rl.data.bookings)||[],lcm=(rl.data&&rl.data.commission)||[],lcb=(rl.data&&rl.data.cashback)||[];
+  h+='<h3 style="margin:22px 0 10px;font-size:15px">Club bookings ('+lks.length+')</h3>';
+  if(!lks.length)h+='<p class="rv-empty">No bookings yet.</p>';
+  else h+=lks.map(k=>'<div class="rv-row" style="cursor:default;align-items:center"><span class="pl"><b>'+esc(k.booking_no)+'</b> · '+esc(k.brand_name)+' · '+esc(k.location_name)+'<br/><span class="mt">'+esc(k.member_name||k.member_email)+' · '+esc(k.visit_date)+(k.visit_time?' '+esc(k.visit_time):'')+' · '+k.people+' guests · fee Rs '+Number(k.fee_inr).toLocaleString('en-IN')+'</span></span><span class="st '+(k.status==='CHECKED_IN'?'PUBLISHED':k.status==='CANCELLED'?'REJECTED':'UNDER_REVIEW')+'">'+esc(k.status)+'</span>'+(k.status==='CHECKED_IN'?'<button class="rv-btn" style="padding:6px 12px;font-size:12.5px" data-settle="'+esc(k.booking_no)+'">Record settlement</button>':'')+'</div>').join('');
+  h+='<h3 style="margin:22px 0 10px;font-size:15px">Commission ledger ('+lcm.length+')</h3>';
+  if(!lcm.length)h+='<p class="rv-empty">No commission records. Records are created only from real checked-in visits, never automatically.</p>';
+  else h+=lcm.map(c=>'<div class="rv-row" style="cursor:default;align-items:center"><span class="pl"><b>Rs '+Number(c.commission_inr).toLocaleString('en-IN')+'</b> · bill Rs '+Number(c.bill_inr).toLocaleString('en-IN')+' at '+c.fee_pct+'% · '+esc(c.booking_no||'')+'<br/><span class="mt">'+esc((c.note||'').slice(0,140))+'</span></span><span class="st '+(c.status==='CONFIRMED'?'PUBLISHED':c.status==='REVERSED'?'REJECTED':'UNDER_REVIEW')+'">'+esc(c.status)+'</span>'+(c.status==='PENDING'?'<span style="display:flex;gap:6px"><button class="rv-btn ghost" style="padding:6px 12px;font-size:12.5px" data-ccf="'+esc(c.id)+'">Confirm</button><button class="rv-btn danger" style="padding:6px 12px;font-size:12.5px" data-crv="'+esc(c.id)+'">Reverse</button></span>':'')+'</div>').join('');
+  h+='<h3 style="margin:22px 0 10px;font-size:15px">Cashback ledger ('+lcb.length+')</h3>';
+  if(!lcb.length)h+='<p class="rv-empty">No cashback records.</p>';
+  else h+=lcb.map(c=>'<div class="rv-row" style="cursor:default;align-items:center"><span class="pl"><b>Rs '+Number(c.cashback_inr).toLocaleString('en-IN')+'</b> · '+esc(c.member_email||'')+' · '+esc(c.booking_no||'')+'<br/><span class="mt">'+esc((c.note||'').slice(0,140))+'</span></span><span class="st '+(c.status==='CONFIRMED'?'PUBLISHED':c.status==='REVERSED'?'REJECTED':'UNDER_REVIEW')+'">'+esc(c.status)+'</span>'+(c.status==='PENDING'?'<span style="display:flex;gap:6px"><button class="rv-btn ghost" style="padding:6px 12px;font-size:12.5px" data-cbf="'+esc(c.id)+'">Confirm</button><button class="rv-btn danger" style="padding:6px 12px;font-size:12.5px" data-cbr="'+esc(c.id)+'">Reverse</button></span>':'')+'</div>').join('');
+  h+='<p style="color:#8a8a8a;font-size:12.5px;margin-top:10px">SRCHN PAY is configuration-required and disabled: ledger records are documented records only - nothing is auto-charged or auto-credited. Cashback confirms only after its commission is confirmed.</p>';
   $('rv-rows').innerHTML=h;
   $('rv-rows').querySelectorAll('[data-capp]').forEach(x=>x.onclick=async()=>{x.disabled=true;const r=await api('/studio/api/review/club-invite-decide',{method:'POST',json:{id:x.dataset.capp,decision:'APPROVED'}});msg($('rv-msg'),r.data&&r.data.ok?('Invitation created (INVITED until first sign-in). Invite email: '+(r.data.email||'skipped')+'.'):(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub()});
   $('rv-rows').querySelectorAll('[data-cdec]').forEach(x=>x.onclick=async()=>{const note=prompt('Reason (optional):')||'';x.disabled=true;const r=await api('/studio/api/review/club-invite-decide',{method:'POST',json:{id:x.dataset.cdec,decision:'DECLINED',note}});msg($('rv-msg'),r.data&&r.data.ok?'Declined.':(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub()});
   $('rv-rows').querySelectorAll('[data-csus]').forEach(x=>x.onclick=async()=>{if(!confirm('Suspend this member? Their sign-in sessions end immediately.'))return;const r=await api('/studio/api/review/club-member-status',{method:'POST',json:{member_id:x.dataset.csus,status:'SUSPENDED'}});msg($('rv-msg'),r.data&&r.data.ok?'Suspended.':(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub()});
   $('rv-rows').querySelectorAll('[data-crei]').forEach(x=>x.onclick=async()=>{const r=await api('/studio/api/review/club-member-status',{method:'POST',json:{member_id:x.dataset.crei,status:'ACTIVE'}});msg($('rv-msg'),r.data&&r.data.ok?'Reinstated.':(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub()});
+  $('rv-rows').querySelectorAll('[data-settle]').forEach(x=>x.onclick=async()=>{
+    const bill=prompt('Actual eligible bill amount in Rs (required):')||'';if(!/^\d+$/.test(bill.trim()))return;
+    const pct=prompt('Agreed SRCHN success fee % (required):')||'';if(!pct.trim()||isNaN(parseFloat(pct)))return;
+    const cbp=prompt('Cashback % of the success fee (max 5, blank = 5):')||'';
+    const note=prompt('Documented note (settlement reference) - required:')||'';if(!note.trim())return;
+    x.disabled=true;
+    const r=await api('/studio/api/review/club-settle',{method:'POST',json:{booking_no:x.dataset.settle,bill_inr:parseInt(bill),fee_pct:parseFloat(pct),cashback_pct:cbp.trim()===''?5:parseFloat(cbp),note}});
+    msg($('rv-msg'),r.data&&r.data.ok?('Recorded PENDING: commission Rs '+(r.data.commission_inr||0)+', cashback Rs '+(r.data.cashback_inr||0)+(r.data.capped?' (capped at the 12-month Rs 5,000 limit)':'')+'.'):(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub();
+  });
+  const ledgerAct=async(id,kind,st)=>{
+    const note=prompt('Documented note - required:')||'';if(!note.trim())return;
+    const r=await api('/studio/api/review/club-ledger-status',{method:'POST',json:{id,kind,status:st,note}});
+    msg($('rv-msg'),r.data&&r.data.ok?(kind+' '+st.toLowerCase()+'.'):(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub();
+  };
+  $('rv-rows').querySelectorAll('[data-ccf]').forEach(x=>x.onclick=()=>ledgerAct(x.dataset.ccf,'commission','CONFIRMED'));
+  $('rv-rows').querySelectorAll('[data-crv]').forEach(x=>x.onclick=()=>ledgerAct(x.dataset.crv,'commission','REVERSED'));
+  $('rv-rows').querySelectorAll('[data-cbf]').forEach(x=>x.onclick=()=>ledgerAct(x.dataset.cbf,'cashback','CONFIRMED'));
+  $('rv-rows').querySelectorAll('[data-cbr]').forEach(x=>x.onclick=()=>ledgerAct(x.dataset.cbr,'cashback','REVERSED'));
 }
 async function loadQueue(){
   if(curStatus==='CLUB'){

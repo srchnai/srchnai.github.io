@@ -1026,7 +1026,7 @@ async function studioRoute(request,env){
   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
   return JSONR({ok:true,email:es});
  }
- if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-renew'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'||p==='/studio/api/review/club'||p==='/studio/api/review/club-invite-decide'||p==='/studio/api/review/club-member-status'||p==='/studio/api/review/club-member-delete'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
+ if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-renew'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'||p==='/studio/api/review/club'||p==='/studio/api/review/club-invite-decide'||p==='/studio/api/review/club-member-status'||p==='/studio/api/review/club-member-delete'||p==='/studio/api/review/club-booking-config'||p==='/studio/api/review/club-ledgers'||p==='/studio/api/review/club-settle'||p==='/studio/api/review/club-ledger-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
@@ -1477,6 +1477,85 @@ async function brReviewRoute(p,request,env,db,now){
   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-member-'+st.toLowerCase(),null,m.email,now).run();
   return JSONR({ok:true,status:st});
  }
+ if(p==='/studio/api/review/club-booking-config'&&request.method==='POST'){
+  await clubTables(db);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const br=await db.prepare('SELECT * FROM br_brands WHERE id=?').bind(clean(b.brand_id,40)).first();
+  if(!br)return JSONR({error:'Unknown brand.'},404);
+  if(br.club!==1)return JSONR({error:'Brand must be approved for Club participation first.'},400);
+  const loc=await db.prepare('SELECT * FROM br_locations WHERE id=? AND brand_id=?').bind(clean(b.location_id,40),br.id).first();
+  if(!loc)return JSONR({error:'Unknown location for this brand.'},404);
+  const fee=Math.max(0,Math.min(100000,parseInt(b.fee_inr)||0));
+  const active=b.active?1:0;
+  await db.prepare('INSERT INTO br_club_booking_config(brand_id,location_id,fee_inr,terms,active,updated_by,updated_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(brand_id,location_id) DO UPDATE SET fee_inr=excluded.fee_inr,terms=excluded.terms,active=excluded.active,updated_by=excluded.updated_by,updated_at=excluded.updated_at').bind(br.id,loc.id,fee,clean(b.terms,2000)||null,active,rv.email,now).run();
+  if(active&&!loc.booking_enabled)await db.prepare('UPDATE br_locations SET booking_enabled=1,updated_at=? WHERE id=?').bind(now,loc.id).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-booking-config',br.id,loc.name+' fee Rs'+fee+' active='+active,now).run();
+  return JSONR({ok:true,fee_inr:fee,active:!!active});
+ }
+ if(p==='/studio/api/review/club-ledgers'&&request.method==='GET'){
+  await clubTables(db);
+  const bookings=(await db.prepare("SELECT k.booking_no,k.visit_date,k.visit_time,k.people,k.fee_inr,k.status,k.checked_in_at,k.created_at,b.name AS brand_name,l.name AS location_name,m.email AS member_email,m.name AS member_name FROM br_club_bookings k JOIN br_brands b ON b.id=k.brand_id JOIN br_locations l ON l.id=k.location_id JOIN br_club_members m ON m.id=k.member_id ORDER BY k.created_at DESC LIMIT 200").all()).results||[];
+  const commission=(await db.prepare('SELECT c.*,k.booking_no,m.email AS member_email FROM br_club_commission c LEFT JOIN br_club_bookings k ON k.id=c.booking_id LEFT JOIN br_club_members m ON m.id=k.member_id ORDER BY c.created_at DESC LIMIT 200').all()).results||[];
+  const cashback=(await db.prepare('SELECT c.*,k.booking_no,m.email AS member_email FROM br_club_cashback c LEFT JOIN br_club_bookings k ON k.id=c.booking_id LEFT JOIN br_club_members m ON m.id=c.member_id ORDER BY c.created_at DESC LIMIT 200').all()).results||[];
+  return JSONR({bookings,commission,cashback});
+ }
+ if(p==='/studio/api/review/club-settle'&&request.method==='POST'){
+  await clubTables(db);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const note=clean(b.note,500);if(!note)return JSONR({error:'A documented note is required.'},400);
+  const k=await db.prepare('SELECT * FROM br_club_bookings WHERE booking_no=?').bind(clean(b.booking_no,20)).first();
+  if(!k)return JSONR({error:'Unknown booking.'},404);
+  if(k.status!=='CHECKED_IN')return JSONR({error:'Only a checked-in visit can be settled.'},409);
+  const dup=await db.prepare("SELECT id FROM br_club_commission WHERE booking_id=? AND status!='REVERSED'").bind(k.id).first();
+  if(dup)return JSONR({error:'This booking already has a commission record.'},409);
+  const bill=Math.max(0,Math.min(10000000,parseInt(b.bill_inr)||0));
+  const pct=Math.max(0,Math.min(100,parseFloat(b.fee_pct)||0));
+  if(!bill||!pct)return JSONR({error:'Bill amount and agreed success-fee % are required.'},400);
+  let cbpct=parseFloat(b.cashback_pct==null?5:b.cashback_pct);if(!(cbpct>=0))cbpct=5;
+  cbpct=Math.max(0,Math.min(5,cbpct));
+  const comm=Math.round(bill*pct/100);
+  let cb=Math.round(comm*cbpct/100);
+  const mem=await db.prepare('SELECT * FROM br_club_members WHERE id=?').bind(k.member_id).first();
+  if(!mem)return JSONR({error:'Member record missing.'},404);
+  const ps=mem.member_since||mem.joined_at||mem.invited_at;
+  const used=((await db.prepare("SELECT COALESCE(SUM(cashback_inr),0) s FROM br_club_cashback WHERE member_id=? AND period_start=? AND status!='REVERSED'").bind(mem.id,ps).first())||{}).s||0;
+  const room=Math.max(0,5000-used);
+  let capped=false;
+  if(cb>room){cb=room;capped=true}
+  const cid=crypto.randomUUID();
+  await db.prepare("INSERT INTO br_club_commission(id,booking_id,brand_id,bill_inr,fee_pct,commission_inr,status,note,created_at,updated_at) VALUES(?,?,?,?,?,?,'PENDING',?,?,?)").bind(cid,k.id,k.brand_id,bill,pct,comm,note,now,now).run();
+  let cbid=null;
+  if(cb>0){cbid=crypto.randomUUID();await db.prepare("INSERT INTO br_club_cashback(id,booking_id,member_id,commission_id,cashback_inr,status,period_start,note,created_at,updated_at) VALUES(?,?,?,?,?,'PENDING',?,?,?,?)").bind(cbid,k.id,mem.id,cid,cb,ps,note+(capped?' (capped at Rs 5,000 per 12-month membership period)':''),now,now).run()}
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-settle',k.brand_id,k.booking_no+' bill Rs'+bill+' fee '+pct+'% = Rs'+comm+' cashback Rs'+cb+(capped?' (capped)':''),now).run();
+  return JSONR({ok:true,commission_inr:comm,cashback_inr:cb,capped,status:'PENDING',message:'Recorded as PENDING. Nothing is charged or credited automatically - SRCHN PAY is configuration-required and disabled.'});
+ }
+ if(p==='/studio/api/review/club-ledger-status'&&request.method==='POST'){
+  await clubTables(db);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const note=clean(b.note,500);if(!note)return JSONR({error:'A documented note is required.'},400);
+  const st=b.status==='CONFIRMED'?'CONFIRMED':b.status==='REVERSED'?'REVERSED':'';
+  if(!st)return JSONR({error:'Status must be CONFIRMED or REVERSED.'},400);
+  if(b.kind==='commission'){
+   const c=await db.prepare('SELECT * FROM br_club_commission WHERE id=?').bind(clean(b.id,40)).first();
+   if(!c)return JSONR({error:'Unknown commission record.'},404);
+   await db.prepare('UPDATE br_club_commission SET status=?,note=?,updated_at=? WHERE id=?').bind(st,(c.note||'')+' | '+st+': '+note,now,c.id).run();
+   if(st==='REVERSED')await db.prepare("UPDATE br_club_cashback SET status='REVERSED',updated_at=? WHERE commission_id=? AND status!='REVERSED'").bind(now,c.id).run();
+   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-commission-'+st.toLowerCase(),c.brand_id,c.id+' :: '+note,now).run();
+   return JSONR({ok:true,status:st});
+  }
+  if(b.kind==='cashback'){
+   const c=await db.prepare('SELECT * FROM br_club_cashback WHERE id=?').bind(clean(b.id,40)).first();
+   if(!c)return JSONR({error:'Unknown cashback record.'},404);
+   if(st==='CONFIRMED'){
+    const comm=await db.prepare('SELECT status FROM br_club_commission WHERE id=?').bind(c.commission_id).first();
+    if(!comm||comm.status!=='CONFIRMED')return JSONR({error:'Cashback can be confirmed only after the underlying commission is confirmed.'},409);
+   }
+   await db.prepare('UPDATE br_club_cashback SET status=?,note=?,updated_at=? WHERE id=?').bind(st,(c.note||'')+' | '+st+': '+note,now,c.id).run();
+   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-cashback-'+st.toLowerCase(),null,c.id+' :: '+note,now).run();
+   return JSONR({ok:true,status:st});
+  }
+  return JSONR({error:'kind must be commission or cashback.'},400);
+ }
  if(p==='/studio/api/review/club-member-delete'&&request.method==='POST'){
   await clubTables(db);
   const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
@@ -1580,6 +1659,59 @@ async function clubRoute(request,env){
   const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
   const rows=(await db.prepare('SELECT booking_id,cashback_inr,status,note,created_at FROM br_club_cashback WHERE member_id=? ORDER BY created_at DESC LIMIT 100').bind(m.id).all()).results||[];
   return JSONR({cashback:rows,cap_inr:CLUB_CAP,cap_period:'12-month membership period'});
+ }
+ if(p==='/club/api/booking-options'&&request.method==='GET'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const rows=(await db.prepare("SELECT c.location_id,c.fee_inr,c.terms,b.name AS brand_name,b.slug AS brand_slug,l.name AS location_name,l.locality FROM br_club_booking_config c JOIN br_brands b ON b.id=c.brand_id JOIN br_locations l ON l.id=c.location_id WHERE c.active=1 AND b.status='PUBLISHED' AND b.club=1 AND l.status='PUBLISHED' ORDER BY b.name,l.name").all()).results||[];
+  return JSONR({options:rows});
+ }
+ if(p==='/club/api/book'&&request.method==='POST'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Club membership required.'},401);
+  if(m.status!=='ACTIVE')return JSONR({error:'Membership is not active.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const loc=await db.prepare("SELECT l.*,b.name AS brand_name,b.club AS brand_club,b.status AS brand_status FROM br_locations l JOIN br_brands b ON b.id=l.brand_id WHERE l.id=?").bind(clean(b.location_id,40)).first();
+  if(!loc||loc.status!=='PUBLISHED'||loc.brand_status!=='PUBLISHED'||loc.brand_club!==1)return JSONR({error:'This location is not available for Club booking.'},404);
+  const cfg=await db.prepare('SELECT * FROM br_club_booking_config WHERE brand_id=? AND location_id=? AND active=1').bind(loc.brand_id,loc.id).first();
+  if(!cfg)return JSONR({error:'Booking is not configured for this location.'},404);
+  const date=clean(b.visit_date,10);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return JSONR({error:'Choose a visit date.'},400);
+  const today=new Date(now+330*60000).toISOString().slice(0,10);
+  const maxd=new Date(now+60*86400000).toISOString().slice(0,10);
+  if(date<today||date>maxd)return JSONR({error:'Choose a date between today and the next 60 days.'},400);
+  const time=clean(b.visit_time,5);
+  if(time&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(time))return JSONR({error:'Choose a valid time.'},400);
+  const people=Math.max(1,Math.min(20,parseInt(b.people)||1));
+  if(cfg.terms&&b.conditions_accepted!==true)return JSONR({error:'Please review and accept the booking conditions.'},400);
+  let id=null,bno=null;
+  for(let i=0;i<3;i++){
+   id=crypto.randomUUID();bno='SRCHN-CLB-'+randomHex(4).toUpperCase();
+   try{await db.prepare("INSERT INTO br_club_bookings(id,booking_no,member_id,brand_id,location_id,visit_date,visit_time,people,fee_inr,pay_status,status,conditions,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,'PAY_NOT_ENABLED','CONFIRMED',?,?,?)").bind(id,bno,m.id,loc.brand_id,loc.id,date,time||null,people,cfg.fee_inr,cfg.terms||null,now,now).run();break}
+   catch(e){id=null}
+  }
+  if(!id)return JSONR({error:'Could not create the booking. Please try again.'},500);
+  let email='skipped';
+  try{const r=await stuMail(env,{task:'club_booking',to:m.email,name:m.name,booking_no:bno,brand:loc.brand_name,location:loc.name,date,time:time||'',people:String(people),fee:String(cfg.fee_inr)});email=r.ok?'sent':'failed'}catch{email='failed'}
+  return JSONR({ok:true,booking:{booking_no:bno,brand:loc.brand_name,location:loc.name,visit_date:date,visit_time:time||null,people,fee_inr:cfg.fee_inr,pay_status:'PAY_NOT_ENABLED',status:'CONFIRMED'},email,payment_note:cfg.fee_inr?('Booking fee Rs '+cfg.fee_inr+' - SRCHN PAY is not yet enabled (configuration required). No payment has been taken.'):'No booking fee. SRCHN PAY is not yet enabled (configuration required).'},201);
+ }
+ if(p==='/club/api/cancel-booking'&&request.method==='POST'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const b=await request.json().catch(()=>null);
+  const k=await db.prepare('SELECT * FROM br_club_bookings WHERE booking_no=? AND member_id=?').bind(clean(b&&b.booking_no,20),m.id).first();
+  if(!k)return JSONR({error:'Booking not found.'},404);
+  if(k.status!=='CONFIRMED')return JSONR({error:'Only a confirmed booking can be cancelled.'},409);
+  await db.prepare("UPDATE br_club_bookings SET status='CANCELLED',cancelled_at=?,updated_at=? WHERE id=?").bind(now,now,k.id).run();
+  return JSONR({ok:true,status:'CANCELLED'});
+ }
+ if(p==='/club/api/check-in'&&request.method==='POST'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const b=await request.json().catch(()=>null);
+  const k=await db.prepare('SELECT * FROM br_club_bookings WHERE booking_no=? AND member_id=?').bind(clean(b&&b.booking_no,20),m.id).first();
+  if(!k)return JSONR({error:'Booking not found.'},404);
+  if(k.status!=='CONFIRMED')return JSONR({error:'Only a confirmed booking can be checked in.'},409);
+  const today=new Date(now+330*60000).toISOString().slice(0,10);
+  if(k.visit_date!==today)return JSONR({error:'Check-in opens on the visit date ('+k.visit_date+').'},409);
+  await db.prepare("UPDATE br_club_bookings SET status='CHECKED_IN',checked_in_at=?,updated_at=? WHERE id=?").bind(now,now,k.id).run();
+  return JSONR({ok:true,status:'CHECKED_IN',checked_in_at:now});
  }
  if(p==='/club/'||p==='/club'){
   const clubBrands=(await brListQuery(db,"b.status='PUBLISHED' AND b.club=1",[])).results||[];
