@@ -188,15 +188,14 @@ function sendMedia(bid,btn){
  if(isVideo&&f.size>26*1024*1024)return err('Videos must be under 26 MB and 30 seconds.');
  btn.disabled=true;
  var bar=el('mb-'+bid);bar.style.display='block';var fill=bar.querySelector('i');
- stu.req('/media/start',{method:'POST',json:{kind:isVideo?'video':'photo',mime:f.type,size:f.size}}).then(function(r){
+ stu.req('/media/start',{method:'POST',json:{kind:isVideo?'video':'photo',mime:f.type,bytes:f.size}}).then(function(r){
   if(!r||!r.data||!r.data.media_id){btn.disabled=false;return err((r&&r.data&&r.data.error)||'Upload could not start.')}
   var mid=r.data.media_id,CH=950*1024,seq=0;
   function sendChunk(){
    var slice=f.slice(seq*CH,(seq+1)*CH);
    var fr=new FileReader();
    fr.onload=function(){
-    var b64=btoa(String.fromCharCode.apply(null,new Uint8Array(fr.result)));
-    fetch('/studio/api/media/chunk?id='+encodeURIComponent(mid)+'&seq='+seq,{method:'POST',headers:{'Authorization':'Bearer '+stu.token(),'Content-Type':'application/json'},body:JSON.stringify({data:b64})}).then(function(rr){return rr.json()}).then(function(d){
+    fetch('/studio/api/media/chunk?id='+encodeURIComponent(mid)+'&seq='+seq,{method:'POST',headers:{'Authorization':'Bearer '+stu.token(),'Content-Type':'application/octet-stream'},body:fr.result}).then(function(rr){return rr.json()}).then(function(d){
      if(d&&d.error){btn.disabled=false;return err(d.error)}
      seq++;fill.style.width=Math.min(95,Math.round(seq*CH/f.size*100))+'%';
      if(seq*CH<f.size)sendChunk();else finish();
