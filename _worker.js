@@ -816,9 +816,9 @@ async function studioRoute(request,env){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
   const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
   const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
-  const no=clean(b.creator_no,20),name=clean(b.name,80);
+  const no=clean(b.creator_no,20),name=clean(b.name,80),bio=b.bio===undefined?null:clean(b.bio,400);
   if(!no||!name)return JSONR({error:'creator_no and name required.'},400);
-  const r=await db.prepare('UPDATE stu_creators SET full_name=?,display_name=?,updated_at=? WHERE creator_no=?').bind(name,name,now,no).run();
+  const r=await db.prepare("UPDATE stu_creators SET full_name=?,display_name=?,bio=COALESCE(?,bio),updated_at=? WHERE creator_no=?").bind(name,name,bio,now,no).run();
   if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown creator.'},404);
   return JSONR({ok:true});
  }
