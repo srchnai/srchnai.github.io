@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Studio Review Queue — SRCHN STUDIO</title>
+<meta content="noindex,nofollow" name="robots"/>
+<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>
+<link href="/assets/brand/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="/assets/redesign/srchn-redesign.css" rel="stylesheet"/>
+<link href="/assets/brand/brand.css" rel="stylesheet"/>
+<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>
+<link href="../studio.css" rel="stylesheet"/>
+<style>
+.rv-wrap{max-width:1160px;margin:0 auto;padding:28px 20px 60px}
+.rv-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 18px;border-bottom:1px solid #eee;padding-bottom:18px;margin-bottom:18px}
+.rv-head h1{margin:0;font-size:clamp(24px,4vw,32px)}
+.rv-who{margin-left:auto;font-size:13.5px;color:#8a8a8a}
+.rv-usage{font-size:12.5px;color:#8a8a8a}
+.rv-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.rv-tab{border:1px solid #e3e3e3;background:#fff;border-radius:22px;padding:8px 14px;font-size:13.5px;font-weight:600;cursor:pointer;color:#333}
+.rv-tab.on{background:#111;color:#fff;border-color:#111}
+.rv-tab .n{opacity:.65;font-weight:400;margin-left:4px}
+.rv-rows{display:flex;flex-direction:column;gap:8px}
+.rv-row{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;border:1px solid #e8e8e8;border-radius:12px;padding:13px 16px;cursor:pointer;background:#fff}
+.rv-row:hover{border-color:#bbb}
+.rv-row .id{font-weight:700;font-size:14px}
+.rv-row .pl{font-size:14.5px}
+.rv-row .mt{color:#8a8a8a;font-size:12.5px}
+.rv-row .st{margin-left:auto;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:18px;background:#f0f0f0}
+.st.SUBMITTED{background:#e7f0ff;color:#0b5fff}.st.UNDER_REVIEW{background:#fff3d6;color:#8a5b00}.st.ADDITIONAL_INFORMATION_REQUIRED{background:#ffe9e0;color:#a34a00}
+.st.APPROVED,.st.PUBLISHED{background:#e6f7ec;color:#146c2e}.st.SCHEDULED{background:#e9e4ff;color:#4b33b8}
+.st.REJECTED,.st.DUPLICATE{background:#fdeaea;color:#a11}.st.ON_HOLD,.st.WITHDRAWN{background:#f0f0f0;color:#666}
+.rv-empty{color:#8a8a8a;padding:26px 0;font-size:15px}
+.rv-detail{border:1px solid #e3e3e3;border-radius:14px;padding:20px;margin-top:20px;background:#fff}
+.rv-detail h2{margin:0 0 4px;font-size:22px}
+.rv-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:16px 0}
+.rv-card{border:1px solid #eee;border-radius:12px;padding:14px 16px;font-size:14px}
+.rv-card h3{margin:0 0 8px;font-size:12px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.08em}
+.rv-card p{margin:3px 0}
+.rv-card .lbl{color:#8a8a8a;display:inline-block;min-width:86px}
+.rv-media{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin:10px 0 4px}
+.rv-m{border:1px solid #eee;border-radius:10px;overflow:hidden;background:#fafafa}
+.rv-m img,.rv-m video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
+.rv-m img.portrait,.rv-m video.portrait{aspect-ratio:9/16;max-height:340px;object-fit:contain}
+.rv-m .mc{padding:8px 10px;font-size:12px;color:#555}
+.rv-m .mc b{display:block;font-size:12.5px;color:#111}
+.rv-actions{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}
+.rv-btn{border:1px solid #111;background:#111;color:#fff;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer}
+.rv-btn.ghost{background:#fff;color:#111}
+.rv-btn.danger{background:#a11;border-color:#a11}
+.rv-btn[disabled]{opacity:.45;cursor:default}
+.rv-reason{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit;margin:8px 0}
+textarea.rv-reason{min-height:70px;resize:vertical}
+.rv-audit{border-top:1px solid #eee;margin-top:16px;padding-top:12px}
+.rv-audit h3,.rv-notes h3{font-size:13px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.08em;margin:14px 0 8px}
+.rv-ev{font-size:13px;color:#444;padding:6px 0;border-bottom:1px dashed #f0f0f0}
+.rv-ev .w{color:#8a8a8a}
+.rv-dupe{background:#fff8ec;border:1px solid #f2ddad;border-radius:10px;padding:10px 14px;font-size:13.5px;margin:10px 0}
+.rv-msg{font-size:14px;margin:10px 0;padding:10px 14px;border-radius:10px;display:none}
+.rv-msg.err{display:block;background:#fdeaea;color:#a11}
+.rv-msg.ok{display:block;background:#e6f7ec;color:#146c2e}
+.rv-login{max-width:420px;margin:60px auto;border:1px solid #e8e8e8;border-radius:14px;padding:28px}
+.rv-login h1{margin:0 0 6px;font-size:24px}
+.rv-login p{color:#666;font-size:14px}
+.rv-login input{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:10px;padding:12px 14px;font-size:15px;margin:10px 0;font-family:inherit}
+.rv-edit input{margin:4px 0}
+.rv-back{background:none;border:none;color:#0b5fff;font-size:14px;cursor:pointer;padding:0;margin:0 0 10px;font-family:inherit}
+.rv-meta-edit{display:grid;gap:6px;grid-template-columns:1fr 1fr}
+.rv-meta-edit .full{grid-column:1/-1}
+@media(max-width:560px){.rv-meta-edit{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="stu-body">
+<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><span>Explore</span></a><a href="/localities/"><span>Localities</span></a><a href="/plan/"><span>Plan</span></a><a href="/studio/"><span>Studio</span></a><a href="/club/"><span>Club</span></a><a href="/property/"><span>Property</span></a></nav></header>
+<main>
+<div class="rv-login" id="rv-login" hidden>
+  <h1>Team SRCHN sign in</h1>
+  <p>Authorised SRCHN administrators and reviewers only. A verification code is emailed to you.</p>
+  <div id="lg-step1">
+    <input id="lg-email" type="email" placeholder="you@srchn.in" autocomplete="email"/>
+    <button class="rv-btn" id="lg-send" style="width:100%">Email me a code</button>
+  </div>
+  <div id="lg-step2" hidden>
+    <input id="lg-code" type="text" inputmode="numeric" maxlength="6" placeholder="6-digit code" autocomplete="one-time-code"/>
+    <button class="rv-btn" id="lg-verify" style="width:100%">Sign in</button>
+  </div>
+  <div class="rv-msg" id="lg-msg"></div>
+</div>
+<div class="rv-wrap" id="rv-dash" hidden>
+  <div class="rv-head">
+    <div>
+      <p class="stu-eyebrow" style="margin:0 0 4px">SRCHN STUDIO</p>
+      <h1>Studio Review Queue</h1>
+    </div>
+    <span class="rv-who" id="rv-who"></span>
+  </div>
+  <p class="rv-usage" id="rv-usage"></p>
+  <div class="rv-tabs" id="rv-tabs"></div>
+  <div class="rv-rows" id="rv-rows"></div>
+  <div class="rv-detail" id="rv-detail" hidden></div>
+  <div class="rv-msg" id="rv-msg"></div>
+</div>
+</main>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LABEL={SUBMITTED:'New',UNDER_REVIEW:'Under review',ADDITIONAL_INFORMATION_REQUIRED:'Awaiting corrections',APPROVED:'Approved',SCHEDULED:'Scheduled',PUBLISHED:'Published',REJECTED:'Rejected',ON_HOLD:'On hold',WITHDRAWN:'Withdrawn',DUPLICATE:'Duplicate'};
+async function api(path,opts){
+  opts=opts||{};opts.headers=opts.headers||{};
+  if(opts.json!==undefined){opts.headers['Content-Type']='application/json';opts.body=JSON.stringify(opts.json)}
+  const r=await fetch(path,opts);let d=null;try{d=await r.json()}catch(e){}
+  return {status:r.status,data:d};
+}
+function msg(el,m,ok){el.textContent=m;el.className='rv-msg '+(ok?'ok':'err')}
+/* ---------- login ---------- */
+let loginEmail='';
+$('lg-send').onclick=async()=>{
+  loginEmail=$('lg-email').value.trim();
+  if(!loginEmail){msg($('lg-msg'),'Enter your email.');return}
+  $('lg-send').disabled=true;
+  const r=await api('/review/api/request',{method:'POST',json:{email:loginEmail}});
+  $('lg-send').disabled=false;
+  if(r.data&&r.data.error){msg($('lg-msg'),r.data.error);return}
+  msg($('lg-msg'),(r.data&&r.data.message)||'If this address has reviewer access, a code can be sent.',true);
+  $('lg-step2').hidden=false;
+};
+$('lg-verify').onclick=async()=>{
+  const code=$('lg-code').value.trim();
+  $('lg-verify').disabled=true;
+  const r=await api('/review/api/verify',{method:'POST',json:{email:loginEmail,code}});
+  $('lg-verify').disabled=false;
+  if(r.data&&r.data.signed_in){start();return}
+  msg($('lg-msg'),(r.data&&r.data.error)||'Sign-in failed.');
+};
+/* ---------- dashboard ---------- */
+let curStatus='NEW';
+const TABS=[['NEW','New'],['UNDER_REVIEW','Under review'],['ADDITIONAL_INFORMATION_REQUIRED','Awaiting corrections'],['APPROVED','Approved'],['SCHEDULED','Scheduled'],['PUBLISHED','Published'],['REJECTED','Rejected'],['ON_HOLD','On hold'],['ALL','All']];
+async function start(){
+  $('rv-login').hidden=true;$('rv-dash').hidden=false;
+  loadQueue();
+}
+function countsOf(c){const m={};(c||[]).forEach(x=>m[x.status]=x.n);return m}
+async function loadQueue(){
+  const r=await api('/studio/api/review/submissions?status='+curStatus);
+  if(r.status===401){$('rv-dash').hidden=true;$('rv-login').hidden=false;return}
+  const d=r.data||{};
+  $('rv-who').textContent=d.reviewer?('Signed in as '+d.reviewer):'';
+  if(d.media_bytes!==undefined){const mb=(d.media_bytes/1048576).toFixed(1);$('rv-usage').textContent='Media storage: '+mb+' MB of '+(d.media_limit/1048576).toFixed(0)+' MB used (preview cap).';}
+  const cm=countsOf(d.counts);
+  const newN=(cm.SUBMITTED||0);
+  $('rv-tabs').innerHTML=TABS.map(([k,l])=>{
+    const n=k==='NEW'?newN:(k==='ALL'?Object.values(cm).reduce((a,b)=>a+b,0):(cm[k]||0));
+    return '<button class="rv-tab'+(k===curStatus?' on':'')+'" data-s="'+k+'">'+l+'<span class="n">'+n+'</span></button>';
+  }).join('');
+  $('rv-tabs').querySelectorAll('.rv-tab').forEach(b=>b.onclick=()=>{curStatus=b.dataset.s;$('rv-detail').hidden=true;loadQueue()});
+  const rows=d.submissions||[];
+  if(!rows.length){$('rv-rows').innerHTML='<p class="rv-empty">Nothing in this state right now.</p>';return}
+  $('rv-rows').innerHTML=rows.map(x=>'<div class="rv-row" data-id="'+esc(x.sub_no)+'">'
+    +'<span class="id">'+esc(x.sub_no)+'</span>'
+    +'<span class="pl">'+esc(x.place_name)+'</span>'
+    +'<span class="mt">'+esc(x.kind)+' · '+esc(x.content_pillar)+' · '+new Date(x.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</span>'
+    +'<span class="st '+esc(x.status)+'">'+esc(LABEL[x.status]||x.status)+'</span>'
+    +(x.email_status&&/failed/.test(x.email_status)?'<span class="mt" style="color:#a11">email failed</span>':'')
+    +'</div>').join('');
+  $('rv-rows').querySelectorAll('.rv-row').forEach(el=>el.onclick=()=>openDetail(el.dataset.id));
+}
+async function openDetail(id){
+  const r=await api('/studio/api/review/submission?id='+encodeURIComponent(id));
+  if(r.status===401){$('rv-dash').hidden=true;$('rv-login').hidden=false;return}
+  if(!r.data||r.data.error){msg($('rv-msg'),(r.data&&r.data.error)||'Could not load.');return}
+  const {submission:s,creator:c,place:p,dupes,events}=r.data;
+  const det=s.details||{},rights=s.rights||{};
+  const media=(s.items||[]).map(it=>{
+    if(!it.media_id)return '';
+    const u='/studio/api/media/'+it.media_id;
+    const portrait=it.width&&it.height&&it.height>it.width;
+    const cls=portrait?' class="portrait"':'';
+    const vis=it.type==='photo'
+      ?'<img src="'+u+'"'+cls+' loading="lazy" alt=""/>'
+      :'<video src="'+u+'" controls preload="metadata" playsinline'+cls+'></video>';
+    const orient=it.width&&it.height?(it.height>it.width?'portrait':'landscape'):'';
+    return '<div class="rv-m">'+vis+'<div class="mc"><b>'+esc(it.type)+(it.duration_sec?' · '+it.duration_sec+'s':'')+(orient?' · '+orient:'')+(it.motion_from_photo?' · generated from photo':'')+'</b>'
+      +'Caption: '+esc(it.caption||'-')+'<br/>Credit: '+esc(it.credit||'-')+(it.captured_at?'<br/>Captured: '+esc(it.captured_at):'')+'</div></div>';
+  }).join('');
+  const ev=(events||[]).map(e=>'<div class="rv-ev"><b>'+esc(e.action)+'</b>'
+    +(e.from_status?' · '+esc(LABEL[e.from_status]||e.from_status)+' → '+esc(LABEL[e.to_status]||e.to_status):'')
+    +(e.notes?' — '+esc(e.notes):'')
+    +' <span class="w">by '+esc(e.reviewer||'')+' · '+new Date(e.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</span></div>').join('');
+  const act=(st,label,cls,needReason)=>'<button class="rv-btn '+(cls||'')+'" data-st="'+st+'" data-nr="'+(needReason?1:0)+'">'+label+'</button>';
+  const d=$('rv-detail');
+  d.innerHTML=
+   '<button class="rv-back" id="dt-back">← Back to queue</button>'
+   +'<h2>'+esc(s.place_name)+'</h2>'
+   +'<p style="margin:0 0 4px;color:#666;font-size:14px">'+esc(s.sub_no)+' · '+esc(s.kind)+' · '+esc(s.content_pillar)
+   +' · <span class="st '+esc(s.status)+'" style="margin-left:0">'+esc(LABEL[s.status]||s.status)+'</span></p>'
+   +(dupes.length?'<div class="rv-dupe">⚠ Possible duplicate location — other submissions for “'+esc(s.place_name)+'”: '+dupes.map(x=>esc(x.sub_no)+' ('+esc(LABEL[x.status]||x.status)+')').join(', ')+'</div>':'')
+   +'<div class="rv-grid">'
+   +'<div class="rv-card"><h3>Creator</h3>'
+   +'<p><span class="lbl">Name</span>'+esc(c?c.full_name:'-')+'</p>'
+   +'<p><span class="lbl">Display</span>'+esc(c?c.display_name:'-')+'</p>'
+   +'<p><span class="lbl">Creator ID</span>'+esc(c?c.creator_no:'-')+'</p>'
+   +'<p><span class="lbl">Category</span>'+esc(c?(c.categories||'').toString().replace(/[[\]"]/g,''):'-')+'</p>'
+   +'<p><span class="lbl">Email</span>'+esc(c?c.email:'-')+'</p>'
+   +'<p><span class="lbl">Mobile</span>'+(c?'+91 '+esc(c.mobile):'-')+'</p>'
+   +'<p><span class="lbl">City</span>'+esc(c?c.city:'-')+'</p></div>'
+   +'<div class="rv-card"><h3>Place & location</h3>'
+   +'<p><span class="lbl">Address</span>'+esc(det.address||'-')+'</p>'
+   +'<p><span class="lbl">Locality</span>'+esc(det.locality||'-')+'</p>'
+   +'<p><span class="lbl">City</span>'+esc(det.city||'-')+'</p>'
+   +'<p><span class="lbl">Pincode</span>'+esc(det.pincode||'-')+'</p>'
+   +'<p><a href="https://www.google.com/maps/search/'+encodeURIComponent([s.place_name,det.locality,det.city].filter(Boolean).join(', '))+'" target="_blank" rel="noopener" style="color:#0b5fff">Check on Google Maps ↗</a></p>'
+   +(p&&p.dupes_flagged?'<p style="color:#a34a00">Place flagged with '+p.dupes_flagged+' possible duplicate(s).</p>':'')
+   +'</div>'
+   +'<div class="rv-card"><h3>Rights declaration</h3>'
+   +'<p>'+(rights.confirmed?'Confirmed by the contributor at submission.':'Not confirmed.')+'</p>'
+   +'<p><span class="lbl">Owns media</span>'+(rights.owns_media?'Yes':'-')+'</p>'
+   +'<p><span class="lbl">Agrees T&C</span>'+(rights.agree_terms?'Yes':'-')+'</p>'
+   +'<p><span class="lbl">Submitted</span>'+new Date(s.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})+'</p>'
+   +'<p><span class="lbl">Email</span>'+esc(s.email_status||'-')+(s.email_status&&/failed/.test(s.email_status)?' <button class="rv-btn ghost" id="dt-retry" style="padding:4px 10px;font-size:12px">Retry</button>':'')+'</p>'
+   +'</div></div>'
+   +'<h3 style="margin:6px 0 2px;font-size:15px">Media ('+(s.items||[]).length+')</h3>'
+   +(media?'<div class="rv-media">'+media+'</div>':'<p class="rv-empty">No media attached.</p>')
+   +'<div class="rv-card" style="margin-top:12px"><h3>Edit listing metadata</h3><div class="rv-meta-edit" id="dt-edit">'
+   +'<input class="full" data-k="place_name" placeholder="Place name" value="'+esc(s.place_name)+'"/>'
+   +'<input class="full" data-k="address" placeholder="Address" value="'+esc(det.address||'')+'"/>'
+   +'<input data-k="locality" placeholder="Locality" value="'+esc(det.locality||'')+'"/>'
+   +'<input data-k="city" placeholder="City" value="'+esc(det.city||'')+'"/>'
+   +'<input data-k="pincode" placeholder="Pincode" value="'+esc(det.pincode||'')+'"/>'
+   +'<input data-k="hours" placeholder="Hours" value="'+esc(det.hours||'')+'"/>'
+   +'<input data-k="phone" placeholder="Phone" value="'+esc(det.phone||'')+'"/>'
+   +'<input data-k="website" placeholder="Website" value="'+esc(det.website||'')+'"/>'
+   +'</div><button class="rv-btn ghost" id="dt-save" style="margin-top:8px">Save metadata</button></div>'
+   +'<div class="rv-actions">'
+   +act('UNDER_REVIEW','Mark under review','ghost')
+   +act('ADDITIONAL_INFORMATION_REQUIRED','Request info','ghost',1)
+   +act('APPROVED','Approve')
+   +act('SCHEDULED','Schedule publication','ghost')
+   +act('PUBLISHED','Publish')
+   +act('ON_HOLD','On hold','ghost')
+   +act('REJECTED','Reject with reason','danger',1)
+   +act('DUPLICATE','Mark duplicate','ghost')
+   +'</div>'
+   +'<textarea class="rv-reason" id="dt-reason" placeholder="Reason / message to the creator (required for reject and request-info; emailed to the creator)"></textarea>'
+   +'<div class="rv-notes"><h3>Internal reviewer notes</h3>'
+   +'<textarea class="rv-reason" id="dt-note" placeholder="Private note (stays inside Team SRCHN)"></textarea>'
+   +'<button class="rv-btn ghost" id="dt-addnote">Add note</button></div>'
+   +'<div class="rv-audit"><h3>Audit trail</h3>'+(ev||'<p class="rv-empty">No events yet.</p>')+'</div>';
+  d.hidden=false;
+  d.scrollIntoView({behavior:'smooth',block:'start'});
+  $('dt-back').onclick=()=>{d.hidden=true};
+  const retry=$('dt-retry');if(retry)retry.onclick=async()=>{
+    retry.disabled=true;
+    const rr=await api('/studio/api/review/retry-email',{method:'POST',json:{submission_id:s.sub_no}});
+    msg($('rv-msg'),rr.data&&rr.data.email==='sent'?'Confirmation email re-sent.':'Retry failed.',rr.data&&rr.data.email==='sent');
+    retry.disabled=false;
+  };
+  $('dt-save').onclick=async()=>{
+    const body={submission_id:s.sub_no};
+    $('dt-edit').querySelectorAll('input').forEach(i=>body[i.dataset.k]=i.value);
+    $('dt-save').disabled=true;
+    const rr=await api('/studio/api/review/edit-meta',{method:'POST',json:body});
+    $('dt-save').disabled=false;
+    if(rr.data&&rr.data.ok){msg($('rv-msg'),'Metadata saved.',true);openDetail(s.sub_no)}
+    else msg($('rv-msg'),(rr.data&&rr.data.error)||'Save failed.');
+  };
+  $('dt-addnote').onclick=async()=>{
+    const note=$('dt-note').value.trim();if(!note)return;
+    $('dt-addnote').disabled=true;
+    const rr=await api('/studio/api/review/note',{method:'POST',json:{submission_id:s.sub_no,note}});
+    $('dt-addnote').disabled=false;
+    if(rr.data&&rr.data.ok){msg($('rv-msg'),'Note added.',true);openDetail(s.sub_no)}
+    else msg($('rv-msg'),(rr.data&&rr.data.error)||'Note failed.');
+  };
+  d.querySelectorAll('.rv-btn[data-st]').forEach(b=>b.onclick=async()=>{
+    const st=b.dataset.st,needReason=b.dataset.nr==='1';
+    const reason=$('dt-reason').value.trim();
+    if(needReason&&!reason){msg($('rv-msg'),'A reason is required - it is emailed to the creator.');$('dt-reason').focus();return}
+    if(st==='REJECTED'&&!confirm('Reject '+s.sub_no+'? The creator is emailed your reason.'))return;
+    if(st==='PUBLISHED'&&!confirm('Publish '+s.sub_no+'? The creator is emailed that the content is live.'))return;
+    b.disabled=true;
+    const rr=await api('/studio/api/review/status',{method:'POST',json:{submission_id:s.sub_no,status:st,reason}});
+    b.disabled=false;
+    if(rr.data&&rr.data.ok){msg($('rv-msg'),'Status updated to '+(LABEL[st]||st)+'. Creator email: '+rr.data.email+'.',true);loadQueue();openDetail(s.sub_no)}
+    else msg($('rv-msg'),(rr.data&&rr.data.error)||'Update failed.');
+  });
+}
+start();
+})();
+</script>
+</body>
+</html>

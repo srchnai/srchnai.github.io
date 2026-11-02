@@ -364,12 +364,21 @@ async function stuTables(db){
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_drafts(creator_id TEXT PRIMARY KEY,payload TEXT,updated_at INTEGER NOT NULL)').run();
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_media(id TEXT PRIMARY KEY,creator_id TEXT NOT NULL,kind TEXT NOT NULL,mime TEXT NOT NULL,bytes INTEGER NOT NULL,chunk_count INTEGER NOT NULL,status TEXT NOT NULL,meta TEXT,created_at INTEGER NOT NULL)').run();
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_media_chunks(media_id TEXT NOT NULL,seq INTEGER NOT NULL,data BLOB NOT NULL,PRIMARY KEY(media_id,seq))').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_review_events(id TEXT PRIMARY KEY,submission_id TEXT NOT NULL,reviewer TEXT NOT NULL,action TEXT NOT NULL,from_status TEXT,to_status TEXT,notes TEXT,created_at INTEGER NOT NULL)').run();
 }
 function stuMail(env,body){return env.REVIEWMAIL.fetch(new Request('https://srchn-inference.internal/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}))}
 async function stuAuth(request,db){
  const h=request.headers.get('Authorization')||'';const m=/^Bearer ([a-f0-9]{64})$/.exec(h);if(!m)return null;
  const row=await db.prepare('SELECT c.* FROM stu_sessions s JOIN stu_creators c ON c.id=s.creator_id WHERE s.token_hash=? AND s.expires_at>?').bind(await hash(m[1]),Date.now()).first();
  return row||null;
+}
+async function stuReviewer(request,env){
+ const h=request.headers.get('Authorization')||'';const m=/^Bearer ([a-f0-9]{64})$/.exec(h);
+ const raw=m?m[1]:token(request);
+ if(!/^[a-f0-9]{64}$/.test(raw||''))return null;
+ if(!env.REVIEWDB)return null;
+ const now=Math.floor(Date.now()/1000);
+ return env.REVIEWDB.prepare("SELECT s.email FROM sessions s JOIN reviewers r ON r.email=s.email WHERE s.digest=? AND s.kind='session' AND s.expires>?").bind(await hash(raw),now).first();
 }
 async function studioRoute(request,env){
  const u=new URL(request.url),p=u.pathname,now=Date.now(),db=env.DB;
@@ -569,15 +578,102 @@ async function studioRoute(request,env){
   await db.prepare("UPDATE stu_media SET status='ready',meta=? WHERE id=?").bind(meta,id).run();
   return JSONR({ok:true,media_id:id},201);
  }
+ // ---- Phase 3: Team SRCHN editorial review dashboard ----
+ const STU_STATUSES=['SUBMITTED','UNDER_REVIEW','ADDITIONAL_INFORMATION_REQUIRED','APPROVED','SCHEDULED','PUBLISHED','REJECTED','ON_HOLD','WITHDRAWN','DUPLICATE'];
+ if(p==='/studio/api/review/submissions'&&request.method==='GET'){
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const st=(u.searchParams.get('status')||'').toUpperCase();
+  let rows;
+  if(st==='NEW')rows=await db.prepare("SELECT sub_no,place_name,kind,content_pillar,status,email_status,created_at FROM stu_submissions WHERE status='SUBMITTED' ORDER BY created_at DESC LIMIT 200").all();
+  else if(STU_STATUSES.includes(st))rows=await db.prepare('SELECT sub_no,place_name,kind,content_pillar,status,email_status,created_at FROM stu_submissions WHERE status=? ORDER BY created_at DESC LIMIT 200').bind(st).all();
+  else rows=await db.prepare('SELECT sub_no,place_name,kind,content_pillar,status,email_status,created_at FROM stu_submissions ORDER BY created_at DESC LIMIT 200').all();
+  const counts=await db.prepare('SELECT status,count(*) n FROM stu_submissions GROUP BY status').all();
+  const usage=await db.prepare("SELECT COALESCE(SUM(bytes),0) s FROM stu_media WHERE status='ready'").first();
+  return JSONR({reviewer:rv.email,submissions:rows.results||[],counts:counts.results||[],media_bytes:usage.s,media_limit:3000*1024*1024});
+ }
+ if(p==='/studio/api/review/submission'&&request.method==='GET'){
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const subNo=clean(u.searchParams.get('id')||'',30);
+  const sub=await db.prepare('SELECT * FROM stu_submissions WHERE sub_no=?').bind(subNo).first();
+  if(!sub)return JSONR({error:'Unknown submission.'},404);
+  const creator=await db.prepare('SELECT creator_no,full_name,display_name,email,mobile,city,categories,status FROM stu_creators WHERE id=?').bind(sub.creator_id).first();
+  const place=sub.place_id?await db.prepare('SELECT * FROM stu_places WHERE id=?').bind(sub.place_id).first():null;
+  const items=JSON.parse(sub.items||'[]');
+  for(const it of items){if(it.media_id){const m=await db.prepare('SELECT kind,mime,bytes,meta FROM stu_media WHERE id=?').bind(it.media_id).first();if(m){it.mime=m.mime;it.bytes=m.bytes;const meta=JSON.parse(m.meta||'{}');it.duration_sec=meta.duration_sec;it.width=meta.width;it.height=meta.height;it.motion_from_photo=meta.motion_from_photo===true}}}
+  const dupes=await db.prepare('SELECT sub_no,status,created_at FROM stu_submissions WHERE place_name=? AND sub_no!=? ORDER BY created_at DESC LIMIT 10').bind(sub.place_name,subNo).all();
+  const events=await db.prepare('SELECT reviewer,action,from_status,to_status,notes,created_at FROM stu_review_events WHERE submission_id=? ORDER BY created_at DESC LIMIT 100').bind(subNo).all();
+  return JSONR({submission:{sub_no:sub.sub_no,place_name:sub.place_name,kind:sub.kind,cats:JSON.parse(sub.cats||'[]'),content_pillar:sub.content_pillar,subcats:JSON.parse(sub.subcats||'[]'),items,details:JSON.parse(sub.details||'{}'),rights:JSON.parse(sub.rights||'{}'),status:sub.status,email_status:sub.email_status,created_at:sub.created_at},creator,place,dupes:dupes.results||[],events:events.results||[]});
+ }
+ if(p==='/studio/api/review/status'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const subNo=clean(b.submission_id,30),to=clean(b.status,40).toUpperCase(),reason=clean(b.reason,600),notes=clean(b.notes,1000);
+  if(!STU_STATUSES.includes(to)||to==='SUBMITTED')return JSONR({error:'Choose a valid decision.'},400);
+  if(to==='REJECTED'&&!reason)return JSONR({error:'A rejection needs a reason - it is shared with the creator.'},400);
+  const sub=await db.prepare('SELECT * FROM stu_submissions WHERE sub_no=?').bind(subNo).first();
+  if(!sub)return JSONR({error:'Unknown submission.'},404);
+  if(sub.status===to)return JSONR({error:'Already '+to+'.'},409);
+  await db.prepare('UPDATE stu_submissions SET status=?,updated_at=? WHERE sub_no=?').bind(to,now,subNo).run();
+  await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,from_status,to_status,notes,created_at) VALUES(?,?,?,?,?,?,?,?)').bind(crypto.randomUUID(),subNo,rv.email,'status',sub.status,to,[reason,notes].filter(Boolean).join(' — '),now).run();
+  const c=await db.prepare('SELECT display_name,email FROM stu_creators WHERE id=?').bind(sub.creator_id).first();
+  let es='failed';
+  if(c){try{es=(await stuMail(env,{task:'studio_status',to:c.email,name:c.display_name,submission_id:subNo,status:to,place_name:sub.place_name,reason})).ok?'sent':'failed'}catch{es='failed'}}
+  await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind('status_'+to.toLowerCase()+':'+es,subNo).run();
+  return JSONR({ok:true,status:to,email:es});
+ }
+ if(p==='/studio/api/review/note'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const subNo=clean(b.submission_id,30),note=clean(b.note,1000);
+  if(!note)return JSONR({error:'Write the note first.'},400);
+  await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,notes,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),subNo,rv.email,'note',note,now).run();
+  return JSONR({ok:true});
+ }
+ if(p==='/studio/api/review/edit-meta'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const subNo=clean(b.submission_id,30);
+  const sub=await db.prepare('SELECT * FROM stu_submissions WHERE sub_no=?').bind(subNo).first();
+  if(!sub)return JSONR({error:'Unknown submission.'},404);
+  const det=JSON.parse(sub.details||'{}');const changes=[];
+  const np=clean(b.place_name,120);
+  if(np&&np!==sub.place_name){await db.prepare('UPDATE stu_submissions SET place_name=? WHERE sub_no=?').bind(np,subNo).run();if(sub.place_id)await db.prepare('UPDATE stu_places SET name=? WHERE id=?').bind(np,sub.place_id).run();changes.push('place_name: '+sub.place_name+' -> '+np)}
+  let dd=false;
+  for(const k of['address','locality','city','pincode','hours','phone','website']){if(typeof b[k]==='string'&&clean(b[k],200)!==(det[k]||'')){det[k]=clean(b[k],200);dd=true;changes.push(k)}}
+  if(dd){await db.prepare('UPDATE stu_submissions SET details=? WHERE sub_no=?').bind(JSON.stringify(det),subNo).run();
+   if(sub.place_id)await db.prepare('UPDATE stu_places SET address=?,locality=?,city=?,pincode=? WHERE id=?').bind(det.address||'',det.locality||'',det.city||'',det.pincode||'',sub.place_id).run()}
+  if(!changes.length)return JSONR({error:'Nothing changed.'},400);
+  await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,notes,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),subNo,rv.email,'edit','Metadata edited: '+changes.join(', '),now).run();
+  return JSONR({ok:true,changes});
+ }
+ if(p==='/studio/api/review/retry-email'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const sub=await db.prepare('SELECT * FROM stu_submissions WHERE sub_no=?').bind(clean(b.submission_id,30),).first();
+  if(!sub)return JSONR({error:'Unknown submission.'},404);
+  const c=await db.prepare('SELECT * FROM stu_creators WHERE id=?').bind(sub.creator_id).first();
+  const det=JSON.parse(sub.details||'{}');const items=JSON.parse(sub.items||'[]');
+  let es='failed';
+  try{
+   const r=await stuMail(env,{task:'studio_submission',submission_id:sub.sub_no,creator_name:c.full_name,creator_id:c.creator_no,creator_category:JSON.parse(c.categories||'[]').join(', '),mobile:'+91 '+c.mobile,email:c.email,place_name:sub.place_name,location:[det.address,det.locality,det.city,det.pincode].filter(Boolean).join(', '),main_category:sub.kind,content_type:sub.content_pillar,subcategories:JSON.parse(sub.subcats||'[]').join(', ')||'-',photos:String(items.filter(i=>i.type==='photo').length),videos:String(items.filter(i=>i.type==='video').length),aspect_ratios:[...new Set(items.map(i=>i.aspect))].join(', ')||'-',captions:items.map(i=>i.caption).filter(Boolean).join(' | ')||'-',credits:items.map(i=>i.credit).filter(Boolean).join(' | ')||'-',submitted_at:new Date(sub.created_at).toUTCString(),rights:'Confirmed by contributor',review_link:'https://srchn.in/studio/review/'});
+   es=r.ok?'sent':'failed';
+  }catch{es='failed'}
+  await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
+  return JSONR({ok:true,email:es});
+ }
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
   const m=await db.prepare("SELECT * FROM stu_media WHERE id=? AND status='ready'").bind(id).first();
   if(!m)return JSONR({error:'Not found.'},404);
   const c=await stuAuth(request,db);
-  const rv=await (async()=>{const t=(request.headers.get('Authorization')||'').replace(/^Bearer /,'');if(!/^[a-f0-9]{64}$/.test(t))return null;return db.prepare("SELECT email FROM sessions WHERE digest=? AND kind='session' AND expires>?").bind(await hash(t),now).first()})();
+  const rv=await stuReviewer(request,env);
   if(!c&&!rv)return JSONR({error:'Sign in required.'},401);
-  if(c&&c.id!==m.creator_id)return JSONR({error:'Not your upload.'},403);
+  if(c&&c.id!==m.creator_id&&!rv)return JSONR({error:'Not your upload.'},403);
   const range=request.headers.get('Range');
   let start=0,end=m.bytes-1;
   if(range){const rm=/bytes=(\d+)-(\d*)/.exec(range);if(rm){start=+rm[1];if(rm[2])end=Math.min(+rm[2],m.bytes-1)}}
