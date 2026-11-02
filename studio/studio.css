@@ -43,3 +43,5 @@
 .stu-btn-submit:hover{background:#0b5fff}
 .stu-btn-submit:disabled{background:#9a9a9a;cursor:not-allowed}
 @media (max-width:640px){.stu-main{padding:16px 16px 56px}.stu-hero{padding:32px 0 24px}}
+
+[hidden]{display:none !important}
