@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Brand — SRCHN BRANDS</title>
+<meta content="A visual brand story on SRCHN: original photographs, short videos, virtual tours, product stories and marketing content, reviewed by Team SRCHN." name="description"/>
+<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>
+<link href="/assets/brand/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="/assets/redesign/srchn-redesign.css" rel="stylesheet"/>
+<link href="/assets/brand/brand.css" rel="stylesheet"/>
+<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>
+<link href="../../studio.css" rel="stylesheet"/>
+<style>
+.bp-hero{position:relative;padding:26px 0 0}
+.bp-kicker{font-size:12.5px;letter-spacing:.14em;color:#0b5fff;font-weight:700;margin:0 0 8px}
+.bp-title{margin:0 0 6px;font-size:clamp(28px,5.5vw,44px);line-height:1.05}
+.bp-loc{color:#666;font-size:15px;margin:0 0 14px}
+.bp-cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;background:#f4f4f4;display:block}
+.bp-cover-v{width:100%;aspect-ratio:16/9;border-radius:16px;background:#000;display:block}
+.bp-desc{max-width:680px;color:#333;font-size:16px;line-height:1.6;margin:18px 0 0}
+.bp-sec{padding:34px 0 6px;border-top:1px solid #eee;margin-top:30px}
+.bp-sec .num{font-size:12.5px;letter-spacing:.14em;color:#0b5fff;font-weight:700}
+.bp-sec h2{margin:4px 0 4px;font-size:clamp(20px,3.4vw,28px)}
+.bp-sec .sub{color:#8a8a8a;font-size:14px;margin:0 0 16px}
+.bp-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.bp-m{border:1px solid #eee;border-radius:12px;overflow:hidden;background:#fafafa}
+.bp-m img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;cursor:pointer}
+.bp-m video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
+.bp-m img.portrait,.bp-m video.portrait{aspect-ratio:9/16;max-height:420px;object-fit:contain}
+.bp-m .cap{padding:9px 12px;font-size:12.5px;color:#555}
+.bp-m .cap b{display:block;color:#111;font-size:12.5px}
+.bp-empty{color:#8a8a8a;font-size:14.5px;padding:8px 0 4px}
+.bp-facts{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));padding:26px 0 10px;border-top:1px solid #eee;margin-top:30px}
+.bp-fact h3{margin:0 0 8px;font-size:12px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.08em}
+.bp-fact p{margin:3px 0;font-size:14.5px}
+.bp-fact a{color:#0b5fff;text-decoration:none}
+.bp-fac{display:flex;flex-wrap:wrap;gap:7px}
+.bp-fac span{border:1px solid #e3e3e3;border-radius:16px;padding:5px 12px;font-size:13px;color:#444}
+.bp-credits{padding:18px 0 50px;color:#8a8a8a;font-size:13.5px}
+.bp-light{position:fixed;inset:0;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;z-index:60;cursor:zoom-out;padding:18px}
+.bp-light img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body class="stu-body">
+<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><span>Explore</span></a><a href="/localities/"><span>Localities</span></a><a href="/plan/"><span>Plan</span></a><a href="/studio/"><span>Studio</span></a><a aria-current="page" href="/studio/brands/"><span>Brands</span></a><a href="/club/"><span>Club</span></a><a href="/property/"><span>Property</span></a></nav></header>
+<main class="stu-main" id="bp-main">
+  <p class="br-empty" id="bp-loading" style="color:#8a8a8a;padding:40px 0">Loading brand story…</p>
+  <div id="bp-page" hidden>
+    <section class="bp-hero">
+      <p class="bp-kicker" id="bp-cat"></p>
+      <h1 class="bp-title" id="bp-name"></h1>
+      <p class="bp-loc" id="bp-loc"></p>
+      <div id="bp-cover"></div>
+      <p class="bp-desc" id="bp-desc"></p>
+    </section>
+    <section class="bp-sec" id="sec-tour">
+      <p class="num">01</p><h2>EXPLORE THE SPACE</h2><p class="sub">Virtual tour content - the place as it truly is.</p>
+      <div class="bp-grid" id="grid-tour"></div>
+    </section>
+    <section class="bp-sec" id="sec-product">
+      <p class="num">02</p><h2>DISCOVER THE OFFERING</h2><p class="sub">Product content - what this business offers.</p>
+      <div class="bp-grid" id="grid-product"></div>
+    </section>
+    <section class="bp-sec" id="sec-marketing">
+      <p class="num">03</p><h2>EXPERIENCE THE STORY</h2><p class="sub">Marketing content - the brand's story and campaigns.</p>
+      <div class="bp-grid" id="grid-marketing"></div>
+    </section>
+    <section class="bp-facts" id="bp-facts"></section>
+    <p class="bp-credits" id="bp-credits"></p>
+  </div>
+  <div class="bp-light" id="bp-light" hidden><img id="bp-light-img" alt=""/></div>
+</main>
+<script>
+(function(){
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id);
+const id=new URLSearchParams(location.search).get('id')||'';
+fetch('/studio/api/brand?id='+encodeURIComponent(id)).then(async r=>{
+  const d=await r.json();
+  if(!r.ok||!d.brand){$('bp-loading').textContent=d.error==='Unknown brand.'?'This brand story is not available yet.':'Brand could not be loaded right now.';return}
+  const b=d.brand;
+  document.title=b.name+' — SRCHN BRANDS';
+  $('bp-loading').hidden=true;$('bp-page').hidden=false;
+  $('bp-cat').textContent=(b.category||'BRAND').toUpperCase()+' · SRCHN BRANDS';
+  $('bp-name').textContent=b.name;
+  $('bp-loc').textContent=[b.locality,b.city].filter(Boolean).join(', ');
+  const all=[...(d.sections.tour||[]),...(d.sections.product||[]),...(d.sections.marketing||[])];
+  const cover=all.find(x=>x.type==='photo')||all[0];
+  $('bp-cover').innerHTML=cover?(cover.type==='photo'
+    ?'<img class="bp-cover" src="/studio/api/media/'+esc(cover.media_id)+'" alt=""/>'
+    :'<video class="bp-cover-v" src="/studio/api/media/'+esc(cover.media_id)+'" controls playsinline preload="metadata"></video>'):'';
+  $('bp-desc').textContent=b.description||'';
+  const media=(it)=>{
+    const u='/studio/api/media/'+it.media_id;
+    const portrait=it.width&&it.height&&it.height>it.width;
+    const cls=portrait?' class="portrait"':'';
+    return '<div class="bp-m">'+(it.type==='photo'
+      ?'<img src="'+u+'"'+cls+' loading="lazy" data-full="'+u+'" alt=""/>'
+      :'<video src="'+u+'" controls playsinline preload="metadata"'+cls+'></video>')
+      +'<div class="cap"><b>'+esc(it.caption||(it.type==='photo'?'Photograph':'Video'))+'</b>'
+      +'By '+esc(it.creator)+(it.duration_sec?' · '+it.duration_sec+'s':'')+(it.motion_from_photo?' · generated from photo':'')+'</div></div>';
+  };
+  for(const k of['tour','product','marketing']){
+    const items=d.sections[k]||[];
+    $('grid-'+k).innerHTML=items.length?items.map(media).join(''):'';
+    if(!items.length)$('grid-'+k).innerHTML='<p class="bp-empty">Content for this section will appear as approved contributions arrive.</p>';
+  }
+  const F=[];
+  const fact=(t,h)=>{if(h)F.push('<div class="bp-fact"><h3>'+t+'</h3>'+h+'</div>')};
+  fact('Address',esc([b.address,b.locality,b.city,b.pincode].filter(Boolean).join(', '))||null);
+  fact('Hours',esc(b.hours||''));
+  fact('Contact',b.contact?esc(b.contact):null);
+  fact('Website',b.website?'<a href="'+esc(b.website)+'" target="_blank" rel="noopener">'+esc(b.website.replace(/^https?:\/\//,''))+' ↗</a>':null);
+  fact('Social',b.instagram?'<a href="'+esc(b.instagram)+'" target="_blank" rel="noopener">Instagram ↗</a>':null);
+  fact('Directions','<a href="'+esc(b.maps_link||('https://www.google.com/maps/search/'+encodeURIComponent([b.name,b.locality,b.city].filter(Boolean).join(', '))))+'" target="_blank" rel="noopener">Open in Google Maps ↗</a>');
+  if(d.facilities&&d.facilities.length)fact('Facilities','<span class="bp-fac">'+d.facilities.map(f=>'<span>'+esc(f)+'</span>').join('')+'</span>');
+  if(b.secondary)fact('Also filed under',esc(b.secondary));
+  $('bp-facts').innerHTML=F.join('');
+  $('bp-credits').innerHTML='Contributions by '+d.contributors.map(c=>esc(c.name)+(c.creator_no?' ('+esc(c.creator_no)+')':'')).join(' · ')+'. Every piece reviewed by Team SRCHN before publication.';
+  $('bp-page').addEventListener('click',e=>{
+    const img=e.target.closest('img[data-full]');if(!img)return;
+    $('bp-light-img').src=img.dataset.full;$('bp-light').hidden=false;
+  });
+  $('bp-light').onclick=()=>{$('bp-light').hidden=true;$('bp-light-img').src=''};
+}).catch(()=>{$('bp-loading').textContent='Brand could not be loaded right now.'});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>BRANDS — Discover the brands behind your city | SRCHN</title>
+<meta content="Explore the places, spaces and experiences that make Bengaluru what it is through original photographs, short videos, virtual tours, product stories and marketing content." name="description"/>
+<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>
+<link href="/assets/brand/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="/assets/redesign/srchn-redesign.css" rel="stylesheet"/>
+<link href="/assets/brand/brand.css" rel="stylesheet"/>
+<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>
+<link href="../studio.css" rel="stylesheet"/>
+<style>
+.br-hero{padding:44px 0 26px;border-bottom:1px solid #eee}
+.br-hero h1{margin:0 0 10px;font-size:clamp(30px,6vw,52px);line-height:1.04;letter-spacing:-0.01em;white-space:pre-line}
+.br-hero p{margin:0;max-width:640px;color:#555;font-size:16px;line-height:1.55}
+.br-cats{display:flex;gap:8px;overflow-x:auto;padding:16px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.br-cats::-webkit-scrollbar{display:none}
+.br-cat{flex:0 0 auto;border:1px solid #e3e3e3;background:#fff;border-radius:22px;padding:8px 15px;font-size:13.5px;font-weight:600;cursor:pointer;color:#333;text-decoration:none}
+.br-cat.on{background:#111;color:#fff;border-color:#111}
+.br-feed{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));padding:20px 0 50px}
+.br-card{display:block;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;background:#fff;text-decoration:none;color:#111}
+.br-card:hover{border-color:#999}
+.br-cover{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#f4f4f4}
+.br-ncover{display:flex;width:100%;aspect-ratio:16/9;background:#f4f4f4;align-items:center;justify-content:center;color:#aaa;font-size:13px}
+.br-body{padding:14px 16px 16px}
+.br-body h3{margin:0 0 3px;font-size:17px}
+.br-body .meta{color:#8a8a8a;font-size:13px}
+.br-pillars{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.br-pill{font-size:11px;font-weight:700;letter-spacing:.05em;padding:3px 9px;border-radius:14px;background:#f0f0f0;color:#555}
+.br-empty{color:#8a8a8a;padding:34px 0;font-size:15px}
+</style>
+</head>
+<body class="stu-body">
+<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><span>Explore</span></a><a href="/localities/"><span>Localities</span></a><a href="/plan/"><span>Plan</span></a><a href="/studio/"><span>Studio</span></a><a aria-current="page" href="/studio/brands/"><span>Brands</span></a><a href="/club/"><span>Club</span></a><a href="/property/"><span>Property</span></a></nav></header>
+<main class="stu-main">
+  <section class="br-hero">
+    <p class="stu-eyebrow">SRCHN BRANDS</p>
+    <h1>DISCOVER THE BRANDS
+BEHIND YOUR CITY.</h1>
+    <p>Explore the places, spaces and experiences that make Bengaluru what it is. Discover businesses through original photographs, short videos, virtual tours, product stories and marketing content - every piece reviewed by Team SRCHN before it appears here.</p>
+  </section>
+  <nav class="br-cats" id="br-cats" aria-label="Brand categories"></nav>
+  <section class="br-feed" id="br-feed"></section>
+</main>
+<script>
+(function(){
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const CATS=['All','Cafés','Restaurants','Breweries','Hotels','Resorts','Retail','Fashion','Beauty','Wellness','Healthcare','Education','Co-working','Offices','Real Estate','Entertainment','Events','Travel','Lifestyle','Other'];
+const PILLAR={tour:'Virtual tour',product:'Product',marketing:'Marketing'};
+let cur='All',data=[];
+const catsEl=document.getElementById('br-cats'),feed=document.getElementById('br-feed');
+catsEl.innerHTML=CATS.map(c=>'<a class="br-cat'+(c===cur?' on':'')+'" data-c="'+esc(c)+'">'+esc(c)+'</a>').join('');
+catsEl.querySelectorAll('.br-cat').forEach(b=>b.onclick=()=>{cur=b.dataset.c;catsEl.querySelectorAll('.br-cat').forEach(x=>x.classList.toggle('on',x===b));render()});
+function render(){
+ const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const known=CATS.slice(1,-1).map(norm);
+ const list=cur==='All'?data:(cur==='Other'?data.filter(b=>!known.some(k=>norm(b.category).includes(k))):data.filter(b=>norm(b.category).includes(norm(cur))));
+ if(!list.length){feed.innerHTML='<p class="br-empty">'+(data.length?'No brands in this category yet.':'Brands will appear here as Team SRCHN approves the first contributions.')+'</p>';return}
+ feed.innerHTML=list.map(b=>'<a class="br-card" href="/studio/brands/b/?id='+esc(b.id)+'">'
+  +(b.cover?'<img class="br-cover" src="/studio/api/media/'+esc(b.cover)+'" loading="lazy" alt=""/>':'<span class="br-ncover">Cover coming with the next approved contribution</span>')
+  +'<span class="br-body"><h3>'+esc(b.name)+'</h3><span class="meta">'+esc(b.category||'')+(b.locality?' · '+esc(b.locality):'')+(b.city?', '+esc(b.city):'')+'</span>'
+  +'<span class="br-pillars">'+Object.keys(PILLAR).filter(k=>b.pillars&&b.pillars[k]).map(k=>'<span class="br-pill">'+PILLAR[k]+'</span>').join('')+'</span>'
+  +'</span></a>').join('');
+}
+fetch('/studio/api/brands').then(r=>r.json()).then(d=>{data=d.brands||[];render()}).catch(()=>{feed.innerHTML='<p class="br-empty">Brands could not be loaded right now.</p>'});
+})();
+</script>
+</body>
+</html>

@@ -578,6 +578,48 @@ async function studioRoute(request,env){
   await db.prepare("UPDATE stu_media SET status='ready',meta=? WHERE id=?").bind(meta,id).run();
   return JSONR({ok:true,media_id:id},201);
  }
+ // ---- Phase 4: public BRANDS discovery (approved content only) ----
+ if(p==='/studio/api/brands'&&request.method==='GET'){
+  const cat=clean(u.searchParams.get('category')||'',60),q=clean(u.searchParams.get('q')||'',80);
+  const rows=await db.prepare("SELECT DISTINCT p.id,p.name,p.kind,p.primary_cat,p.secondary_cat,p.locality,p.city FROM stu_places p JOIN stu_submissions s ON s.place_id=p.id WHERE s.status IN ('APPROVED','PUBLISHED') ORDER BY p.name LIMIT 200").all();
+  let list=rows.results||[];
+  if(cat)list=list.filter(x=>[x.primary_cat,x.secondary_cat,x.kind].filter(Boolean).join(' ').toLowerCase().includes(cat.toLowerCase()));
+  if(q)list=list.filter(x=>(x.name+' '+(x.locality||'')+' '+(x.city||'')).toLowerCase().includes(q.toLowerCase()));
+  const out=[];
+  for(const x of list){
+   const subs=await db.prepare("SELECT items,content_pillar FROM stu_submissions WHERE place_id=? AND status IN ('APPROVED','PUBLISHED') ORDER BY created_at DESC").bind(x.id).all();
+   let cover=null;const pillars={tour:0,product:0,marketing:0};let photos=0,videos=0;
+   for(const r of subs.results||[]){pillars[r.content_pillar]=(pillars[r.content_pillar]||0)+1;
+    for(const it of JSON.parse(r.items||'[]')){if(!it.media_id)continue;if(it.type==='photo')photos++;if(it.type==='video')videos++;
+     if(!cover&&it.type==='photo')cover=it.media_id}}
+   out.push({id:x.id,name:x.name,category:x.primary_cat||x.kind,locality:x.locality,city:x.city,cover,pillars,photos,videos});
+  }
+  return JSONR({brands:out});
+ }
+ if(p==='/studio/api/brand'&&request.method==='GET'){
+  const id=clean(u.searchParams.get('id')||'',40);
+  const place=await db.prepare('SELECT * FROM stu_places WHERE id=?').bind(id).first();
+  if(!place)return JSONR({error:'Unknown brand.'},404);
+  const subs=await db.prepare("SELECT * FROM stu_submissions WHERE place_id=? AND status IN ('APPROVED','PUBLISHED') ORDER BY created_at DESC").bind(id).all();
+  if(!(subs.results||[]).length)return JSONR({error:'Unknown brand.'},404);
+  const sections={tour:[],product:[],marketing:[]};const credits={};const facilities=new Set();
+  for(const r of subs.results||[]){
+   const cr=await db.prepare('SELECT display_name,creator_no FROM stu_creators WHERE id=?').bind(r.creator_id).first();
+   const cname=cr?(cr.display_name||cr.creator_no):'SRCHN contributor';
+   const det=JSON.parse(r.details||'{}');
+   (det.facilities||[]).forEach(f=>facilities.add(f));
+   for(const it of JSON.parse(r.items||'[]')){
+    if(!it.media_id)continue;
+    const m=await db.prepare('SELECT mime,meta FROM stu_media WHERE id=? AND status=\'ready\'').bind(it.media_id).first();
+    if(!m)continue;
+    const meta=JSON.parse(m.meta||'{}');
+    (sections[r.content_pillar]||(sections[r.content_pillar]=[])).push({media_id:it.media_id,type:it.type,mime:m.mime,caption:it.caption||meta.caption||'',credit:it.credit||cname,creator:cname,creator_no:cr?cr.creator_no:'',duration_sec:meta.duration_sec||null,width:meta.width||null,height:meta.height||null,captured_at:meta.captured_at||null,motion_from_photo:meta.motion_from_photo===true});
+    credits[cname]=cr?cr.creator_no:'';
+   }
+  }
+  const det0=JSON.parse((subs.results[0]||{}).details||'{}');
+  return JSONR({brand:{id:place.id,name:place.name,category:place.primary_cat||place.kind,secondary:place.secondary_cat,kind:place.kind,address:place.address,locality:place.locality,city:place.city,pincode:place.pincode,website:place.website,instagram:place.instagram,contact:place.contact,hours:place.hours||det0.hours,maps_link:place.maps_link,description:det0.description||''},sections,facilities:[...facilities],contributors:Object.entries(credits).map(([name,no])=>({name,creator_no:no}))});
+ }
  // ---- Phase 3: Team SRCHN editorial review dashboard ----
  const STU_STATUSES=['SUBMITTED','UNDER_REVIEW','ADDITIONAL_INFORMATION_REQUIRED','APPROVED','SCHEDULED','PUBLISHED','REJECTED','ON_HOLD','WITHDRAWN','DUPLICATE'];
  if(p==='/studio/api/review/submissions'&&request.method==='GET'){
@@ -672,7 +714,8 @@ async function studioRoute(request,env){
   if(!m)return JSONR({error:'Not found.'},404);
   const c=await stuAuth(request,db);
   const rv=await stuReviewer(request,env);
-  if(!c&&!rv)return JSONR({error:'Sign in required.'},401);
+  let pub=false;
+  if(!c&&!rv){pub=!!(await db.prepare("SELECT sub_no FROM stu_submissions WHERE status IN ('APPROVED','PUBLISHED') AND items LIKE '%'||?||'%' LIMIT 1").bind(id).first());if(!pub)return JSONR({error:'Sign in required.'},401)}
   if(c&&c.id!==m.creator_id&&!rv)return JSONR({error:'Not your upload.'},403);
   const range=request.headers.get('Range');
   let start=0,end=m.bytes-1;
@@ -690,7 +733,7 @@ async function studioRoute(request,env){
   const buf=new Uint8Array(total);let off=0;
   for(const x of parts){buf.set(x,off);off+=x.byteLength}
   const slice=buf.subarray(start-s0*STU_CHUNK,end-s0*STU_CHUNK+1);
-  const h={'Content-Type':m.mime,'Accept-Ranges':'bytes','Cache-Control':'private, max-age=3600','Content-Length':String(slice.byteLength)};
+  const h={'Content-Type':m.mime,'Accept-Ranges':'bytes','Cache-Control':pub?'public, max-age=86400':'private, max-age=3600','Content-Length':String(slice.byteLength)};
   if(range){h['Content-Range']='bytes '+start+'-'+end+'/'+m.bytes;return new Response(slice,{status:206,headers:h})}
   return new Response(slice,{status:200,headers:h});
  }
