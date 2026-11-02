@@ -753,6 +753,24 @@ async function studioRoute(request,env){
   await db.prepare('DELETE FROM stu_submissions WHERE sub_no=?').bind(subNo).run();
   return JSONR({ok:true,deleted:subNo,media_removed:mediaGone});
  }
+ if(p==='/studio/api/review/delete-media'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const ids=(Array.isArray(b.media_ids)?b.media_ids:[]).map(x=>clean(x,40)).filter(x=>/^[0-9a-f-]{36}$/.test(x)).slice(0,50);
+  const why=clean(b.reason,400);
+  if(!ids.length||!why)return JSONR({error:'Media ids and a reason are required.'},400);
+  const gone=[],skipped=[];
+  for(const mid of ids){
+   const ref=await db.prepare("SELECT sub_no FROM stu_submissions WHERE items LIKE '%'||?||'%' LIMIT 1").bind(mid).first();
+   if(ref){skipped.push(mid);continue}
+   await db.prepare('DELETE FROM stu_media_chunks WHERE media_id=?').bind(mid).run();
+   const d=await db.prepare('DELETE FROM stu_media WHERE id=?').bind(mid).run();
+   if((d.meta&&d.meta.changes))gone.push(mid);
+  }
+  await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,notes,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),'media:'+gone.length,rv.email,'delete-media',why+' | removed '+gone.length+' unattached, skipped '+skipped.length+' referenced',now).run();
+  return JSONR({ok:true,removed:gone.length,skipped_referenced:skipped.length});
+ }
  if(p==='/studio/api/review/delete-place'&&request.method==='POST'){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
   const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
