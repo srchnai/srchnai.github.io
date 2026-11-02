@@ -159,8 +159,8 @@ details.faq .a{padding:0 18px 16px;color:#26262b;font-size:.93rem}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
 .field label{font-size:.86rem;font-weight:600}
 .field .hint{font-size:.78rem;color:var(--muted)}
-.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:var(--rs);padding:12px 14px;font-size:.95rem;font-family:'Inter';background:#fff;width:100%}
-.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--blue);outline-offset:0;border-color:var(--blue)}
+.field input:not([type=radio]):not([type=checkbox]),.field select,.field textarea{border:1px solid var(--line);border-radius:var(--rs);padding:12px 14px;font-size:.95rem;font-family:'Inter';background:#fff;width:100%}
+.field input:not([type=radio]):not([type=checkbox]):focus,.field select:focus,.field textarea:focus{outline:2px solid var(--blue);outline-offset:0;border-color:var(--blue)}
 .field textarea{min-height:110px;resize:vertical}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .req::after{content:' *';color:var(--bad)}
@@ -177,10 +177,10 @@ details.faq .a{padding:0 18px 16px;color:#26262b;font-size:.93rem}
 .wiz-card .sub{color:var(--muted);font-size:.9rem;margin-bottom:22px}
 .wiz-nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
 .optgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.opt{border:1px solid var(--line);border-radius:var(--rs);padding:14px 16px;cursor:pointer;font-size:.92rem;font-weight:600;background:#fff;display:flex;align-items:center;gap:10px}
+.opt{border:1px solid var(--line);border-radius:var(--rs);padding:14px 16px;cursor:pointer;font-size:.92rem;font-weight:600;background:#fff;display:flex;align-items:center;gap:12px;text-align:left;justify-content:flex-start}
 .opt:hover{border-color:var(--ink)}
 .opt.sel{border-color:var(--blue);background:#f5f8ff;box-shadow:0 0 0 1px var(--blue)}
-.opt input{accent-color:var(--blue)}
+.opt input{accent-color:var(--blue);width:18px;height:18px;flex:none;margin:0}
 .confirm{ background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px;text-align:center;box-shadow:var(--shadow)}
 .confirm .ok-ic{width:56px;height:56px;border-radius:50%;background:#e6f4ec;color:var(--ok);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 .refbox{background:var(--grey);border-radius:var(--rs);padding:16px;margin:18px 0;font-size:.95rem;word-break:break-all}
