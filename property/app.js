@@ -311,8 +311,13 @@ if(admEl){
   var q=qin.value.trim();if(!q)return;
   var hit=D.buddy.filter(function(x){return x.q.toLowerCase()===q.toLowerCase()})[0];
   if(hit){renderAnswer(hit);return}
-  var res=runSearch(q).filter(function(r){return r.type==='Service'}).slice(0,6);
-  var more=runSearch(q).filter(function(r){return r.type!=='Service'}).slice(0,4);
+  var stop={'how':1,'do':1,'i':1,'my':1,'the':1,'a':1,'an':1,'to':1,'of':1,'for':1,'me':1,'what':1,'is':1,'are':1,'can':1,'you':1,'we':1,'it':1,'this':1,'that':1,'your':1,'and':1,'or':1,'in':1,'on':1,'get':1,'want':1,'need':1,'check':1,'does':1,'am':1};
+  var words=q.toLowerCase().split(/\s+/).filter(function(w){return w&&!stop[w]});
+  var res=runSearch(q).filter(function(r){return r.type==='Service'});
+  if(!res.length)res=runSearch(words.join(' ')).filter(function(r){return r.type==='Service'});
+  if(!res.length){var seen={};var wl=words.slice().sort(function(a,b){return b.length-a.length});res=[];for(var wi=0;wi<wl.length&&res.length<6;wi++){runSearch(wl[wi]).forEach(function(r){if(r.type==='Service'&&!seen[r.href]&&res.length<6){seen[r.href]=1;res.push(r)}})}}
+  res=res.slice(0,6);
+  var more=runSearch(words.join(' ')||q).filter(function(r){return r.type!=='Service'}).slice(0,4);
   out.innerHTML='<div class="b-answer"><div class="card"><span class="catnum">PROPERTY BUDDY</span><h3>Closest matches in the verified catalogue</h3>'+
    (res.length?'<div class="grid grid-2" style="margin-top:12px">'+res.map(function(r){var m=r.href.match(/\/service\/([a-z0-9-]+)\//);var s=m&&D.services.filter(function(x){return x.id===m[1]})[0];return s?svcCard(s):''}).join('')+'</div>':'<p class="desc" style="margin-top:10px">No direct catalogue match yet. Call or WhatsApp us - a specialist will map your situation to the right process.</p>')+'</div>'+
    (more.length?'<div class="card"><h3>Related catalogue areas</h3><div class="b-doc">'+more.map(function(r){return '<a class="chip" href="'+r.href+'">'+esc(r.name)+'</a>'}).join('')+'</div></div>':'')+
