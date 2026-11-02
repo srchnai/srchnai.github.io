@@ -214,7 +214,9 @@ function addVideo(f){
  const v=document.createElement('video');
  v.preload='metadata';v.muted=true;v.playsInline=true;
  const url=URL.createObjectURL(f);
+ const metaTimeout=setTimeout(()=>{URL.revokeObjectURL(url);stu.err($('wiz-err'),'"'+f.name+'": this browser could not read the video - try exporting it as MP4 (H.264) or WEBM.')},15000);
  v.onloadedmetadata=()=>{
+  clearTimeout(metaTimeout);
   const dur=v.duration,vw=v.videoWidth,vh=v.videoHeight;
   if(!vw||!vh||!isFinite(dur)){URL.revokeObjectURL(url);stu.err($('wiz-err'),'"'+f.name+'": could not read this video.');return}
   if(Math.min(vw,vh)<1080){URL.revokeObjectURL(url);stu.err($('wiz-err'),'"'+f.name+'" is below 1080p HD - SRCHN requires exactly 1080p, so this video cannot be used.');return}
@@ -226,7 +228,7 @@ function addVideo(f){
   }
   openTrim(f,v,url,dur,vw,vh);
  };
- v.onerror=()=>{URL.revokeObjectURL(url);stu.err($('wiz-err'),'"'+f.name+'": this browser could not read the video. Try MP4.')};
+ v.onerror=()=>{clearTimeout(metaTimeout);URL.revokeObjectURL(url);stu.err($('wiz-err'),'"'+f.name+'": this browser could not read the video. Try MP4 (H.264) or WEBM.')};
  v.src=url;
 }
 
