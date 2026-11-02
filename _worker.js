@@ -958,7 +958,7 @@ async function studioRoute(request,env){
   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
   return JSONR({ok:true,email:es});
  }
- if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
+ if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
