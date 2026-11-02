@@ -732,6 +732,41 @@ async function studioRoute(request,env){
   await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,notes,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),subNo,rv.email,'edit','Metadata edited: '+changes.join(', '),now).run();
   return JSONR({ok:true,changes});
  }
+ if(p==='/studio/api/review/delete'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const subNo=clean(b.submission_id,30),why=clean(b.reason,400);
+  if(!why)return JSONR({error:'A reason is required - deletions are audited.'},400);
+  const sub=await db.prepare('SELECT * FROM stu_submissions WHERE sub_no=?').bind(subNo).first();
+  if(!sub)return JSONR({error:'Unknown submission.'},404);
+  const items=JSON.parse(sub.items||'[]');let mediaGone=0;
+  for(const it of items){
+   if(!it.media_id)continue;
+   const other=await db.prepare("SELECT sub_no FROM stu_submissions WHERE sub_no!=? AND items LIKE '%'||?||'%' LIMIT 1").bind(subNo,it.media_id).first();
+   if(other)continue;
+   await db.prepare('DELETE FROM stu_media_chunks WHERE media_id=?').bind(it.media_id).run();
+   await db.prepare('DELETE FROM stu_media WHERE id=?').bind(it.media_id).run();
+   mediaGone++;
+  }
+  await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,from_status,notes,created_at) VALUES(?,?,?,?,?,?,?)').bind(crypto.randomUUID(),subNo,rv.email,'delete',sub.status,why,now).run();
+  await db.prepare('DELETE FROM stu_submissions WHERE sub_no=?').bind(subNo).run();
+  return JSONR({ok:true,deleted:subNo,media_removed:mediaGone});
+ }
+ if(p==='/studio/api/review/delete-place'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const pid=clean(b.place_id,40),why=clean(b.reason,400);
+  if(!why)return JSONR({error:'A reason is required - deletions are audited.'},400);
+  const refs=await db.prepare('SELECT count(*) n FROM stu_submissions WHERE place_id=?').bind(pid).first();
+  if(refs&&refs.n>0)return JSONR({error:'Submissions still reference this place. Remove them first.'},409);
+  const pl=await db.prepare('DELETE FROM stu_places WHERE id=? RETURNING name').bind(pid).first();
+  if(!pl)return JSONR({error:'Unknown place.'},404);
+  await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,notes,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),'place:'+pid,rv.email,'delete-place',why+' ('+pl.name+')',now).run();
+  await db.prepare('DELETE FROM stu_engagement WHERE key=?').bind('brand_view:'+pid).run();
+  return JSONR({ok:true,deleted:pl.name});
+ }
  if(p==='/studio/api/review/reports'&&request.method==='GET'){
   const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
   const rows=await db.prepare("SELECT * FROM stu_reports WHERE status='OPEN' ORDER BY created_at DESC LIMIT 200").all();
