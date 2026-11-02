@@ -877,7 +877,7 @@ export default{async fetch(request,env){
   if(u.pathname==='/property/api/requests'){try{return await propertyRequests(request,env)}catch{return JSONR({error:'Request storage unavailable.'},503)}}
   if(u.pathname==='/api/discovery-request'){try{return await discoveryRequest(request,env)}catch{return JSONR({error:'Request storage unavailable.'},503)}}
   if(u.pathname.startsWith('/discovery/api/pilot/')){try{return await pilotSaveRoute(request,env)}catch{return JSONR({error:'Saved places unavailable.'},503)}}
-  if(u.pathname.startsWith('/review/api/')){try{return await reviewRoute(request,env)}catch{return JSONR({error:'Review unavailable.'},503)}}
+  if(u.pathname.startsWith('/review/api/')){try{return await reviewRoute(request,env)}catch(e){return JSONR({error:'Review unavailable.'},503)}}
   if(u.pathname==='/api/submit-place'){
     if(request.method!=='POST') return J({error:'Method not allowed.'},405);
     return submit(request,env);
