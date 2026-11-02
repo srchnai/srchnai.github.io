@@ -293,8 +293,58 @@ async function discoveryRequest(request,env){
  if(request.method==='DELETE'){await db.prepare('DELETE FROM discovery_requests WHERE id=? AND token_hash=?').bind(id,await hash(t)).run();return JSONR({deleted:true})}return JSONR({request:row,confirmed:false});
 }
 
+
+async function propertyRequests(request,env){
+ const u=new URL(request.url);
+ if(!env.DB)return JSONR({error:'Request storage unavailable.'},503);
+ const db=env.DB;
+ await db.prepare('CREATE TABLE IF NOT EXISTS property_requests(id TEXT PRIMARY KEY,ref TEXT UNIQUE NOT NULL,token_hash TEXT NOT NULL,name TEXT NOT NULL,mobile TEXT NOT NULL,email TEXT,service_id TEXT,service_name TEXT,property_type TEXT,locality TEXT,pincode TEXT,jurisdiction TEXT,applicant_type TEXT,description TEXT,documents TEXT,preferred_date TEXT,preferred_time TEXT,assistance_mode TEXT,status TEXT NOT NULL,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)').run();
+ const now=Date.now();
+ if(request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const raw=await request.text();if(raw.length>16384)return JSONR({error:'Maximum request size exceeded.'},413);
+  let b;try{b=JSON.parse(raw)}catch{return JSONR({error:'Invalid JSON.'},400)}
+  if(b&&b.site2)return JSONR({ok:true,ref:'SRP-00000000',message:'received'});
+  const name=clean(b.name,120),mobile=String(b.mobile||'').replace(/[\s-]/g,'').replace(/^\+91/,''),email=clean(b.email,160);
+  const sid=clean(b.service_id,90),sname=clean(b.service_name,160);
+  if(!name)return JSONR({error:'Please enter your name.'},400);
+  if(!/^[6-9]\d{9}$/.test(mobile))return JSONR({error:'Please enter a valid 10-digit Indian mobile number.'},400);
+  if(email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return JSONR({error:'That email address does not look right.'},400);
+  if(!/^[a-z0-9-]{1,90}$/.test(sid))return JSONR({error:'Please choose a valid service.'},400);
+  const desc=clean(b.description,1000);if(desc.length<10)return JSONR({error:'Please describe your requirement in a few words.'},400);
+  if(b.consent!==true)return JSONR({error:'Consent to be contacted is required.'},400);
+  const count=await db.prepare('SELECT count(*) AS n FROM property_requests WHERE created_at>?').bind(now-86400000).first();
+  if(count&&count.n>=50)return JSONR({error:'Daily request limit reached. Please call or WhatsApp us instead.'},429);
+  const id=crypto.randomUUID(),ref='SRP-'+randomHex(4).toUpperCase(),t=randomHex(32);
+  const saved=await db.prepare('INSERT INTO property_requests SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? WHERE (SELECT count(*) FROM property_requests WHERE created_at>?)<50 RETURNING ref')
+   .bind(id,ref,await hash(t),name,mobile,email||null,sid,sname||sid,clean(b.property_type,60),clean(b.locality,120),/^\d{6}$/.test(b.pincode||'')?b.pincode:null,clean(b.jurisdiction,60),clean(b.applicant_type,60),desc,clean(b.documents,500),clean(b.preferred_date,20),clean(b.preferred_time,40),clean(b.assistance_mode,60),'NEW',now,now,now-86400000).first();
+  if(!saved)return JSONR({error:'Daily request limit reached. Please call or WhatsApp us instead.'},429);
+  return JSONR({ok:true,ref,receipt_token:t,status:'NEW',message:'Enquiry recorded. This is not a confirmed appointment. Our team contacts you on the mobile number given.'},201);
+ }
+ if(request.method==='GET'){
+  const ref=clean(u.searchParams.get('id')||'',40),t=clean(u.searchParams.get('token')||'',64);
+  if(!/^SRP-[0-9A-F]{8}$/.test(ref)||!/^[a-f0-9]{64}$/.test(t))return JSONR({error:'Valid reference and tracking code required.'},401);
+  const row=await db.prepare('SELECT ref,service_name,status,created_at,updated_at FROM property_requests WHERE ref=? AND token_hash=?').bind(ref,await hash(t)).first();
+  if(!row)return JSONR({error:'Request not found.'},404);
+  return JSONR({request:row});
+ }
+ if(request.method==='DELETE'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const ref=clean(u.searchParams.get('id')||'',40),t=clean(u.searchParams.get('token')||'',64);
+  if(!/^SRP-[0-9A-F]{8}$/.test(ref)||!/^[a-f0-9]{64}$/.test(t))return JSONR({error:'Valid reference and tracking code required.'},401);
+  const row=await db.prepare("SELECT ref,status FROM property_requests WHERE ref=? AND token_hash=?").bind(ref,await hash(t)).first();
+  if(!row)return JSONR({error:'Request not found.'},404);
+  if(['COMPLETED','REJECTED','CANCELLED'].includes(row.status))return JSONR({request:{ref:row.ref,status:row.status}});
+  await db.prepare("UPDATE property_requests SET status='CANCELLED',updated_at=? WHERE ref=?").bind(now,ref).run();
+  return JSONR({request:{ref,status:'CANCELLED'}});
+ }
+ return JSONR({error:'Method not allowed.'},405);
+}
+
 export default{async fetch(request,env){
   const u=new URL(request.url);
+  if(u.pathname==='/property/api/status'){return JSONR({ok:true,storage:!!env.DB,phase:1,market:'Bengaluru'})}
+  if(u.pathname==='/property/api/requests'){try{return await propertyRequests(request,env)}catch{return JSONR({error:'Request storage unavailable.'},503)}}
   if(u.pathname==='/api/discovery-request'){try{return await discoveryRequest(request,env)}catch{return JSONR({error:'Request storage unavailable.'},503)}}
   if(u.pathname.startsWith('/discovery/api/pilot/')){try{return await pilotSaveRoute(request,env)}catch{return JSONR({error:'Saved places unavailable.'},503)}}
   if(u.pathname.startsWith('/review/api/')){try{return await reviewRoute(request,env)}catch{return JSONR({error:'Review unavailable.'},503)}}

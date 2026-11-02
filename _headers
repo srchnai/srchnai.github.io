@@ -13,3 +13,5 @@
   X-Robots-Tag: noindex, nofollow
 /api/*
   X-Robots-Tag: noindex, nofollow
+/property/api/*
+  X-Robots-Tag: noindex, nofollow

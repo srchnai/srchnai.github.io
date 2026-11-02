@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /property/api/
 Disallow: /preview/
 Disallow: /review/
 Disallow: /demo/
