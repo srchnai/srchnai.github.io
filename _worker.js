@@ -351,6 +351,166 @@ async function propertyRequests(request,env){
  return JSONR({error:'Method not allowed.'},405);
 }
 
+
+/* ---------- SRCHN STUDIO 2.0 API (Phase 1: creator onboarding + wizard data) ---------- */
+const STU_CATS=['Individual Contributor','Influencer','Blogger','Vlogger','Writer','Editor','Photographer','Videographer','Filmmaker','Social Media Creator','Digital Marketer','Graphic Designer','Creative Agency','Media Production Team','Business Owner','Student Creator','Other'];
+const STU_KINDS=['places','spaces','experiences'],STU_PILLARS=['tour','product','marketing'];
+async function stuTables(db){
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_creators(id TEXT PRIMARY KEY,creator_no TEXT UNIQUE NOT NULL,full_name TEXT NOT NULL,display_name TEXT,mobile TEXT NOT NULL,email TEXT UNIQUE NOT NULL,city TEXT,lang TEXT,categories TEXT,bio TEXT,socials TEXT,status TEXT NOT NULL,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_otp(id TEXT PRIMARY KEY,email TEXT NOT NULL,code_hash TEXT NOT NULL,purpose TEXT NOT NULL,payload TEXT,expires_at INTEGER NOT NULL,used_at INTEGER,created_at INTEGER NOT NULL)').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_sessions(token_hash TEXT PRIMARY KEY,creator_id TEXT NOT NULL,created_at INTEGER NOT NULL,expires_at INTEGER NOT NULL)').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_places(id TEXT PRIMARY KEY,name TEXT NOT NULL,kind TEXT,primary_cat TEXT,secondary_cat TEXT,address TEXT,locality TEXT,city TEXT,pincode TEXT,state TEXT,country TEXT,website TEXT,instagram TEXT,contact TEXT,booking_url TEXT,maps_link TEXT,hours TEXT,created_by TEXT,created_at INTEGER NOT NULL)').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_submissions(id TEXT PRIMARY KEY,sub_no TEXT UNIQUE NOT NULL,creator_id TEXT NOT NULL,place_id TEXT,place_name TEXT,kind TEXT,cats TEXT,content_pillar TEXT,subcats TEXT,items TEXT,details TEXT,rights TEXT,status TEXT NOT NULL,email_status TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_drafts(creator_id TEXT PRIMARY KEY,payload TEXT,updated_at INTEGER NOT NULL)').run();
+}
+function stuMail(env,body){return env.REVIEWMAIL.fetch(new Request('https://srchn-inference.internal/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}))}
+async function stuAuth(request,db){
+ const h=request.headers.get('Authorization')||'';const m=/^Bearer ([a-f0-9]{64})$/.exec(h);if(!m)return null;
+ const row=await db.prepare('SELECT c.* FROM stu_sessions s JOIN stu_creators c ON c.id=s.creator_id WHERE s.token_hash=? AND s.expires_at>?').bind(await hash(m[1]),Date.now()).first();
+ return row||null;
+}
+async function studioRoute(request,env){
+ const u=new URL(request.url),p=u.pathname,now=Date.now(),db=env.DB;
+ if(!db)return JSONR({error:'Studio storage unavailable.'},503);
+ await stuTables(db);
+ const mailDay=new Date(now).toISOString().slice(0,10);
+ async function otpBudget(key,cap){if(!env.BUDGETDB)return true;try{return !!(await env.BUDGETDB.prepare('INSERT INTO preview_mail_budget(key,count) VALUES(?,1) ON CONFLICT(key) DO UPDATE SET count=count+1 WHERE count<'+cap+' RETURNING count').bind(key).first())}catch{return false}}
+ if(p==='/studio/api/join/start'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const full=clean(b.full_name,120),disp=clean(b.display_name,80)||full,email=clean(b.email,160).toLowerCase(),mobile=String(b.mobile||'').replace(/[\s-]/g,'').replace(/^\+91/,'');
+  if(!full)return JSONR({error:'Please enter your full name.'},400);
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return JSONR({error:'That email address does not look right.'},400);
+  if(!/^[6-9]\d{9}$/.test(mobile))return JSONR({error:'Please enter a valid 10-digit Indian mobile number.'},400);
+  const cats=(Array.isArray(b.categories)?b.categories:[]).filter(c=>STU_CATS.includes(c));
+  if(!cats.length)return JSONR({error:'Please pick at least one creator category.'},400);
+  const payload=JSON.stringify({full_name:full,display_name:disp,mobile,email,city:clean(b.city,80),lang:clean(b.language,40),categories:cats,bio:clean(b.bio,600),socials:{instagram:clean(b.instagram,120),youtube:clean(b.youtube,120),other:clean(b.other_link,120)}});
+  const dupe=await db.prepare('SELECT creator_no FROM stu_creators WHERE email=?').bind(email).first();
+  if(dupe)return JSONR({error:'This email already has a creator profile. Sign in instead.',creator_no:dupe.creator_no},409);
+  const cnt=await db.prepare('SELECT count(*) AS n FROM stu_otp WHERE email=? AND created_at>?').bind(email,now-86400000).first();
+  if(cnt&&cnt.n>=5)return JSONR({error:'Too many codes requested today. Try again tomorrow.'},429);
+  if(!await otpBudget('so:'+mailDay,20))return JSONR({error:'Verification email limit reached for today. Try again tomorrow.'},429);
+  const code=String(Math.floor(100000+Math.random()*900000)),id=crypto.randomUUID();
+  await db.prepare('INSERT INTO stu_otp(id,email,code_hash,purpose,payload,expires_at,created_at) VALUES(?,?,?,?,?,?,?)').bind(id,email,await hash(code),'join',payload,now+600000,now).run();
+  let sent=false;try{sent=(await stuMail(env,{task:'studio_otp',to:email,code,name:disp})).ok}catch{}
+  if(!sent)return JSONR({error:'The verification email could not be sent right now. Nothing was saved - please try again.'},502);
+  return JSONR({ok:true,email,sent:true,message:'Verification code sent to '+email+'. It expires in 10 minutes.'},201);
+ }
+ if(p==='/studio/api/join/verify'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const email=clean(b.email,160).toLowerCase(),code=clean(b.code,6);
+  const row=await db.prepare("SELECT * FROM stu_otp WHERE email=? AND purpose='join' AND used_at IS NULL ORDER BY created_at DESC LIMIT 1").bind(email).first();
+  if(!row||row.expires_at<now)return JSONR({error:'Code expired. Request a new one.'},410);
+  if(row.code_hash!==await hash(code))return JSONR({error:'That code does not match.'},401);
+  await db.prepare('UPDATE stu_otp SET used_at=? WHERE id=?').bind(now,row.id).run();
+  const d=JSON.parse(row.payload),cid=crypto.randomUUID(),cno='SRC-'+randomHex(4).toUpperCase();
+  await db.prepare('INSERT INTO stu_creators(id,creator_no,full_name,display_name,mobile,email,city,lang,categories,bio,socials,status,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(cid,cno,d.full_name,d.display_name,d.mobile,d.email,d.city,d.lang,JSON.stringify(d.categories),d.bio,JSON.stringify(d.socials),'ACTIVE',now,now).run();
+  const t=randomHex(32);
+  await db.prepare('INSERT INTO stu_sessions(token_hash,creator_id,created_at,expires_at) VALUES(?,?,?,?)').bind(await hash(t),cid,now,now+30*86400000).run();
+  return JSONR({ok:true,session:t,creator:{creator_no:cno,display_name:d.display_name,email}},201);
+ }
+ if(p==='/studio/api/login/start'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const email=clean(b.email,160).toLowerCase();
+  const c=await db.prepare('SELECT display_name FROM stu_creators WHERE email=?').bind(email).first();
+  if(!c)return JSONR({error:'No creator profile for this email. Join first.'},404);
+  if(!await otpBudget('so:'+mailDay,20))return JSONR({error:'Verification email limit reached for today. Try again tomorrow.'},429);
+  const code=String(Math.floor(100000+Math.random()*900000));
+  await db.prepare('INSERT INTO stu_otp(id,email,code_hash,purpose,expires_at,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),email,await hash(code),'login',now+600000,now).run();
+  let sent=false;try{sent=(await stuMail(env,{task:'studio_otp',to:email,code,name:c.display_name})).ok}catch{}
+  if(!sent)return JSONR({error:'The verification email could not be sent right now. Please try again.'},502);
+  return JSONR({ok:true,sent:true},201);
+ }
+ if(p==='/studio/api/login/verify'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const email=clean(b.email,160).toLowerCase(),code=clean(b.code,6);
+  const row=await db.prepare("SELECT * FROM stu_otp WHERE email=? AND purpose='login' AND used_at IS NULL ORDER BY created_at DESC LIMIT 1").bind(email).first();
+  if(!row||row.expires_at<now)return JSONR({error:'Code expired. Request a new one.'},410);
+  if(row.code_hash!==await hash(code))return JSONR({error:'That code does not match.'},401);
+  await db.prepare('UPDATE stu_otp SET used_at=? WHERE id=?').bind(now,row.id).run();
+  const c=await db.prepare('SELECT id,creator_no,display_name,email FROM stu_creators WHERE email=?').bind(email).first();
+  const t=randomHex(32);
+  await db.prepare('INSERT INTO stu_sessions(token_hash,creator_id,created_at,expires_at) VALUES(?,?,?,?)').bind(await hash(t),c.id,now,now+30*86400000).run();
+  return JSONR({ok:true,session:t,creator:{creator_no:c.creator_no,display_name:c.display_name,email}},201);
+ }
+ if(p==='/studio/api/me'&&request.method==='GET'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  return JSONR({creator:{creator_no:c.creator_no,full_name:c.full_name,display_name:c.display_name,email:c.email,mobile:c.mobile,city:c.city,lang:c.lang,categories:JSON.parse(c.categories||'[]'),bio:c.bio,socials:JSON.parse(c.socials||'{}'),status:c.status}});
+ }
+ if(p==='/studio/api/drafts'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  if(request.method==='PUT'){
+   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+   const raw=await request.text();if(raw.length>65536)return JSONR({error:'Draft too large.'},413);
+   await db.prepare('INSERT INTO stu_drafts(creator_id,payload,updated_at) VALUES(?,?,?) ON CONFLICT(creator_id) DO UPDATE SET payload=excluded.payload,updated_at=excluded.updated_at').bind(c.id,raw,now).run();
+   return JSONR({ok:true,saved_at:now});
+  }
+  if(request.method==='GET'){const d=await db.prepare('SELECT payload,updated_at FROM stu_drafts WHERE creator_id=?').bind(c.id).first();return JSONR({draft:d?JSON.parse(d.payload):null,updated_at:d?d.updated_at:null});}
+  if(request.method==='DELETE'){await db.prepare('DELETE FROM stu_drafts WHERE creator_id=?').bind(c.id).run();return JSONR({deleted:true});}
+  return JSONR({error:'Method not allowed.'},405);
+ }
+ if(p==='/studio/api/places'){
+  if(request.method==='GET'){
+   const q=clean(u.searchParams.get('q')||'',80);if(q.length<2)return JSONR({places:[]});
+   const rows=await db.prepare('SELECT id,name,kind,locality,city,pincode FROM stu_places WHERE lower(name) LIKE ? ORDER BY created_at DESC LIMIT 10').bind('%'+q.toLowerCase()+'%').all();
+   return JSONR({places:rows.results||[]});
+  }
+  if(request.method==='POST'){
+   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+   const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+   const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+   const name=clean(b.name,160);if(!name)return JSONR({error:'Place name is required.'},400);
+   const pin=clean(b.pincode,6);
+   const dupe=await db.prepare('SELECT id,name,locality,city,pincode FROM stu_places WHERE lower(name)=? AND pincode=?').bind(name.toLowerCase(),pin).first();
+   if(dupe)return JSONR({exists:true,place:dupe,message:'THIS PLACE IS ALREADY ON SRCHN.'},200);
+   const id=crypto.randomUUID();
+   await db.prepare('INSERT INTO stu_places(id,name,kind,primary_cat,secondary_cat,address,locality,city,pincode,state,country,website,instagram,contact,booking_url,maps_link,hours,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(id,name,clean(b.kind,20),clean(b.primary_cat,80),clean(b.secondary_cat,80),clean(b.address,240),clean(b.locality,80),clean(b.city,80),pin,clean(b.state,60),clean(b.country,60)||'India',clean(b.website,160),clean(b.instagram,160),clean(b.contact,40),clean(b.booking_url,160),clean(b.maps_link,200),clean(b.hours,120),c.id,now).run();
+   return JSONR({ok:true,place:{id,name}},201);
+  }
+  return JSONR({error:'Method not allowed.'},405);
+ }
+ if(p==='/studio/api/submissions'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  if(request.method==='GET'){
+   const rows=await db.prepare('SELECT sub_no,place_name,kind,content_pillar,status,email_status,created_at FROM stu_submissions WHERE creator_id=? ORDER BY created_at DESC LIMIT 50').bind(c.id).all();
+   return JSONR({submissions:rows.results||[]});
+  }
+  if(request.method==='POST'){
+   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+   const raw=await request.text();if(raw.length>32768)return JSONR({error:'Submission too large.'},413);
+   const b=JSON.parse(raw);
+   if(!STU_KINDS.includes(b.kind))return JSONR({error:'Choose what you are adding: a place, a space or an experience.'},400);
+   if(!STU_PILLARS.includes(b.content_pillar))return JSONR({error:'Choose a content type.'},400);
+   const placeName=clean(b.place_name,160);if(!placeName)return JSONR({error:'Place name is required.'},400);
+   if(!b.rights||b.rights.confirm!==true)return JSONR({error:'Rights confirmation is required.'},400);
+   const subcats=(Array.isArray(b.subcats)?b.subcats:[]).map(x=>clean(x,60)).filter(Boolean).slice(0,30);
+   const items=(Array.isArray(b.items)?b.items:[]).map(x=>({type:x.type==='video'?'video':'photo',caption:clean(x.caption,240),credit:clean(x.credit,120),aspect:x.aspect==='16:9'?'16:9':'9:16',media_status:'pending-upload'})).slice(0,20);
+   const cnt=await db.prepare('SELECT count(*) AS n FROM stu_submissions WHERE created_at>?').bind(now-86400000).first();
+   if(cnt&&cnt.n>=100)return JSONR({error:'Daily submission limit reached. Try again tomorrow.'},429);
+   const seq=(await db.prepare('SELECT count(*) AS n FROM stu_submissions').first()).n+1;
+   const subNo='SRCHN-STU-'+new Date(now).getUTCFullYear()+'-'+String(seq).padStart(6,'0');
+   const id=crypto.randomUUID();
+   const details=JSON.stringify({address:clean(b.address,240),locality:clean(b.locality,80),city:clean(b.city,80),pincode:clean(b.pincode,6),state:clean(b.state,60),country:clean(b.country,60)||'India',dates:clean(b.dates,120),descriptions:clean(b.description,1000)});
+   const rights=JSON.stringify({creator_type:clean(b.rights.creator_type,60),third_party:b.rights.third_party?{name:clean(b.rights.third_party.name,120),source:clean(b.rights.third_party.source,200),licence:clean(b.rights.third_party.licence,200)}:null,confirmed:true});
+   await db.prepare('INSERT INTO stu_submissions(id,sub_no,creator_id,place_id,place_name,kind,cats,content_pillar,subcats,items,details,rights,status,email_status,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(id,subNo,c.id,clean(b.place_id,40)||null,placeName,b.kind,JSON.stringify(b.cats||[]),b.content_pillar,JSON.stringify(subcats),JSON.stringify(items),details,rights,'SUBMITTED','pending',now,now).run();
+   await db.prepare('DELETE FROM stu_drafts WHERE creator_id=?').bind(c.id).run();
+   let es='failed';
+   try{
+    const det=JSON.parse(details);
+    const r=await stuMail(env,{task:'studio_submission',submission_id:subNo,creator_name:c.full_name,creator_id:c.creator_no,creator_category:JSON.parse(c.categories||'[]').join(', '),mobile:'+91 '+c.mobile,email:c.email,place_name:placeName,location:[det.address,det.locality,det.city,det.pincode].filter(Boolean).join(', '),main_category:b.kind,content_type:b.content_pillar,subcategories:subcats.join(', ')||'-',photos:String(items.filter(i=>i.type==='photo').length),videos:String(items.filter(i=>i.type==='video').length),aspect_ratios:[...new Set(items.map(i=>i.aspect))].join(', ')||'-',captions:items.map(i=>i.caption).filter(Boolean).join(' | ')||'-',credits:items.map(i=>i.credit).filter(Boolean).join(' | ')||'-',submitted_at:new Date(now).toUTCString(),rights:'Confirmed by contributor',review_link:'https://srchn.in/studio/review/'});
+    es=r.ok?'sent':'failed';
+   }catch{es='failed'}
+   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE id=?').bind(es,id).run();
+   return JSONR({ok:true,submission_id:subNo,status:'SUBMITTED',email:es,message:'Your submission has been received. Our editorial team will review the location, information and media before publication.'},201);
+  }
+  return JSONR({error:'Method not allowed.'},405);
+ }
+ return JSONR({error:'Not found.'},404);
+}
+
 export default{async fetch(request,env){
   const u=new URL(request.url);
   if(u.pathname==='/property/api/status'){return JSONR({ok:true,storage:!!env.DB,phase:1,market:'Bengaluru'})}
@@ -366,5 +526,6 @@ export default{async fetch(request,env){
     if(request.method!=='POST') return J({error:'Method not allowed.'},405);
     return del(request,env);
   }
+  if(u.pathname.startsWith('/studio/api/')){try{return await studioRoute(request,env)}catch(e){return JSONR({error:'Studio unavailable.'},503)}}
   return env.ASSETS.fetch(request);
 }};
