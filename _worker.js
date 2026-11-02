@@ -958,7 +958,7 @@ async function studioRoute(request,env){
   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
   return JSONR({ok:true,email:es});
  }
- if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
+ if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
@@ -1187,7 +1187,36 @@ async function brReviewRoute(p,request,env,db,now){
   const ns=dec==='approve'?'APPROVED':dec==='reject'?'REJECTED':'MORE_INFO';
   await db.prepare('UPDATE br_claims SET status=?,reviewer=?,review_note=?,decided_at=? WHERE id=?').bind(ns,rv.email,note,now,cl.id).run();
   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'claim-'+dec,bid||cl.brand_id,(cl.requested_name||'')+' '+(note||''),now).run();
-  return JSONR({ok:true,status:ns,brand_id:bid||null});
+  let es='skipped';
+  try{
+   const cr=await db.prepare('SELECT email,full_name,display_name FROM stu_creators WHERE id=?').bind(cl.creator_id).first();
+   if(cr&&cr.email){
+    const bn=cl.brand_id?(await db.prepare('SELECT name FROM br_brands WHERE id=?').bind(cl.brand_id).first()||{}).name:cl.requested_name;
+    const r=await stuMail(env,{task:'studio_claim',to:cr.email,name:cr.display_name||cr.full_name,brand_name:bn||'your brand',status:ns,reason:note||''});
+    es=r.ok?'sent':'failed';
+   }
+  }catch{es='failed'}
+  return JSONR({ok:true,status:ns,brand_id:bid||null,email:es});
+ }
+ if(p==='/studio/api/review/brand-detail'&&request.method==='GET'){
+  const id=clean(u.searchParams.get('id')||'',40);
+  const b=await db.prepare("SELECT * FROM br_brands WHERE id=? AND status!='DELETED'").bind(id).first();
+  if(!b)return JSONR({error:'Unknown brand.'},404);
+  const locs=(await db.prepare("SELECT * FROM br_locations WHERE brand_id=? AND status!='DELETED' ORDER BY created_at").bind(id).all()).results||[];
+  const prods=(await db.prepare("SELECT * FROM br_products WHERE brand_id=? AND status!='DELETED' ORDER BY created_at").bind(id).all()).results||[];
+  const mems=(await db.prepare("SELECT m.role,m.status,m.created_at,c.display_name,c.creator_no,c.email FROM br_members m LEFT JOIN stu_creators c ON c.id=m.creator_id WHERE m.brand_id=?").bind(id).all()).results||[];
+  const audit=(await db.prepare('SELECT actor,action,detail,ts FROM br_audit WHERE brand_id=? ORDER BY ts DESC LIMIT 20').bind(id).all()).results||[];
+  return JSONR({brand:b,locations:locs,products:prods,members:mems,audit});
+ }
+ if(p==='/studio/api/review/product-status'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const st=clean(b.status,20);
+  if(!['DRAFT','UNDER_REVIEW','PUBLISHED','DELETED'].includes(st))return JSONR({error:'Unknown status.'},400);
+  const r=await db.prepare('UPDATE br_products SET status=? WHERE id=?').bind(st,clean(b.product_id,40)).run();
+  if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown product.'},404);
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'product-'+st.toLowerCase(),clean(b.brand_id,40),clean(b.product_id,40),now).run();
+  return JSONR({ok:true,status:st});
  }
  if(p==='/studio/api/review/brand-save'&&request.method==='POST'){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);

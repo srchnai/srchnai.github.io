@@ -29,7 +29,7 @@
 .rv-row .pl{font-size:14.5px}
 .rv-row .mt{color:#8a8a8a;font-size:12.5px}
 .rv-row .st{margin-left:auto;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:18px;background:#f0f0f0}
-.st.SUBMITTED{background:#e7f0ff;color:#111111}.st.UNDER_REVIEW{background:#fff3d6;color:#8a5b00}.st.ADDITIONAL_INFORMATION_REQUIRED{background:#ffe9e0;color:#a34a00}
+.st.SUBMITTED{background:#ececec;color:#111111}.st.UNDER_REVIEW{background:#fff3d6;color:#8a5b00}.st.ADDITIONAL_INFORMATION_REQUIRED{background:#ffe9e0;color:#a34a00}
 .st.APPROVED,.st.PUBLISHED{background:#e6f7ec;color:#146c2e}.st.SCHEDULED{background:#ececec;color:#3a3a3a}
 .st.REJECTED,.st.DUPLICATE{background:#fdeaea;color:#a11}.st.ON_HOLD,.st.WITHDRAWN{background:#f0f0f0;color:#666}
 .rv-empty{color:#8a8a8a;padding:26px 0;font-size:15px}
@@ -137,7 +137,7 @@ $('lg-verify').onclick=async()=>{
 };
 /* ---------- dashboard ---------- */
 let curStatus='NEW';
-const TABS=[['NEW','New'],['UNDER_REVIEW','Under review'],['ADDITIONAL_INFORMATION_REQUIRED','Awaiting corrections'],['APPROVED','Approved'],['SCHEDULED','Scheduled'],['PUBLISHED','Published'],['REJECTED','Rejected'],['ON_HOLD','On hold'],['ALL','All'],['REPORTS','Reports']];
+const TABS=[['NEW','New'],['UNDER_REVIEW','Under review'],['ADDITIONAL_INFORMATION_REQUIRED','Awaiting corrections'],['APPROVED','Approved'],['SCHEDULED','Scheduled'],['PUBLISHED','Published'],['REJECTED','Rejected'],['ON_HOLD','On hold'],['ALL','All'],['REPORTS','Reports'],['BRANDS','Brands']];
 async function start(){
   $('rv-login').hidden=true;$('rv-dash').hidden=false;
   loadQueue();
@@ -155,7 +155,79 @@ async function loadReports(){
     loadReports();
   });
 }
+async function loadBrands(){
+  const rc=await api('/studio/api/review/claims');
+  if(rc.status===401){$('rv-dash').hidden=true;$('rv-login').hidden=false;return}
+  const claims=(rc.data&&rc.data.claims)||[];
+  const rb=await api('/studio/api/review/brands');
+  const brands=(rb.data&&rb.data.brands)||[];
+  let h='<h3 style="margin:6px 0 10px;font-size:15px">Brand claims</h3>';
+  if(!claims.length)h+='<p class="rv-empty">No claims yet.</p>';
+  else h+=claims.map(c=>{
+    const what=c.brand_id?('Claim on <b>'+esc(c.brand_name||'existing brand')+'</b>'):('New brand: <b>'+esc(c.requested_name||'')+'</b> ('+esc(c.requested_category||'')+(c.requested_locality?', '+esc(c.requested_locality):'')+')');
+    const open=(c.status==='PENDING'||c.status==='MORE_INFO');
+    return '<div class="rv-row" style="cursor:default;align-items:center"><span class="pl">'+what+'<br/><span class="mt">'+esc(c.display_name||c.creator_no||'')+' · '+esc(c.creator_email||'')+' · '+esc(c.claimant_role||'')+'</span><br/><span class="mt">Proof: '+esc((c.proof_note||'').slice(0,160))+'</span></span><span class="st '+(c.status==='APPROVED'?'PUBLISHED':c.status==='REJECTED'?'REJECTED':'UNDER_REVIEW')+'">'+esc(c.status)+'</span>'
+    +(open?'<span style="display:flex;gap:6px;flex-wrap:wrap"><button class="rv-btn" style="padding:6px 12px;font-size:12.5px" data-approve="'+esc(c.id)+'">Approve</button><button class="rv-btn ghost" style="padding:6px 12px;font-size:12.5px" data-moreinfo="'+esc(c.id)+'">More info</button><button class="rv-btn danger" style="padding:6px 12px;font-size:12.5px" data-reject="'+esc(c.id)+'">Reject</button></span>':'')
+    +'</div>';
+  }).join('');
+  h+='<h3 style="margin:22px 0 10px;font-size:15px">Brands ('+brands.length+')</h3>';
+  if(!brands.length)h+='<p class="rv-empty">No brands yet.</p>';
+  else h+=brands.map(b=>'<div class="rv-row" data-brand="'+esc(b.id)+'" style="align-items:center"><span class="pl"><b>'+esc(b.name)+'</b></span><span class="mt">'+esc(b.category)+' · '+b.locs+' loc · '+b.media+' media · /brands/'+esc(b.slug)+'/</span><span class="st '+esc(b.status==='PUBLISHED'?'PUBLISHED':b.status==='DRAFT'?'SCHEDULED':'UNDER_REVIEW')+'">'+esc(b.status)+'</span></div>').join('');
+  $('rv-rows').innerHTML=h;
+  $('rv-rows').querySelectorAll('[data-approve]').forEach(x=>x.onclick=()=>decideClaim(x.dataset.approve,'approve'));
+  $('rv-rows').querySelectorAll('[data-reject]').forEach(x=>x.onclick=()=>decideClaim(x.dataset.reject,'reject'));
+  $('rv-rows').querySelectorAll('[data-moreinfo]').forEach(x=>x.onclick=()=>decideClaim(x.dataset.moreinfo,'more_info'));
+  $('rv-rows').querySelectorAll('[data-brand]').forEach(x=>x.onclick=()=>openBrand(x.dataset.brand));
+}
+async function decideClaim(id,dec){
+  let note='';
+  if(dec!=='approve'){note=prompt(dec==='reject'?'Reason for the claimant (required):':'What do you need from the claimant? (required)')||'';if(!note.trim())return}
+  const r=await api('/studio/api/review/claim-decide',{method:'POST',json:{claim_id:id,decision:dec,note}});
+  if(r.data&&r.data.ok){msg($('rv-msg'),'Claim '+r.data.status.toLowerCase()+(r.data.email==='sent'?' - claimant emailed.':r.data.email==='failed'?' - claimant email FAILED.':'.'),true)}
+  else msg($('rv-msg'),(r.data&&r.data.error)||'Failed.');
+  loadBrands();
+}
+async function openBrand(id){
+  const r=await api('/studio/api/review/brand-detail?id='+encodeURIComponent(id));
+  if(!r.data||r.data.error){msg($('rv-msg'),(r.data&&r.data.error)||'Could not load.');return}
+  const b=r.data.brand,locs=r.data.locations||[],prods=r.data.products||[],mems=r.data.members||[],audit=r.data.audit||[];
+  const d=$('rv-detail');
+  d.hidden=false;
+  d.innerHTML='<button class="rv-back" id="bk">&larr; Back to brands</button>'
+  +'<h2>'+esc(b.name)+' <span class="st '+esc(b.status==='PUBLISHED'?'PUBLISHED':'UNDER_REVIEW')+'" style="font-size:11px">'+esc(b.status)+'</span></h2>'
+  +'<p class="mt" style="color:#8a8a8a;font-size:13px">'+esc(b.category)+(b.subcategory?' · '+esc(b.subcategory):'')+' · /brands/'+esc(b.slug)+'/ · '+(b.verified?'verified · ':'')+(b.club?'club':'')+'</p>'
+  +'<div class="rv-actions">'
+  +(b.status!=='PUBLISHED'?'<button class="rv-btn" id="bp">Publish brand</button>':'<button class="rv-btn danger" id="bu">Unpublish</button>')
+  +'<a class="rv-btn ghost" href="/brands/'+esc(b.slug)+'/" target="_blank" rel="noopener" style="text-decoration:none">View public page</a></div>'
+  +'<div class="rv-card"><h3>Locations ('+locs.length+')</h3>'+(locs.length?locs.map(l=>'<p><b>'+esc(l.name)+'</b> · '+esc(l.locality||'')+' · '+esc(l.status)+(l.status!=='PUBLISHED'?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-locpub="'+esc(l.id)+'">Publish</button>':' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-locun="'+esc(l.id)+'">Unpublish</button>')+'</p>').join(''):'<p>None yet.</p>')+'</div>'
+  +'<div class="rv-card"><h3>Products and services ('+prods.length+')</h3>'+(prods.length?prods.map(x=>'<p><b>'+esc(x.name)+'</b> · '+esc(x.price_text||'')+' · '+esc(x.status)+(x.status!=='PUBLISHED'?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-prodpub="'+esc(x.id)+'">Publish</button>':' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-produn="'+esc(x.id)+'">Unpublish</button>')+'</p>').join(''):'<p>None yet.</p>')+'</div>'
+  +'<div class="rv-card"><h3>Team</h3>'+(mems.length?mems.map(m=>'<p>'+esc(m.display_name||m.creator_no||'')+' · '+esc(m.role)+' · '+esc(m.status)+'</p>').join(''):'<p>No members.</p>')+'</div>'
+  +'<div class="rv-audit"><h3>Audit</h3>'+(audit.length?audit.map(a=>'<div class="rv-ev"><span class="w">'+new Date(a.ts).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</span> '+esc(a.actor||'')+' · '+esc(a.action)+' · '+esc((a.detail||'').slice(0,100))+'</div>').join(''):'<div class="rv-ev">No audit entries.</div>')+'</div>';
+  $('bk').onclick=()=>{d.hidden=true};
+  if($('bp'))$('bp').onclick=async()=>{const r=await api('/studio/api/review/brand-status',{method:'POST',json:{brand_id:b.id,status:'PUBLISHED'}});if(r.data&&r.data.ok){msg($('rv-msg'),'Brand published.',true);openBrand(b.id);loadBrandsRows()}};
+  if($('bu'))$('bu').onclick=async()=>{const r=await api('/studio/api/review/brand-status',{method:'POST',json:{brand_id:b.id,status:'DRAFT'}});if(r.data&&r.data.ok){msg($('rv-msg'),'Brand unpublished.',true);openBrand(b.id);loadBrandsRows()}};
+  d.querySelectorAll('[data-locpub]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/location-status',{method:'POST',json:{location_id:x.dataset.locpub,status:'PUBLISHED'}});openBrand(b.id)});
+  d.querySelectorAll('[data-locun]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/location-status',{method:'POST',json:{location_id:x.dataset.locun,status:'DRAFT'}});openBrand(b.id)});
+  d.querySelectorAll('[data-prodpub]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/product-status',{method:'POST',json:{product_id:x.dataset.prodpub,brand_id:b.id,status:'PUBLISHED'}});openBrand(b.id)});
+  d.querySelectorAll('[data-produn]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/product-status',{method:'POST',json:{product_id:x.dataset.produn,brand_id:b.id,status:'DRAFT'}});openBrand(b.id)});
+}
+async function loadBrandsRows(){
+  const rb=await api('/studio/api/review/brands');
+  const brands=(rb.data&&rb.data.brands)||[];
+  const h2=$('rv-rows').querySelector('h3:nth-of-type(2)');
+}
 async function loadQueue(){
+  if(curStatus==='BRANDS'){
+    const tr=await api('/studio/api/review/submissions?status=ALL');
+    if(tr.data){const cm=countsOf(tr.data.counts);
+      $('rv-tabs').innerHTML=TABS.map(([k,l])=>{
+        const n=k==='NEW'?(cm.SUBMITTED||0):(k==='ALL'?Object.values(cm).reduce((a,b)=>a+b,0):(k==='REPORTS'||k==='BRANDS'?'':(cm[k]||0)));
+        return '<button class="rv-tab'+(k===curStatus?' on':'')+'" data-s="'+k+'">'+l+(n!==''?'<span class="n">'+n+'</span>':'')+'</button>';
+      }).join('');
+      $('rv-tabs').querySelectorAll('.rv-tab').forEach(b=>b.onclick=()=>{curStatus=b.dataset.s;$('rv-detail').hidden=true;loadQueue()});
+    }
+    loadBrands();return;
+  }
   if(curStatus==='REPORTS'){
     const tr=await api('/studio/api/review/submissions?status=ALL');
     if(tr.data){const cm=countsOf(tr.data.counts);
