@@ -14,14 +14,14 @@
 <link href="../../studio.css" rel="stylesheet"/>
 <style>
 .bp-hero{position:relative;padding:26px 0 0}
-.bp-kicker{font-size:12.5px;letter-spacing:.14em;color:#0b5fff;font-weight:700;margin:0 0 8px}
+.bp-kicker{font-size:12.5px;letter-spacing:.14em;color:#111111;font-weight:700;margin:0 0 8px}
 .bp-title{margin:0 0 6px;font-size:clamp(28px,5.5vw,44px);line-height:1.05}
 .bp-loc{color:#666;font-size:15px;margin:0 0 14px}
 .bp-cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;background:#f4f4f4;display:block}
 .bp-cover-v{width:100%;aspect-ratio:16/9;border-radius:16px;background:#000;display:block}
 .bp-desc{max-width:680px;color:#333;font-size:16px;line-height:1.6;margin:18px 0 0}
 .bp-sec{padding:34px 0 6px;border-top:1px solid #eee;margin-top:30px}
-.bp-sec .num{font-size:12.5px;letter-spacing:.14em;color:#0b5fff;font-weight:700}
+.bp-sec .num{font-size:12.5px;letter-spacing:.14em;color:#111111;font-weight:700}
 .bp-sec h2{margin:4px 0 4px;font-size:clamp(20px,3.4vw,28px)}
 .bp-sec .sub{color:#8a8a8a;font-size:14px;margin:0 0 16px}
 .bp-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
@@ -35,7 +35,7 @@
 .bp-facts{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));padding:26px 0 10px;border-top:1px solid #eee;margin-top:30px}
 .bp-fact h3{margin:0 0 8px;font-size:12px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.08em}
 .bp-fact p{margin:3px 0;font-size:14.5px}
-.bp-fact a{color:#0b5fff;text-decoration:none}
+.bp-fact a{color:#111111;text-decoration:none}
 .bp-fac{display:flex;flex-wrap:wrap;gap:7px}
 .bp-fac span{border:1px solid #e3e3e3;border-radius:16px;padding:5px 12px;font-size:13px;color:#444}
 .bp-credits{padding:18px 0 50px;color:#8a8a8a;font-size:13.5px}
@@ -123,7 +123,7 @@ fetch('/studio/api/brand?id='+encodeURIComponent(id)).then(async r=>{
   if(d.facilities&&d.facilities.length)fact('Facilities','<span class="bp-fac">'+d.facilities.map(f=>'<span>'+esc(f)+'</span>').join('')+'</span>');
   if(b.secondary)fact('Also filed under',esc(b.secondary));
   $('bp-facts').innerHTML=F.join('');
-  $('bp-credits').innerHTML='Contributions by '+d.contributors.map(c=>c.creator_no?'<a href="/studio/creator/?id='+esc(c.creator_no)+'" style="color:#0b5fff;text-decoration:none">'+esc(c.name)+'</a>':esc(c.name)).join(' · ')+'. Every piece reviewed by Team SRCHN before publication.'
+  $('bp-credits').innerHTML='Contributions by '+d.contributors.map(c=>c.creator_no?'<a href="/studio/creator/?id='+esc(c.creator_no)+'" style="color:#111111;text-decoration:none">'+esc(c.name)+'</a>':esc(c.name)).join(' · ')+'. Every piece reviewed by Team SRCHN before publication.'
    +'<br/><a href="#" id="bp-report" style="color:#8a8a8a;font-size:12.5px">Report content, request takedown or correction</a>';
   $('bp-share').onclick=async()=>{
    const url=location.href,title=b.name+' - SRCHN BRANDS';

@@ -10,7 +10,7 @@
 @media(min-width:640px){.wiz-cards{grid-template-columns:repeat(3,1fr)}}
 .wiz-card{text-align:left;background:#fff;border:1.5px solid #e0e0e0;border-radius:14px;padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:8px;font-family:inherit;transition:border-color .15s,box-shadow .15s}
 .wiz-card:hover{border-color:#111}
-.wiz-card.sel{border-color:#0b5fff;box-shadow:0 0 0 1.5px #0b5fff inset}
+.wiz-card.sel{border-color:#111111;box-shadow:0 0 0 1.5px #111111 inset}
 .wiz-card-t{font-size:16px;font-weight:700;letter-spacing:.02em}
 .wiz-card-d{font-size:14px;color:#3a3a3a;line-height:1.5}
 .wiz-card-e{font-size:12.5px;color:#8a8a8a;line-height:1.55}
@@ -28,11 +28,11 @@
 .wiz-h3{font-size:16px;margin:26px 0 12px}
 .wiz-checkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px;margin-bottom:14px}
 .wiz-checkgrid label{display:flex;gap:8px;align-items:center;font-size:14px;border:1px solid #e4e4e4;border-radius:9px;padding:9px 11px;cursor:pointer}
-.wiz-checkgrid label:has(input:checked){border-color:#0b5fff;background:#f4f7ff}
+.wiz-checkgrid label:has(input:checked){border-color:#111111;background:#f4f7ff}
 .wiz-checkgrid input{width:auto}
-.wiz-more summary{cursor:pointer;font-size:14px;color:#0b5fff;margin-bottom:12px}
+.wiz-more summary{cursor:pointer;font-size:14px;color:#111111;margin-bottom:12px}
 .wiz-drop{border:2px dashed #c9c9c9;border-radius:16px;padding:36px 20px;text-align:center;color:#3a3a3a;margin-bottom:20px}
-.wiz-drop.over{border-color:#0b5fff;background:#f4f7ff}
+.wiz-drop.over{border-color:#111111;background:#f4f7ff}
 .wiz-drop p{margin:6px 0}
 .wiz-media-list{display:flex;flex-direction:column;gap:12px}
 .wiz-media{display:flex;gap:14px;align-items:center;border:1px solid #e6e6e6;border-radius:12px;padding:12px}
@@ -50,7 +50,7 @@
 .wiz-trim{border:1px solid #e6e6e6;border-radius:14px;padding:20px;margin-top:18px}
 .wiz-encode{margin-top:14px}
 .wiz-encode-bar{height:6px;background:#eee;border-radius:3px;overflow:hidden}
-.wiz-encode-bar span{display:block;height:100%;width:0;background:#0b5fff;transition:width .2s}
+.wiz-encode-bar span{display:block;height:100%;width:0;background:#111111;transition:width .2s}
 .wiz-item{border:1px solid #e6e6e6;border-radius:12px;padding:16px;margin-bottom:14px;display:flex;gap:14px}
 .wiz-item-thumb{width:72px;height:72px;flex:none;border-radius:9px;background:#f2f2f2 center/cover no-repeat}
 .wiz-item-fields{flex:1;min-width:0}

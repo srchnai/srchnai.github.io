@@ -29,8 +29,8 @@
 .rv-row .pl{font-size:14.5px}
 .rv-row .mt{color:#8a8a8a;font-size:12.5px}
 .rv-row .st{margin-left:auto;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:18px;background:#f0f0f0}
-.st.SUBMITTED{background:#e7f0ff;color:#0b5fff}.st.UNDER_REVIEW{background:#fff3d6;color:#8a5b00}.st.ADDITIONAL_INFORMATION_REQUIRED{background:#ffe9e0;color:#a34a00}
-.st.APPROVED,.st.PUBLISHED{background:#e6f7ec;color:#146c2e}.st.SCHEDULED{background:#e9e4ff;color:#4b33b8}
+.st.SUBMITTED{background:#e7f0ff;color:#111111}.st.UNDER_REVIEW{background:#fff3d6;color:#8a5b00}.st.ADDITIONAL_INFORMATION_REQUIRED{background:#ffe9e0;color:#a34a00}
+.st.APPROVED,.st.PUBLISHED{background:#e6f7ec;color:#146c2e}.st.SCHEDULED{background:#ececec;color:#3a3a3a}
 .st.REJECTED,.st.DUPLICATE{background:#fdeaea;color:#a11}.st.ON_HOLD,.st.WITHDRAWN{background:#f0f0f0;color:#666}
 .rv-empty{color:#8a8a8a;padding:26px 0;font-size:15px}
 .rv-detail{border:1px solid #e3e3e3;border-radius:14px;padding:20px;margin-top:20px;background:#fff}
@@ -66,7 +66,7 @@ textarea.rv-reason{min-height:70px;resize:vertical}
 .rv-login p{color:#666;font-size:14px}
 .rv-login input{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:10px;padding:12px 14px;font-size:15px;margin:10px 0;font-family:inherit}
 .rv-edit input{margin:4px 0}
-.rv-back{background:none;border:none;color:#0b5fff;font-size:14px;cursor:pointer;padding:0;margin:0 0 10px;font-family:inherit}
+.rv-back{background:none;border:none;color:#111111;font-size:14px;cursor:pointer;padding:0;margin:0 0 10px;font-family:inherit}
 .rv-meta-edit{display:grid;gap:6px;grid-template-columns:1fr 1fr}
 .rv-meta-edit .full{grid-column:1/-1}
 @media(max-width:560px){.rv-meta-edit{grid-template-columns:1fr}}
@@ -234,7 +234,7 @@ async function openDetail(id){
    +'<p><span class="lbl">Locality</span>'+esc(det.locality||'-')+'</p>'
    +'<p><span class="lbl">City</span>'+esc(det.city||'-')+'</p>'
    +'<p><span class="lbl">Pincode</span>'+esc(det.pincode||'-')+'</p>'
-   +'<p><a href="https://www.google.com/maps/search/'+encodeURIComponent([s.place_name,det.locality,det.city].filter(Boolean).join(', '))+'" target="_blank" rel="noopener" style="color:#0b5fff">Check on Google Maps ↗</a></p>'
+   +'<p><a href="https://www.google.com/maps/search/'+encodeURIComponent([s.place_name,det.locality,det.city].filter(Boolean).join(', '))+'" target="_blank" rel="noopener" style="color:#111111">Check on Google Maps ↗</a></p>'
    +(p&&p.dupes_flagged?'<p style="color:#a34a00">Place flagged with '+p.dupes_flagged+' possible duplicate(s).</p>':'')
    +'</div>'
    +'<div class="rv-card"><h3>Rights declaration</h3>'
