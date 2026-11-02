@@ -655,6 +655,126 @@ async function studioRoute(request,env){
   await db.prepare('INSERT INTO stu_reports(id,target_type,target_id,kind,note,contact_email,status,created_at) VALUES(?,?,?,?,?,?,?,?)').bind(crypto.randomUUID(),tt,tid,kind,note,em,'OPEN',now).run();
   return JSONR({ok:true,message:'Thank you. Team SRCHN will review this and act on it.'},201);
  }
+ // ---- BRANDS Phase 2: brand owner workspace (creator-auth) ----
+ if(p==='/studio/api/workspace'&&request.method==='GET'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  const mem=(await db.prepare("SELECT m.brand_id,m.role,b.name,b.slug,b.category,b.status,(SELECT COUNT(*) FROM br_locations l WHERE l.brand_id=b.id AND l.status!='DELETED') AS locs FROM br_members m JOIN br_brands b ON b.id=m.brand_id WHERE m.creator_id=? AND m.status='ACTIVE' AND b.status!='DELETED' ORDER BY b.name").bind(c.id).all()).results||[];
+  const claims=(await db.prepare('SELECT id,brand_id,requested_name,requested_category,requested_locality,claimant_role,status,review_note,created_at,decided_at FROM br_claims WHERE creator_id=? ORDER BY created_at DESC LIMIT 50').bind(c.id).all()).results||[];
+  const prods=(await db.prepare("SELECT pr.id,pr.brand_id,pr.name,pr.category,pr.price_text,pr.status FROM br_products pr JOIN br_members m ON m.brand_id=pr.brand_id WHERE m.creator_id=? AND m.status='ACTIVE' AND pr.status!='DELETED' ORDER BY pr.created_at DESC LIMIT 100").bind(c.id).all()).results||[];
+  return JSONR({memberships:mem,claims,products:prods});
+ }
+ if(p==='/studio/api/workspace/claim'&&request.method==='POST'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40),rname=clean(b.requested_name,120);
+  const role=clean(b.claimant_role,60);if(!role)return JSONR({error:'Tell us your role: Owner, Manager or Authorised representative.'},400);
+  const proof=clean(b.proof_note,600);if(!proof)return JSONR({error:'Tell us how we can verify your connection to this brand.'},400);
+  let brand=null;
+  if(bid){brand=await db.prepare("SELECT id,name FROM br_brands WHERE id=? AND status!='DELETED'").bind(bid).first();if(!brand)return JSONR({error:'Unknown brand.'},404)}
+  else if(!rname)return JSONR({error:'Name the brand you want to add.'},400);
+  const dup=await db.prepare("SELECT id FROM br_claims WHERE creator_id=? AND status IN ('PENDING','MORE_INFO') AND "+(bid?"brand_id=?":"requested_name=?")).bind(c.id,bid||rname).first();
+  if(dup)return JSONR({error:'You already have an open claim for this brand.'},409);
+  if(bid){const mem=await db.prepare("SELECT id FROM br_members WHERE brand_id=? AND creator_id=? AND status='ACTIVE'").bind(bid,c.id).first();if(mem)return JSONR({error:'You already manage this brand.'},409)}
+  const id=crypto.randomUUID();
+  await db.prepare('INSERT INTO br_claims(id,brand_id,requested_name,requested_category,requested_locality,creator_id,claimant_role,proof_note,status,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)').bind(id,bid||null,bid?null:rname,clean(b.requested_category,60),clean(b.requested_locality,60),c.id,role,proof,'PENDING',now).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(c.email||c.creator_no,'claim-submit',bid||null,bid?('claim on '+brand.name):('new brand request: '+rname),now).run();
+  return JSONR({ok:true,claim_id:id,message:'Claim received. Team SRCHN verifies every claim manually and updates the status here.'},201);
+ }
+ if(p==='/studio/api/workspace/brand-save'&&request.method==='POST'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);const role=await brRole(db,bid,c.id);
+  if(!role||!['owner','manager','editor'].includes(role))return JSONR({error:'You do not have edit access to this brand.'},403);
+  const br=await db.prepare("SELECT * FROM br_brands WHERE id=? AND status!='DELETED'").bind(bid).first();if(!br)return JSONR({error:'Unknown brand.'},404);
+  const ns=br.status==='PUBLISHED'?'UNDER_REVIEW':br.status;
+  await db.prepare('UPDATE br_brands SET tagline=?,description=?,website=?,socials=?,founded_year=?,founders=?,hq_city=?,status=?,updated_at=? WHERE id=?').bind(clean(b.tagline,200),clean(b.description,8000),clean(b.website,200),typeof b.socials==='string'?clean(b.socials,1000):JSON.stringify(b.socials||{}),clean(b.founded_year,10),clean(b.founders,200),clean(b.hq_city,60),ns,now,bid).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(c.email||c.creator_no,'owner-edit',bid,br.name,now).run();
+  return JSONR({ok:true,status:ns,message:ns==='UNDER_REVIEW'?'Saved. Because the brand is live, Team SRCHN will re-check and republish it shortly.':'Saved.'});
+ }
+ if(p==='/studio/api/workspace/location-save'&&request.method==='POST'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);const role=await brRole(db,bid,c.id);
+  if(!role||!['owner','manager','editor','location_manager'].includes(role))return JSONR({error:'You do not have edit access to this brand.'},403);
+  const name=clean(b.name,120);if(!name)return JSONR({error:'Location name required.'},400);
+  const br=await db.prepare("SELECT id FROM br_brands WHERE id=? AND status!='DELETED'").bind(bid).first();if(!br)return JSONR({error:'Unknown brand.'},404);
+  const lid=clean(b.location_id,40)||crypto.randomUUID();
+  const ex=await db.prepare('SELECT * FROM br_locations WHERE id=? AND brand_id=?').bind(lid,bid).first();
+  if(ex){
+   const ns=ex.status==='PUBLISHED'?'UNDER_REVIEW':ex.status;
+   await db.prepare('UPDATE br_locations SET name=?,address=?,locality=?,city=?,state=?,pincode=?,phone=?,hours=?,facilities=?,status=?,updated_at=? WHERE id=?').bind(name,clean(b.address,240),clean(b.locality,80),clean(b.city,80),clean(b.state,60),clean(b.pincode,6),clean(b.phone,30),clean(b.hours,200),JSON.stringify(Array.isArray(b.facilities)?b.facilities.slice(0,20).map(x=>clean(x,60)).filter(Boolean):[]),ns,now,lid).run();
+   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(c.email||c.creator_no,'owner-location-edit',bid,name,now).run();
+   return JSONR({ok:true,location_id:lid,status:ns,message:ns==='UNDER_REVIEW'?'Saved. This branch is live, so Team SRCHN will re-check and republish it shortly.':'Saved.'});
+  }
+  let slug=brSlug(name)||lid.slice(0,8);
+  const clash=await db.prepare('SELECT id FROM br_locations WHERE brand_id=? AND slug=?').bind(bid,slug).first();if(clash)slug=slug+'-2';
+  await db.prepare('INSERT INTO br_locations(id,brand_id,slug,name,address,locality,city,state,pincode,phone,hours,facilities,status,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(lid,bid,slug,name,clean(b.address,240),clean(b.locality,80),clean(b.city,80),clean(b.state,60),clean(b.pincode,6),clean(b.phone,30),clean(b.hours,200),JSON.stringify(Array.isArray(b.facilities)?b.facilities.slice(0,20).map(x=>clean(x,60)).filter(Boolean):[]),'DRAFT',now,now).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(c.email||c.creator_no,'owner-location-add',bid,name,now).run();
+  return JSONR({ok:true,location_id:lid,status:'DRAFT',message:'Location saved. It goes live after Team SRCHN verifies the address and details.'},201);
+ }
+ if(p==='/studio/api/workspace/product-save'&&request.method==='POST'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);const role=await brRole(db,bid,c.id);
+  if(!role||!['owner','manager','editor'].includes(role))return JSONR({error:'You do not have edit access to this brand.'},403);
+  const name=clean(b.name,160);if(!name)return JSONR({error:'Name the product or service.'},400);
+  const pid=clean(b.product_id,40)||crypto.randomUUID();
+  const ex=await db.prepare('SELECT * FROM br_products WHERE id=? AND brand_id=?').bind(pid,bid).first();
+  if(ex){
+   const ns=ex.status==='PUBLISHED'?'UNDER_REVIEW':ex.status;
+   await db.prepare('UPDATE br_products SET name=?,description=?,category=?,price_text=?,availability=?,link=?,status=? WHERE id=?').bind(name,clean(b.description,1200),clean(b.category,60),clean(b.price_text,60),clean(b.availability,60),clean(b.link,300),ns,pid).run();
+   return JSONR({ok:true,product_id:pid,status:ns,message:ns==='UNDER_REVIEW'?'Saved. Team SRCHN will re-check and republish it shortly.':'Saved.'});
+  }
+  await db.prepare('INSERT INTO br_products(id,brand_id,kind,name,description,category,price_text,availability,link,status,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(pid,bid,clean(b.kind,20)==='service'?'service':'product',name,clean(b.description,1200),clean(b.category,60),clean(b.price_text,60),clean(b.availability,60),clean(b.link,300),'DRAFT',now).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(c.email||c.creator_no,'owner-product-add',bid,name,now).run();
+  return JSONR({ok:true,product_id:pid,status:'DRAFT',message:'Saved. It appears on your brand page after Team SRCHN approves it.'},201);
+ }
+ if(p==='/studio/api/workspace/submit'&&request.method==='POST'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const raw=await request.text();if(raw.length>32768)return JSONR({error:'Submission too large.'},413);
+  const b=JSON.parse(raw);
+  const bid=clean(b.brand_id,40);const role=await brRole(db,bid,c.id);
+  if(!role||role==='readonly'||role==='finance')return JSONR({error:'You do not have content access to this brand.'},403);
+  const br=await db.prepare("SELECT * FROM br_brands WHERE id=? AND status!='DELETED'").bind(bid).first();if(!br)return JSONR({error:'Unknown brand.'},404);
+  if(!STU_PILLARS.includes(b.content_pillar))return JSONR({error:'Choose a content type.'},400);
+  if(!b.rights||b.rights.confirm!==true)return JSONR({error:'Rights confirmation is required.'},400);
+  const rawItems=(Array.isArray(b.items)?b.items:[]).slice(0,20);
+  const items=[];
+  for(const x of rawItems){
+   const it={type:x.type==='video'?'video':'photo',caption:clean(x.caption,240),credit:clean(x.credit,120),aspect:x.aspect==='16:9'?'16:9':'9:16',media_status:'pending-upload'};
+   const mid=clean(x.media_id,40);
+   if(mid){
+    const mrow=await db.prepare("SELECT id,kind,status FROM stu_media WHERE id=? AND creator_id=?").bind(mid,c.id).first();
+    if(!mrow||mrow.status!=='ready'||mrow.kind!==it.type)return JSONR({error:'One of your uploads is missing or still uploading.'},400);
+    it.media_id=mid;it.media_status='uploaded';
+   }
+   items.push(it);
+  }
+  if(!items.length||!items.some(i=>i.media_id))return JSONR({error:'Add at least one uploaded photo or video.'},400);
+  const cnt=await db.prepare('SELECT count(*) AS n FROM stu_submissions WHERE created_at>?').bind(now-86400000).first();
+  if(cnt&&cnt.n>=100)return JSONR({error:'Daily submission limit reached. Try again tomorrow.'},429);
+  const seq=(await db.prepare('SELECT count(*) AS n FROM stu_submissions').first()).n+1;
+  const subNo='SRCHN-STU-'+new Date(now).getUTCFullYear()+'-'+String(seq).padStart(6,'0');
+  const details=JSON.stringify({brand_id:bid,brand_name:br.name,locality:clean(b.locality,80),city:clean(b.city,80)||'Bengaluru'});
+  const rights=JSON.stringify({creator_type:'brand:'+role,confirmed:true});
+  await db.prepare('INSERT INTO stu_submissions(id,sub_no,creator_id,place_id,place_name,kind,cats,content_pillar,subcats,items,details,rights,status,email_status,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(crypto.randomUUID(),subNo,c.id,null,br.name,'places',JSON.stringify([br.category]),b.content_pillar,JSON.stringify([]),JSON.stringify(items),details,rights,'SUBMITTED','pending',now,now).run();
+  let es='failed';
+  try{const r=await stuMail(env,{task:'studio_submission',submission_id:subNo,creator_name:c.full_name,creator_id:c.creator_no,creator_category:'Brand workspace ('+role+')',mobile:'+91 '+c.mobile,email:c.email,place_name:'[BRAND] '+br.name,location:clean(b.locality,80)||'-',main_category:br.category,content_type:b.content_pillar,subcategories:'-',photos:String(items.filter(i=>i.type==='photo').length),videos:String(items.filter(i=>i.type==='video').length),aspect_ratios:[...new Set(items.map(i=>i.aspect))].join(' '),captions:items.map(i=>i.caption).filter(Boolean).join(' | ')||'-',credits:items.map(i=>i.credit).filter(Boolean).join(' | ')||'-',submitted_at:new Date(now).toUTCString(),rights:'Confirmed by brand workspace',review_link:'https://srchn.in/studio/review/'});es=r.ok?'sent':'failed'}catch{es='failed'}
+  await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,subNo).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(c.email||c.creator_no,'owner-submit',bid,subNo,now).run();
+  return JSONR({ok:true,submission_id:subNo,status:'SUBMITTED',email:es,message:'Submitted. Team SRCHN reviews the media before it appears on your brand page.'},201);
+ }
  // ---- Phase 3: Team SRCHN editorial review dashboard ----
  const STU_STATUSES=['SUBMITTED','UNDER_REVIEW','ADDITIONAL_INFORMATION_REQUIRED','APPROVED','SCHEDULED','PUBLISHED','REJECTED','ON_HOLD','WITHDRAWN','DUPLICATE'];
  if(p==='/studio/api/review/submissions'&&request.method==='GET'){
@@ -884,10 +1004,13 @@ async function brTables(db){
  await db.prepare("CREATE TABLE IF NOT EXISTS br_views(id INTEGER PRIMARY KEY AUTOINCREMENT,brand_id TEXT NOT NULL,location_id TEXT,kind TEXT NOT NULL,ts INTEGER NOT NULL)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_categories(name TEXT PRIMARY KEY,position INTEGER NOT NULL DEFAULT 0)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_audit(id INTEGER PRIMARY KEY AUTOINCREMENT,actor TEXT,action TEXT,brand_id TEXT,detail TEXT,ts INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_claims(id TEXT PRIMARY KEY,brand_id TEXT,requested_name TEXT,requested_category TEXT,requested_locality TEXT,creator_id TEXT NOT NULL,claimant_role TEXT,proof_note TEXT,status TEXT NOT NULL DEFAULT 'PENDING',reviewer TEXT,review_note TEXT,created_at INTEGER NOT NULL,decided_at INTEGER)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_members(id TEXT PRIMARY KEY,brand_id TEXT NOT NULL,creator_id TEXT NOT NULL,role TEXT NOT NULL DEFAULT 'owner',status TEXT NOT NULL DEFAULT 'ACTIVE',added_by TEXT,created_at INTEGER NOT NULL,UNIQUE(brand_id,creator_id))").run();
  const c=await db.prepare('SELECT COUNT(*) AS n FROM br_categories').first();
  if(!c||!c.n){const st=await db.prepare('INSERT OR IGNORE INTO br_categories(name,position) VALUES(?,?)');let i=0;for(const n of BR_CATS){await st.bind(n,i++).run()}}
 }
 const brSlug=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
+async function brRole(db,brandId,creatorId){const m=await db.prepare("SELECT role FROM br_members WHERE brand_id=? AND creator_id=? AND status='ACTIVE'").bind(brandId,creatorId).first();return m?m.role:null}
 const brEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const brMediaUrl=id=>'/studio/api/media/'+encodeURIComponent(id);
 function brNav(active){
@@ -1035,6 +1158,36 @@ async function brReviewRoute(p,request,env,db,now){
  if(p==='/studio/api/review/brands'&&request.method==='GET'){
   const bs=(await db.prepare("SELECT b.*,(SELECT COUNT(*) FROM br_locations l WHERE l.brand_id=b.id) AS locs,(SELECT COUNT(*) FROM br_media_links m WHERE m.brand_id=b.id) AS media FROM br_brands b WHERE b.status!='DELETED' ORDER BY b.updated_at DESC LIMIT 200").all()).results||[];
   return JSONR({brands:bs});
+ }
+ if(p==='/studio/api/review/claims'&&request.method==='GET'){
+  const rows=(await db.prepare("SELECT k.*,c.display_name,c.creator_no,c.email AS creator_email,b.name AS brand_name FROM br_claims k LEFT JOIN stu_creators c ON c.id=k.creator_id LEFT JOIN br_brands b ON b.id=k.brand_id ORDER BY CASE k.status WHEN 'PENDING' THEN 0 WHEN 'MORE_INFO' THEN 1 ELSE 2 END,k.created_at DESC LIMIT 200").all()).results||[];
+  return JSONR({claims:rows});
+ }
+ if(p==='/studio/api/review/claim-decide'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const cl=await db.prepare('SELECT * FROM br_claims WHERE id=?').bind(clean(b.claim_id,40)).first();if(!cl)return JSONR({error:'Unknown claim.'},404);
+  if(cl.status==='APPROVED'||cl.status==='REJECTED')return JSONR({error:'Claim already decided.'},409);
+  const dec=clean(b.decision,12);
+  const note=clean(b.note,600);
+  if(!['approve','reject','more_info'].includes(dec))return JSONR({error:'decision must be approve, reject or more_info.'},400);
+  if(dec!=='approve'&&!note)return JSONR({error:'A note is required so the claimant knows what to fix.'},400);
+  let bid=cl.brand_id;
+  if(dec==='approve'){
+   if(!bid){
+    bid=crypto.randomUUID();
+    let slug=brSlug(cl.requested_name)||bid.slice(0,8);
+    const clash=await db.prepare('SELECT id FROM br_brands WHERE slug=?').bind(slug).first();if(clash)slug=slug+'-2';
+    await db.prepare('INSERT INTO br_brands(id,slug,name,category,subcategory,status,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?)').bind(bid,slug,cl.requested_name,cl.requested_category||'Other','','DRAFT',now,now).run();
+   }
+   const ex=await db.prepare('SELECT id FROM br_members WHERE brand_id=? AND creator_id=?').bind(bid,cl.creator_id).first();
+   if(ex)await db.prepare("UPDATE br_members SET status='ACTIVE',role='owner',added_by=? WHERE id=?").bind(rv.email,ex.id).run();
+   else await db.prepare("INSERT INTO br_members(id,brand_id,creator_id,role,status,added_by,created_at) VALUES(?,?,?,'owner','ACTIVE',?,?)").bind(crypto.randomUUID(),bid,cl.creator_id,rv.email,now).run();
+  }
+  const ns=dec==='approve'?'APPROVED':dec==='reject'?'REJECTED':'MORE_INFO';
+  await db.prepare('UPDATE br_claims SET status=?,reviewer=?,review_note=?,decided_at=? WHERE id=?').bind(ns,rv.email,note,now,cl.id).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'claim-'+dec,bid||cl.brand_id,(cl.requested_name||'')+' '+(note||''),now).run();
+  return JSONR({ok:true,status:ns,brand_id:bid||null});
  }
  if(p==='/studio/api/review/brand-save'&&request.method==='POST'){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);

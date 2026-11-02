@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Brand Workspace | SRCHN BRANDS</title>
+<meta content="Manage your brand on SRCHN: details, locations, products and content submissions." name="description"/>
+<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>
+<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>
+<link href="/brands/brands.css" rel="stylesheet"/>
+<style>
+body{background:#fff;color:#111;font-family:inherit;margin:0}
+.bw-wrap{max-width:760px;margin:0 auto;padding:24px 16px 80px}
+.bw-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #eee;margin-bottom:22px}
+.bw-head a{color:#111;text-decoration:none;font-weight:600;font-size:.95rem}
+.bw-title{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
+.bw-sub{color:#555;font-size:.95rem;margin:0 0 26px}
+.bw-card{border:1px solid #e5e5e5;border-radius:16px;padding:18px;margin:0 0 18px}
+.bw-card h2{font-size:1.05rem;margin:0 0 4px}
+.bw-card h3{font-size:.95rem;margin:18px 0 8px}
+.bw-meta{color:#737373;font-size:.82rem;margin:2px 0 10px}
+.bw-badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;border:1px solid #111;border-radius:999px;padding:3px 10px;margin-right:6px;text-transform:uppercase}
+.bw-badge.soft{border-color:#bbb;color:#555}
+label{display:block;font-size:.8rem;font-weight:600;color:#333;margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+input[type=text],input[type=url],textarea,select{width:100%;box-sizing:border-box;border:1px solid #d4d4d4;border-radius:12px;padding:11px 12px;font-size:1rem;background:#fff;color:#111}
+textarea{min-height:88px;resize:vertical}
+.bw-btn{display:inline-block;margin-top:14px;background:#111;color:#fff;border:0;border-radius:999px;padding:12px 22px;font-size:.9rem;font-weight:700;letter-spacing:.04em;cursor:pointer}
+.bw-btn.ghost{background:#fff;color:#111;border:1px solid #111}
+.bw-btn[disabled]{opacity:.5;cursor:default}
+.bw-err{display:none;color:#8a1f1f;font-size:.85rem;margin-top:10px}
+.bw-ok{display:none;color:#1a5c1a;font-size:.85rem;margin-top:10px}
+.bw-note{color:#737373;font-size:.8rem;margin-top:10px}
+.bw-list{list-style:none;padding:0;margin:8px 0}
+.bw-list li{border:1px solid #eee;border-radius:12px;padding:10px 12px;margin:0 0 8px;font-size:.9rem}
+.bw-tabs{display:flex;gap:8px;margin:0 0 14px}
+.bw-tabs button{flex:1;border:1px solid #111;background:#fff;color:#111;border-radius:999px;padding:10px;font-size:.85rem;font-weight:700;cursor:pointer}
+.bw-tabs button.on{background:#111;color:#fff}
+.bw-pick{cursor:pointer}
+.bw-pick:hover{border-color:#111}
+.bw-prog{height:6px;background:#eee;border-radius:999px;overflow:hidden;margin-top:10px;display:none}
+.bw-prog i{display:block;height:100%;background:#111;width:0}
+h2.bw-sec{font-size:1.15rem;margin:34px 0 12px}
+</style>
+</head>
+<body>
+<div class="bw-wrap">
+ <div class="bw-head"><a href="/brands/">&larr; SRCHN BRANDS</a><a href="/studio/">Studio</a></div>
+ <h1 class="bw-title">Brand Workspace</h1>
+ <p class="bw-sub">Manage your brand's details, locations, products and content. Everything you publish is reviewed by Team SRCHN before it goes live.</p>
+
+ <div id="gate" class="bw-card" style="display:none">
+  <h2>Sign in required</h2>
+  <p class="bw-meta">Brand Workspace uses your SRCHN Studio sign-in.</p>
+  <a class="bw-btn" href="/studio/join/">Sign in or join Studio</a>
+ </div>
+
+ <div id="app" style="display:none">
+  <h2 class="bw-sec">Your brands</h2>
+  <div id="brands"></div>
+
+  <h2 class="bw-sec">Claim or request a brand</h2>
+  <div class="bw-card">
+   <div class="bw-tabs"><button id="tabClaim" class="on" type="button">Claim existing</button><button id="tabNew" type="button">Request new</button></div>
+   <div id="claimExisting">
+    <label for="q">Find the brand</label>
+    <input id="q" type="text" placeholder="Search published brands" autocomplete="off"/>
+    <ul id="results" class="bw-list"></ul>
+    <div id="picked" style="display:none">
+     <p class="bw-meta" id="pickedName"></p>
+    </div>
+   </div>
+   <div id="claimNew" style="display:none">
+    <label for="nname">Brand name</label><input id="nname" type="text"/>
+    <label for="ncat">Category</label>
+    <select id="ncat"><option>Restaurants</option><option>Cafes</option><option>Breweries</option><option>Hotels and resorts</option><option>Co-living</option><option>Commercial offices</option><option>Coworking spaces</option><option>Retail</option><option>Beauty and wellness</option><option>Fitness and sports</option><option>Entertainment</option><option>Events and nightlife</option><option>Travel and experiences</option><option>Education</option><option>Healthcare</option><option>Lifestyle</option><option>Other</option></select>
+    <label for="nloc">Main locality</label><input id="nloc" type="text" placeholder="e.g. Indiranagar, Bengaluru"/>
+   </div>
+   <label for="crole">Your role</label>
+   <select id="crole"><option value="">Choose one</option><option>Owner</option><option>Manager</option><option>Authorised representative</option></select>
+   <label for="cproof">How can we verify you?</label>
+   <textarea id="cproof" placeholder="e.g. I can write from the brand's official email, or share GST / trade licence details."></textarea>
+   <button id="claimBtn" class="bw-btn" type="button">Submit claim</button>
+   <p id="claimErr" class="bw-err"></p><p id="claimOk" class="bw-ok"></p>
+   <p class="bw-note">Every claim is verified manually by Team SRCHN. Approval gives you owner access to the brand workspace.</p>
+  </div>
+
+  <h2 class="bw-sec">Your claims</h2>
+  <ul id="claims" class="bw-list"></ul>
+ </div>
+</div>
+<script src="/studio/studio.js"></script>
+<script>
+(function(){
+var pickedBrand=null;
+function el(id){return document.getElementById(id)}
+function esc(s){return stu.esc(s)}
+function load(){
+ stu.req('/workspace').then(function(r){
+  if(!r)return;
+  if(r.status===401){el('gate').style.display='block';return}
+  el('app').style.display='block';
+  renderBrands(r.data.memberships||[]);
+  renderClaims(r.data.claims||[]);
+ });
+}
+function renderBrands(list){
+ var w=el('brands');
+ if(!list.length){w.innerHTML='<div class="bw-card"><p class="bw-meta">No brands yet. Claim an existing brand or request a new one below.</p></div>';return}
+ w.innerHTML=list.map(function(b){
+  return '<div class="bw-card"><h2>'+esc(b.name)+'</h2><p class="bw-meta">'+esc(b.category)+' · '+esc(b.locs)+' location(s)</p>'
+  +'<span class="bw-badge">'+esc(b.status)+'</span><span class="bw-badge soft">'+esc(b.role)+'</span>'
+  +(b.status==='PUBLISHED'?' <a class="bw-badge soft" href="/brands/'+esc(b.slug)+'/" style="text-decoration:none">View public page</a>':'')
+  +'<h3>Edit details</h3>'
+  +'<label>Tagline</label><input type="text" id="tg-'+b.brand_id+'" maxlength="200"/>'
+  +'<label>About</label><textarea id="ds-'+b.brand_id+'"></textarea>'
+  +'<label>Website</label><input type="url" id="ws-'+b.brand_id+'"/>'
+  +'<label>Founded year</label><input type="text" id="fy-'+b.brand_id+'" maxlength="10"/>'
+  +'<label>Founders</label><input type="text" id="fo-'+b.brand_id+'"/>'
+  +'<button class="bw-btn" type="button" data-save="'+b.brand_id+'">Save details</button>'
+  +'<p class="bw-err" id="e-'+b.brand_id+'"></p><p class="bw-ok" id="k-'+b.brand_id+'"></p>'
+  +'<h3>Add a location</h3>'
+  +'<label>Branch name</label><input type="text" id="ln-'+b.brand_id+'" placeholder="e.g. Indiranagar"/>'
+  +'<label>Address</label><input type="text" id="la-'+b.brand_id+'"/>'
+  +'<label>Locality</label><input type="text" id="ll-'+b.brand_id+'"/>'
+  +'<button class="bw-btn ghost" type="button" data-loc="'+b.brand_id+'">Add location</button>'
+  +'<p class="bw-err" id="le-'+b.brand_id+'"></p><p class="bw-ok" id="lk-'+b.brand_id+'"></p>'
+  +'<h3>Add a product or service</h3>'
+  +'<label>Name</label><input type="text" id="pn-'+b.brand_id+'"/>'
+  +'<label>Short description</label><textarea id="pd-'+b.brand_id+'"></textarea>'
+  +'<label>Price (text)</label><input type="text" id="pp-'+b.brand_id+'" placeholder="e.g. Rs 350 onwards"/>'
+  +'<button class="bw-btn ghost" type="button" data-prod="'+b.brand_id+'">Add product</button>'
+  +'<p class="bw-err" id="pe-'+b.brand_id+'"></p><p class="bw-ok" id="pk-'+b.brand_id+'"></p>'
+  +'<h3>Photos and videos</h3>'
+  +'<label>Upload for the '+esc(b.name)+' page</label>'
+  +'<input type="file" id="mf-'+b.brand_id+'" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime"/>'
+  +'<label>Caption</label><input type="text" id="mc-'+b.brand_id+'"/>'
+  +'<label>Credit</label><input type="text" id="mr-'+b.brand_id+'" placeholder="Who shot this"/>'
+  +'<label>Content type</label><select id="mp-'+b.brand_id+'"><option value="tour">Virtual tour</option><option value="product">Products</option><option value="marketing">Marketing</option></select>'
+  +'<div class="bw-prog" id="mb-'+b.brand_id+'"><i></i></div>'
+  +'<button class="bw-btn" type="button" data-media="'+b.brand_id+'">Submit for review</button>'
+  +'<p class="bw-err" id="me-'+b.brand_id+'"></p><p class="bw-ok" id="mk-'+b.brand_id+'"></p>'
+  +'<p class="bw-note">Media enters the real SRCHN review queue. It appears on your page only after approval.</p>'
+  +'</div>';
+ }).join('');
+ Array.prototype.forEach.call(document.querySelectorAll('[data-save]'),function(btn){btn.onclick=function(){saveBrand(btn.getAttribute('data-save'))}});
+ Array.prototype.forEach.call(document.querySelectorAll('[data-loc]'),function(btn){btn.onclick=function(){saveLoc(btn.getAttribute('data-loc'))}});
+ Array.prototype.forEach.call(document.querySelectorAll('[data-prod]'),function(btn){btn.onclick=function(){saveProd(btn.getAttribute('data-prod'))}});
+ Array.prototype.forEach.call(document.querySelectorAll('[data-media]'),function(btn){btn.onclick=function(){sendMedia(btn.getAttribute('data-media'),btn)}});
+}
+function renderClaims(list){
+ var w=el('claims');
+ if(!list.length){w.innerHTML='<li class="bw-meta">No claims yet.</li>';return}
+ w.innerHTML=list.map(function(c){
+  var what=c.brand_id?('Claim on an existing brand'):('New brand: '+esc(c.requested_name||''));
+  return '<li><strong>'+what+'</strong> <span class="bw-badge soft">'+esc(c.status)+'</span><br/><span class="bw-meta">'+esc(c.claimant_role||'')+(c.review_note?(' · Team note: '+esc(c.review_note)):'')+'</span></li>';
+ }).join('');
+}
+function saveBrand(bid){
+ var body={brand_id:bid,tagline:el('tg-'+bid).value,description:el('ds-'+bid).value,website:el('ws-'+bid).value,founded_year:el('fy-'+bid).value,founders:el('fo-'+bid).value};
+ stu.req('/workspace/brand-save',{method:'POST',json:body}).then(function(r){
+  if(!r)return;
+  if(r.data&&r.data.ok){stu.ok(el('k-'+bid),r.data.message);el('e-'+bid).style.display='none'}
+  else stu.err(el('e-'+bid),(r.data&&r.data.error)||'Could not save.');
+ });
+}
+function saveLoc(bid){
+ var body={brand_id:bid,name:el('ln-'+bid).value,address:el('la-'+bid).value,locality:el('ll-'+bid).value};
+ stu.req('/workspace/location-save',{method:'POST',json:body}).then(function(r){
+  if(!r)return;
+  if(r.data&&r.data.ok){stu.ok(el('lk-'+bid),r.data.message);el('le-'+bid).style.display='none';el('ln-'+bid).value='';el('la-'+bid).value='';el('ll-'+bid).value=''}
+  else stu.err(el('le-'+bid),(r.data&&r.data.error)||'Could not save.');
+ });
+}
+function saveProd(bid){
+ var body={brand_id:bid,name:el('pn-'+bid).value,description:el('pd-'+bid).value,price_text:el('pp-'+bid).value};
+ stu.req('/workspace/product-save',{method:'POST',json:body}).then(function(r){
+  if(!r)return;
+  if(r.data&&r.data.ok){stu.ok(el('pk-'+bid),r.data.message);el('pe-'+bid).style.display='none';el('pn-'+bid).value='';el('pd-'+bid).value='';el('pp-'+bid).value=''}
+  else stu.err(el('pe-'+bid),(r.data&&r.data.error)||'Could not save.');
+ });
+}
+function sendMedia(bid,btn){
+ var f=el('mf-'+bid).files[0];
+ var err=function(m){stu.err(el('me-'+bid),m);el('mk-'+bid).style.display='none'};
+ if(!f)return err('Choose a photo or video first.');
+ var isVideo=/^video\//.test(f.type);
+ if(!isVideo&&f.size>1200*1024)return err('Photos must be under 1.2 MB.');
+ if(isVideo&&f.size>26*1024*1024)return err('Videos must be under 26 MB and 30 seconds.');
+ btn.disabled=true;
+ var bar=el('mb-'+bid);bar.style.display='block';var fill=bar.querySelector('i');
+ stu.req('/media/start',{method:'POST',json:{kind:isVideo?'video':'photo',mime:f.type,size:f.size}}).then(function(r){
+  if(!r||!r.data||!r.data.media_id){btn.disabled=false;return err((r&&r.data&&r.data.error)||'Upload could not start.')}
+  var mid=r.data.media_id,CH=950*1024,seq=0;
+  function sendChunk(){
+   var slice=f.slice(seq*CH,(seq+1)*CH);
+   var fr=new FileReader();
+   fr.onload=function(){
+    var b64=btoa(String.fromCharCode.apply(null,new Uint8Array(fr.result)));
+    fetch('/studio/api/media/chunk?id='+encodeURIComponent(mid)+'&seq='+seq,{method:'POST',headers:{'Authorization':'Bearer '+stu.token(),'Content-Type':'application/json'},body:JSON.stringify({data:b64})}).then(function(rr){return rr.json()}).then(function(d){
+     if(d&&d.error){btn.disabled=false;return err(d.error)}
+     seq++;fill.style.width=Math.min(95,Math.round(seq*CH/f.size*100))+'%';
+     if(seq*CH<f.size)sendChunk();else finish();
+    }).catch(function(){btn.disabled=false;err('Upload interrupted. Please retry.')});
+   };
+   fr.readAsArrayBuffer(slice);
+  }
+  function finish(){
+   stu.req('/media/finish',{method:'POST',json:{media_id:mid}}).then(function(r2){
+    if(!r2||!r2.data||!r2.data.ok){btn.disabled=false;return err((r2&&r2.data&&r2.data.error)||'Upload did not finish.')}
+    fill.style.width='100%';
+    stu.req('/workspace/submit',{method:'POST',json:{brand_id:bid,content_pillar:el('mp-'+bid).value,items:[{type:isVideo?'video':'photo',media_id:mid,caption:el('mc-'+bid).value,credit:el('mr-'+bid).value,aspect:'16:9'}],rights:{confirm:true}}}).then(function(r3){
+     btn.disabled=false;
+     if(r3&&r3.data&&r3.data.ok){stu.ok(el('mk-'+bid),r3.data.message+' Ref '+r3.data.submission_id);el('me-'+bid).style.display='none'}
+     else err((r3&&r3.data&&r3.data.error)||'Submission failed.');
+    });
+   });
+  }
+  sendChunk();
+ });
+}
+el('tabClaim').onclick=function(){el('tabClaim').className='on';el('tabNew').className='';el('claimExisting').style.display='block';el('claimNew').style.display='none'};
+el('tabNew').onclick=function(){el('tabNew').className='on';el('tabClaim').className='';el('claimExisting').style.display='none';el('claimNew').style.display='block'};
+var qt=null;
+el('q').addEventListener('input',function(){
+ clearTimeout(qt);
+ var v=el('q').value.trim();
+ if(v.length<2){el('results').innerHTML='';return}
+ qt=setTimeout(function(){
+  fetch('/brands/api/search?q='+encodeURIComponent(v)).then(function(r){return r.json()}).then(function(d){
+   var rows=(d&&d.brands)||[];
+   el('results').innerHTML=rows.slice(0,6).map(function(b){return '<li class="bw-pick" data-id="'+esc(b.id)+'" data-name="'+esc(b.name)+'"><strong>'+esc(b.name)+'</strong> <span class="bw-meta">'+esc(b.category||'')+'</span></li>'}).join('')||'<li class="bw-meta">No published brand matches. Use Request new instead.</li>';
+   Array.prototype.forEach.call(document.querySelectorAll('.bw-pick'),function(li){
+    li.onclick=function(){pickedBrand={id:li.getAttribute('data-id'),name:li.getAttribute('data-name')};el('picked').style.display='block';el('pickedName').textContent='Selected: '+pickedBrand.name;el('results').innerHTML=''};
+   });
+  });
+ },350);
+});
+el('claimBtn').onclick=function(){
+ var isNew=el('claimNew').style.display!=='none';
+ var body={claimant_role:el('crole').value,proof_note:el('cproof').value};
+ if(isNew){body.requested_name=el('nname').value;body.requested_category=el('ncat').value;body.requested_locality=el('nloc').value}
+ else{if(!pickedBrand)return stu.err(el('claimErr'),'Search and pick the brand first.');body.brand_id=pickedBrand.id}
+ stu.req('/workspace/claim',{method:'POST',json:body}).then(function(r){
+  if(!r)return;
+  if(r.data&&r.data.ok){stu.ok(el('claimOk'),r.data.message);el('claimErr').style.display='none';pickedBrand=null;el('picked').style.display='none';load()}
+  else stu.err(el('claimErr'),(r.data&&r.data.error)||'Could not submit.');
+ });
+};
+if(!stu.token()){el('gate').style.display='block'}else{load()}
+})();
+</script>
+</body>
+</html>
