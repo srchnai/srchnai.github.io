@@ -42,6 +42,11 @@
 BEHIND YOUR CITY.</h1>
     <p>Explore the places, spaces and experiences that make Bengaluru what it is. Discover businesses through original photographs, short videos, virtual tours, product stories and marketing content - every piece reviewed by Team SRCHN before it appears here.</p>
   </section>
+  <div style="padding:14px 0 0"><input id="br-q" type="search" placeholder="Search brands, localities…" style="width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:12px;padding:12px 16px;font-size:15px;font-family:inherit"/></div>
+  <section id="br-feat" hidden style="padding:20px 0 4px">
+    <h2 style="font-size:18px;margin:0 0 10px">Featured contributors</h2>
+    <div id="br-feat-row" style="display:flex;gap:10px;overflow-x:auto;scrollbar-width:none"></div>
+  </section>
   <nav class="br-cats" id="br-cats" aria-label="Brand categories"></nav>
   <section class="br-feed" id="br-feed"></section>
 </main>
@@ -54,18 +59,29 @@ let cur='All',data=[];
 const catsEl=document.getElementById('br-cats'),feed=document.getElementById('br-feed');
 catsEl.innerHTML=CATS.map(c=>'<a class="br-cat'+(c===cur?' on':'')+'" data-c="'+esc(c)+'">'+esc(c)+'</a>').join('');
 catsEl.querySelectorAll('.br-cat').forEach(b=>b.onclick=()=>{cur=b.dataset.c;catsEl.querySelectorAll('.br-cat').forEach(x=>x.classList.toggle('on',x===b));render()});
-function render(){
- const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
- const known=CATS.slice(1,-1).map(norm);
- const list=cur==='All'?data:(cur==='Other'?data.filter(b=>!known.some(k=>norm(b.category).includes(k))):data.filter(b=>norm(b.category).includes(norm(cur))));
- if(!list.length){feed.innerHTML='<p class="br-empty">'+(data.length?'No brands in this category yet.':'Brands will appear here as Team SRCHN approves the first contributions.')+'</p>';return}
- feed.innerHTML=list.map(b=>'<a class="br-card" href="/studio/brands/b/?id='+esc(b.id)+'">'
+let render=function(){};
+let q='';
+document.getElementById('br-q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render()});
+const _render=render;
+render=function(){
+ let list=cur==='All'?data:(cur==='Other'?data.filter(b=>!known.some(k=>norm(b.category).includes(k))):data.filter(b=>norm(b.category).includes(norm(cur))));
+ if(q)list=list.filter(b=>(b.name+' '+(b.locality||'')+' '+(b.city||'')+' '+(b.category||'')).toLowerCase().includes(q));
+ if(!list.length){feed.innerHTML='<p class="br-empty">'+(data.length?'No brands match right now.':'Brands will appear here as Team SRCHN approves the first contributions.')+'</p>';return}
+ feed.innerHTML=list.map(card).join('');
+};
+const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const known=CATS.slice(1,-1).map(norm);
+const card=b=>'<a class="br-card" href="/studio/brands/b/?id='+esc(b.id)+'">'
   +(b.cover?'<img class="br-cover" src="/studio/api/media/'+esc(b.cover)+'" loading="lazy" alt=""/>':'<span class="br-ncover">Cover coming with the next approved contribution</span>')
   +'<span class="br-body"><h3>'+esc(b.name)+'</h3><span class="meta">'+esc(b.category||'')+(b.locality?' · '+esc(b.locality):'')+(b.city?', '+esc(b.city):'')+'</span>'
   +'<span class="br-pillars">'+Object.keys(PILLAR).filter(k=>b.pillars&&b.pillars[k]).map(k=>'<span class="br-pill">'+PILLAR[k]+'</span>').join('')+'</span>'
-  +'</span></a>').join('');
-}
+  +'</span></a>';
 fetch('/studio/api/brands').then(r=>r.json()).then(d=>{data=d.brands||[];render()}).catch(()=>{feed.innerHTML='<p class="br-empty">Brands could not be loaded right now.</p>'});
+fetch('/studio/api/featured').then(r=>r.json()).then(d=>{
+ const f=d.featured||[];if(!f.length)return;
+ document.getElementById('br-feat').hidden=false;
+ document.getElementById('br-feat-row').innerHTML=f.map(c=>'<a href="/studio/creator/?id='+esc(c.creator_no)+'" style="flex:0 0 auto;border:1px solid #e8e8e8;border-radius:12px;padding:12px 16px;text-decoration:none;color:#111;min-width:170px"><b style="font-size:14px">'+esc(c.display_name||c.creator_no)+'</b><br/><span style="color:#8a8a8a;font-size:12.5px">'+esc(c.featured_note||'Featured contributor')+(c.city?' · '+esc(c.city):'')+'</span></a>').join('');
+}).catch(()=>{});
 })();
 </script>
 </body>

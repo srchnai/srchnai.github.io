@@ -137,13 +137,36 @@ $('lg-verify').onclick=async()=>{
 };
 /* ---------- dashboard ---------- */
 let curStatus='NEW';
-const TABS=[['NEW','New'],['UNDER_REVIEW','Under review'],['ADDITIONAL_INFORMATION_REQUIRED','Awaiting corrections'],['APPROVED','Approved'],['SCHEDULED','Scheduled'],['PUBLISHED','Published'],['REJECTED','Rejected'],['ON_HOLD','On hold'],['ALL','All']];
+const TABS=[['NEW','New'],['UNDER_REVIEW','Under review'],['ADDITIONAL_INFORMATION_REQUIRED','Awaiting corrections'],['APPROVED','Approved'],['SCHEDULED','Scheduled'],['PUBLISHED','Published'],['REJECTED','Rejected'],['ON_HOLD','On hold'],['ALL','All'],['REPORTS','Reports']];
 async function start(){
   $('rv-login').hidden=true;$('rv-dash').hidden=false;
   loadQueue();
 }
 function countsOf(c){const m={};(c||[]).forEach(x=>m[x.status]=x.n);return m}
+async function loadReports(){
+  const r=await api('/studio/api/review/reports');
+  if(r.status===401){$('rv-dash').hidden=true;$('rv-login').hidden=false;return}
+  const rows=(r.data&&r.data.reports)||[];
+  const KL={report:'Report',takedown:'Takedown request',correction:'Correction request',copyright:'Copyright complaint',withdrawal:'Contributor withdrawal','brand-correction':'Brand info correction'};
+  $('rv-rows').innerHTML=rows.length?rows.map(x=>'<div class="rv-row" style="cursor:default"><span class="id">'+esc(KL[x.kind]||x.kind)+'</span><span class="pl">'+esc(x.target_type)+' · '+esc(x.target_id.slice(0,18))+'</span><span class="mt">'+esc(x.note.slice(0,120))+(x.contact_email?' · '+esc(x.contact_email):'')+'</span><button class="rv-btn ghost" style="padding:5px 12px;font-size:12px" data-close="'+esc(x.id)+'">Resolve</button></div>').join(''):'<p class="rv-empty">No open reports.</p>';
+  $('rv-rows').querySelectorAll('[data-close]').forEach(b=>b.onclick=async()=>{
+    b.disabled=true;
+    await api('/studio/api/review/report-close',{method:'POST',json:{id:b.dataset.close}});
+    loadReports();
+  });
+}
 async function loadQueue(){
+  if(curStatus==='REPORTS'){
+    const tr=await api('/studio/api/review/submissions?status=ALL');
+    if(tr.data){const cm=countsOf(tr.data.counts);
+      $('rv-tabs').innerHTML=TABS.map(([k,l])=>{
+        const n=k==='NEW'?(cm.SUBMITTED||0):(k==='ALL'?Object.values(cm).reduce((a,b)=>a+b,0):(k==='REPORTS'?'':(cm[k]||0)));
+        return '<button class="rv-tab'+(k===curStatus?' on':'')+'" data-s="'+k+'">'+l+(n!==''?'<span class="n">'+n+'</span>':'')+'</button>';
+      }).join('');
+      $('rv-tabs').querySelectorAll('.rv-tab').forEach(b=>b.onclick=()=>{curStatus=b.dataset.s;$('rv-detail').hidden=true;loadQueue()});
+    }
+    loadReports();return;
+  }
   const r=await api('/studio/api/review/submissions?status='+curStatus);
   if(r.status===401){$('rv-dash').hidden=true;$('rv-login').hidden=false;return}
   const d=r.data||{};
@@ -242,6 +265,7 @@ async function openDetail(id){
    +act('ON_HOLD','On hold','ghost')
    +act('REJECTED','Reject with reason','danger',1)
    +act('DUPLICATE','Mark duplicate','ghost')
+   +'<button class="rv-btn ghost" id="dt-feature">Feature creator</button>'
    +'</div>'
    +'<textarea class="rv-reason" id="dt-reason" placeholder="Reason / message to the creator (required for reject and request-info; emailed to the creator)"></textarea>'
    +'<div class="rv-notes"><h3>Internal reviewer notes</h3>'
@@ -273,6 +297,15 @@ async function openDetail(id){
     $('dt-addnote').disabled=false;
     if(rr.data&&rr.data.ok){msg($('rv-msg'),'Note added.',true);openDetail(s.sub_no)}
     else msg($('rv-msg'),(rr.data&&rr.data.error)||'Note failed.');
+  };
+  $('dt-feature').onclick=async()=>{
+    if(!c)return;
+    const note=prompt('Recognition note (e.g. "Creator of the month - November"):','Featured contributor');if(note===null)return;
+    $('dt-feature').disabled=true;
+    const rr=await api('/studio/api/review/feature',{method:'POST',json:{creator_no:c.creator_no,note}});
+    $('dt-feature').disabled=false;
+    if(rr.data&&rr.data.ok){msg($('rv-msg'),(c.display_name||c.creator_no)+' is now a featured contributor.',true)}
+    else msg($('rv-msg'),(rr.data&&rr.data.error)||'Could not feature.');
   };
   d.querySelectorAll('.rv-btn[data-st]').forEach(b=>b.onclick=async()=>{
     const st=b.dataset.st,needReason=b.dataset.nr==='1';

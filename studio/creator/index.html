@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Creator — SRCHN STUDIO</title>
+<meta content="A SRCHN Studio creator portfolio: approved contributions, published with credit, reviewed by Team SRCHN." name="description"/>
+<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>
+<link href="/assets/brand/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="/assets/redesign/srchn-redesign.css" rel="stylesheet"/>
+<link href="/assets/brand/brand.css" rel="stylesheet"/>
+<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>
+<link href="../studio.css" rel="stylesheet"/>
+<style>
+.cr-head{padding:36px 0 20px;border-bottom:1px solid #eee}
+.cr-badge{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.08em;padding:4px 12px;border-radius:16px;background:#111;color:#fff;margin-bottom:10px}
+.cr-head h1{margin:0 0 4px;font-size:clamp(26px,5vw,40px)}
+.cr-id{color:#0b5fff;font-size:13.5px;font-weight:600;letter-spacing:.05em}
+.cr-meta{color:#666;font-size:14.5px;margin-top:6px}
+.cr-bio{max-width:640px;color:#333;font-size:15.5px;line-height:1.6;margin-top:12px}
+.cr-stats{display:flex;gap:26px;flex-wrap:wrap;padding:18px 0 4px}
+.cr-stat b{display:block;font-size:26px}
+.cr-stat span{color:#8a8a8a;font-size:13px}
+.cr-sec{padding:26px 0 40px}
+.cr-sec h2{font-size:20px;margin:0 0 14px}
+.cr-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.cr-m{border:1px solid #eee;border-radius:12px;overflow:hidden;background:#fafafa}
+.cr-m img,.cr-m video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#000}
+.cr-m .cap{padding:9px 12px;font-size:12.5px;color:#555}
+.cr-m .cap b{display:block;color:#111}
+.cr-m a{color:#0b5fff;text-decoration:none;font-size:12px}
+.cr-empty{color:#8a8a8a;padding:26px 0;font-size:15px}
+</style>
+</head>
+<body class="stu-body">
+<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><span>Explore</span></a><a href="/localities/"><span>Localities</span></a><a href="/plan/"><span>Plan</span></a><a href="/studio/"><span>Studio</span></a><a href="/studio/brands/"><span>Brands</span></a><a href="/club/"><span>Club</span></a><a href="/property/"><span>Property</span></a></nav></header>
+<main class="stu-main">
+  <p class="cr-empty" id="cr-loading">Loading creator portfolio…</p>
+  <div id="cr-page" hidden>
+    <section class="cr-head">
+      <span class="cr-badge" id="cr-featured" hidden>FEATURED CONTRIBUTOR</span>
+      <h1 id="cr-name"></h1>
+      <p class="cr-id" id="cr-id"></p>
+      <p class="cr-meta" id="cr-meta"></p>
+      <p class="cr-bio" id="cr-bio"></p>
+      <div class="cr-stats">
+        <div class="cr-stat"><b id="cr-approved">0</b><span>Approved contributions</span></div>
+        <div class="cr-stat"><b id="cr-published">0</b><span>Published</span></div>
+      </div>
+    </section>
+    <section class="cr-sec">
+      <h2>Portfolio</h2>
+      <div class="cr-grid" id="cr-grid"></div>
+    </section>
+  </div>
+</main>
+<script>
+(function(){
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id);
+const id=new URLSearchParams(location.search).get('id')||'';
+fetch('/studio/api/creator?id='+encodeURIComponent(id)).then(async r=>{
+ const d=await r.json();
+ if(!r.ok||!d.creator){$('cr-loading').textContent='This creator portfolio is not available.';return}
+ const c=d.creator;
+ document.title=(c.display_name||c.creator_no)+' — SRCHN STUDIO creator';
+ $('cr-loading').hidden=true;$('cr-page').hidden=false;
+ if(c.featured){$('cr-featured').hidden=false;if(c.featured_note)$('cr-featured').textContent='FEATURED CONTRIBUTOR — '+c.featured_note.toUpperCase()}
+ $('cr-name').textContent=c.display_name||'SRCHN creator';
+ $('cr-id').textContent='SRCHN Creator ID: '+c.creator_no;
+ $('cr-meta').textContent=[(c.categories||[]).join(', '),c.city,c.member_since?'Contributing since '+new Date(c.member_since).toLocaleDateString('en-IN',{month:'long',year:'numeric'}):''].filter(Boolean).join(' · ');
+ $('cr-bio').textContent=c.bio||'';
+ $('cr-approved').textContent=c.approved;
+ $('cr-published').textContent=c.published;
+ const w=d.works||[];
+ $('cr-grid').innerHTML=w.length?w.map(it=>'<div class="cr-m">'
+  +(it.type==='photo'?'<img src="/studio/api/media/'+esc(it.media_id)+'" loading="lazy" alt=""/>':'<video src="/studio/api/media/'+esc(it.media_id)+'" controls playsinline preload="metadata"></video>')
+  +'<div class="cap"><b>'+esc(it.caption||'Contribution')+'</b>'+esc(it.place_name)
+  +(it.place_id?' · <a href="/studio/brands/b/?id='+esc(it.place_id)+'">Open brand story</a>':'')
+  +'</div></div>').join(''):'<p class="cr-empty">Published work will appear here as contributions are approved.</p>';
+}).catch(()=>{$('cr-loading').textContent='This creator portfolio is not available right now.'});
+})();
+</script>
+</body>
+</html>

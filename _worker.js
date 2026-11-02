@@ -364,6 +364,10 @@ async function stuTables(db){
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_drafts(creator_id TEXT PRIMARY KEY,payload TEXT,updated_at INTEGER NOT NULL)').run();
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_media(id TEXT PRIMARY KEY,creator_id TEXT NOT NULL,kind TEXT NOT NULL,mime TEXT NOT NULL,bytes INTEGER NOT NULL,chunk_count INTEGER NOT NULL,status TEXT NOT NULL,meta TEXT,created_at INTEGER NOT NULL)').run();
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_media_chunks(media_id TEXT NOT NULL,seq INTEGER NOT NULL,data BLOB NOT NULL,PRIMARY KEY(media_id,seq))').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_reports(id TEXT PRIMARY KEY,target_type TEXT NOT NULL,target_id TEXT NOT NULL,kind TEXT NOT NULL,note TEXT,contact_email TEXT,status TEXT NOT NULL,created_at INTEGER NOT NULL)').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_engagement(key TEXT PRIMARY KEY,count INTEGER NOT NULL)').run();
+ try{await db.prepare("ALTER TABLE stu_creators ADD COLUMN featured INTEGER NOT NULL DEFAULT 0").run()}catch{}
+ try{await db.prepare("ALTER TABLE stu_creators ADD COLUMN featured_note TEXT").run()}catch{}
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_review_events(id TEXT PRIMARY KEY,submission_id TEXT NOT NULL,reviewer TEXT NOT NULL,action TEXT NOT NULL,from_status TEXT,to_status TEXT,notes TEXT,created_at INTEGER NOT NULL)').run();
 }
 function stuMail(env,body){return env.REVIEWMAIL.fetch(new Request('https://srchn-inference.internal/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}))}
@@ -617,8 +621,39 @@ async function studioRoute(request,env){
     credits[cname]=cr?cr.creator_no:'';
    }
   }
+  await db.prepare('INSERT INTO stu_engagement(key,count) VALUES(?,1) ON CONFLICT(key) DO UPDATE SET count=count+1').bind('brand_view:'+id).run();
   const det0=JSON.parse((subs.results[0]||{}).details||'{}');
   return JSONR({brand:{id:place.id,name:place.name,category:place.primary_cat||place.kind,secondary:place.secondary_cat,kind:place.kind,address:place.address,locality:place.locality,city:place.city,pincode:place.pincode,website:place.website,instagram:place.instagram,contact:place.contact,hours:place.hours||det0.hours,maps_link:place.maps_link,description:det0.description||''},sections,facilities:[...facilities],contributors:Object.entries(credits).map(([name,no])=>({name,creator_no:no}))});
+ }
+ // ---- Phases 5-6: distribution support, recognition, governance ----
+ if(p==='/studio/api/creator'&&request.method==='GET'){
+  const no=clean(u.searchParams.get('id')||'',20);
+  const c=await db.prepare("SELECT creator_no,display_name,city,categories,bio,featured,featured_note,created_at FROM stu_creators WHERE creator_no=? AND status='active'").bind(no).first();
+  if(!c)return JSONR({error:'Unknown creator.'},404);
+  const subs=await db.prepare("SELECT sub_no,place_name,place_id,kind,content_pillar,items,status,created_at FROM stu_submissions WHERE creator_id=(SELECT id FROM stu_creators WHERE creator_no=?) AND status IN ('APPROVED','PUBLISHED') ORDER BY created_at DESC LIMIT 100").bind(no).all();
+  let published=0;const works=[];
+  for(const r of subs.results||[]){
+   if(r.status==='PUBLISHED')published++;
+   for(const it of JSON.parse(r.items||'[]')){if(it.media_id)works.push({media_id:it.media_id,type:it.type,caption:it.caption||'',place_name:r.place_name,place_id:r.place_id||'',pillar:r.content_pillar,sub_no:r.sub_no})}
+  }
+  return JSONR({creator:{creator_no:c.creator_no,display_name:c.display_name,city:c.city,categories:JSON.parse(c.categories||'[]'),bio:c.bio||'',featured:c.featured===1,featured_note:c.featured_note||'',member_since:c.created_at,approved:(subs.results||[]).length,published},works});
+ }
+ if(p==='/studio/api/featured'&&request.method==='GET'){
+  const rows=await db.prepare("SELECT creator_no,display_name,city,featured_note FROM stu_creators WHERE featured=1 AND status='active' ORDER BY updated_at DESC LIMIT 12").all();
+  return JSONR({featured:rows.results||[]});
+ }
+ const REPORT_KINDS=['report','takedown','correction','copyright','withdrawal','brand-correction'];
+ if(p==='/studio/api/report'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const raw=await request.text();if(raw.length>4096)return JSONR({error:'Too large.'},413);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const kind=clean(b.kind,40);if(!REPORT_KINDS.includes(kind))return JSONR({error:'Choose a valid request type.'},400);
+  const tt=clean(b.target_type,20),tid=clean(b.target_id,60);if(!tt||!tid)return JSONR({error:'Missing target.'},400);
+  const note=clean(b.note,1000);if(!note)return JSONR({error:'Please describe the issue.'},400);
+  const em=clean(b.contact_email,160).toLowerCase();
+  if(em&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))return JSONR({error:'That email does not look right.'},400);
+  await db.prepare('INSERT INTO stu_reports(id,target_type,target_id,kind,note,contact_email,status,created_at) VALUES(?,?,?,?,?,?,?,?)').bind(crypto.randomUUID(),tt,tid,kind,note,em,'OPEN',now).run();
+  return JSONR({ok:true,message:'Thank you. Team SRCHN will review this and act on it.'},201);
  }
  // ---- Phase 3: Team SRCHN editorial review dashboard ----
  const STU_STATUSES=['SUBMITTED','UNDER_REVIEW','ADDITIONAL_INFORMATION_REQUIRED','APPROVED','SCHEDULED','PUBLISHED','REJECTED','ON_HOLD','WITHDRAWN','DUPLICATE'];
@@ -697,6 +732,27 @@ async function studioRoute(request,env){
   await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,notes,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),subNo,rv.email,'edit','Metadata edited: '+changes.join(', '),now).run();
   return JSONR({ok:true,changes});
  }
+ if(p==='/studio/api/review/reports'&&request.method==='GET'){
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const rows=await db.prepare("SELECT * FROM stu_reports WHERE status='OPEN' ORDER BY created_at DESC LIMIT 200").all();
+  return JSONR({reports:rows.results||[]});
+ }
+ if(p==='/studio/api/review/report-close'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const r=await db.prepare("UPDATE stu_reports SET status='RESOLVED' WHERE id=? AND status='OPEN'").bind(clean(b.id,40)).run();
+  return JSONR({ok:true,changed:(r.meta&&r.meta.changes)||0});
+ }
+ if(p==='/studio/api/review/feature'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const no=clean(b.creator_no,20),note=clean(b.note,200),on=b.featured!==false;
+  const r=await db.prepare('UPDATE stu_creators SET featured=?,featured_note=?,updated_at=? WHERE creator_no=?').bind(on?1:0,on?note:'',now,no).run();
+  if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown creator.'},404);
+  return JSONR({ok:true,featured:on});
+ }
  if(p==='/studio/api/review/retry-email'&&request.method==='POST'){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
   const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
@@ -762,5 +818,25 @@ export default{async fetch(request,env){
     return del(request,env);
   }
   if(u.pathname.startsWith('/studio/api/')){try{return await studioRoute(request,env)}catch(e){return JSONR({error:'Studio unavailable.'},503)}}
+  if(u.pathname==='/studio/brands/b/'||u.pathname==='/studio/brands/b'){
+   try{
+    const bid=(u.searchParams.get('id')||'').trim();
+    if(/^[0-9a-f-]{36}$/.test(bid)&&env.DB){
+     const pl=await env.DB.prepare('SELECT name,primary_cat,locality,city FROM stu_places WHERE id=?').bind(bid).first();
+     if(pl){
+      const asset=await env.ASSETS.fetch(request);
+      if(asset.ok){
+       let html=await asset.text();
+       const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+       const t=esc(pl.name+' - SRCHN BRANDS');
+       const d=esc([pl.primary_cat,pl.locality,pl.city].filter(Boolean).join(' · ')+' - original photos and videos, reviewed by Team SRCHN.');
+       html=html.replace(/<title>[^<]*<\/title>/,'<title>'+t+'<\/title>');
+       html=html.replace(/<meta content="[^"]*" name="description"\/>/,'<meta content="'+d+'" name="description"/>\n<meta content="'+t+'" property="og:title"/><meta content="'+d+'" property="og:description"/><meta content="website" property="og:type"/>');
+       return new Response(html,{status:200,headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}});
+      }
+     }
+    }
+   }catch{}
+  }
   return env.ASSETS.fetch(request);
 }};

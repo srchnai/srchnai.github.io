@@ -38,6 +38,16 @@
     <p class="pf-id" id="pf-id"></p>
   </div>
   <div class="pf-grid" id="pf-grid"></div>
+  <section id="pf-recog" style="padding:22px 0 6px" hidden>
+    <h2 style="font-size:20px;margin:8px 0 12px">Recognition</h2>
+    <div class="pf-grid" style="padding:0 0 14px">
+      <div class="pf-card"><h3>Approved contributions</h3><p id="pf-approved">0</p></div>
+      <div class="pf-card"><h3>Published</h3><p id="pf-published">0</p></div>
+      <div class="pf-card"><h3>Public portfolio</h3><p><a id="pf-port" href="#" style="color:#0b5fff">Open your portfolio</a></p></div>
+    </div>
+    <p id="pf-feat" style="display:none;background:#111;color:#fff;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600"></p>
+    <p style="color:#8a8a8a;font-size:13px;max-width:560px;line-height:1.5">Creator coins, scores and referral rewards are proposals under review. Nothing here earns money or credits yet - when a programme launches with approved terms, it will be announced on this page first.</p>
+  </section>
   <section class="pf-subs">
     <h2 style="font-size:20px;margin:8px 0 16px">Your submissions</h2>
     <div id="pf-subs"></div>
@@ -58,6 +68,14 @@ card('Categories',(c.categories||[]).join(', '));
 card('Email',c.email);card('Mobile','+91 '+c.mobile);card('City',c.city);
 if(c.socials&&(c.socials.instagram||c.socials.youtube||c.socials.other))card('Links',[c.socials.instagram,c.socials.youtube,c.socials.other].filter(Boolean).join(' · '));
 card('Status',c.status);
+document.getElementById('pf-recog').hidden=false;
+document.getElementById('pf-port').href='/studio/creator/?id='+encodeURIComponent(c.creator_no);
+fetch('/studio/api/creator?id='+encodeURIComponent(c.creator_no)).then(r=>r.json()).then(d=>{
+ if(!d.creator)return;
+ document.getElementById('pf-approved').textContent=d.creator.approved;
+ document.getElementById('pf-published').textContent=d.creator.published;
+ if(d.creator.featured){const f=document.getElementById('pf-feat');f.style.display='block';f.textContent='★ Featured contributor'+(d.creator.featured_note?' — '+d.creator.featured_note:'')+' on SRCHN BRANDS';}
+}).catch(()=>{});
 const s=await stu.req('/submissions');
 const box=document.getElementById('pf-subs');
 if(s&&s.status===200&&s.data.submissions.length){

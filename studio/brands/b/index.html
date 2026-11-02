@@ -54,6 +54,10 @@
       <h1 class="bp-title" id="bp-name"></h1>
       <p class="bp-loc" id="bp-loc"></p>
       <div id="bp-cover"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        <button class="stu-btn stu-btn-primary" id="bp-share" type="button" style="font-size:14px;padding:10px 18px">Share</button>
+        <button class="stu-btn stu-btn-ghost" id="bp-save" type="button" style="font-size:14px;padding:10px 18px">Save</button>
+      </div>
       <p class="bp-desc" id="bp-desc"></p>
     </section>
     <section class="bp-sec" id="sec-tour">
@@ -119,7 +123,24 @@ fetch('/studio/api/brand?id='+encodeURIComponent(id)).then(async r=>{
   if(d.facilities&&d.facilities.length)fact('Facilities','<span class="bp-fac">'+d.facilities.map(f=>'<span>'+esc(f)+'</span>').join('')+'</span>');
   if(b.secondary)fact('Also filed under',esc(b.secondary));
   $('bp-facts').innerHTML=F.join('');
-  $('bp-credits').innerHTML='Contributions by '+d.contributors.map(c=>esc(c.name)+(c.creator_no?' ('+esc(c.creator_no)+')':'')).join(' · ')+'. Every piece reviewed by Team SRCHN before publication.';
+  $('bp-credits').innerHTML='Contributions by '+d.contributors.map(c=>c.creator_no?'<a href="/studio/creator/?id='+esc(c.creator_no)+'" style="color:#0b5fff;text-decoration:none">'+esc(c.name)+'</a>':esc(c.name)).join(' · ')+'. Every piece reviewed by Team SRCHN before publication.'
+   +'<br/><a href="#" id="bp-report" style="color:#8a8a8a;font-size:12.5px">Report content, request takedown or correction</a>';
+  $('bp-share').onclick=async()=>{
+   const url=location.href,title=b.name+' - SRCHN BRANDS';
+   if(navigator.share){try{await navigator.share({title,url})}catch(e){}}
+   else{try{await navigator.clipboard.writeText(url);$('bp-share').textContent='Link copied';setTimeout(()=>{$('bp-share').textContent='Share'},1800)}catch(e){}}
+  };
+  const saved=()=>{try{return JSON.parse(localStorage.getItem('srchn_saved_brands')||'[]')}catch(e){return[]}};
+  const paint=()=>{$('bp-save').textContent=saved().includes(b.id)?'Saved ✓':'Save'};
+  paint();
+  $('bp-save').onclick=()=>{const l=saved();const i=l.indexOf(b.id);if(i>=0)l.splice(i,1);else l.push(b.id);localStorage.setItem('srchn_saved_brands',JSON.stringify(l));paint()};
+  $('bp-report').onclick=e=>{
+   e.preventDefault();
+   const kind=(prompt('What do you need? Type one: report, takedown, correction, copyright, withdrawal, brand-correction','report')||'').trim().toLowerCase();
+   if(!kind)return;
+   const note=prompt('Describe the issue for Team SRCHN:');if(!note)return;
+   fetch('/studio/api/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind,target_type:'brand',target_id:b.id,note})}).then(r=>r.json()).then(x=>{alert(x.message||x.error||'Submitted.')}).catch(()=>alert('Could not send right now.'));
+  };
   $('bp-page').addEventListener('click',e=>{
     const img=e.target.closest('img[data-full]');if(!img)return;
     $('bp-light-img').src=img.dataset.full;$('bp-light').hidden=false;
