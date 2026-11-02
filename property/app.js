@@ -20,6 +20,10 @@ document.addEventListener('click',function(e){
 var menuBtn=$('#sh-menu'),mmenu=$('#mmenu');
 if(menuBtn&&mmenu){menuBtn.addEventListener('click',function(){var open=mmenu.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open?'true':'false');document.body.style.overflow=open?'hidden':''})}
 
+/* mobile sticky bar: reveal only after scrolling past the hero CTAs */
+var mbar=$('.mbar');
+if(mbar){var mbarTick=function(){if(window.scrollY>420)mbar.classList.add('show');else mbar.classList.remove('show')};window.addEventListener('scroll',mbarTick,{passive:true});mbarTick()}
+
 /* nav more panels: close on outside click */
 document.addEventListener('click',function(e){$all('details.nav-more[open]').forEach(function(d){if(!d.contains(e.target))d.removeAttribute('open')})});
 
