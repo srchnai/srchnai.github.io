@@ -29,9 +29,9 @@
 .rv-row .pl{font-size:14.5px}
 .rv-row .mt{color:#8a8a8a;font-size:12.5px}
 .rv-row .st{margin-left:auto;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:18px;background:#f0f0f0}
-.st.SUBMITTED{background:#ececec;color:#111111}.st.UNDER_REVIEW{background:#fff3d6;color:#8a5b00}.st.ADDITIONAL_INFORMATION_REQUIRED{background:#ffe9e0;color:#a34a00}
-.st.APPROVED,.st.PUBLISHED{background:#e6f7ec;color:#146c2e}.st.SCHEDULED{background:#ececec;color:#3a3a3a}
-.st.REJECTED,.st.DUPLICATE{background:#fdeaea;color:#a11}.st.ON_HOLD,.st.WITHDRAWN{background:#f0f0f0;color:#666}
+.st.SUBMITTED{background:#ececec;color:#111111}.st.UNDER_REVIEW{background:#fff;color:#111;border:1px solid #111}.st.ADDITIONAL_INFORMATION_REQUIRED{background:#fff;color:#111;border:1px dashed #111}
+.st.APPROVED,.st.PUBLISHED{background:#111;color:#fff}.st.SCHEDULED{background:#ececec;color:#3a3a3a}
+.st.REJECTED,.st.DUPLICATE{background:#fff;color:#666;border:1px solid #bbb}.st.ON_HOLD,.st.WITHDRAWN{background:#f0f0f0;color:#666}
 .rv-empty{color:#8a8a8a;padding:26px 0;font-size:15px}
 .rv-detail{border:1px solid #e3e3e3;border-radius:14px;padding:20px;margin-top:20px;background:#fff}
 .rv-detail h2{margin:0 0 4px;font-size:22px}
@@ -49,7 +49,7 @@
 .rv-actions{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}
 .rv-btn{border:1px solid #111;background:#111;color:#fff;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer}
 .rv-btn.ghost{background:#fff;color:#111}
-.rv-btn.danger{background:#a11;border-color:#a11}
+.rv-btn.danger{background:#fff;color:#111;border-color:#111}
 .rv-btn[disabled]{opacity:.45;cursor:default}
 .rv-reason{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit;margin:8px 0}
 textarea.rv-reason{min-height:70px;resize:vertical}
@@ -57,10 +57,10 @@ textarea.rv-reason{min-height:70px;resize:vertical}
 .rv-audit h3,.rv-notes h3{font-size:13px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.08em;margin:14px 0 8px}
 .rv-ev{font-size:13px;color:#444;padding:6px 0;border-bottom:1px dashed #f0f0f0}
 .rv-ev .w{color:#8a8a8a}
-.rv-dupe{background:#fff8ec;border:1px solid #f2ddad;border-radius:10px;padding:10px 14px;font-size:13.5px;margin:10px 0}
+.rv-dupe{background:#f5f5f5;border:1px solid #ddd;border-radius:10px;padding:10px 14px;font-size:13.5px;margin:10px 0}
 .rv-msg{font-size:14px;margin:10px 0;padding:10px 14px;border-radius:10px;display:none}
-.rv-msg.err{display:block;background:#fdeaea;color:#a11}
-.rv-msg.ok{display:block;background:#e6f7ec;color:#146c2e}
+.rv-msg.err{display:block;background:#f5f5f5;color:#111;border:1px solid #bbb}
+.rv-msg.ok{display:block;background:#111;color:#fff}
 .rv-login{max-width:420px;margin:60px auto;border:1px solid #e8e8e8;border-radius:14px;padding:28px}
 .rv-login h1{margin:0 0 6px;font-size:24px}
 .rv-login p{color:#666;font-size:14px}
@@ -258,7 +258,7 @@ async function loadQueue(){
     +'<span class="pl">'+esc(x.place_name)+'</span>'
     +'<span class="mt">'+esc(x.kind)+' · '+esc(x.content_pillar)+' · '+new Date(x.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</span>'
     +'<span class="st '+esc(x.status)+'">'+esc(LABEL[x.status]||x.status)+'</span>'
-    +(x.email_status&&/failed/.test(x.email_status)?'<span class="mt" style="color:#a11">email failed</span>':'')
+    +(x.email_status&&/failed/.test(x.email_status)?'<span class="mt" style="color:#111;text-decoration:underline">email failed</span>':'')
     +'</div>').join('');
   $('rv-rows').querySelectorAll('.rv-row').forEach(el=>el.onclick=()=>openDetail(el.dataset.id));
 }
@@ -307,7 +307,7 @@ async function openDetail(id){
    +'<p><span class="lbl">City</span>'+esc(det.city||'-')+'</p>'
    +'<p><span class="lbl">Pincode</span>'+esc(det.pincode||'-')+'</p>'
    +'<p><a href="https://www.google.com/maps/search/'+encodeURIComponent([s.place_name,det.locality,det.city].filter(Boolean).join(', '))+'" target="_blank" rel="noopener" style="color:#111111">Check on Google Maps ↗</a></p>'
-   +(p&&p.dupes_flagged?'<p style="color:#a34a00">Place flagged with '+p.dupes_flagged+' possible duplicate(s).</p>':'')
+   +(p&&p.dupes_flagged?'<p style="color:#111;font-weight:600">Place flagged with '+p.dupes_flagged+' possible duplicate(s).</p>':'')
    +'</div>'
    +'<div class="rv-card"><h3>Rights declaration</h3>'
    +'<p>'+(rights.confirmed?'Confirmed by the contributor at submission.':'Not confirmed.')+'</p>'
