@@ -319,7 +319,17 @@ async function propertyRequests(request,env){
   const saved=await db.prepare('INSERT INTO property_requests SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? WHERE (SELECT count(*) FROM property_requests WHERE created_at>?)<50 RETURNING ref')
    .bind(id,ref,await hash(t),name,mobile,email||null,sid,sname||sid,clean(b.property_type,60),clean(b.locality,120),/^\d{6}$/.test(b.pincode||'')?b.pincode:null,clean(b.jurisdiction,60),clean(b.applicant_type,60),desc,clean(b.documents,500),clean(b.preferred_date,20),clean(b.preferred_time,40),clean(b.assistance_mode,60),'NEW',now,now,now-86400000).first();
   if(!saved)return JSONR({error:'Daily request limit reached. Please call or WhatsApp us instead.'},429);
-  return JSONR({ok:true,ref,receipt_token:t,status:'NEW',message:'Enquiry recorded. This is not a confirmed appointment. Our team contacts you on the mobile number given.'},201);
+  let email_sent=false;
+  if(email&&env.REVIEWMAIL&&env.BUDGETDB){try{
+   const day=new Date(now).toISOString().slice(0,10);
+   const budget=await env.BUDGETDB.prepare('INSERT INTO preview_mail_budget(key,count) VALUES(?,1) ON CONFLICT(key) DO UPDATE SET count=count+1 WHERE count<20 RETURNING count').bind('bc:'+day).first();
+   if(budget){
+    const track='https://srchn.in/property/track/?id='+ref+'&token='+t;
+    const sent=await env.REVIEWMAIL.fetch(new Request('https://srchn-inference.internal/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task:'booking_confirm',to:email,name,service:sname||sid,ref,mobile:'+91 '+mobile,track})}));
+    email_sent=sent.ok;
+   }
+  }catch{}}
+  return JSONR({ok:true,ref,receipt_token:t,status:'NEW',email:email?(email_sent?'sent':'not_sent'):null,message:'Enquiry recorded. This is not a confirmed appointment. Our team contacts you on the mobile number given.'},201);
  }
  if(request.method==='GET'){
   const ref=clean(u.searchParams.get('id')||'',40),t=clean(u.searchParams.get('token')||'',64);
