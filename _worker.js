@@ -585,11 +585,14 @@ async function studioRoute(request,env){
   const maxSpan=4*STU_CHUNK;
   if(end-start+1>maxSpan)end=start+maxSpan-1;
   const s0=Math.floor(start/STU_CHUNK),s1=Math.floor(end/STU_CHUNK);
-  const rows=await db.prepare('SELECT seq,data FROM stu_media_chunks WHERE media_id=? AND seq>=? AND seq<=? ORDER BY seq').bind(id,s0,s1).all();
+  const rows=await db.prepare('SELECT seq,data,length(data) AS blen FROM stu_media_chunks WHERE media_id=? AND seq>=? AND seq<=? ORDER BY seq').bind(id,s0,s1).all();
   if((rows.results||[]).length!==s1-s0+1)return JSONR({error:'Media data incomplete.'},500);
-  const total=(rows.results||[]).reduce((a,r)=>a+r.data.byteLength,0);
+  const toBytes=d=>{if(Array.isArray(d))return new Uint8Array(d);if(d instanceof ArrayBuffer)return new Uint8Array(d);if(ArrayBuffer.isView(d))return new Uint8Array(d.buffer,d.byteOffset,d.byteLength);if(typeof d==='string'){let b;try{b=atob(d)}catch{return new Uint8Array(0)}return Uint8Array.from(b,c=>c.charCodeAt(0))}return new Uint8Array(0)};
+  const parts=(rows.results||[]).map(r=>toBytes(r.data));
+  const total=parts.reduce((a,x)=>a+x.byteLength,0);
+  if(!total)return JSONR({error:'Media data incomplete.'},500);
   const buf=new Uint8Array(total);let off=0;
-  for(const r of rows.results){buf.set(new Uint8Array(r.data),off);off+=r.data.byteLength}
+  for(const x of parts){buf.set(x,off);off+=x.byteLength}
   const slice=buf.subarray(start-s0*STU_CHUNK,end-s0*STU_CHUNK+1);
   const h={'Content-Type':m.mime,'Accept-Ranges':'bytes','Cache-Control':'private, max-age=3600','Content-Length':String(slice.byteLength)};
   if(range){h['Content-Range']='bytes '+start+'-'+end+'/'+m.bytes;return new Response(slice,{status:206,headers:h})}

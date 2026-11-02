@@ -512,3 +512,4 @@ async function loadDraft(){
 /* step 5 renders when entering */
 const origShow=showStep;
 showStep=function(n){if(n===5)renderItems();origShow(n)};
+})();
