@@ -404,7 +404,7 @@ async function studioRoute(request,env){
   if(dupe)return JSONR({error:'This email already has a creator profile. Sign in instead.',creator_no:dupe.creator_no},409);
   const cnt=await db.prepare('SELECT count(*) AS n FROM stu_otp WHERE email=? AND created_at>?').bind(email,now-86400000).first();
   if(cnt&&cnt.n>=5)return JSONR({error:'Too many codes requested today. Try again tomorrow.'},429);
-  if(!await otpBudget('so:'+mailDay,20))return JSONR({error:'Verification email limit reached for today. Try again tomorrow.'},429);
+  if(!await otpBudget('so:'+u.hostname+':'+mailDay,20))return JSONR({error:'Verification email limit reached for today. Try again tomorrow.'},429);
   const code=String(Math.floor(100000+Math.random()*900000)),id=crypto.randomUUID();
   await db.prepare('INSERT INTO stu_otp(id,email,code_hash,purpose,payload,expires_at,created_at) VALUES(?,?,?,?,?,?,?)').bind(id,email,await hash(code),'join',payload,now+600000,now).run();
   let sent=false;try{sent=(await stuMail(env,{task:'studio_otp',to:email,code,name:disp})).ok}catch{}
@@ -431,7 +431,7 @@ async function studioRoute(request,env){
   const email=clean(b.email,160).toLowerCase();
   const c=await db.prepare('SELECT display_name FROM stu_creators WHERE email=?').bind(email).first();
   if(!c)return JSONR({error:'No creator profile for this email. Join first.'},404);
-  if(!await otpBudget('so:'+mailDay,20))return JSONR({error:'Verification email limit reached for today. Try again tomorrow.'},429);
+  if(!await otpBudget('so:'+u.hostname+':'+mailDay,20))return JSONR({error:'Verification email limit reached for today. Try again tomorrow.'},429);
   const code=String(Math.floor(100000+Math.random()*900000));
   await db.prepare('INSERT INTO stu_otp(id,email,code_hash,purpose,expires_at,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),email,await hash(code),'login',now+600000,now).run();
   let sent=false;try{sent=(await stuMail(env,{task:'studio_otp',to:email,code,name:c.display_name})).ok}catch{}
