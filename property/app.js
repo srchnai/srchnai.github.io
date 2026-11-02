@@ -83,6 +83,7 @@ var wizEl=$('#wizard');
 if(wizEl){
  var opts='<option value="">Select a service</option>'+D.services.map(function(s){return '<option value="'+s.id+'">'+esc(s.name)+'</option>'}).join('')+'<option value="other">Something else / not sure</option>';
  var pre=new URLSearchParams(location.search).get('service')||'';
+ var qmode=new URLSearchParams(location.search).get('mode');
  var state={service:'',property_type:'',locality:'',pincode:'',jurisdiction:'',name:'',mobile:'',email:'',applicant_type:'',description:'',documents:'',pref_date:'',pref_time:'',mode:'',consent:false};
  var steps=[
   {t:'Select the service',sub:'Choose the service you need. Not sure? Pick "Something else" and describe it later.',f:function(){return f('Service','<select id="f-service" class="input">'+opts+'</select>',true)},r:function(){state.service=$('#f-service').value;return state.service}},
@@ -98,7 +99,7 @@ if(wizEl){
   {t:'Describe the requirement',sub:'A few lines about what you need. Do not include passwords, OTPs or full ID numbers.',f:function(){return f('Requirement','<textarea id="f-desc" maxlength="1000" placeholder="e.g. I bought a flat in Whitefield and need the Khatha transferred to my name."></textarea>',true)},r:function(){state.description=$('#f-desc').value.trim();return state.description.length>=10?true:(alert('Please describe your requirement in a few words.'),false)}},
   {t:'Supporting documents',sub:'List the documents you already have (sale deed, Khatha, tax receipts...). Secure upload opens when our team contacts you - nothing is uploaded in this preview.',f:function(){return f('Documents you have','<textarea id="f-docs" maxlength="500" placeholder="e.g. Sale deed, previous Khatha, latest tax receipt"></textarea>',false)},r:function(){state.documents=$('#f-docs').value.trim();return true}},
   {t:'Preferred consultation time',sub:'Pick a preferred date and time. This is a preference, not a confirmed appointment.',f:function(){return f('Preferred date','<input id="f-date" type="date">',false)+f('Preferred time','<select id="f-time"><option value="">Any time</option><option>Morning (9am - 12pm)</option><option>Afternoon (12pm - 4pm)</option><option>Evening (4pm - 8pm)</option></select>',false)},r:function(){state.pref_date=$('#f-date').value;state.pref_time=$('#f-time').value;return true}},
-  {t:'Assistance mode',sub:'How would you like to be helped?',f:function(){return radio('f-mode',['Phone consultation','Online assistance','In-person assistance'])},r:function(){state.mode=rv('f-mode');return state.mode}},
+  {t:'Assistance mode',sub:'How would you like to be helped?',f:function(){return radio('f-mode',(qmode==='quotation'?['Service quotation','Phone consultation','Online assistance','In-person assistance']:['Phone consultation','Online assistance','In-person assistance']))},r:function(){state.mode=rv('f-mode');return state.mode}},
   {t:'Review and submit',sub:'Check everything, then submit your enquiry.',f:function(){
     var s=D.services.filter(function(x){return x.id===state.service})[0];
     return '<div class="kv">'+
@@ -126,6 +127,7 @@ if(wizEl){
   $('#wiz-steps').innerHTML=steps.map(function(x,i){return '<span class="'+(i<=cur?'on':'')+'"></span>'}).join('');
   $('#wiz-body').innerHTML='<h2>Step '+(cur+1)+' of '+steps.length+' - '+st.t+'</h2><p class="sub">'+st.sub+'</p>'+st.f();
   if(cur===0){var sv=state.service||pre;if(sv)$('#f-service').value=sv;}
+  if(qmode==='quotation'&&steps[cur].t==='Assistance mode'&&!state.mode){var qr=$('input[name="f-mode"]');if(qr)qr.checked=true}
   $('#wiz-back').style.visibility=cur===0?'hidden':'visible';
   $('#wiz-next').textContent=cur===steps.length-1?'Submit enquiry':'Continue';
  }
@@ -278,4 +280,59 @@ if(admEl){
  $('#a-an').innerHTML='<div class="counts">'+[['Total tracked clicks',an._total||0],['Call clicks',an['call-header']||0],['Booking starts',an['book-header']||0],['WhatsApp clicks',an['wa-hero']||0]].map(function(x){return '<div class="count"><b>'+x[1]+'</b><span>'+x[0]+' (this browser)</span></div>'}).join('')+'</div>';
  catRows();
 }
+})();
+
+/* rotating hero search suggestions (paused for reduced motion / while typing) */
+(function(){
+ var inp=document.getElementById('site-search-q');if(!inp)return;
+ if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ var sug=['Register my property','Transfer my Khatha','Get an Encumbrance Certificate','Draft a Sale Deed','Prepare a Rental Agreement','Verify property ownership','Transfer BESCOM connection','Convert agricultural land'];
+ var i=0;setInterval(function(){if(document.activeElement!==inp&&!inp.value){i=(i+1)%sug.length;inp.placeholder=sug[i]}},2600);
+})();
+
+/* Your Property Buddy - curated answers, catalogue fallback */
+(function(){
+ var root=document.getElementById('buddy');if(!root)return;
+ var out=document.getElementById('buddy-out'),qin=document.getElementById('buddy-q'),form=document.getElementById('buddy-form');
+ function svcCard(s){return '<div class="card"><span class="catnum">'+esc(s.category_name||'SERVICE').toUpperCase()+'</span><h3><a href="/property/service/'+s.id+'/">'+esc(s.name)+'</a></h3><p class="desc">'+esc(s.short)+'</p><div class="svc-actions"><a class="btn btn-p" href="/property/book/?service='+s.id+'">Book</a><a class="btn btn-o" href="/property/service/'+s.id+'/">Details</a></div></div>'}
+ function ctas(firstSvc){return '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px"><a class="btn btn-p" href="/property/book/'+(firstSvc?'?service='+firstSvc:'')+'">Book a service</a><a class="btn btn-o" href="tel:+917710052202">Call '+PHONE_H+'</a><span class="chip chip-blue">General information - not legal advice</span></div>'}
+ function renderAnswer(b){
+  var svcs=b.services.map(function(id){return D.services.filter(function(s){return s.id===id})[0]}).filter(Boolean);
+  var docs=[];svcs.forEach(function(s){(s.required_documents||[]).forEach(function(d){if(docs.indexOf(d)<0&&docs.length<8)docs.push(d)})});
+  out.innerHTML='<div class="b-answer">'+
+   '<div class="card"><span class="catnum">PROPERTY BUDDY</span><h3>'+esc(b.q)+'</h3><p class="desc" style="margin-top:8px">'+esc(b.intro)+'</p></div>'+
+   '<div class="card"><h3>Recommended verified services</h3><div class="grid grid-2" style="margin-top:12px">'+svcs.map(svcCard).join('')+'</div></div>'+
+   (docs.length?'<div class="card"><h3>Documents typically required</h3><div class="b-doc">'+docs.map(function(d){return '<span class="chip">'+esc(d)+'</span>'}).join('')+'</div></div>':'')+
+   '<div class="card"><h3>Jurisdiction</h3><p class="desc" style="margin-top:8px">'+esc(b.jurisdiction)+'</p>'+(b.note?'<div class="note" style="margin-top:12px">'+esc(b.note)+'</div>':'')+'</div>'+
+   ctas(svcs[0]?svcs[0].id:'')+'</div>';
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+ }
+ root.addEventListener('click',function(e){var c=e.target.closest('[data-bq]');if(!c)return;var b=D.buddy.filter(function(x){return x.id===c.getAttribute('data-bq')})[0];if(b)renderAnswer(b)});
+ form.addEventListener('submit',function(){
+  var q=qin.value.trim();if(!q)return;
+  var hit=D.buddy.filter(function(x){return x.q.toLowerCase()===q.toLowerCase()})[0];
+  if(hit){renderAnswer(hit);return}
+  var res=runSearch(q).filter(function(r){return r.type==='Service'}).slice(0,6);
+  var more=runSearch(q).filter(function(r){return r.type!=='Service'}).slice(0,4);
+  out.innerHTML='<div class="b-answer"><div class="card"><span class="catnum">PROPERTY BUDDY</span><h3>Closest matches in the verified catalogue</h3>'+
+   (res.length?'<div class="grid grid-2" style="margin-top:12px">'+res.map(function(r){var m=r.href.match(/\/service\/([a-z0-9-]+)\//);var s=m&&D.services.filter(function(x){return x.id===m[1]})[0];return s?svcCard(s):''}).join('')+'</div>':'<p class="desc" style="margin-top:10px">No direct catalogue match yet. Call or WhatsApp us - a specialist will map your situation to the right process.</p>')+'</div>'+
+   (more.length?'<div class="card"><h3>Related catalogue areas</h3><div class="b-doc">'+more.map(function(r){return '<a class="chip" href="'+r.href+'">'+esc(r.name)+'</a>'}).join('')+'</div></div>':'')+
+   ctas(res.length?'':'')+'</div>';
+ });
+ var pq=new URLSearchParams(location.search).get('q');
+ if(pq){var b=D.buddy.filter(function(x){return x.id===pq})[0];if(b){renderAnswer(b)}else{qin.value=pq;var qb=D.buddy.filter(function(x){return x.q.toLowerCase().indexOf(pq.toLowerCase())>-1})[0];if(qb)renderAnswer(qb)}}
+})();
+
+/* PIN code authority helper */
+(function(){
+ var f=document.getElementById('pin-form');if(!f)return;
+ var out=document.getElementById('pin-out');
+ var map={};(D.localities||[]).forEach(function(l){l.pins.forEach(function(p){map[p]=l.name})});
+ f.addEventListener('submit',function(){
+  var v=document.getElementById('pin-in').value.trim();
+  if(!/^\d{6}$/.test(v)){out.innerHTML='<div class="note warn">Enter a valid 6-digit PIN code.</div>';return}
+  var loc=map[v];
+  if(loc){out.innerHTML='<div class="card"><span class="catnum">INDICATIVE - CONFIRM WITH THE AUTHORITY</span><h3>'+esc(v)+' &middot; '+esc(loc)+'</h3><p class="desc" style="margin-top:8px">This PIN generally falls under the <b>Greater Bengaluru Authority / BBMP</b> for Khatha and property tax, with registrations at the jurisdictional Sub-Registrar Office. Fringe pockets can differ - verify on the official portals below.</p><div class="b-doc"><a class="chip chip-blue" href="https://bbmpeaasthi.karnataka.gov.in/" target="_blank" rel="noopener">Check on e-Aasthi (GBA/BBMP)</a><a class="chip" href="https://eswathu.karnataka.gov.in/" target="_blank" rel="noopener">e-Swathu (panchayat)</a><a class="chip" href="/property/authorities/">Full directory</a></div></div>'}
+  else{out.innerHTML='<div class="card"><h3>'+esc(v)+' is outside our indicative locality table</h3><p class="desc" style="margin-top:8px">We do not guess jurisdictions. Check your property record on e-Aasthi (GBA/BBMP). If it is not there, check e-Swathu for gram panchayat records, or Bhoomi for revenue land records - or call us and we will help you identify the authority.</p><div class="b-doc"><a class="chip chip-blue" href="https://bbmpeaasthi.karnataka.gov.in/" target="_blank" rel="noopener">e-Aasthi</a><a class="chip chip-blue" href="https://eswathu.karnataka.gov.in/" target="_blank" rel="noopener">e-Swathu</a><a class="chip chip-blue" href="https://landrecords.karnataka.gov.in/" target="_blank" rel="noopener">Bhoomi</a><a class="chip" href="tel:+917710052202">Call +91 77100 52202</a></div></div>'}
+ });
 })();
