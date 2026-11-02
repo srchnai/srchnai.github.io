@@ -26,7 +26,7 @@ function preflight(rows){if(!Array.isArray(rows)||!rows.length||rows.length>100)
 const enc=new TextEncoder();
 const hash=async s=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',enc.encode(s))),x=>x.toString(16).padStart(2,'0')).join('');
 const JSONR=(v,s=200,cookie)=>new Response(JSON.stringify(v),{status:s,headers:{'Content-Type':'application/json','Cache-Control':'no-store',...(cookie?{'Set-Cookie':cookie}:{})}});
-const cookie=(v,max)=>`__Secure-srchn_review=${v}; Path=/review/; HttpOnly; Secure; SameSite=Strict; Max-Age=${max}`;
+const cookie=(v,max)=>`__Secure-srchn_review=${v}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${max}`;
 const token=r=>(r.headers.get('Cookie')||'').split(';').map(s=>s.trim()).find(s=>s.startsWith('__Secure-srchn_review='))?.slice(22)||'';
 const randomHex=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),x=>x.toString(16).padStart(2,'0')).join('');
 const uuid=s=>/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(s);
