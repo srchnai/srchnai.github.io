@@ -204,8 +204,6 @@ if(trackEl){
     else out.innerHTML='<div class="banner">'+esc((res.body&&res.body.error)||'Could not find that request. Check the reference and tracking code.')+'</div>';
    }).catch(function(){out.innerHTML='<div class="banner">The request store is not reachable right now. Requests made on this device are listed above.</div>'});
  });
- var tp=new URLSearchParams(location.search),tr=tp.get('id')||'',tt=tp.get('token')||'';
- if(tr&&tt&&tl){$('#t-ref').value=tr;$('#t-token').value=tt;tl.requestSubmit()}
 }
 
 /* ---------- document vault (IndexedDB, this browser only) ---------- */
