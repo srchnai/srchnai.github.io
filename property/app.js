@@ -77,11 +77,8 @@ $all('[data-wa]').forEach(function(a){a.href=waLink(a.getAttribute('data-wa'));a
 /* ---------- booking wizard ---------- */
 var wizEl=$('#wizard');
 if(wizEl){
- var svcSel=$('#w-service');
  var opts='<option value="">Select a service</option>'+D.services.map(function(s){return '<option value="'+s.id+'">'+esc(s.name)+'</option>'}).join('')+'<option value="other">Something else / not sure</option>';
- svcSel.innerHTML=opts;
- var pre=new URLSearchParams(location.search).get('service');
- if(pre)svcSel.value=pre;
+ var pre=new URLSearchParams(location.search).get('service')||'';
  var state={service:'',property_type:'',locality:'',pincode:'',jurisdiction:'',name:'',mobile:'',email:'',applicant_type:'',description:'',documents:'',pref_date:'',pref_time:'',mode:'',consent:false};
  var steps=[
   {t:'Select the service',sub:'Choose the service you need. Not sure? Pick "Something else" and describe it later.',f:function(){return f('Service','<select id="f-service" class="input">'+opts+'</select>',true)},r:function(){state.service=$('#f-service').value;if(svcSel)svcSel.value=state.service;return state.service}},
@@ -124,7 +121,7 @@ if(wizEl){
   var st=steps[cur];
   $('#wiz-steps').innerHTML=steps.map(function(x,i){return '<span class="'+(i<=cur?'on':'')+'"></span>'}).join('');
   $('#wiz-body').innerHTML='<h2>Step '+(cur+1)+' of '+steps.length+' - '+st.t+'</h2><p class="sub">'+st.sub+'</p>'+st.f();
-  if(cur===0&&state.service)$('#f-service').value=state.service;
+  if(cur===0){var sv=state.service||pre;if(sv)$('#f-service').value=sv;}
   $('#wiz-back').style.visibility=cur===0?'hidden':'visible';
   $('#wiz-next').textContent=cur===steps.length-1?'Submit enquiry':'Continue';
  }
