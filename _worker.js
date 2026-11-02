@@ -818,7 +818,7 @@ async function studioRoute(request,env){
   const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
   const no=clean(b.creator_no,20),name=clean(b.name,80);
   if(!no||!name)return JSONR({error:'creator_no and name required.'},400);
-  const r=await db.prepare('UPDATE stu_creators SET full_name=?,updated_at=? WHERE creator_no=?').bind(name,now,no).run();
+  const r=await db.prepare('UPDATE stu_creators SET full_name=?,display_name=?,updated_at=? WHERE creator_no=?').bind(name,name,now,no).run();
   if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown creator.'},404);
   return JSONR({ok:true});
  }
