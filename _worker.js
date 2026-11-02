@@ -757,13 +757,19 @@ async function studioRoute(request,env){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
   const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
   const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
-  const ids=(Array.isArray(b.media_ids)?b.media_ids:[]).map(x=>clean(x,40)).filter(x=>/^[0-9a-f-]{36}$/.test(x)).slice(0,50);
+  let ids=(Array.isArray(b.media_ids)?b.media_ids:[]).map(x=>clean(x,40)).filter(x=>/^[0-9a-f-]{36}$/.test(x)).slice(0,50);
   const why=clean(b.reason,400);
+  if(b.sweep_orphans===true){
+   const hours=Math.min(168,Math.max(1,+b.older_than_hours||24));
+   const all=await db.prepare("SELECT id FROM stu_media WHERE created_at<?").bind(now-hours*3600000).all();
+   ids=(all.results||[]).map(r=>r.id);
+  }
   if(!ids.length||!why)return JSONR({error:'Media ids and a reason are required.'},400);
   const gone=[],skipped=[];
   for(const mid of ids){
    const ref=await db.prepare("SELECT sub_no FROM stu_submissions WHERE items LIKE '%'||?||'%' LIMIT 1").bind(mid).first();
-   if(ref){skipped.push(mid);continue}
+   const draft=await db.prepare("SELECT creator_id FROM stu_drafts WHERE payload LIKE '%'||?||'%' LIMIT 1").bind(mid).first();
+   if(ref||draft){skipped.push(mid);continue}
    await db.prepare('DELETE FROM stu_media_chunks WHERE media_id=?').bind(mid).run();
    const d=await db.prepare('DELETE FROM stu_media WHERE id=?').bind(mid).run();
    if((d.meta&&d.meta.changes))gone.push(mid);
