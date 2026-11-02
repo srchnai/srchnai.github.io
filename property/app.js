@@ -280,7 +280,6 @@ if(admEl){
  $('#a-an').innerHTML='<div class="counts">'+[['Total tracked clicks',an._total||0],['Call clicks',an['call-header']||0],['Booking starts',an['book-header']||0],['WhatsApp clicks',an['wa-hero']||0]].map(function(x){return '<div class="count"><b>'+x[1]+'</b><span>'+x[0]+' (this browser)</span></div>'}).join('')+'</div>';
  catRows();
 }
-})();
 
 /* rotating hero search suggestions (paused for reduced motion / while typing) */
 (function(){
@@ -335,4 +334,5 @@ if(admEl){
   if(loc){out.innerHTML='<div class="card"><span class="catnum">INDICATIVE - CONFIRM WITH THE AUTHORITY</span><h3>'+esc(v)+' &middot; '+esc(loc)+'</h3><p class="desc" style="margin-top:8px">This PIN generally falls under the <b>Greater Bengaluru Authority / BBMP</b> for Khatha and property tax, with registrations at the jurisdictional Sub-Registrar Office. Fringe pockets can differ - verify on the official portals below.</p><div class="b-doc"><a class="chip chip-blue" href="https://bbmpeaasthi.karnataka.gov.in/" target="_blank" rel="noopener">Check on e-Aasthi (GBA/BBMP)</a><a class="chip" href="https://eswathu.karnataka.gov.in/" target="_blank" rel="noopener">e-Swathu (panchayat)</a><a class="chip" href="/property/authorities/">Full directory</a></div></div>'}
   else{out.innerHTML='<div class="card"><h3>'+esc(v)+' is outside our indicative locality table</h3><p class="desc" style="margin-top:8px">We do not guess jurisdictions. Check your property record on e-Aasthi (GBA/BBMP). If it is not there, check e-Swathu for gram panchayat records, or Bhoomi for revenue land records - or call us and we will help you identify the authority.</p><div class="b-doc"><a class="chip chip-blue" href="https://bbmpeaasthi.karnataka.gov.in/" target="_blank" rel="noopener">e-Aasthi</a><a class="chip chip-blue" href="https://eswathu.karnataka.gov.in/" target="_blank" rel="noopener">e-Swathu</a><a class="chip chip-blue" href="https://landrecords.karnataka.gov.in/" target="_blank" rel="noopener">Bhoomi</a><a class="chip" href="tel:+917710052202">Call +91 77100 52202</a></div></div>'}
  });
+})();
 })();
