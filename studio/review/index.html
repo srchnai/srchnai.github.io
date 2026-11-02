@@ -300,6 +300,7 @@ async function loadClub(){
   $('rv-rows').querySelectorAll('[data-cbr]').forEach(x=>x.onclick=()=>ledgerAct(x.dataset.cbr,'cashback','REVERSED'));
 }
 async function loadQueue(){
+  const st=curStatus;
   if(curStatus==='CLUB'){
       $('rv-tabs').innerHTML=TABS.map(([k,l])=>'<button class="rv-tab'+(k===curStatus?' on':'')+'" data-s="'+k+'">'+l+'</button>').join('');
       $('rv-tabs').querySelectorAll('.rv-tab').forEach(b=>b.onclick=()=>{curStatus=b.dataset.s;$('rv-detail').hidden=true;loadQueue()});
@@ -329,6 +330,7 @@ async function loadQueue(){
   }
   const r=await api('/studio/api/review/submissions?status='+curStatus);
   if(r.status===401){$('rv-dash').hidden=true;$('rv-login').hidden=false;return}
+  if(curStatus!==st)return;
   const d=r.data||{};
   $('rv-who').textContent=d.reviewer?('Signed in as '+d.reviewer):'';
   if(d.media_bytes!==undefined){const mb=(d.media_bytes/1048576).toFixed(1);$('rv-usage').textContent='Media storage: '+mb+' MB of '+(d.media_limit/1048576).toFixed(0)+' MB used (preview cap).';}
