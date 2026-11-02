@@ -304,7 +304,7 @@ async function propertyRequests(request,env){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
   const raw=await request.text();if(raw.length>16384)return JSONR({error:'Maximum request size exceeded.'},413);
   let b;try{b=JSON.parse(raw)}catch{return JSONR({error:'Invalid JSON.'},400)}
-  if(b&&b.site2)return JSONR({ok:true,ref:'SRP-00000000',message:'received'});
+  if(b&&b.site2&&(typeof b.elapsed!=='number'||b.elapsed<2500))return JSONR({ok:true,ref:'SRP-00000000',message:'received'});
   const name=clean(b.name,120),mobile=String(b.mobile||'').replace(/[\s-]/g,'').replace(/^\+91/,''),email=clean(b.email,160);
   const sid=clean(b.service_id,90),sname=clean(b.service_name,160);
   if(!name)return JSONR({error:'Please enter your name.'},400);

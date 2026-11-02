@@ -85,6 +85,7 @@ if(wizEl){
  var pre=new URLSearchParams(location.search).get('service')||'';
  var qmode=new URLSearchParams(location.search).get('mode');
  var state={service:'',property_type:'',locality:'',pincode:'',jurisdiction:'',name:'',mobile:'',email:'',applicant_type:'',description:'',documents:'',pref_date:'',pref_time:'',mode:'',consent:false};
+ var wizT0=Date.now();
  var steps=[
   {t:'Select the service',sub:'Choose the service you need. Not sure? Pick "Something else" and describe it later.',f:function(){return f('Service','<select id="f-service" class="input">'+opts+'</select>',true)},r:function(){state.service=$('#f-service').value;return state.service}},
   {t:'Property type',sub:'What kind of property is this about?',f:function(){return radio('f-pt',['Residential apartment','Independent house / villa','Plot / site','Agricultural land','Commercial property','Industrial property','Other'])},r:function(){state.property_type=rv('f-pt');return state.property_type}},
@@ -140,7 +141,7 @@ if(wizEl){
  function submit(){
   var btn=$('#wiz-next');btn.disabled=true;btn.textContent='Submitting...';
   var s=D.services.filter(function(x){return x.id===state.service})[0];
-  var payload={service_id:state.service,service_name:s?s.name:state.service,property_type:state.property_type,locality:state.locality,pincode:state.pincode,jurisdiction:state.jurisdiction,name:state.name,mobile:state.mobile,email:state.email,applicant_type:state.applicant_type,description:state.description,documents:state.documents,preferred_date:state.pref_date,preferred_time:state.pref_time,assistance_mode:state.mode,consent:true,site2:$('#w-site2')?$('#w-site2').value:''};
+  var payload={elapsed:Date.now()-wizT0,service_id:state.service,service_name:s?s.name:state.service,property_type:state.property_type,locality:state.locality,pincode:state.pincode,jurisdiction:state.jurisdiction,name:state.name,mobile:state.mobile,email:state.email,applicant_type:state.applicant_type,description:state.description,documents:state.documents,preferred_date:state.pref_date,preferred_time:state.pref_time,assistance_mode:state.mode,consent:true,site2:$('#w-site2')?$('#w-site2').value:''};
   fetch('/property/api/requests',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)})
    .then(function(r){return r.json().then(function(j){return{ok:r.ok,status:r.status,body:j}})})
    .then(function(res){
