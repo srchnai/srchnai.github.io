@@ -628,7 +628,7 @@ async function studioRoute(request,env){
  // ---- Phases 5-6: distribution support, recognition, governance ----
  if(p==='/studio/api/creator'&&request.method==='GET'){
   const no=clean(u.searchParams.get('id')||'',20);
-  const c=await db.prepare("SELECT creator_no,display_name,city,categories,bio,featured,featured_note,created_at FROM stu_creators WHERE creator_no=? AND status='active'").bind(no).first();
+  const c=await db.prepare("SELECT creator_no,display_name,city,categories,bio,featured,featured_note,created_at FROM stu_creators WHERE creator_no=? AND lower(status)='active'").bind(no).first();
   if(!c)return JSONR({error:'Unknown creator.'},404);
   const subs=await db.prepare("SELECT sub_no,place_name,place_id,kind,content_pillar,items,status,created_at FROM stu_submissions WHERE creator_id=(SELECT id FROM stu_creators WHERE creator_no=?) AND status IN ('APPROVED','PUBLISHED') ORDER BY created_at DESC LIMIT 100").bind(no).all();
   let published=0;const works=[];
@@ -639,14 +639,14 @@ async function studioRoute(request,env){
   return JSONR({creator:{creator_no:c.creator_no,display_name:c.display_name,city:c.city,categories:JSON.parse(c.categories||'[]'),bio:c.bio||'',featured:c.featured===1,featured_note:c.featured_note||'',member_since:c.created_at,approved:(subs.results||[]).length,published},works});
  }
  if(p==='/studio/api/featured'&&request.method==='GET'){
-  const rows=await db.prepare("SELECT creator_no,display_name,city,featured_note FROM stu_creators WHERE featured=1 AND status='active' ORDER BY updated_at DESC LIMIT 12").all();
+  const rows=await db.prepare("SELECT creator_no,display_name,city,featured_note FROM stu_creators WHERE featured=1 AND lower(status)='active' ORDER BY updated_at DESC LIMIT 12").all();
   return JSONR({featured:rows.results||[]});
  }
  const REPORT_KINDS=['report','takedown','correction','copyright','withdrawal','brand-correction'];
  if(p==='/studio/api/report'&&request.method==='POST'){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
   const raw=await request.text();if(raw.length>4096)return JSONR({error:'Too large.'},413);
-  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  let b;try{b=JSON.parse(raw)}catch{return JSONR({error:'Invalid JSON.'},400)}
   const kind=clean(b.kind,40);if(!REPORT_KINDS.includes(kind))return JSONR({error:'Choose a valid request type.'},400);
   const tt=clean(b.target_type,20),tid=clean(b.target_id,60);if(!tt||!tid)return JSONR({error:'Missing target.'},400);
   const note=clean(b.note,1000);if(!note)return JSONR({error:'Please describe the issue.'},400);
