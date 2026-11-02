@@ -99,15 +99,17 @@ function load(){
   if(!r)return;
   if(r.status===401){el('gate').style.display='block';return}
   el('app').style.display='block';
-  renderBrands(r.data.memberships||[]);
+  renderBrands(r.data.memberships||[],r.data.stats||{},r.data.teams||{});
   renderClaims(r.data.claims||[]);
  });
 }
-function renderBrands(list){
+function renderBrands(list,stats,teams){
  var w=el('brands');
  if(!list.length){w.innerHTML='<div class="bw-card"><p class="bw-meta">No brands yet. Claim an existing brand or request a new one below.</p></div>';return}
  w.innerHTML=list.map(function(b){
-  return '<div class="bw-card"><h2>'+esc(b.name)+'</h2><p class="bw-meta">'+esc(b.category)+' · '+esc(b.locs)+' location(s)</p>'
+  var st=stats[b.brand_id]||{views7d:0,views30d:0,submissions:0};
+  var team=teams[b.brand_id]||null;
+  return '<div class="bw-card"><h2>'+esc(b.name)+'</h2><p class="bw-meta">'+esc(b.category)+' · '+esc(b.locs)+' location(s) · '+st.views7d+' views this week · '+st.views30d+' this month · '+st.submissions+' submission(s)</p>'
   +'<span class="bw-badge">'+esc(b.status)+'</span><span class="bw-badge soft">'+esc(b.role)+'</span>'
   +(b.status==='PUBLISHED'?' <a class="bw-badge soft" href="/brands/'+esc(b.slug)+'/" style="text-decoration:none">View public page</a>':'')
   +'<h3>Edit details</h3>'
@@ -140,12 +142,32 @@ function renderBrands(list){
   +'<button class="bw-btn" type="button" data-media="'+b.brand_id+'">Submit for review</button>'
   +'<p class="bw-err" id="me-'+b.brand_id+'"></p><p class="bw-ok" id="mk-'+b.brand_id+'"></p>'
   +'<p class="bw-note">Media enters the real SRCHN review queue. It appears on your page only after approval.</p>'
+  +(team?'<h3>Team access</h3><ul class="bw-list">'+team.map(function(m){return '<li>'+esc(m.display_name||m.email||'')+' <span class="bw-badge soft">'+esc(m.role)+'</span>'+(m.role!=='owner'?' <button class="bw-btn ghost" style="padding:4px 12px;font-size:11px;margin:0" data-mrm="'+b.brand_id+'|'+m.creator_id+'">Remove</button>':'')+'</li>'}).join('')+'</ul>'
+  +'<label>Add a teammate (their Studio email)</label><input type="text" id="tm-'+b.brand_id+'" placeholder="name@example.com"/>'
+  +'<label>Their role</label><select id="tr-'+b.brand_id+'"><option value="manager">Brand manager</option><option value="location_manager">Location manager</option><option value="editor">Content editor</option><option value="finance">Finance</option><option value="readonly">Read-only</option></select>'
+  +'<button class="bw-btn ghost" type="button" data-madd="'+b.brand_id+'">Add teammate</button>'
+  +'<p class="bw-err" id="te-'+b.brand_id+'"></p><p class="bw-ok" id="tk-'+b.brand_id+'"></p>':'')
   +'</div>';
  }).join('');
  Array.prototype.forEach.call(document.querySelectorAll('[data-save]'),function(btn){btn.onclick=function(){saveBrand(btn.getAttribute('data-save'))}});
  Array.prototype.forEach.call(document.querySelectorAll('[data-loc]'),function(btn){btn.onclick=function(){saveLoc(btn.getAttribute('data-loc'))}});
  Array.prototype.forEach.call(document.querySelectorAll('[data-prod]'),function(btn){btn.onclick=function(){saveProd(btn.getAttribute('data-prod'))}});
  Array.prototype.forEach.call(document.querySelectorAll('[data-media]'),function(btn){btn.onclick=function(){sendMedia(btn.getAttribute('data-media'),btn)}});
+ Array.prototype.forEach.call(document.querySelectorAll('[data-madd]'),function(btn){btn.onclick=function(){
+  var bid=btn.getAttribute('data-madd');
+  stu.req('/workspace/member-save',{method:'POST',json:{brand_id:bid,email:el('tm-'+bid).value,role:el('tr-'+bid).value}}).then(function(r){
+   if(!r)return;
+   if(r.data&&r.data.ok){stu.ok(el('tk-'+bid),r.data.message);el('te-'+bid).style.display='none';el('tm-'+bid).value=''}
+   else stu.err(el('te-'+bid),(r.data&&r.data.error)||'Could not add.');
+  });
+ }});
+ Array.prototype.forEach.call(document.querySelectorAll('[data-mrm]'),function(btn){btn.onclick=function(){
+  var parts=btn.getAttribute('data-mrm').split('|');
+  if(!confirm('Remove this person\'s access?'))return;
+  stu.req('/workspace/member-remove',{method:'POST',json:{brand_id:parts[0],creator_id:parts[1]}}).then(function(r){
+   if(r&&r.data&&r.data.ok)load();
+  });
+ }});
 }
 function renderClaims(list){
  var w=el('claims');

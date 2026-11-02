@@ -662,7 +662,53 @@ async function studioRoute(request,env){
   const mem=(await db.prepare("SELECT m.brand_id,m.role,b.name,b.slug,b.category,b.status,(SELECT COUNT(*) FROM br_locations l WHERE l.brand_id=b.id AND l.status!='DELETED') AS locs FROM br_members m JOIN br_brands b ON b.id=m.brand_id WHERE m.creator_id=? AND m.status='ACTIVE' AND b.status!='DELETED' ORDER BY b.name").bind(c.id).all()).results||[];
   const claims=(await db.prepare('SELECT id,brand_id,requested_name,requested_category,requested_locality,claimant_role,status,review_note,created_at,decided_at FROM br_claims WHERE creator_id=? ORDER BY created_at DESC LIMIT 50').bind(c.id).all()).results||[];
   const prods=(await db.prepare("SELECT pr.id,pr.brand_id,pr.name,pr.category,pr.price_text,pr.status FROM br_products pr JOIN br_members m ON m.brand_id=pr.brand_id WHERE m.creator_id=? AND m.status='ACTIVE' AND pr.status!='DELETED' ORDER BY pr.created_at DESC LIMIT 100").bind(c.id).all()).results||[];
-  return JSONR({memberships:mem,claims,products:prods});
+  const stats={},teams={};
+  for(const m of mem){
+   stats[m.brand_id]={
+    views7d:((await db.prepare('SELECT COUNT(*) n FROM br_views WHERE brand_id=? AND ts>?').bind(m.slug,now-7*86400000).first())||{}).n||0,
+    views30d:((await db.prepare('SELECT COUNT(*) n FROM br_views WHERE brand_id=? AND ts>?').bind(m.slug,now-30*86400000).first())||{}).n||0,
+    submissions:((await db.prepare("SELECT COUNT(*) n FROM stu_submissions WHERE details LIKE '%'||?||'%'").bind(m.brand_id).first())||{}).n||0};
+   if(m.role==='owner'||m.role==='manager'){
+    teams[m.brand_id]=(await db.prepare("SELECT mm.creator_id,mm.role,mm.status,mm.created_at,cr.display_name,cr.email FROM br_members mm LEFT JOIN stu_creators cr ON cr.id=mm.creator_id WHERE mm.brand_id=? AND mm.status='ACTIVE' ORDER BY mm.created_at").bind(m.brand_id).all()).results||[];
+   }
+  }
+  return JSONR({memberships:mem,claims,products:prods,stats,teams});
+ }
+ if(p==='/studio/api/workspace/member-save'&&request.method==='POST'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);const role=await brRole(db,bid,c.id);
+  if(role!=='owner')return JSONR({error:'Only the brand owner can manage team access.'},403);
+  const em=clean(b.email,120).toLowerCase();if(!em||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))return JSONR({error:'Enter the person\'s Studio email.'},400);
+  const nr=clean(b.role,20);if(!['manager','location_manager','editor','finance','readonly'].includes(nr))return JSONR({error:'Role must be manager, location_manager, editor, finance or readonly. Owners are added by Team SRCHN.'},400);
+  const cr=await db.prepare('SELECT id,email,display_name FROM stu_creators WHERE lower(email)=?').bind(em).first();
+  if(!cr)return JSONR({error:'No SRCHN Studio account for that email. Ask them to join Studio first, then add them.'},404);
+  if(cr.id===c.id)return JSONR({error:'That is you - you are already the owner.'},400);
+  const ex=await db.prepare('SELECT id FROM br_members WHERE brand_id=? AND creator_id=?').bind(bid,cr.id).first();
+  if(ex)await db.prepare("UPDATE br_members SET role=?,status='ACTIVE',added_by=? WHERE id=?").bind(nr,c.email||c.creator_no,ex.id).run();
+  else await db.prepare('INSERT INTO br_members(id,brand_id,creator_id,role,status,added_by,created_at) VALUES(?,?,?,?,?,?,?)').bind(crypto.randomUUID(),bid,cr.id,nr,'ACTIVE',c.email||c.creator_no,now).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(c.email||c.creator_no,'member-save',bid,em+' as '+nr,now).run();
+  return JSONR({ok:true,message:(cr.display_name||em)+' now has '+nr+' access.'});
+ }
+ if(p==='/studio/api/workspace/member-remove'&&request.method==='POST'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);const role=await brRole(db,bid,c.id);
+  if(role!=='owner')return JSONR({error:'Only the brand owner can manage team access.'},403);
+  const mcid=clean(b.creator_id,40);
+  const m=await db.prepare('SELECT * FROM br_members WHERE brand_id=? AND creator_id=?').bind(bid,mcid).first();
+  if(!m)return JSONR({error:'Not a team member.'},404);
+  if(m.role==='owner'){
+   const owners=await db.prepare("SELECT COUNT(*) n FROM br_members WHERE brand_id=? AND role='owner' AND status='ACTIVE'").bind(bid).first();
+   if((owners.n||0)<=1)return JSONR({error:'A brand needs at least one owner.'},400);
+  }
+  await db.prepare("UPDATE br_members SET status='REMOVED' WHERE id=?").bind(m.id).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(c.email||c.creator_no,'member-remove',bid,mcid.slice(0,8),now).run();
+  return JSONR({ok:true,message:'Access removed.'});
  }
  if(p==='/studio/api/workspace/claim'&&request.method==='POST'){
   const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);

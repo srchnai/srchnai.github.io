@@ -268,6 +268,7 @@ async function openDetail(id){
   if(!r.data||r.data.error){msg($('rv-msg'),(r.data&&r.data.error)||'Could not load.');return}
   const {submission:s,creator:c,place:p,dupes,events}=r.data;
   const det=s.details||{},rights=s.rights||{};
+  const canAttach=!!(det.brand_id&&(s.status==='APPROVED'||s.status==='PUBLISHED'));
   const media=(s.items||[]).map(it=>{
     if(!it.media_id)return '';
     const u='/studio/api/media/'+it.media_id;
@@ -278,7 +279,9 @@ async function openDetail(id){
       :'<video src="'+u+'" controls preload="metadata" playsinline'+cls+'></video>';
     const orient=it.width&&it.height?(it.height>it.width?'portrait':'landscape'):'';
     return '<div class="rv-m">'+vis+'<div class="mc"><b>'+esc(it.type)+(it.duration_sec?' · '+it.duration_sec+'s':'')+(orient?' · '+orient:'')+(it.motion_from_photo?' · generated from photo':'')+'</b>'
-      +'Caption: '+esc(it.caption||'-')+'<br/>Credit: '+esc(it.credit||'-')+(it.captured_at?'<br/>Captured: '+esc(it.captured_at):'')+'</div></div>';
+      +'Caption: '+esc(it.caption||'-')+'<br/>Credit: '+esc(it.credit||'-')+(it.captured_at?'<br/>Captured: '+esc(it.captured_at):'')+'</div>'
+      +(canAttach?'<button class="rv-btn ghost" style="margin:0 10px 10px;padding:6px 12px;font-size:12px" data-attach="'+esc(it.media_id)+'">Attach to brand page</button>':'')
+      +'</div>';
   }).join('');
   const ev=(events||[]).map(e=>'<div class="rv-ev"><b>'+esc(e.action)+'</b>'
     +(e.from_status?' · '+esc(LABEL[e.from_status]||e.from_status)+' → '+esc(LABEL[e.to_status]||e.to_status):'')
@@ -318,6 +321,7 @@ async function openDetail(id){
    +'</div></div>'
    +'<h3 style="margin:6px 0 2px;font-size:15px">Media ('+(s.items||[]).length+')</h3>'
    +(media?'<div class="rv-media">'+media+'</div>':'<p class="rv-empty">No media attached.</p>')
+  +(canAttach?'<p style="color:#666;font-size:13px;margin:4px 0 0">Brand submission for <b>'+esc(det.brand_name||'')+'</b> - attach approved media to its '+esc(s.content_pillar)+' pillar.</p>':'')
    +'<div class="rv-card" style="margin-top:12px"><h3>Edit listing metadata</h3><div class="rv-meta-edit" id="dt-edit">'
    +'<input class="full" data-k="place_name" placeholder="Place name" value="'+esc(s.place_name)+'"/>'
    +'<input class="full" data-k="address" placeholder="Address" value="'+esc(det.address||'')+'"/>'
@@ -347,6 +351,12 @@ async function openDetail(id){
   d.hidden=false;
   d.scrollIntoView({behavior:'smooth',block:'start'});
   $('dt-back').onclick=()=>{d.hidden=true};
+  d.querySelectorAll('[data-attach]').forEach(btn=>btn.onclick=async()=>{
+    btn.disabled=true;
+    const rr=await api('/studio/api/review/brand-attach',{method:'POST',json:{brand_id:det.brand_id,media_id:btn.dataset.attach,kind:(s.items.find(i=>i.media_id===btn.dataset.attach)||{}).type||'photo',pillar:s.content_pillar,title:(s.items.find(i=>i.media_id===btn.dataset.attach)||{}).caption||'',credit:(s.items.find(i=>i.media_id===btn.dataset.attach)||{}).credit||''}});
+    if(rr.data&&rr.data.ok){btn.textContent='Attached';msg($('rv-msg'),'Media attached to the brand page.',true)}
+    else{btn.disabled=false;msg($('rv-msg'),(rr.data&&rr.data.error)||'Attach failed.')}
+  });
   const retry=$('dt-retry');if(retry)retry.onclick=async()=>{
     retry.disabled=true;
     const rr=await api('/studio/api/review/retry-email',{method:'POST',json:{submission_id:s.sub_no}});
