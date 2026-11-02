@@ -250,7 +250,7 @@ footer{background:var(--grey);border-top:1px solid var(--line);padding:52px 0 34
 .mmenu .mm-h{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
 
 /* responsive */
-@media (max-width:1080px){
+@media (max-width:1160px){
  .sh-nav{display:none}
  .sh-menu{display:flex}
  .hero-grid{grid-template-columns:1fr;gap:30px}
@@ -286,7 +286,7 @@ footer{background:var(--grey);border-top:1px solid var(--line);padding:52px 0 34
  .wrap{padding:0 16px}
 }
 /* desktop header fit: nav links + call chip + CTA must fit the 1180 container */
-@media (min-width:1100px){
+@media (min-width:1161px){
  .sh-in{gap:10px}
  .sh-nav{gap:0;margin-left:4px}
  .sh-nav>a,.sh-nav details>summary{padding:8px 7px;font-size:.82rem}
