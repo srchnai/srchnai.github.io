@@ -1026,7 +1026,7 @@ async function studioRoute(request,env){
   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
   return JSONR({ok:true,email:es});
  }
- if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-renew'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'||p==='/studio/api/review/club'||p==='/studio/api/review/club-invite-decide'||p==='/studio/api/review/club-member-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
+ if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-renew'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'||p==='/studio/api/review/club'||p==='/studio/api/review/club-invite-decide'||p==='/studio/api/review/club-member-status'||p==='/studio/api/review/club-member-delete'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
@@ -1476,6 +1476,22 @@ async function brReviewRoute(p,request,env,db,now){
   if(st==='SUSPENDED')await db.prepare('DELETE FROM br_club_sessions WHERE member_id=?').bind(m.id).run();
   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-member-'+st.toLowerCase(),null,m.email,now).run();
   return JSONR({ok:true,status:st});
+ }
+ if(p==='/studio/api/review/club-member-delete'&&request.method==='POST'){
+  await clubTables(db);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const note=clean(b.note,200);if(!note)return JSONR({error:'A documented note is required.'},400);
+  const m=await db.prepare('SELECT * FROM br_club_members WHERE id=?').bind(clean(b.member_id,40)).first();
+  if(!m)return JSONR({error:'Unknown member.'},404);
+  const nb=((await db.prepare('SELECT COUNT(*) n FROM br_club_bookings WHERE member_id=?').bind(m.id).first())||{}).n||0;
+  if(nb)return JSONR({error:'Member has bookings - suspend instead of deleting.'},409);
+  await db.batch([
+   db.prepare('DELETE FROM br_club_cashback WHERE member_id=?').bind(m.id),
+   db.prepare('DELETE FROM br_club_sessions WHERE member_id=?').bind(m.id),
+   db.prepare('DELETE FROM br_club_members WHERE id=?').bind(m.id)
+  ]);
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-member-delete',null,m.email+' :: '+note,now).run();
+  return JSONR({ok:true,deleted:m.email});
  }
  return null;
 }
