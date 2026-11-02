@@ -1026,7 +1026,7 @@ async function studioRoute(request,env){
   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
   return JSONR({ok:true,email:es});
  }
- if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-renew'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
+ if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-renew'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'||p==='/studio/api/review/club'||p==='/studio/api/review/club-invite-decide'||p==='/studio/api/review/club-member-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
@@ -1176,7 +1176,7 @@ async function brandsRoute(request,env){
    const dirs=l.lat&&l.lon?'https://www.google.com/maps/dir/?api=1&destination='+l.lat+','+l.lon:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent([b.name,l.address,l.locality,l.city].filter(Boolean).join(' '));
    const facs=(()=>{try{return JSON.parse(l.facilities||'[]')}catch{return[]}})();
    let body='<nav class="br-crumb" aria-label="Breadcrumb"><a href="/brands/">Brands</a> / <a href="/brands/'+brEsc(b.slug)+'/">'+brEsc(b.name)+'</a> / <span>'+brEsc(l.name)+'</span></nav>';
-   body+='<section class="br-sec"><p class="br-eyebrow">'+brEsc(b.category)+'</p><h1>'+brEsc(b.name)+' '+brEsc(l.name)+'</h1>'+(l.address?'<p class="br-addr">'+brEsc([l.address,l.locality,l.city,l.state,l.pincode].filter(Boolean).join(', '))+'</p>':'')+'<div class="br-cta-row">'+(l.phone?'<a class="br-btn br-btn-ghost" href="tel:'+brEsc(l.phone)+'">Call</a>':'')+'<a class="br-btn br-btn-primary" href="'+brEsc(dirs)+'" rel="noopener" target="_blank">Directions</a>'+(l.booking_enabled?'<a class="br-btn br-btn-primary" href="#book">BOOK NOW</a>':'')+(l.pay_enabled?'<a class="br-btn br-btn-ghost" href="#pay">PAY</a>':'')+'</div>';
+   body+='<section class="br-sec"><p class="br-eyebrow">'+brEsc(b.category)+'</p><h1>'+brEsc(b.name)+' '+brEsc(l.name)+'</h1>'+(b.club?'<p class="br-club-badge">SRCHN CLUB</p>':'')+(l.address?'<p class="br-addr">'+brEsc([l.address,l.locality,l.city,l.state,l.pincode].filter(Boolean).join(', '))+'</p>':'')+'<div class="br-cta-row">'+(l.phone?'<a class="br-btn br-btn-ghost" href="tel:'+brEsc(l.phone)+'">Call</a>':'')+'<a class="br-btn br-btn-primary" href="'+brEsc(dirs)+'" rel="noopener" target="_blank">Directions</a>'+(l.booking_enabled?'<a class="br-btn br-btn-primary" href="#book">BOOK NOW</a>':'')+(l.pay_enabled?'<a class="br-btn br-btn-ghost" href="#pay">PAY</a>':'')+'</div>';
    body+='<dl class="br-facts">'+(l.locality?'<div><dt>Locality</dt><dd>'+brEsc(l.locality)+'</dd></div>':'')+(l.city?'<div><dt>City</dt><dd>'+brEsc(l.city)+'</dd></div>':'')+(l.hours?'<div><dt>Hours</dt><dd>'+brEsc(l.hours)+'</dd></div>':'')+'</dl>';
    if(facs.length)body+='<h2>Facilities</h2><ul class="br-list">'+facs.map(f=>'<li>'+brEsc(f)+'</li>').join('')+'</ul>';
    if(lmedia.length)body+='<h2>Videos and photos</h2><div class="br-media-grid">'+lmedia.map(x=>brMediaTile(x)).join('')+'</div>';
@@ -1192,7 +1192,7 @@ async function brandsRoute(request,env){
   const logo=media.find(x=>x.pillar==='identity'&&x.category==='logo');
   const anyBook=locs.some(l=>l.booking_enabled),anyPay=locs.some(l=>l.pay_enabled);
   let body='<nav class="br-crumb" aria-label="Breadcrumb"><a href="/brands/">Brands</a> / <span>'+brEsc(b.name)+'</span></nav>';
-  body+='<section class="br-brand-head">'+(logo?'<img class="br-brand-logo" src="'+brMediaUrl(logo.media_id)+'" alt="'+brEsc(b.name)+' logo"/>':'')+'<p class="br-eyebrow">'+brEsc(b.category+(b.subcategory?' · '+b.subcategory:''))+'</p><h1>'+brEsc(b.name)+'</h1>'+(b.tagline?'<p class="br-lede">'+brEsc(b.tagline)+'</p>':'')+(b.verified?'<p class="br-verified"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-badge-check"></use></svg> Verified by SRCHN</p>':'');
+  body+='<section class="br-brand-head">'+(logo?'<img class="br-brand-logo" src="'+brMediaUrl(logo.media_id)+'" alt="'+brEsc(b.name)+' logo"/>':'')+'<p class="br-eyebrow">'+brEsc(b.category+(b.subcategory?' · '+b.subcategory:''))+'</p><h1>'+brEsc(b.name)+'</h1>'+(b.club?'<p class="br-club-badge">SRCHN CLUB</p>':'')+(b.tagline?'<p class="br-lede">'+brEsc(b.tagline)+'</p>':'')+(b.verified?'<p class="br-verified"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-badge-check"></use></svg> Verified by SRCHN</p>':'');
   body+='<dl class="br-facts">'+(b.founded_year?'<div><dt>Founded</dt><dd>'+brEsc(b.founded_year)+'</dd></div>':'')+(b.founders?'<div><dt>Founders</dt><dd>'+brEsc(b.founders)+'</dd></div>':'')+(b.hq_city?'<div><dt>City</dt><dd>'+brEsc(b.hq_city)+'</dd></div>':'')+(locs.length?'<div><dt>Locations</dt><dd>'+locs.length+'</dd></div>':'')+'</dl>';
   body+='<div class="br-cta-row">'+(locs.length?'<a class="br-btn br-btn-primary" href="#locations">EXPLORE LOCATIONS</a>':'')+(anyBook?'<a class="br-btn br-btn-primary" href="#locations">BOOK NOW</a>':'')+(anyPay?'<a class="br-btn br-btn-ghost" href="#locations">PAY</a>':'')+'<button class="br-btn br-btn-ghost" data-br-save="'+brEsc(b.id)+'" data-br-name="'+brEsc(b.name)+'">Save</button><button class="br-btn br-btn-ghost" data-br-share="'+brEsc(b.name+'" data-br-url="'+u.origin+'/brands/'+b.slug+'/')+'">Share</button><a class="br-btn br-btn-ghost" href="/club/">JOIN SRCHN CLUB</a></div>';
   if(b.website||Object.keys(socials).length)body+='<p class="br-links">'+(b.website?'<a href="'+brEsc(b.website)+'" rel="noopener" target="_blank">Official website</a> ':'')+Object.entries(socials).map(([k,v])=>'<a href="'+brEsc(v)+'" rel="noopener" target="_blank">'+brEsc(k)+'</a>').join(' ')+'</p>';
@@ -1441,9 +1441,148 @@ async function brReviewRoute(p,request,env,db,now){
   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'brand-delete',id,clean(b.note,200),now).run();
   return JSONR({ok:true,changed:(r.meta&&r.meta.changes)||0});
  }
+ if(p==='/studio/api/review/club'&&request.method==='GET'){
+  await clubTables(db);
+  const invites=(await db.prepare("SELECT * FROM br_club_invites ORDER BY CASE status WHEN 'PENDING' THEN 0 ELSE 1 END,created_at DESC LIMIT 200").all()).results||[];
+  const members=(await db.prepare('SELECT id,email,name,city,status,invited_at,member_since FROM br_club_members ORDER BY created_at DESC LIMIT 200').all()).results||[];
+  return JSONR({invites,members});
+ }
+ if(p==='/studio/api/review/club-invite-decide'&&request.method==='POST'){
+  await clubTables(db);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const inv=await db.prepare('SELECT * FROM br_club_invites WHERE id=?').bind(clean(b.id,40)).first();
+  if(!inv)return JSONR({error:'Unknown invite request.'},404);
+  if(inv.status!=='PENDING')return JSONR({error:'Already decided.'},409);
+  const dec=b.decision==='APPROVED'?'APPROVED':'DECLINED';
+  await db.prepare('UPDATE br_club_invites SET status=?,reviewer=?,review_note=?,decided_at=? WHERE id=?').bind(dec,rv.email,clean(b.note,500)||null,now,inv.id).run();
+  let member=null,email='skipped';
+  if(dec==='APPROVED'){
+   await db.prepare("INSERT INTO br_club_members(id,email,name,city,status,invited_by,invite_id,invited_at,created_at,updated_at) VALUES(?,?,?,?,'INVITED',?,?,?,?,?) ON CONFLICT(email) DO UPDATE SET name=excluded.name,status='INVITED',invite_id=excluded.invite_id,invited_at=excluded.invited_at,updated_at=excluded.updated_at").bind(crypto.randomUUID(),inv.email,inv.name,inv.city||null,rv.email,inv.id,now,now,now).run();
+   member=await db.prepare('SELECT id,email,status FROM br_club_members WHERE email=?').bind(inv.email).first();
+   try{const r=await stuMail(env,{task:'club_invite',to:inv.email,name:inv.name});email=r.ok?'sent':'failed'}catch{email='failed'}
+  }
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-invite-'+dec.toLowerCase(),null,inv.email,now).run();
+  return JSONR({ok:true,decision:dec,email,member});
+ }
+ if(p==='/studio/api/review/club-member-status'&&request.method==='POST'){
+  await clubTables(db);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const m=await db.prepare('SELECT * FROM br_club_members WHERE id=?').bind(clean(b.member_id,40)).first();
+  if(!m)return JSONR({error:'Unknown member.'},404);
+  const st=b.status==='SUSPENDED'?'SUSPENDED':b.status==='ACTIVE'?'ACTIVE':'';
+  if(!st)return JSONR({error:'Status must be ACTIVE or SUSPENDED.'},400);
+  if(m.status==='INVITED'&&st==='ACTIVE')return JSONR({error:'A member activates their own membership on first sign-in.'},400);
+  await db.prepare('UPDATE br_club_members SET status=?,updated_at=? WHERE id=?').bind(st,now,m.id).run();
+  if(st==='SUSPENDED')await db.prepare('DELETE FROM br_club_sessions WHERE member_id=?').bind(m.id).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'club-member-'+st.toLowerCase(),null,m.email,now).run();
+  return JSONR({ok:true,status:st});
+ }
  return null;
 }
 
+
+/* ---------- SRCHN CLUB (brief s8): invite-only membership, P4 ---------- */
+async function clubTables(db){
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_invites(id TEXT PRIMARY KEY,name TEXT NOT NULL,email TEXT NOT NULL,city TEXT,note TEXT,status TEXT NOT NULL DEFAULT 'PENDING',reviewer TEXT,review_note TEXT,created_at INTEGER NOT NULL,decided_at INTEGER)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_members(id TEXT PRIMARY KEY,email TEXT UNIQUE NOT NULL,name TEXT NOT NULL,city TEXT,status TEXT NOT NULL DEFAULT 'INVITED',invited_by TEXT,invite_id TEXT,invited_at INTEGER NOT NULL,joined_at INTEGER,member_since INTEGER,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_sessions(token_hash TEXT PRIMARY KEY,member_id TEXT NOT NULL,created_at INTEGER NOT NULL,expires_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_booking_config(brand_id TEXT NOT NULL,location_id TEXT NOT NULL,fee_inr INTEGER NOT NULL DEFAULT 0,terms TEXT,active INTEGER NOT NULL DEFAULT 0,updated_by TEXT,updated_at INTEGER NOT NULL,PRIMARY KEY(brand_id,location_id))").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_bookings(id TEXT PRIMARY KEY,booking_no TEXT UNIQUE NOT NULL,member_id TEXT NOT NULL,brand_id TEXT NOT NULL,location_id TEXT NOT NULL,visit_date TEXT NOT NULL,visit_time TEXT,people INTEGER NOT NULL DEFAULT 1,fee_inr INTEGER NOT NULL DEFAULT 0,pay_status TEXT NOT NULL DEFAULT 'PAY_NOT_ENABLED',status TEXT NOT NULL DEFAULT 'CONFIRMED',conditions TEXT,checked_in_at INTEGER,cancelled_at INTEGER,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_commission(id TEXT PRIMARY KEY,booking_id TEXT NOT NULL,brand_id TEXT NOT NULL,bill_inr INTEGER NOT NULL DEFAULT 0,fee_pct REAL NOT NULL DEFAULT 0,commission_inr INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'PENDING',note TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_cashback(id TEXT PRIMARY KEY,booking_id TEXT NOT NULL,member_id TEXT NOT NULL,commission_id TEXT,cashback_inr INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'PENDING',period_start INTEGER NOT NULL,note TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
+}
+async function clubAuth(request,db){
+ const h=request.headers.get('Authorization')||'';const m=/^Bearer ([a-f0-9]{64})$/.exec(h);if(!m)return null;
+ const s=await db.prepare('SELECT * FROM br_club_sessions WHERE token_hash=? AND expires_at>?').bind(await hash(m[1]),Date.now()).first();
+ if(!s)return null;
+ return db.prepare("SELECT * FROM br_club_members WHERE id=? AND status!='SUSPENDED'").bind(s.member_id).first();
+}
+async function clubRoute(request,env){
+ const u=new URL(request.url),p=u.pathname,now=Date.now(),db=env.DB;
+ if(!db)return JSONR({error:'Club storage unavailable.'},503);
+ await clubTables(db);
+ const CLUB_CAP=5000,EMAIL_RE2=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+ if(p==='/club/api/invite-request'&&request.method==='POST'){
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const name=clean(b.name,80),email=clean(b.email,254).toLowerCase(),city=clean(b.city,60),note=clean(b.note,500);
+  if(!name||name.length<2)return JSONR({error:'Please share your name.'},400);
+  if(!EMAIL_RE2.test(email))return JSONR({error:'Please share a valid email address.'},400);
+  if(note&&PII.test(note))return JSONR({error:'Use a short note without emails, phone numbers, ID numbers or private information.'},400);
+  const id=crypto.randomUUID();
+  const saved=await db.prepare("INSERT INTO br_club_invites SELECT ?,?,?,?,?,'PENDING',NULL,NULL,?,NULL WHERE (SELECT COUNT(*) FROM br_club_invites WHERE created_at>?)<20 AND NOT EXISTS(SELECT 1 FROM br_club_invites WHERE email=? AND status='PENDING') RETURNING id").bind(id,name,email,city||null,note||null,now,now-86400000,email).first();
+  if(!saved)return JSONR({error:'Your request is already with us, or too many requests today. Please try again tomorrow.'},429);
+  return JSONR({ok:true,message:'Request received. SRCHN CLUB is invite-only - Team SRCHN reviews every request, and an invitation is not guaranteed.'},201);
+ }
+ if(p==='/club/api/login/start'&&request.method==='POST'){
+  const b=await request.json().catch(()=>null);const email=clean(b&&b.email,254).toLowerCase();
+  const generic={ok:true,message:'If a Club membership exists for this email, a sign-in code is on its way.'};
+  if(!EMAIL_RE2.test(email))return JSONR(generic);
+  const m=await db.prepare("SELECT * FROM br_club_members WHERE email=? AND status!='SUSPENDED'").bind(email).first();
+  if(!m)return JSONR(generic);
+  if(env.BUDGETDB){try{const ok=await env.BUDGETDB.prepare('INSERT INTO preview_mail_budget(key,count) VALUES(?,1) ON CONFLICT(key) DO UPDATE SET count=count+1 WHERE count<20 RETURNING count').bind('club:'+new Date(now).toISOString().slice(0,10)).first();if(!ok)return JSONR({error:'Too many codes requested today. Please try again tomorrow.'},429)}catch{}}
+  const code=String(Math.floor(100000+Math.random()*900000));
+  await db.prepare("INSERT INTO stu_otp(id,email,code_hash,purpose,expires_at,created_at) VALUES(?,?,?,?,?,?)").bind(crypto.randomUUID(),email,await hash(code),'club_login',now+600000,now).run();
+  try{await stuMail(env,{task:'club_otp',to:email,code,name:m.name})}catch{}
+  return JSONR(generic);
+ }
+ if(p==='/club/api/login/verify'&&request.method==='POST'){
+  const b=await request.json().catch(()=>null);const email=clean(b&&b.email,254).toLowerCase(),code=clean(b&&b.code,6);
+  if(!email||!/^\d{6}$/.test(code||''))return JSONR({error:'Enter the 6-digit code.'},400);
+  const row=await db.prepare("SELECT * FROM stu_otp WHERE email=? AND purpose='club_login' AND used_at IS NULL ORDER BY created_at DESC LIMIT 1").bind(email).first();
+  if(!row||row.expires_at<now)return JSONR({error:'Code expired. Request a new one.'},400);
+  if(row.code_hash!==await hash(code))return JSONR({error:'Incorrect code.'},400);
+  const m=await db.prepare("SELECT * FROM br_club_members WHERE email=? AND status!='SUSPENDED'").bind(email).first();
+  if(!m)return JSONR({error:'No active Club membership for this email.'},403);
+  await db.prepare('UPDATE stu_otp SET used_at=? WHERE id=?').bind(now,row.id).run();
+  if(m.status==='INVITED'){await db.prepare("UPDATE br_club_members SET status='ACTIVE',joined_at=?,member_since=?,updated_at=? WHERE id=?").bind(now,now,now,m.id).run()}
+  const t=randomHex(32);
+  await db.prepare('INSERT INTO br_club_sessions(token_hash,member_id,created_at,expires_at) VALUES(?,?,?,?)').bind(await hash(t),m.id,now,now+30*86400000).run();
+  return JSONR({ok:true,token:t});
+ }
+ if(p==='/club/api/logout'&&request.method==='POST'){
+  const h=request.headers.get('Authorization')||'';const m=/^Bearer ([a-f0-9]{64})$/.exec(h);
+  if(m)await db.prepare('DELETE FROM br_club_sessions WHERE token_hash=?').bind(await hash(m[1])).run();
+  return JSONR({signed_out:true});
+ }
+ if(p==='/club/api/me'&&request.method==='GET'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({signed_in:false},401);
+  const ps=m.member_since||m.joined_at||m.invited_at;
+  const used=((await db.prepare("SELECT COALESCE(SUM(cashback_inr),0) s FROM br_club_cashback WHERE member_id=? AND period_start=? AND status!='REVERSED'").bind(m.id,ps).first())||{}).s||0;
+  const nb=((await db.prepare('SELECT COUNT(*) n FROM br_club_bookings WHERE member_id=?').bind(m.id).first())||{}).n||0;
+  return JSONR({signed_in:true,member:{name:m.name,email:m.email,city:m.city||'',status:m.status,member_since:m.member_since||null},membership:{period_start:ps,period_end:ps+365*86400000,cashback_cap_inr:CLUB_CAP,cashback_used_inr:used,bookings:nb}});
+ }
+ if(p==='/club/api/brands'&&request.method==='GET'){
+  const rows=await brListQuery(db,"b.status='PUBLISHED' AND b.club=1",[]);
+  return JSONR({brands:(rows.results||[]).map(b=>({slug:b.slug,name:b.name,category:b.category,tagline:b.tagline||'',locality:b.first_locality||'',locations:b.loc_count,logo:b.logo_media?brMediaUrl(b.logo_media):null}))});
+ }
+ if(p==='/club/api/bookings'&&request.method==='GET'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const rows=(await db.prepare("SELECT k.booking_no,k.visit_date,k.visit_time,k.people,k.fee_inr,k.pay_status,k.status,k.checked_in_at,k.created_at,b.name AS brand_name,b.slug AS brand_slug,l.name AS location_name,l.locality FROM br_club_bookings k JOIN br_brands b ON b.id=k.brand_id JOIN br_locations l ON l.id=k.location_id WHERE k.member_id=? ORDER BY k.created_at DESC LIMIT 100").bind(m.id).all()).results||[];
+  return JSONR({bookings:rows});
+ }
+ if(p==='/club/api/cashback'&&request.method==='GET'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const rows=(await db.prepare('SELECT booking_id,cashback_inr,status,note,created_at FROM br_club_cashback WHERE member_id=? ORDER BY created_at DESC LIMIT 100').bind(m.id).all()).results||[];
+  return JSONR({cashback:rows,cap_inr:CLUB_CAP,cap_period:'12-month membership period'});
+ }
+ if(p==='/club/'||p==='/club'){
+  const clubBrands=(await brListQuery(db,"b.status='PUBLISHED' AND b.club=1",[])).results||[];
+  let body='<section class="br-hero"><p class="br-eyebrow">SRCHN CLUB</p><h1>AN INVITE-ONLY ACCESS LAYER.</h1><p class="br-lede">SRCHN CLUB is a curated membership across participating brands, places, spaces and experiences. Members discover eligible brands, unlock member offers, book visits, check in and earn eligible cashback. It is not a public discount directory.</p><div class="br-cta-row"><a class="br-btn br-btn-primary" href="#invite">REQUEST AN INVITE</a><a class="br-btn br-btn-ghost" href="#signin">MEMBER SIGN-IN</a></div></section>';
+  body+='<section class="br-sec"><h2>How Club works</h2><ol class="br-steps"><li><b>Receive an invitation.</b><br/>Club is invite-only. Team SRCHN reviews every request individually - an invitation is never guaranteed.</li><li><b>Sign in with your email.</b><br/>A one-time code, no password. Your first sign-in activates your membership.</li><li><b>Discover participating brands.</b><br/>Only brands approved for Club participation carry the SRCHN CLUB label.</li><li><b>Book a visit.</b><br/>Book at Club locations that have an active booking configuration. Every booking gets a unique booking ID.</li><li><b>Check in when you arrive.</b><br/>Check-in validates an eligible booking at that location.</li><li><b>Pay and earn eligible cashback.</b><br/>Payments through SRCHN PAY and eligible cashback follow the terms below.</li></ol></section>';
+  body+='<section class="br-sec"><h2>Club cashback, explained properly</h2><p>Eligible members who pay through SRCHN PAY may receive cashback of up to 5% of the SRCHN success fee - calculated on SRCHN&#39;s fee, never on your total bill.</p><div class="cl-note"><b>Illustration only, not a guaranteed offer.</b><br/>Order Rs 1,000 &middot; agreed SRCHN success fee 20% = Rs 200 &middot; cashback 5% of the success fee = <b>Rs 10 to you</b>. The actual agreed rate and applicable terms apply to every transaction.</div><p>Cashback is capped at up to Rs 5,000 per 12-month membership period - not per transaction, not per calendar year. Cashback moves from pending to confirmed only after the underlying payment and commission eligibility are confirmed. Exclusions, caps, reversal rules and redemption conditions apply and are shown with your membership.</p></section>';
+  body+='<section class="br-sec"><h2>Honest status of Club services</h2><div class="cl-note"><b>SRCHN PAY - configuration required, currently disabled.</b><br/>Payments are not yet enabled on SRCHN. No payment is taken today and no booking fee is charged. Booking and check-in work without payment until SRCHN PAY goes live.</div><div class="cl-note"><b>Identity verification - configuration required, currently disabled.</b><br/>Club membership and higher-risk transactions may include a clearly explained verification step when legally and commercially necessary. The DigiLocker integration is integration-ready, pending approval and credentials. SRCHN will never ask for your DigiLocker password or OTP and never imitates the DigiLocker interface.</div></section>';
+  body+='<section class="br-sec"><h2>Participating brands</h2>'+(clubBrands.length?'<div class="br-grid">'+clubBrands.map(brCard).join('')+'</div>':'<p class="br-empty">Participating brands appear here once Team SRCHN approves them for Club.</p>')+'</section>';
+  body+='<section class="br-sec" id="invite"><h2>Request an invite</h2><p>Share your details and Team SRCHN will review your request. If approved, your invitation arrives by email.</p><form id="cl-inv" class="cl-form"><label>Full name<input required name="name" maxlength="80" autocomplete="name"/></label><label>Email<input required type="email" name="email" maxlength="254" autocomplete="email"/></label><label>City<input name="city" maxlength="60" value="Bengaluru"/></label><label>Anything you would like us to know (optional)<textarea name="note" maxlength="500" rows="3"></textarea></label><button class="br-btn br-btn-primary" type="submit">REQUEST AN INVITE</button><p class="cl-msg" id="cl-inv-msg"></p></form></section>';
+  body+='<section class="br-sec" id="signin"><h2>Member sign-in</h2><p>Invited members sign in with their email - we send a one-time code, no password.</p><form id="cl-login" class="cl-form"><label>Email<input required type="email" name="email" maxlength="254" autocomplete="email"/></label><button class="br-btn br-btn-primary" type="submit">SEND SIGN-IN CODE</button></form><form id="cl-verify" class="cl-form" hidden><label>6-digit code<input required name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"/></label><button class="br-btn br-btn-primary" type="submit">SIGN IN</button></form><p class="cl-msg" id="cl-login-msg"></p></section>';
+  body+='<script src="/brands/club.js" defer></script>';
+  return new Response(brChrome({title:'SRCHN CLUB — Invite-only membership, bookings and cashback | SRCHN',desc:'SRCHN CLUB is an invite-only access layer for participating brands, places, spaces and experiences. Members discover eligible brands, book visits, check in and earn eligible cashback.',canon:u.origin+'/club/',active:'Club',body}),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'public, max-age=120'}});
+ }
+ if(p==='/club/member/'||p==='/club/member'){
+  const body='<section class="br-sec"><p class="br-eyebrow">SRCHN CLUB</p><h1>Your membership</h1><div id="clm"><p class="br-empty">Loading your membership...</p></div></section><script src="/brands/club.js" defer></script>';
+  return new Response(brChrome({title:'Your SRCHN CLUB membership | SRCHN',desc:'Your SRCHN CLUB membership, bookings, payments and cashback.',canon:u.origin+'/club/member/',active:'Club',body}),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-cache'}});
+ }
+ return null;
+}
 
 export default{async fetch(request,env){
   const u=new URL(request.url);
@@ -1481,6 +1620,7 @@ export default{async fetch(request,env){
     }
    }catch{}
   }
+  if((u.pathname==='/club'||u.pathname.startsWith('/club/'))&&!/\.(css|js|png|jpg|jpeg|svg|webp|ico|json|xml)$/.test(u.pathname)){try{const r=await clubRoute(request,env);if(r)return r}catch(e){return JSONR({error:'Club unavailable.'},503)}}
   if(u.pathname.startsWith('/brands/')&&(u.pathname==='/brands/sitemap.xml'||!/\.(css|js|png|jpg|jpeg|svg|webp|ico|json|xml)$/.test(u.pathname))){try{const r=await brandsRoute(request,env);if(r)return r}catch(e){return JSONR({error:'Brands unavailable.'},503)}}
   return env.ASSETS.fetch(request);
 }};

@@ -137,7 +137,7 @@ $('lg-verify').onclick=async()=>{
 };
 /* ---------- dashboard ---------- */
 let curStatus='NEW';
-const TABS=[['NEW','New'],['UNDER_REVIEW','Under review'],['ADDITIONAL_INFORMATION_REQUIRED','Awaiting corrections'],['APPROVED','Approved'],['SCHEDULED','Scheduled'],['PUBLISHED','Published'],['REJECTED','Rejected'],['ON_HOLD','On hold'],['ALL','All'],['REPORTS','Reports'],['BRANDS','Brands']];
+const TABS=[['NEW','New'],['UNDER_REVIEW','Under review'],['ADDITIONAL_INFORMATION_REQUIRED','Awaiting corrections'],['APPROVED','Approved'],['SCHEDULED','Scheduled'],['PUBLISHED','Published'],['REJECTED','Rejected'],['ON_HOLD','On hold'],['ALL','All'],['REPORTS','Reports'],['BRANDS','Brands'],['CLUB','Club']];
 async function start(){
   $('rv-login').hidden=true;$('rv-dash').hidden=false;
   loadQueue();
@@ -246,7 +246,28 @@ async function loadBrandsRows(){
   const brands=(rb.data&&rb.data.brands)||[];
   const h2=$('rv-rows').querySelector('h3:nth-of-type(2)');
 }
+async function loadClub(){
+  const r=await api('/studio/api/review/club');
+  if(r.status===401){$('rv-dash').hidden=true;$('rv-login').hidden=false;return}
+  const inv=(r.data&&r.data.invites)||[],mem=(r.data&&r.data.members)||[];
+  let h='<h3 style="margin:6px 0 10px;font-size:15px">Club invite requests ('+inv.filter(x=>x.status==='PENDING').length+' pending)</h3>';
+  if(!inv.length)h+='<p class="rv-empty">No invite requests yet.</p>';
+  else h+=inv.map(x=>'<div class="rv-row" style="cursor:default;align-items:center"><span class="pl"><b>'+esc(x.name)+'</b> · '+esc(x.email)+(x.city?' · '+esc(x.city):'')+'<br/><span class="mt">'+esc((x.note||'').slice(0,140))+(x.note?' · ':'')+new Date(x.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+'</span></span><span class="st '+(x.status==='APPROVED'?'PUBLISHED':x.status==='DECLINED'?'REJECTED':'UNDER_REVIEW')+'">'+esc(x.status)+'</span>'+(x.status==='PENDING'?'<span style="display:flex;gap:6px;flex-wrap:wrap"><button class="rv-btn" style="padding:6px 12px;font-size:12.5px" data-capp="'+esc(x.id)+'">Approve &amp; invite</button><button class="rv-btn ghost" style="padding:6px 12px;font-size:12.5px" data-cdec="'+esc(x.id)+'">Decline</button></span>':'')+'</div>').join('');
+  h+='<h3 style="margin:22px 0 10px;font-size:15px">Club members ('+mem.length+')</h3>';
+  if(!mem.length)h+='<p class="rv-empty">No members yet.</p>';
+  else h+=mem.map(x=>'<div class="rv-row" style="cursor:default;align-items:center"><span class="pl"><b>'+esc(x.name)+'</b> · '+esc(x.email)+(x.city?' · '+esc(x.city):'')+'<br/><span class="mt">invited '+new Date(x.invited_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+(x.member_since?' · member since '+new Date(x.member_since).toLocaleDateString('en-IN',{day:'numeric',month:'short'}):' · not activated yet')+'</span></span><span class="st '+(x.status==='ACTIVE'?'PUBLISHED':x.status==='SUSPENDED'?'REJECTED':'UNDER_REVIEW')+'">'+esc(x.status)+'</span>'+(x.status==='ACTIVE'?'<button class="rv-btn danger" style="padding:6px 12px;font-size:12.5px" data-csus="'+esc(x.id)+'">Suspend</button>':x.status==='SUSPENDED'?'<button class="rv-btn ghost" style="padding:6px 12px;font-size:12.5px" data-crei="'+esc(x.id)+'">Reinstate</button>':'')+'</div>').join('');
+  $('rv-rows').innerHTML=h;
+  $('rv-rows').querySelectorAll('[data-capp]').forEach(x=>x.onclick=async()=>{x.disabled=true;const r=await api('/studio/api/review/club-invite-decide',{method:'POST',json:{id:x.dataset.capp,decision:'APPROVED'}});msg($('rv-msg'),r.data&&r.data.ok?('Invitation created (INVITED until first sign-in). Invite email: '+(r.data.email||'skipped')+'.'):(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub()});
+  $('rv-rows').querySelectorAll('[data-cdec]').forEach(x=>x.onclick=async()=>{const note=prompt('Reason (optional):')||'';x.disabled=true;const r=await api('/studio/api/review/club-invite-decide',{method:'POST',json:{id:x.dataset.cdec,decision:'DECLINED',note}});msg($('rv-msg'),r.data&&r.data.ok?'Declined.':(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub()});
+  $('rv-rows').querySelectorAll('[data-csus]').forEach(x=>x.onclick=async()=>{if(!confirm('Suspend this member? Their sign-in sessions end immediately.'))return;const r=await api('/studio/api/review/club-member-status',{method:'POST',json:{member_id:x.dataset.csus,status:'SUSPENDED'}});msg($('rv-msg'),r.data&&r.data.ok?'Suspended.':(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub()});
+  $('rv-rows').querySelectorAll('[data-crei]').forEach(x=>x.onclick=async()=>{const r=await api('/studio/api/review/club-member-status',{method:'POST',json:{member_id:x.dataset.crei,status:'ACTIVE'}});msg($('rv-msg'),r.data&&r.data.ok?'Reinstated.':(r.data&&r.data.error)||'Failed.',!!(r.data&&r.data.ok));loadClub()});
+}
 async function loadQueue(){
+  if(curStatus==='CLUB'){
+      $('rv-tabs').innerHTML=TABS.map(([k,l])=>'<button class="rv-tab'+(k===curStatus?' on':'')+'" data-s="'+k+'">'+l+'</button>').join('');
+      $('rv-tabs').querySelectorAll('.rv-tab').forEach(b=>b.onclick=()=>{curStatus=b.dataset.s;$('rv-detail').hidden=true;loadQueue()});
+      loadClub();return;
+  }
   if(curStatus==='BRANDS'){
     const tr=await api('/studio/api/review/submissions?status=ALL');
     if(tr.data){const cm=countsOf(tr.data.counts);

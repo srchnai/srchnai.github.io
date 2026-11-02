@@ -93,3 +93,28 @@
 .br-toast.show{opacity:1}
 @media(max-width:760px){.br-loc-wrap{grid-template-columns:1fr}.br-map{min-height:240px}}
 @media(prefers-reduced-motion:reduce){.br-card{transition:none}}
+
+/* SRCHN CLUB (monochrome only) */
+.br-club-badge{display:inline-block;margin:12px 0 0;border:1px solid #111;border-radius:999px;padding:5px 14px;font-size:11px;font-weight:700;letter-spacing:.18em;color:#111;background:#fff}
+.br-steps{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:12px;counter-reset:st}
+.br-steps li{counter-increment:st;padding:16px 18px;border:1px solid #e3e3e3;border-radius:14px;background:#fff;color:#333}
+.br-steps li::before{content:counter(st,decimal-leading-zero);display:block;font-size:12px;font-weight:700;letter-spacing:.14em;color:#777;margin-bottom:6px}
+.cl-form{display:grid;gap:14px;max-width:520px;margin-top:14px}
+.cl-form label{display:grid;gap:6px;font-size:13px;font-weight:600;color:#333}
+.cl-form input,.cl-form textarea{border:1px solid #d6d6d6;border-radius:10px;padding:11px 12px;font:inherit;background:#fff;color:#111}
+.cl-form input:focus,.cl-form textarea:focus{outline:2px solid #111;outline-offset:1px}
+.cl-msg{font-size:13.5px;margin:2px 0 0;color:#333}
+.cl-cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-top:18px}
+.cl-card{border:1px solid #e3e3e3;border-radius:14px;padding:18px;background:#fff}
+.cl-card h3{margin:0 0 6px;font-size:12px;letter-spacing:.12em;color:#777}
+.cl-card p{margin:4px 0;color:#222}
+.cl-stat{font-size:26px;font-weight:800;color:#111;margin:4px 0}
+.cl-sub{color:#666;font-size:13px}
+.cl-h{margin-top:34px}
+.cl-note{border-left:3px solid #111;background:#f7f7f7;padding:12px 16px;border-radius:0 10px 10px 0;font-size:13.5px;color:#333;margin:14px 0}
+.cl-scroll{overflow-x:auto}
+.cl-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px}
+.cl-table th{text-align:left;font-size:11px;letter-spacing:.12em;color:#777;padding:8px 10px;border-bottom:1px solid #e3e3e3}
+.cl-table td{padding:10px;border-bottom:1px solid #f0f0f0;color:#222;vertical-align:top}
+.cl-pill{display:inline-block;border:1px solid #111;border-radius:999px;padding:3px 10px;font-size:10.5px;font-weight:700;letter-spacing:.12em;color:#111}
+.cl-pill.solid{background:#111;color:#fff}
