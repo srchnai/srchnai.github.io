@@ -105,7 +105,7 @@ async function reviewRoute(request,env){
   if(!reserved)return JSONR({error:'Wait one minute before another code.'},429);
   const day=new Date(now*1000).toISOString().slice(0,10);
   // EXACT same table and binding as guide, not an extra five/day allowance.
-  const budget=await env.BUDGETDB.prepare('INSERT INTO preview_mail_budget(key,count) VALUES(?,1) ON CONFLICT(key) DO UPDATE SET count=count+1 WHERE count<5 RETURNING count').bind(day).first();
+  const budget=await env.BUDGETDB.prepare('INSERT INTO preview_mail_budget(key,count) VALUES(?,1) ON CONFLICT(key) DO UPDATE SET count=count+1 WHERE count<5 RETURNING count').bind('rv:'+u.hostname+':'+day).first();
   if(!budget){await db.prepare('DELETE FROM sessions WHERE digest=? AND requested_at=?').bind(k,now).run();return JSONR({error:'Daily preview email allowance reached.'},429)}
   const sent=await env.REVIEWMAIL.fetch(new Request('https://srchn-inference.internal/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task:'smtp_review',to:email,code})}));
   if(!sent.ok){await db.prepare('DELETE FROM sessions WHERE digest=? AND requested_at=?').bind(k,now).run();return JSONR({error:'Email unavailable.'},503)}
