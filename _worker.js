@@ -1091,7 +1091,7 @@ async function brandsRoute(request,env){
  }
  /* SSR: brand profile + branch pages */
  const m=/^\/brands\/([a-z0-9-]+)\/(?:locations\/([a-z0-9-]+)\/)?$/.exec(p);
- if(m){
+ if(m&&m[1]!=='workspace'){
   const b=await db.prepare("SELECT * FROM br_brands WHERE slug=? AND status='PUBLISHED'").bind(m[1]).first();
   if(!b)return new Response(brChrome({title:'Brand not found — SRCHN BRANDS',desc:'This brand is not published on SRCHN.',canon:u.origin+'/brands/',body:'<section class="br-sec"><h1>Brand not found</h1><p>This brand is not published on SRCHN yet. <a href="/brands/">Explore brands</a>.</p></section>'}),{status:404,headers:{'Content-Type':'text/html; charset=utf-8'}});
   const locs=(await db.prepare("SELECT * FROM br_locations WHERE brand_id=? AND status='PUBLISHED' ORDER BY created_at").bind(b.id).all()).results||[];
