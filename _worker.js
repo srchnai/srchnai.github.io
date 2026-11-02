@@ -812,6 +812,16 @@ async function studioRoute(request,env){
   if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown creator.'},404);
   return JSONR({ok:true,featured:on});
  }
+ if(p==='/studio/api/review/creator-update'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const no=clean(b.creator_no,20),name=clean(b.name,80);
+  if(!no||!name)return JSONR({error:'creator_no and name required.'},400);
+  const r=await db.prepare('UPDATE stu_creators SET full_name=?,updated_at=? WHERE creator_no=?').bind(name,now,no).run();
+  if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown creator.'},404);
+  return JSONR({ok:true});
+ }
  if(p==='/studio/api/review/retry-email'&&request.method==='POST'){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
   const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
