@@ -285,6 +285,14 @@ footer{background:var(--grey);border-top:1px solid var(--line);padding:52px 0 34
  .searchbar .btn{padding:10px 16px;font-size:.88rem}
  .wrap{padding:0 16px}
 }
+/* desktop header fit: nav links + call chip + CTA must fit the 1180 container */
+@media (min-width:1100px){
+ .sh-in{gap:10px}
+ .sh-nav{gap:0;margin-left:4px}
+ .sh-nav>a,.sh-nav details>summary{padding:8px 7px;font-size:.82rem}
+ .sh-call{padding:8px 12px;font-size:.84rem;gap:7px}
+ .sh-cta .btn{padding:10px 16px;font-size:.86rem}
+}
 @media print{.sh,.mbar,.svc-aside,footer{display:none}}
 
 /* ---- master brief (2 Nov 2026) components ---- */
