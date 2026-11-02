@@ -187,10 +187,18 @@ async function decideClaim(id,dec){
   else msg($('rv-msg'),(r.data&&r.data.error)||'Failed.');
   loadBrands();
 }
+async function recordPlan(bid,plan){
+  const note=prompt('Documented note (payment reference or exception reason) - required:')||'';
+  if(!note.trim())return;
+  const r=await api('/studio/api/review/subscription-save',{method:'POST',json:{brand_id:bid,plan,note}});
+  if(r.data&&r.data.ok)msg($('rv-msg'),r.data.message,true);else msg($('rv-msg'),(r.data&&r.data.error)||'Failed.');
+  openBrand(bid);
+}
 async function openBrand(id){
   const r=await api('/studio/api/review/brand-detail?id='+encodeURIComponent(id));
   if(!r.data||r.data.error){msg($('rv-msg'),(r.data&&r.data.error)||'Could not load.');return}
   const b=r.data.brand,locs=r.data.locations||[],prods=r.data.products||[],mems=r.data.members||[],audit=r.data.audit||[];
+  const sub=r.data.subscription||null,invs=r.data.invoices||[],vids=r.data.video_count||0;
   const d=$('rv-detail');
   d.hidden=false;
   d.innerHTML='<button class="rv-back" id="bk">&larr; Back to brands</button>'
@@ -202,6 +210,12 @@ async function openBrand(id){
   +'<div class="rv-card"><h3>Locations ('+locs.length+')</h3>'+(locs.length?locs.map(l=>'<p><b>'+esc(l.name)+'</b> · '+esc(l.locality||'')+' · '+esc(l.status)+(l.status!=='PUBLISHED'?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-locpub="'+esc(l.id)+'">Publish</button>':' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-locun="'+esc(l.id)+'">Unpublish</button>')+'</p>').join(''):'<p>None yet.</p>')+'</div>'
   +'<div class="rv-card"><h3>Products and services ('+prods.length+')</h3>'+(prods.length?prods.map(x=>'<p><b>'+esc(x.name)+'</b> · '+esc(x.price_text||'')+' · '+esc(x.status)+(x.status!=='PUBLISHED'?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-prodpub="'+esc(x.id)+'">Publish</button>':' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-produn="'+esc(x.id)+'">Unpublish</button>')+'</p>').join(''):'<p>None yet.</p>')+'</div>'
   +'<div class="rv-card"><h3>Team</h3>'+(mems.length?mems.map(m=>'<p>'+esc(m.display_name||m.creator_no||'')+' · '+esc(m.role)+' · '+esc(m.status)+'</p>').join(''):'<p>No members.</p>')+'</div>'
+  +'<div class="rv-card"><h3>Subscription</h3>'
+  +(sub?'<p><b>'+esc(sub.plan)+'</b> · Rs '+Number(sub.price_inr).toLocaleString('en-IN')+' · '+esc(sub.status)+' · renews '+new Date(sub.renew_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+'</p><p style="color:#666;font-size:13px">Note: '+esc(sub.note||'-')+'</p>':'<p>No active plan.</p>')
+  +'<p style="color:#666;font-size:13px">Active videos: '+vids+' of 30</p>'
+  +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><button class="rv-btn ghost" style="padding:6px 12px;font-size:12.5px" id="sub-m">Record monthly plan</button><button class="rv-btn ghost" style="padding:6px 12px;font-size:12.5px" id="sub-a">Record annual plan</button></div>'
+  +(invs.length?'<h3 style="margin-top:12px">Invoices</h3>'+invs.map(i=>'<p style="font-size:13.5px">'+esc(i.inv_no)+' · Rs '+Number(i.amount_inr).toLocaleString('en-IN')+' · <b>'+esc(i.status)+'</b>'+(i.pay_ref?' · ref '+esc(i.pay_ref):'')+(i.status==='ISSUED'?' <button class="rv-btn ghost" style="padding:3px 10px;font-size:11.5px" data-paid="'+esc(i.id)+'">Mark paid</button>':'')+'</p>').join(''):'')
+  +'<p style="color:#8a8a8a;font-size:12.5px;margin-top:8px">SRCHN PAY checkout is configuration-required and disabled. Plans are recorded only after payment confirmation; PAID needs a real payment reference.</p></div>'
   +'<div class="rv-audit"><h3>Audit</h3>'+(audit.length?audit.map(a=>'<div class="rv-ev"><span class="w">'+new Date(a.ts).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'</span> '+esc(a.actor||'')+' · '+esc(a.action)+' · '+esc((a.detail||'').slice(0,100))+'</div>').join(''):'<div class="rv-ev">No audit entries.</div>')+'</div>';
   $('bk').onclick=()=>{d.hidden=true};
   if($('bp'))$('bp').onclick=async()=>{const r=await api('/studio/api/review/brand-status',{method:'POST',json:{brand_id:b.id,status:'PUBLISHED'}});if(r.data&&r.data.ok){msg($('rv-msg'),'Brand published.',true);openBrand(b.id);loadBrandsRows()}};
@@ -210,6 +224,15 @@ async function openBrand(id){
   d.querySelectorAll('[data-locun]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/location-status',{method:'POST',json:{location_id:x.dataset.locun,status:'DRAFT'}});openBrand(b.id)});
   d.querySelectorAll('[data-prodpub]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/product-status',{method:'POST',json:{product_id:x.dataset.prodpub,brand_id:b.id,status:'PUBLISHED'}});openBrand(b.id)});
   d.querySelectorAll('[data-produn]').forEach(x=>x.onclick=async()=>{await api('/studio/api/review/product-status',{method:'POST',json:{product_id:x.dataset.produn,brand_id:b.id,status:'DRAFT'}});openBrand(b.id)});
+  $('sub-m').onclick=()=>recordPlan(b.id,'monthly');
+  $('sub-a').onclick=()=>recordPlan(b.id,'annual');
+  d.querySelectorAll('[data-paid]').forEach(x=>x.onclick=async()=>{
+    const ref=prompt('Real payment reference (UPI / bank ref) - required:')||'';
+    if(!ref.trim())return;
+    const rr=await api('/studio/api/review/invoice-status',{method:'POST',json:{invoice_id:x.dataset.paid,brand_id:b.id,status:'PAID',pay_ref:ref}});
+    if(rr.data&&rr.data.ok)msg($('rv-msg'),'Invoice marked paid.',true);else msg($('rv-msg'),(rr.data&&rr.data.error)||'Failed.');
+    openBrand(b.id);
+  });
 }
 async function loadBrandsRows(){
   const rb=await api('/studio/api/review/brands');

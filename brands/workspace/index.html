@@ -99,16 +99,26 @@ function load(){
   if(!r)return;
   if(r.status===401){el('gate').style.display='block';return}
   el('app').style.display='block';
-  renderBrands(r.data.memberships||[],r.data.stats||{},r.data.teams||{});
+  renderBrands(r.data.memberships||[],r.data.stats||{},r.data.teams||{},r.data.subscriptions||{},r.data.invoices||{});
   renderClaims(r.data.claims||[]);
  });
 }
-function renderBrands(list,stats,teams){
+function inr(n){return 'Rs '+Number(n||0).toLocaleString('en-IN')}
+function renderBrands(list,stats,teams,subs,invs){
  var w=el('brands');
  if(!list.length){w.innerHTML='<div class="bw-card"><p class="bw-meta">No brands yet. Claim an existing brand or request a new one below.</p></div>';return}
  w.innerHTML=list.map(function(b){
-  var st=stats[b.brand_id]||{views7d:0,views30d:0,submissions:0};
+  var st=stats[b.brand_id]||{views7d:0,views30d:0,submissions:0,videos:0};
   var team=teams[b.brand_id]||null;
+  var sub=subs[b.brand_id]||null;
+  var inv=invs[b.brand_id]||[];
+  var subHtml='<h3>Subscription</h3>'
+   +(sub
+    ?'<p><span class="bw-badge">'+esc(sub.status)+'</span> <strong>'+(sub.plan==='annual'?'Annual':'Monthly')+'</strong> · '+inr(sub.price_inr)+(sub.plan==='annual'?'/year':'/month')+'</p><p class="bw-meta">Renews '+new Date(sub.renew_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+'</p>'
+    :'<p class="bw-meta">No active plan. Monthly: Rs 3,000/month. Annual: Rs 30,000/year (saves Rs 6,000 against 12 monthly payments).</p>')
+   +'<p class="bw-meta">Videos on the brand page: '+st.videos+' of 30 active slots</p>'
+   +(inv.length?'<ul class="bw-list">'+inv.map(function(i){return '<li>'+esc(i.inv_no)+' · '+inr(i.amount_inr)+' · '+esc(i.status)+' <span class="bw-meta">'+new Date(i.issued_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+'</span></li>'}).join('')+'</ul>':'')
+   +'<p class="bw-note">Online checkout launches with SRCHN PAY. Team SRCHN activates your plan after payment confirmation; invoices appear here.</p>';
   return '<div class="bw-card"><h2>'+esc(b.name)+'</h2><p class="bw-meta">'+esc(b.category)+' · '+esc(b.locs)+' location(s) · '+st.views7d+' views this week · '+st.views30d+' this month · '+st.submissions+' submission(s)</p>'
   +'<span class="bw-badge">'+esc(b.status)+'</span><span class="bw-badge soft">'+esc(b.role)+'</span>'
   +(b.status==='PUBLISHED'?' <a class="bw-badge soft" href="/brands/'+esc(b.slug)+'/" style="text-decoration:none">View public page</a>':'')
@@ -142,6 +152,7 @@ function renderBrands(list,stats,teams){
   +'<button class="bw-btn" type="button" data-media="'+b.brand_id+'">Submit for review</button>'
   +'<p class="bw-err" id="me-'+b.brand_id+'"></p><p class="bw-ok" id="mk-'+b.brand_id+'"></p>'
   +'<p class="bw-note">Media enters the real SRCHN review queue. It appears on your page only after approval.</p>'
+  +subHtml
   +(team?'<h3>Team access</h3><ul class="bw-list">'+team.map(function(m){return '<li>'+esc(m.display_name||m.email||'')+' <span class="bw-badge soft">'+esc(m.role)+'</span>'+(m.role!=='owner'?' <button class="bw-btn ghost" style="padding:4px 12px;font-size:11px;margin:0" data-mrm="'+b.brand_id+'|'+m.creator_id+'">Remove</button>':'')+'</li>'}).join('')+'</ul>'
   +'<label>Add a teammate (their Studio email)</label><input type="text" id="tm-'+b.brand_id+'" placeholder="name@example.com"/>'
   +'<label>Their role</label><select id="tr-'+b.brand_id+'"><option value="manager">Brand manager</option><option value="location_manager">Location manager</option><option value="editor">Content editor</option><option value="finance">Finance</option><option value="readonly">Read-only</option></select>'

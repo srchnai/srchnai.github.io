@@ -667,12 +667,18 @@ async function studioRoute(request,env){
    stats[m.brand_id]={
     views7d:((await db.prepare('SELECT COUNT(*) n FROM br_views WHERE brand_id=? AND ts>?').bind(m.slug,now-7*86400000).first())||{}).n||0,
     views30d:((await db.prepare('SELECT COUNT(*) n FROM br_views WHERE brand_id=? AND ts>?').bind(m.slug,now-30*86400000).first())||{}).n||0,
-    submissions:((await db.prepare("SELECT COUNT(*) n FROM stu_submissions WHERE details LIKE '%'||?||'%'").bind(m.brand_id).first())||{}).n||0};
+    submissions:((await db.prepare("SELECT COUNT(*) n FROM stu_submissions WHERE details LIKE '%'||?||'%'").bind(m.brand_id).first())||{}).n||0,
+    videos:((await db.prepare("SELECT COUNT(*) n FROM br_media_links WHERE brand_id=? AND kind='video'").bind(m.brand_id).first())||{}).n||0};
    if(m.role==='owner'||m.role==='manager'){
     teams[m.brand_id]=(await db.prepare("SELECT mm.creator_id,mm.role,mm.status,mm.created_at,cr.display_name,cr.email FROM br_members mm LEFT JOIN stu_creators cr ON cr.id=mm.creator_id WHERE mm.brand_id=? AND mm.status='ACTIVE' ORDER BY mm.created_at").bind(m.brand_id).all()).results||[];
    }
   }
-  return JSONR({memberships:mem,claims,products:prods,stats,teams});
+  const subs={},invs={};
+  for(const m of mem){
+   subs[m.brand_id]=(await db.prepare("SELECT plan,status,price_inr,start_at,renew_at,note FROM br_subscriptions WHERE brand_id=? AND status IN ('ACTIVE','GRACE') ORDER BY created_at DESC LIMIT 1").bind(m.brand_id).first())||null;
+   invs[m.brand_id]=(await db.prepare('SELECT inv_no,period,amount_inr,status,issued_at,paid_at FROM br_invoices WHERE brand_id=? ORDER BY issued_at DESC LIMIT 10').bind(m.brand_id).all()).results||[];
+  }
+  return JSONR({memberships:mem,claims,products:prods,stats,teams,subscriptions:subs,invoices:invs});
  }
  if(p==='/studio/api/workspace/member-save'&&request.method==='POST'){
   const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
@@ -1004,7 +1010,7 @@ async function studioRoute(request,env){
   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
   return JSONR({ok:true,email:es});
  }
- if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
+ if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
@@ -1052,6 +1058,8 @@ async function brTables(db){
  await db.prepare("CREATE TABLE IF NOT EXISTS br_audit(id INTEGER PRIMARY KEY AUTOINCREMENT,actor TEXT,action TEXT,brand_id TEXT,detail TEXT,ts INTEGER NOT NULL)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_claims(id TEXT PRIMARY KEY,brand_id TEXT,requested_name TEXT,requested_category TEXT,requested_locality TEXT,creator_id TEXT NOT NULL,claimant_role TEXT,proof_note TEXT,status TEXT NOT NULL DEFAULT 'PENDING',reviewer TEXT,review_note TEXT,created_at INTEGER NOT NULL,decided_at INTEGER)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_members(id TEXT PRIMARY KEY,brand_id TEXT NOT NULL,creator_id TEXT NOT NULL,role TEXT NOT NULL DEFAULT 'owner',status TEXT NOT NULL DEFAULT 'ACTIVE',added_by TEXT,created_at INTEGER NOT NULL,UNIQUE(brand_id,creator_id))").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_subscriptions(id TEXT PRIMARY KEY,brand_id TEXT NOT NULL,plan TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',price_inr INTEGER NOT NULL,start_at INTEGER NOT NULL,renew_at INTEGER NOT NULL,note TEXT,created_by TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_invoices(id TEXT PRIMARY KEY,inv_no TEXT UNIQUE NOT NULL,brand_id TEXT NOT NULL,subscription_id TEXT,period TEXT,amount_inr INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'ISSUED',pay_ref TEXT,issued_at INTEGER NOT NULL,paid_at INTEGER,created_by TEXT)").run();
  const c=await db.prepare('SELECT COUNT(*) AS n FROM br_categories').first();
  if(!c||!c.n){const st=await db.prepare('INSERT OR IGNORE INTO br_categories(name,position) VALUES(?,?)');let i=0;for(const n of BR_CATS){await st.bind(n,i++).run()}}
 }
@@ -1252,7 +1260,10 @@ async function brReviewRoute(p,request,env,db,now){
   const prods=(await db.prepare("SELECT * FROM br_products WHERE brand_id=? AND status!='DELETED' ORDER BY created_at").bind(id).all()).results||[];
   const mems=(await db.prepare("SELECT m.role,m.status,m.created_at,c.display_name,c.creator_no,c.email FROM br_members m LEFT JOIN stu_creators c ON c.id=m.creator_id WHERE m.brand_id=?").bind(id).all()).results||[];
   const audit=(await db.prepare('SELECT actor,action,detail,ts FROM br_audit WHERE brand_id=? ORDER BY ts DESC LIMIT 20').bind(id).all()).results||[];
-  return JSONR({brand:b,locations:locs,products:prods,members:mems,audit});
+  const sub=await db.prepare("SELECT * FROM br_subscriptions WHERE brand_id=? AND status IN ('ACTIVE','GRACE') ORDER BY created_at DESC LIMIT 1").bind(id).first();
+  const invs=(await db.prepare('SELECT id,inv_no,period,amount_inr,status,pay_ref,issued_at,paid_at FROM br_invoices WHERE brand_id=? ORDER BY issued_at DESC LIMIT 20').bind(id).all()).results||[];
+  const videos=((await db.prepare("SELECT COUNT(*) n FROM br_media_links WHERE brand_id=? AND kind='video'").bind(id).first())||{}).n||0;
+  return JSONR({brand:b,locations:locs,products:prods,members:mems,audit,subscription:sub||null,invoices:invs,video_count:videos});
  }
  if(p==='/studio/api/review/product-status'&&request.method==='POST'){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
@@ -1262,6 +1273,44 @@ async function brReviewRoute(p,request,env,db,now){
   const r=await db.prepare('UPDATE br_products SET status=? WHERE id=?').bind(st,clean(b.product_id,40)).run();
   if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown product.'},404);
   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'product-'+st.toLowerCase(),clean(b.brand_id,40),clean(b.product_id,40),now).run();
+  return JSONR({ok:true,status:st});
+ }
+ if(p==='/studio/api/review/subscription-save'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);
+  const br=await db.prepare("SELECT id,name FROM br_brands WHERE id=? AND status!='DELETED'").bind(bid).first();if(!br)return JSONR({error:'Unknown brand.'},404);
+  const plan=clean(b.plan,10);if(!['monthly','annual'].includes(plan))return JSONR({error:'plan must be monthly or annual.'},400);
+  const note=clean(b.note,400);if(!note)return JSONR({error:'A documented note is required (payment reference or exception reason).'},400);
+  const months=plan==='annual'?12:1,price=plan==='annual'?30000:3000;
+  await db.prepare("UPDATE br_subscriptions SET status='SUPERSEDED',updated_at=? WHERE brand_id=? AND status IN ('ACTIVE','GRACE')").bind(now,bid).run();
+  const id=crypto.randomUUID();
+  await db.prepare('INSERT INTO br_subscriptions(id,brand_id,plan,status,price_inr,start_at,renew_at,note,created_by,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(id,bid,plan,'ACTIVE',price,now,now+months*30*86400000,note,rv.email,now,now).run();
+  const seq=(await db.prepare('SELECT COUNT(*) n FROM br_invoices').first()).n+1;
+  const invNo='SRCHN-INV-'+new Date(now).getUTCFullYear()+'-'+String(seq).padStart(5,'0');
+  await db.prepare('INSERT INTO br_invoices(id,inv_no,brand_id,subscription_id,period,amount_inr,status,issued_at,created_by) VALUES(?,?,?,?,?,?,?,?,?)').bind(crypto.randomUUID(),invNo,bid,id,new Date(now).toISOString().slice(0,7)+' ('+plan+')',price,'ISSUED',now,rv.email).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'subscription-save',bid,plan+' '+invNo+' '+note,now).run();
+  return JSONR({ok:true,subscription_id:id,invoice:invNo,message:'Plan recorded and invoice '+invNo+' issued. Mark it PAID only against a real payment reference.'});
+ }
+ if(p==='/studio/api/review/subscription-status'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const st=clean(b.status,12);if(!['ACTIVE','GRACE','CANCELLED','EXPIRED'].includes(st))return JSONR({error:'Unknown status.'},400);
+  const note=clean(b.note,400);if(!note)return JSONR({error:'A documented note is required.'},400);
+  const r=await db.prepare('UPDATE br_subscriptions SET status=?,note=?,updated_at=? WHERE id=?').bind(st,note,now,clean(b.subscription_id,40)).run();
+  if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown subscription.'},404);
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'subscription-'+st.toLowerCase(),clean(b.brand_id,40),note,now).run();
+  return JSONR({ok:true,status:st});
+ }
+ if(p==='/studio/api/review/invoice-status'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const st=clean(b.status,10);if(!['PAID','VOID','UNPAID'].includes(st))return JSONR({error:'Unknown status.'},400);
+  const ref=clean(b.pay_ref,120);
+  if(st==='PAID'&&!ref)return JSONR({error:'Recording PAID needs the real payment reference (UPI/bank ref).'},400);
+  const r=await db.prepare('UPDATE br_invoices SET status=?,pay_ref=?,paid_at=? WHERE id=?').bind(st,ref||null,st==='PAID'?now:null,clean(b.invoice_id,40)).run();
+  if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown invoice.'},404);
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'invoice-'+st.toLowerCase(),clean(b.brand_id,40),ref||'',now).run();
   return JSONR({ok:true,status:st});
  }
  if(p==='/studio/api/review/brand-save'&&request.method==='POST'){
