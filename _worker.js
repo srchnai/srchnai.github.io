@@ -838,6 +838,7 @@ async function studioRoute(request,env){
   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
   return JSONR({ok:true,email:es});
  }
+ if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
@@ -870,6 +871,267 @@ async function studioRoute(request,env){
  }
  return JSONR({error:'Not found.'},404);
 }
+
+/* ---------- SRCHN BRANDS (master spec) : public SSR + data model ---------- */
+const BR_CATS=['Restaurants','Cafes','Breweries','Hotels and resorts','Co-living','Commercial offices','Coworking spaces','Retail','Beauty and wellness','Fitness and sports','Entertainment','Events and nightlife','Travel and experiences','Education','Healthcare','Lifestyle','Other'];
+async function brTables(db){
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_brands(id TEXT PRIMARY KEY,slug TEXT UNIQUE NOT NULL,name TEXT NOT NULL,category TEXT NOT NULL,subcategory TEXT,tagline TEXT,description TEXT,website TEXT,socials TEXT,founded_year TEXT,founders TEXT,hq_city TEXT,verified INTEGER NOT NULL DEFAULT 0,club INTEGER NOT NULL DEFAULT 0,featured INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'DRAFT',created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL,published_at INTEGER)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_locations(id TEXT PRIMARY KEY,brand_id TEXT NOT NULL,slug TEXT NOT NULL,name TEXT NOT NULL,address TEXT,locality TEXT,city TEXT,state TEXT,pincode TEXT,lat REAL,lon REAL,phone TEXT,hours TEXT,facilities TEXT,booking_enabled INTEGER NOT NULL DEFAULT 0,visit_enabled INTEGER NOT NULL DEFAULT 0,pay_enabled INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'DRAFT',created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL,UNIQUE(brand_id,slug))").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_media_links(id TEXT PRIMARY KEY,brand_id TEXT NOT NULL,location_id TEXT,media_id TEXT NOT NULL,kind TEXT NOT NULL DEFAULT 'photo',pillar TEXT NOT NULL,category TEXT,title TEXT,description TEXT,credit TEXT,featured INTEGER NOT NULL DEFAULT 0,pinned INTEGER NOT NULL DEFAULT 0,position INTEGER NOT NULL DEFAULT 0,created_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_faqs(id TEXT PRIMARY KEY,brand_id TEXT NOT NULL,location_id TEXT,q TEXT NOT NULL,a TEXT NOT NULL,position INTEGER NOT NULL DEFAULT 0)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_campaigns(id TEXT PRIMARY KEY,brand_id TEXT NOT NULL,title TEXT NOT NULL,pillar TEXT NOT NULL DEFAULT 'marketing',description TEXT,poster_media TEXT,video_media TEXT,start_at INTEGER,end_at INTEGER,locations TEXT,terms TEXT,cta_label TEXT,cta_url TEXT,status TEXT NOT NULL DEFAULT 'DRAFT',created_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_products(id TEXT PRIMARY KEY,brand_id TEXT NOT NULL,location_id TEXT,kind TEXT NOT NULL DEFAULT 'product',name TEXT NOT NULL,description TEXT,category TEXT,price_text TEXT,availability TEXT,link TEXT,status TEXT NOT NULL DEFAULT 'DRAFT',created_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_views(id INTEGER PRIMARY KEY AUTOINCREMENT,brand_id TEXT NOT NULL,location_id TEXT,kind TEXT NOT NULL,ts INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_categories(name TEXT PRIMARY KEY,position INTEGER NOT NULL DEFAULT 0)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_audit(id INTEGER PRIMARY KEY AUTOINCREMENT,actor TEXT,action TEXT,brand_id TEXT,detail TEXT,ts INTEGER NOT NULL)").run();
+ const c=await db.prepare('SELECT COUNT(*) AS n FROM br_categories').first();
+ if(!c||!c.n){const st=await db.prepare('INSERT OR IGNORE INTO br_categories(name,position) VALUES(?,?)');let i=0;for(const n of BR_CATS){await st.bind(n,i++).run()}}
+}
+const brSlug=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
+const brEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const brMediaUrl=id=>'/studio/api/media/'+encodeURIComponent(id);
+function brNav(active){
+ const items=[['/discovery/','i-compass','Explore'],['/localities/','i-map-pin','Localities'],['/brands/','i-shopping-bag','Brands'],['/discovery/profile/','i-bookmark','Saved'],['/plan/','i-calendar-check','Plan'],['/studio/','i-clapperboard','Studio'],['/club/','i-users','Club'],['/bangalore/','i-sparkles','Your Local Buddy']];
+ return items.map(([h,i,l])=>'<a '+(l===active?'aria-current="page" ':'')+'href="'+h+'"'+(l==='Your Local Buddy'?' rel="noopener" target="_blank"':'')+'><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#'+i+'"></use></svg><span>'+l+'</span></a>').join('');
+}
+function brChrome(o){
+ const jsonld=(o.jsonld||[]).map(j=>'<script type="application/ld+json">'+JSON.stringify(j)+'</script>').join('\n');
+ return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8"/>\n<meta content="width=device-width,initial-scale=1" name="viewport"/>\n<title>'+brEsc(o.title)+'</title>\n<meta content="'+brEsc(o.desc)+'" name="description"/>\n<link href="'+o.canon+'" rel="canonical"/>\n<meta content="'+brEsc(o.title)+'" property="og:title"/><meta content="'+brEsc(o.desc)+'" property="og:description"/><meta content="website" property="og:type"/><meta content="'+o.canon+'" property="og:url"/>\n<link href="/assets/redesign/srchn-redesign.css" rel="stylesheet"/>\n<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>\n<link href="/assets/brand/apple-touch-icon.png" rel="apple-touch-icon"/>\n<link href="/site.webmanifest" rel="manifest"/>\n<meta content="#ffffff" name="theme-color"/>\n<link href="/assets/brand/brand.css" rel="stylesheet"/>\n<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>\n<link href="/brands/brands.css" rel="stylesheet"/>\n<link href="/discovery/vendor/leaflet.css" rel="stylesheet"/>\n'+jsonld+'\n</head>\n<body class="br-body">\n<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav">'+brNav(o.active||'Brands')+'</nav></header>\n<main>\n'+o.body+'\n</main>\n<footer class="br-footer"><p>SRCHN — SEE IT BEFORE YOU GO.</p><p class="br-footer-links"><a href="/brands/">Brands</a> · <a href="/studio/">Studio</a> · <a href="/club/">Club</a> · <a href="/property/">Property</a></p></footer>\n<script src="/discovery/vendor/leaflet.js" defer></script>\n<script src="/brands/brands.js" defer></script>\n</body>\n</html>';
+}
+function brCard(b){
+ const loc=b.loc_count>0?b.loc_count+' location'+(b.loc_count>1?'s':''):'';
+ return '<article class="br-card"><a class="br-card-link" href="/brands/'+brEsc(b.slug)+'/">'+(b.logo_media?'<img class="br-card-logo" src="'+brMediaUrl(b.logo_media)+'" alt="'+brEsc(b.name)+' logo" loading="lazy"/>':'<span class="br-card-initial" aria-hidden="true">'+brEsc((b.name||'?')[0])+'</span>')+'<h3>'+brEsc(b.name)+'</h3><p class="br-card-meta">'+brEsc([b.category,b.first_locality].filter(Boolean).join(' · '))+'</p>'+(b.tagline?'<p class="br-card-tag">'+brEsc(b.tagline)+'</p>':'')+(loc?'<p class="br-card-locs">'+loc+'</p>':'')+'<span class="br-card-cta">Explore Brand</span></a></article>';
+}
+async function brListQuery(db,where,args){
+ return db.prepare("SELECT b.*,(SELECT COUNT(*) FROM br_locations l WHERE l.brand_id=b.id AND l.status='PUBLISHED') AS loc_count,(SELECT locality FROM br_locations l WHERE l.brand_id=b.id AND l.status='PUBLISHED' ORDER BY created_at LIMIT 1) AS first_locality,(SELECT media_id FROM br_media_links m WHERE m.brand_id=b.id AND m.pillar='identity' AND m.category='logo' LIMIT 1) AS logo_media FROM br_brands b WHERE "+where+" ORDER BY b.featured DESC,b.published_at DESC LIMIT 60").bind(...args).all();
+}
+async function brandsRoute(request,env){
+ const u=new URL(request.url),p=u.pathname,now=Date.now(),db=env.DB;
+ if(!db)return JSONR({error:'Brand storage unavailable.'},503);
+ await brTables(db);
+ /* public APIs */
+ if(p==='/brands/api/search'&&request.method==='GET'){
+  const q=(u.searchParams.get('q')||'').trim().slice(0,80),cat=(u.searchParams.get('category')||'').trim().slice(0,60),loc=(u.searchParams.get('locality')||'').trim().slice(0,60);
+  let where="b.status='PUBLISHED'",args=[];
+  if(q){where+=" AND (b.name LIKE ? OR b.category LIKE ? OR b.tagline LIKE ? OR b.description LIKE ?)";const w='%'+q+'%';args.push(w,w,w,w)}
+  if(cat){where+=" AND b.category=?";args.push(cat)}
+  if(loc){where+=" AND EXISTS(SELECT 1 FROM br_locations l WHERE l.brand_id=b.id AND l.status='PUBLISHED' AND l.locality=?)";args.push(loc)}
+  if(u.searchParams.get('club')==='1'){where+=" AND b.club=1"}
+  if(u.searchParams.get('multiloc')==='1'){where+=" AND (SELECT COUNT(*) FROM br_locations l WHERE l.brand_id=b.id AND l.status='PUBLISHED')>1"}
+  if(u.searchParams.get('booking')==='1'){where+=" AND EXISTS(SELECT 1 FROM br_locations l WHERE l.brand_id=b.id AND l.status='PUBLISHED' AND l.booking_enabled=1)"}
+  const rows=await brListQuery(db,where,args);
+  return JSONR({brands:(rows.results||[]).map(b=>({slug:b.slug,name:b.name,category:b.category,tagline:b.tagline||'',locality:b.first_locality||'',locations:b.loc_count,club:b.club===1,verified:b.verified===1,logo:b.logo_media?brMediaUrl(b.logo_media):null}))});
+ }
+ if(p==='/brands/api/view'&&request.method==='POST'){
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);if(!bid)return JSONR({error:'brand_id required.'},400);
+  const kind=['brand','location','video'].includes(b.kind)?b.kind:'brand';
+  await db.prepare('INSERT INTO br_views(brand_id,location_id,kind,ts) VALUES(?,?,?,?)').bind(bid,clean(b.location_id,40)||null,kind,now).run();
+  return JSONR({ok:true});
+ }
+ if(p==='/brands/sitemap.xml'){
+  const bs=await db.prepare("SELECT slug,published_at FROM br_brands WHERE status='PUBLISHED'").all();
+  const ls=await db.prepare("SELECT b.slug AS bslug,l.slug AS lslug FROM br_locations l JOIN br_brands b ON b.id=l.brand_id WHERE l.status='PUBLISHED' AND b.status='PUBLISHED'").all();
+  const urls=['<url><loc>'+u.origin+'/brands/</loc></url>'].concat((bs.results||[]).map(b=>'<url><loc>'+u.origin+'/brands/'+b.slug+'/</loc></url>')).concat((ls.results||[]).map(l=>'<url><loc>'+u.origin+'/brands/'+l.bslug+'/locations/'+l.lslug+'/</loc></url>'));
+  return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.join('\n')+'\n</urlset>',{headers:{'Content-Type':'application/xml; charset=utf-8'}});
+ }
+ /* SSR: landing */
+ if(p==='/brands/'||p==='/brands'){
+  const q=(u.searchParams.get('q')||'').trim().slice(0,80),cat=(u.searchParams.get('category')||'').trim().slice(0,60),loc=(u.searchParams.get('locality')||'').trim().slice(0,60);
+  let where="b.status='PUBLISHED'",args=[];
+  if(q){where+=" AND (b.name LIKE ? OR b.category LIKE ? OR b.tagline LIKE ?)";const w='%'+q+'%';args.push(w,w,w)}
+  if(cat){where+=" AND b.category=?";args.push(cat)}
+  if(loc){where+=" AND EXISTS(SELECT 1 FROM br_locations l WHERE l.brand_id=b.id AND l.status='PUBLISHED' AND l.locality=?)";args.push(loc)}
+  const filtered=q||cat||loc;
+  const all=await brListQuery(db,where,args);
+  const brands=all.results||[];
+  const cats=await db.prepare('SELECT name FROM br_categories ORDER BY position').all();
+  const locs=await db.prepare("SELECT DISTINCT locality FROM br_locations WHERE status='PUBLISHED' AND locality IS NOT NULL AND locality!='' ORDER BY locality LIMIT 40").all();
+  const trend=await db.prepare("SELECT b.*,(SELECT COUNT(*) FROM br_locations l WHERE l.brand_id=b.id AND l.status='PUBLISHED') AS loc_count,(SELECT locality FROM br_locations l WHERE l.brand_id=b.id AND l.status='PUBLISHED' ORDER BY created_at LIMIT 1) AS first_locality,(SELECT media_id FROM br_media_links m WHERE m.brand_id=b.id AND m.pillar='identity' AND m.category='logo' LIMIT 1) AS logo_media,(SELECT COUNT(*) FROM br_views v WHERE v.brand_id=b.slug AND v.ts>?) AS views7d FROM br_brands b WHERE b.status='PUBLISHED' AND (SELECT COUNT(*) FROM br_views v WHERE v.brand_id=b.slug AND v.ts>?)>0 ORDER BY views7d DESC LIMIT 8").bind(now-7*86400000,now-7*86400000).all();
+  const multi=brands.filter(b=>b.loc_count>1);
+  const clubBrands=brands.filter(b=>b.club===1);
+  let body='<section class="br-hero"><p class="br-eyebrow">SRCHN BRANDS</p><h1>MEET THE BRANDS THAT MAKE YOUR CITY.</h1><p class="br-lede">Explore the places, spaces and experiences behind the brands you love. Watch their stories, discover every location and see what awaits before you visit.</p><div class="br-cta-row"><a class="br-btn br-btn-primary" href="#explore">EXPLORE BRANDS</a><a class="br-btn br-btn-ghost" href="/club/">JOIN SRCHN CLUB</a></div></section>';
+  body+='<section class="br-sec" id="explore"><h2>Explore brands</h2><form class="br-search" method="get" action="/brands/"><input type="search" name="q" value="'+brEsc(q)+'" placeholder="Search brands, categories, experiences..." aria-label="Search brands"/><select name="category" aria-label="Category"><option value="">All categories</option>'+(cats.results||[]).map(c=>'<option '+(cat===c.name?'selected ':'')+'value="'+brEsc(c.name)+'">'+brEsc(c.name)+'</option>').join('')+'</select><select name="locality" aria-label="Locality"><option value="">All localities</option>'+(locs.results||[]).map(l=>'<option '+(loc===l.locality?'selected ':'')+'value="'+brEsc(l.locality)+'">'+brEsc(l.locality)+'</option>').join('')+'</select><button class="br-btn br-btn-primary" type="submit">Search</button></form>';
+  if(filtered)body+='<p class="br-result-note">'+brands.length+' result'+(brands.length===1?'':'s')+(q?' for &ldquo;'+brEsc(q)+'&rdquo;':'')+'. <a href="/brands/">Clear</a></p>';
+  body+=brands.length?'<div class="br-grid">'+brands.map(brCard).join('')+'</div>':'<p class="br-empty">'+(filtered?'No brands match this search yet.':'Brands will appear here as Team SRCHN approves them.')+'</p>';
+  body+='</section>';
+  if(!filtered){
+   if((trend.results||[]).length)body+='<section class="br-sec"><h2>Trending this week</h2><div class="br-grid">'+trend.results.map(brCard).join('')+'</div></section>';
+   body+='<section class="br-sec"><h2>Explore by category</h2><div class="br-chips">'+(cats.results||[]).map(c=>'<a class="br-chip" href="/brands/?category='+encodeURIComponent(c.name)+'">'+brEsc(c.name)+'</a>').join('')+'</div></section>';
+   if((locs.results||[]).length)body+='<section class="br-sec"><h2>Explore by locality</h2><div class="br-chips">'+(locs.results||[]).map(l=>'<a class="br-chip" href="/brands/?locality='+encodeURIComponent(l.locality)+'">'+brEsc(l.locality)+'</a>').join('')+'</div></section>';
+   if(multi.length)body+='<section class="br-sec"><h2>Multi-location brands</h2><div class="br-grid">'+multi.map(brCard).join('')+'</div></section>';
+   body+='<section class="br-sec br-club"><h2>SRCHN CLUB</h2><p>SRCHN CLUB is an invite-only access layer for curated brands, places, spaces and experiences. Members see participating brands, member offers and booking privileges. It is not a public discount directory.</p>'+(clubBrands.length?'<div class="br-grid">'+clubBrands.map(brCard).join('')+'</div>':'<p class="br-empty">Participating brands will be shown here once approved for Club.</p>')+'<a class="br-btn br-btn-ghost" href="/club/">Learn about Club</a></section>';
+   body+='<section class="br-sec br-onboard"><h2>Own a brand?</h2><p>Feature your brand on SRCHN with virtual tours, product stories and marketing videos - reviewed by Team SRCHN before anything goes live.</p><a class="br-btn br-btn-primary" href="/studio/join/">FEATURE YOUR BRAND ON SRCHN</a></section>';
+  }
+  const jsonld=[{'@context':'https://schema.org','@type':'WebSite',name:'SRCHN',url:u.origin+'/'},{'@context':'https://schema.org','@type':'WebPage',name:'SRCHN BRANDS',description:'Discover the brands behind your city. Videos, locations, experiences - reviewed by Team SRCHN.',url:u.origin+'/brands/'}];
+  return new Response(brChrome({title:'SRCHN BRANDS — Meet the brands that make your city.',desc:'Explore the places, spaces and experiences behind the brands you love. Watch their stories, discover every location and see what awaits before you visit.',canon:u.origin+'/brands/',body,jsonld}),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'public, max-age=120'}});
+ }
+ /* SSR: brand profile + branch pages */
+ const m=/^\/brands\/([a-z0-9-]+)\/(?:locations\/([a-z0-9-]+)\/)?$/.exec(p);
+ if(m){
+  const b=await db.prepare("SELECT * FROM br_brands WHERE slug=? AND status='PUBLISHED'").bind(m[1]).first();
+  if(!b)return new Response(brChrome({title:'Brand not found — SRCHN BRANDS',desc:'This brand is not published on SRCHN.',canon:u.origin+'/brands/',body:'<section class="br-sec"><h1>Brand not found</h1><p>This brand is not published on SRCHN yet. <a href="/brands/">Explore brands</a>.</p></section>'}),{status:404,headers:{'Content-Type':'text/html; charset=utf-8'}});
+  const locs=(await db.prepare("SELECT * FROM br_locations WHERE brand_id=? AND status='PUBLISHED' ORDER BY created_at").bind(b.id).all()).results||[];
+  const media=(await db.prepare('SELECT * FROM br_media_links WHERE brand_id=? ORDER BY pinned DESC,featured DESC,position,created_at').bind(b.id).all()).results||[];
+  const faqs=(await db.prepare('SELECT * FROM br_faqs WHERE brand_id=? ORDER BY position,rowid').bind(b.id).all()).results||[];
+  const camps=(await db.prepare("SELECT * FROM br_campaigns WHERE brand_id=? AND status='PUBLISHED' AND (end_at IS NULL OR end_at=0 OR end_at>?) ORDER BY start_at DESC").bind(b.id,Math.floor(now/1000)).all()).results||[];
+  if(m[2]){
+   const l=locs.find(x=>x.slug===m[2]);
+   if(!l)return new Response(brChrome({title:'Location not found — SRCHN BRANDS',desc:'This location is not published on SRCHN.',canon:u.origin+'/brands/'+b.slug+'/',body:'<section class="br-sec"><h1>Location not found</h1><p><a href="/brands/'+brEsc(b.slug)+'/">Back to '+brEsc(b.name)+'</a>.</p></section>'}),{status:404,headers:{'Content-Type':'text/html; charset=utf-8'}});
+   const lmedia=media.filter(x=>x.location_id===l.id||!x.location_id);
+   const lfaqs=faqs.filter(x=>x.location_id===l.id||!x.location_id);
+   const dirs=l.lat&&l.lon?'https://www.google.com/maps/dir/?api=1&destination='+l.lat+','+l.lon:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent([b.name,l.address,l.locality,l.city].filter(Boolean).join(' '));
+   const facs=(()=>{try{return JSON.parse(l.facilities||'[]')}catch{return[]}})();
+   let body='<nav class="br-crumb" aria-label="Breadcrumb"><a href="/brands/">Brands</a> / <a href="/brands/'+brEsc(b.slug)+'/">'+brEsc(b.name)+'</a> / <span>'+brEsc(l.name)+'</span></nav>';
+   body+='<section class="br-sec"><p class="br-eyebrow">'+brEsc(b.category)+'</p><h1>'+brEsc(b.name)+' '+brEsc(l.name)+'</h1>'+(l.address?'<p class="br-addr">'+brEsc([l.address,l.locality,l.city,l.state,l.pincode].filter(Boolean).join(', '))+'</p>':'')+'<div class="br-cta-row">'+(l.phone?'<a class="br-btn br-btn-ghost" href="tel:'+brEsc(l.phone)+'">Call</a>':'')+'<a class="br-btn br-btn-primary" href="'+brEsc(dirs)+'" rel="noopener" target="_blank">Directions</a>'+(l.booking_enabled?'<a class="br-btn br-btn-primary" href="#book">BOOK NOW</a>':'')+(l.pay_enabled?'<a class="br-btn br-btn-ghost" href="#pay">PAY</a>':'')+'</div>';
+   body+='<dl class="br-facts">'+(l.locality?'<div><dt>Locality</dt><dd>'+brEsc(l.locality)+'</dd></div>':'')+(l.city?'<div><dt>City</dt><dd>'+brEsc(l.city)+'</dd></div>':'')+(l.hours?'<div><dt>Hours</dt><dd>'+brEsc(l.hours)+'</dd></div>':'')+'</dl>';
+   if(facs.length)body+='<h2>Facilities</h2><ul class="br-list">'+facs.map(f=>'<li>'+brEsc(f)+'</li>').join('')+'</ul>';
+   if(lmedia.length)body+='<h2>Videos and photos</h2><div class="br-media-grid">'+lmedia.map(x=>brMediaTile(x)).join('')+'</div>';
+   body+='<p class="br-updated">Details last updated '+new Date(l.updated_at).toISOString().slice(0,10)+'.</p></section>';
+   if(lfaqs.length)body+='<section class="br-sec"><h2>Questions about '+brEsc(b.name)+' '+brEsc(l.name)+'</h2>'+lfaqs.map(f=>'<details class="br-faq"><summary>'+brEsc(f.q)+'</summary><p>'+brEsc(f.a)+'</p></details>').join('')+'</section>';
+   const jsonld=[{'@context':'https://schema.org','@type':'LocalBusiness',name:b.name+' '+l.name,address:{'@type':'PostalAddress',streetAddress:l.address||'',addressLocality:l.city||'Bengaluru',addressRegion:l.state||'Karnataka',postalCode:l.pincode||'',addressCountry:'IN'},url:u.origin+'/brands/'+b.slug+'/locations/'+l.slug+'/'},{'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Brands',item:u.origin+'/brands/'},{'@type':'ListItem',position:2,name:b.name,item:u.origin+'/brands/'+b.slug+'/'},{'@type':'ListItem',position:3,name:l.name}]}];
+   if(lfaqs.length)jsonld.push({'@context':'https://schema.org','@type':'FAQPage',mainEntity:lfaqs.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a}}))});
+   return new Response(brChrome({title:b.name+' '+l.name+', '+(l.locality||l.city||'Bengaluru')+' — Videos, Location & Experiences | SRCHN',desc:'Explore '+b.name+' '+l.name+' through virtual tour videos, products, facilities, location details and available experiences on SRCHN. See it before you go.',canon:u.origin+'/brands/'+b.slug+'/locations/'+l.slug+'/',body,jsonld}),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'public, max-age=120'}});
+  }
+  /* master brand page */
+  const socials=(()=>{try{return JSON.parse(b.socials||'{}')}catch{return{}}})();
+  const hero=media.find(x=>x.featured&&x.pillar!=='identity')||media.find(x=>x.pillar!=='identity');
+  const logo=media.find(x=>x.pillar==='identity'&&x.category==='logo');
+  const anyBook=locs.some(l=>l.booking_enabled),anyPay=locs.some(l=>l.pay_enabled);
+  let body='<nav class="br-crumb" aria-label="Breadcrumb"><a href="/brands/">Brands</a> / <span>'+brEsc(b.name)+'</span></nav>';
+  body+='<section class="br-brand-head">'+(logo?'<img class="br-brand-logo" src="'+brMediaUrl(logo.media_id)+'" alt="'+brEsc(b.name)+' logo"/>':'')+'<p class="br-eyebrow">'+brEsc(b.category+(b.subcategory?' · '+b.subcategory:''))+'</p><h1>'+brEsc(b.name)+'</h1>'+(b.tagline?'<p class="br-lede">'+brEsc(b.tagline)+'</p>':'')+(b.verified?'<p class="br-verified"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-badge-check"></use></svg> Verified by SRCHN</p>':'');
+  body+='<dl class="br-facts">'+(b.founded_year?'<div><dt>Founded</dt><dd>'+brEsc(b.founded_year)+'</dd></div>':'')+(b.founders?'<div><dt>Founders</dt><dd>'+brEsc(b.founders)+'</dd></div>':'')+(b.hq_city?'<div><dt>City</dt><dd>'+brEsc(b.hq_city)+'</dd></div>':'')+(locs.length?'<div><dt>Locations</dt><dd>'+locs.length+'</dd></div>':'')+'</dl>';
+  body+='<div class="br-cta-row">'+(locs.length?'<a class="br-btn br-btn-primary" href="#locations">EXPLORE LOCATIONS</a>':'')+(anyBook?'<a class="br-btn br-btn-primary" href="#locations">BOOK NOW</a>':'')+(anyPay?'<a class="br-btn br-btn-ghost" href="#locations">PAY</a>':'')+'<button class="br-btn br-btn-ghost" data-br-save="'+brEsc(b.id)+'" data-br-name="'+brEsc(b.name)+'">Save</button><button class="br-btn br-btn-ghost" data-br-share="'+brEsc(b.name+'" data-br-url="'+u.origin+'/brands/'+b.slug+'/')+'">Share</button><a class="br-btn br-btn-ghost" href="/club/">JOIN SRCHN CLUB</a></div>';
+  if(b.website||Object.keys(socials).length)body+='<p class="br-links">'+(b.website?'<a href="'+brEsc(b.website)+'" rel="noopener" target="_blank">Official website</a> ':'')+Object.entries(socials).map(([k,v])=>'<a href="'+brEsc(v)+'" rel="noopener" target="_blank">'+brEsc(k)+'</a>').join(' ')+'</p>';
+  body+='<p class="br-report"><button class="br-linkbtn" data-br-report="'+brEsc(b.id)+'" data-br-name="'+brEsc(b.name)+'">Report incorrect information</button></p></section>';
+  if(hero)body+='<section class="br-hero-media"><div class="br-video-wrap"><video class="br-video" controls playsinline preload="none" poster="" src="'+brMediaUrl(hero.media_id)+'"></video></div><p class="br-video-meta">'+brEsc(hero.title||b.name)+(hero.credit?' · '+brEsc(hero.credit):'')+'</p></section>';
+  if(b.description)body+='<section class="br-sec"><h2>About '+brEsc(b.name)+'</h2><div class="br-prose">'+b.description.split(/\n{2,}/).map(x=>'<p>'+brEsc(x)+'</p>').join('')+'</div></section>';
+  const pillars=[['tour','VIRTUAL TOUR'],['product','PRODUCTS'],['marketing','MARKETING']];
+  body+='<section class="br-sec"><div class="br-tabs" role="tablist">'+pillars.map(([k,l],i)=>'<button class="br-tab'+(i===0?' active':'')+'" role="tab" data-br-tab="'+k+'">'+l+'</button>').join('')+'</div>'+pillars.map(([k,l],i)=>{
+   const items=media.filter(x=>x.pillar===k);
+   const campsHtml=k==='marketing'&&camps.length?'<div class="br-camps">'+camps.map(c=>'<article class="br-camp"><h3>'+brEsc(c.title)+'</h3><p>'+brEsc(c.description||'')+'</p>'+(c.start_at?'<p class="br-camp-dates">'+new Date(c.start_at*1000).toISOString().slice(0,10)+(c.end_at?' → '+new Date(c.end_at*1000).toISOString().slice(0,10):'')+'</p>':'')+(c.terms?'<p class="br-camp-terms">'+brEsc(c.terms)+'</p>':'')+(c.cta_url?'<a class="br-btn br-btn-ghost" href="'+brEsc(c.cta_url)+'">'+brEsc(c.cta_label||'Learn more')+'</a>':'')+'</article>').join('')+'</div>':'';
+   return '<div class="br-panel'+(i===0?' active':'')+'" data-br-panel="'+k+'">'+(items.length||campsHtml?'<div class="br-media-grid">'+items.map(x=>brMediaTile(x)).join('')+'</div>'+campsHtml:'<p class="br-empty">'+l.charAt(0)+l.slice(1).toLowerCase()+' videos for '+brEsc(b.name)+' will appear here after Team SRCHN approves them.</p>')+'</div>';
+  }).join('')+'</section>';
+  if(locs.length){
+   body+='<section class="br-sec" id="locations"><h2>Locations</h2><div class="br-loc-wrap"><div id="br-map" class="br-map" data-points="'+brEsc(JSON.stringify(locs.filter(l=>l.lat&&l.lon).map(l=>({lat:l.lat,lon:l.lon,name:b.name+' '+l.name,url:'/brands/'+b.slug+'/locations/'+l.slug+'/'}))))+'"></div><div class="br-loc-list">'+locs.map(l=>'<article class="br-loc"><h3><a href="/brands/'+brEsc(b.slug)+'/locations/'+brEsc(l.slug)+'/">'+brEsc(l.name)+'</a></h3><p>'+brEsc([l.address,l.locality,l.city].filter(Boolean).join(', '))+'</p>'+(l.hours?'<p class="br-loc-hours">'+brEsc(l.hours)+'</p>':'')+'<p class="br-loc-flags">'+(l.booking_enabled?'<span class="br-flag">Booking</span>':'')+(l.visit_enabled?'<span class="br-flag">Visit</span>':'')+(l.pay_enabled?'<span class="br-flag">Pay</span>':'')+'</p></article>').join('')+'</div></div></section>';
+  }
+  if(faqs.length)body+='<section class="br-sec"><h2>Questions about '+brEsc(b.name)+'</h2>'+faqs.map(f=>'<details class="br-faq"><summary>'+brEsc(f.q)+'</summary><p>'+brEsc(f.a)+'</p></details>').join('')+'</section>';
+  const jsonld=[{'@context':'https://schema.org','@type':'Organization',name:b.name,url:u.origin+'/brands/'+b.slug+'/',...(b.website?{sameAs:[b.website]}:{})},{'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Brands',item:u.origin+'/brands/'},{'@type':'ListItem',position:2,name:b.name}]}];
+  for(const v of media.filter(x=>x.pillar!=='identity'))jsonld.push({'@context':'https://schema.org','@type':'VideoObject',name:v.title||b.name,description:v.description||b.tagline||b.name,contentUrl:u.origin+brMediaUrl(v.media_id),uploadDate:new Date(v.created_at).toISOString()});
+  if(faqs.length)jsonld.push({'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a}}))});
+  return new Response(brChrome({title:b.name+' Bengaluru — Videos, Locations & Experiences | SRCHN',desc:(b.tagline||('Explore '+b.name+' through virtual tour videos, products, facilities, locations and experiences on SRCHN.')).slice(0,160)+' See it before you go.',canon:u.origin+'/brands/'+b.slug+'/',body,jsonld}),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'public, max-age=120'}});
+ }
+ return null;
+}
+function brMediaTile(x){
+ if(x.kind==='video')return '<figure class="br-media"><video class="br-media-v" controls playsinline preload="none" src="'+brMediaUrl(x.media_id)+'"></video><figcaption>'+brEsc(x.title||'')+(x.credit?' <span class="br-credit">'+brEsc(x.credit)+'</span>':'')+'</figcaption></figure>';
+ return '<figure class="br-media"><img class="br-media-img" loading="lazy" src="'+brMediaUrl(x.media_id)+'" alt="'+brEsc(x.title||'')+'"/><figcaption>'+brEsc(x.title||'')+(x.credit?' <span class="br-credit">'+brEsc(x.credit)+'</span>':'')+'</figcaption></figure>';
+}
+/* reviewer brand management (mounted inside studioRoute; rv already checked) */
+async function brReviewRoute(p,request,env,db,now){
+ const u=new URL(request.url);
+ const rv=await stuReviewer(request,env);if(!rv)return JSONR({error:'Reviewer sign-in required.'},401);
+ await brTables(db);
+ if(p==='/studio/api/review/brands'&&request.method==='GET'){
+  const bs=(await db.prepare("SELECT b.*,(SELECT COUNT(*) FROM br_locations l WHERE l.brand_id=b.id) AS locs,(SELECT COUNT(*) FROM br_media_links m WHERE m.brand_id=b.id) AS media FROM br_brands b WHERE b.status!='DELETED' ORDER BY b.updated_at DESC LIMIT 200").all()).results||[];
+  return JSONR({brands:bs});
+ }
+ if(p==='/studio/api/review/brand-save'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const name=clean(b.name,120);if(!name)return JSONR({error:'name required.'},400);
+  const cat=clean(b.category,60)||'Other';
+  const id=clean(b.id,40)||crypto.randomUUID();
+  const slug=brSlug(clean(b.slug,60)||name)||crypto.randomUUID().slice(0,8);
+  const ex=await db.prepare('SELECT id FROM br_brands WHERE id=?').bind(id).first();
+  if(ex){await db.prepare('UPDATE br_brands SET slug=?,name=?,category=?,subcategory=?,tagline=?,description=?,website=?,socials=?,founded_year=?,founders=?,hq_city=?,verified=?,club=?,featured=?,updated_at=? WHERE id=?').bind(slug,name,cat,clean(b.subcategory,60),clean(b.tagline,200),clean(b.description,8000),clean(b.website,200),typeof b.socials==='string'?clean(b.socials,1000):JSON.stringify(b.socials||{}),clean(b.founded_year,10),clean(b.founders,200),clean(b.hq_city,60),b.verified?1:0,b.club?1:0,b.featured?1:0,now,id).run()}
+  else{const clash=await db.prepare('SELECT id FROM br_brands WHERE slug=?').bind(slug).first();if(clash)return JSONR({error:'Slug already in use.'},409);
+   await db.prepare('INSERT INTO br_brands(id,slug,name,category,subcategory,tagline,description,website,socials,founded_year,founders,hq_city,verified,club,featured,status,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(id,slug,name,cat,clean(b.subcategory,60),clean(b.tagline,200),clean(b.description,8000),clean(b.website,200),typeof b.socials==='string'?clean(b.socials,1000):JSON.stringify(b.socials||{}),clean(b.founded_year,10),clean(b.founders,200),clean(b.hq_city,60),b.verified?1:0,b.club?1:0,b.featured?1:0,'DRAFT',now,now).run()}
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,ex?'brand-update':'brand-create',id,name,now).run();
+  return JSONR({ok:true,id,slug});
+ }
+ if(p==='/studio/api/review/brand-location'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);const br=await db.prepare("SELECT id,name FROM br_brands WHERE id=? AND status!='DELETED'").bind(bid).first();if(!br)return JSONR({error:'Unknown brand.'},404);
+  const name=clean(b.name,120);if(!name)return JSONR({error:'location name required.'},400);
+  const id=clean(b.id,40)||crypto.randomUUID();
+  const slug=brSlug(clean(b.slug,60)||name)||crypto.randomUUID().slice(0,8);
+  const facs=Array.isArray(b.facilities)?JSON.stringify(b.facilities.slice(0,40).map(x=>clean(x,80))):clean(b.facilities,1000);
+  const ex=await db.prepare('SELECT id FROM br_locations WHERE id=?').bind(id).first();
+  if(ex){await db.prepare('UPDATE br_locations SET slug=?,name=?,address=?,locality=?,city=?,state=?,pincode=?,lat=?,lon=?,phone=?,hours=?,facilities=?,booking_enabled=?,visit_enabled=?,pay_enabled=?,updated_at=? WHERE id=?').bind(slug,name,clean(b.address,300),clean(b.locality,80),clean(b.city,60)||'Bengaluru',clean(b.state,60)||'Karnataka',clean(b.pincode,10),typeof b.lat==='number'?b.lat:null,typeof b.lon==='number'?b.lon:null,clean(b.phone,20),clean(b.hours,200),facs,b.booking_enabled?1:0,b.visit_enabled?1:0,b.pay_enabled?1:0,now,id).run()}
+  else{const clash=await db.prepare('SELECT id FROM br_locations WHERE brand_id=? AND slug=?').bind(bid,slug).first();if(clash)return JSONR({error:'Location slug already in use for this brand.'},409);
+   await db.prepare('INSERT INTO br_locations(id,brand_id,slug,name,address,locality,city,state,pincode,lat,lon,phone,hours,facilities,booking_enabled,visit_enabled,pay_enabled,status,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(id,bid,slug,name,clean(b.address,300),clean(b.locality,80),clean(b.city,60)||'Bengaluru',clean(b.state,60)||'Karnataka',clean(b.pincode,10),typeof b.lat==='number'?b.lat:null,typeof b.lon==='number'?b.lon:null,clean(b.phone,20),clean(b.hours,200),facs,b.booking_enabled?1:0,b.visit_enabled?1:0,b.pay_enabled?1:0,'DRAFT',now,now).run()}
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,ex?'location-update':'location-create',bid,name,now).run();
+  return JSONR({ok:true,id,slug});
+ }
+ if(p==='/studio/api/review/brand-status'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const id=clean(b.brand_id,40),st=clean(b.status,20);
+  if(!['DRAFT','PUBLISHED','UNPUBLISHED','DELETED'].includes(st))return JSONR({error:'Unknown status.'},400);
+  const r=await db.prepare('UPDATE br_brands SET status=?,published_at=CASE WHEN ?=\'PUBLISHED\' AND published_at IS NULL THEN ? ELSE published_at END,updated_at=? WHERE id=?').bind(st,st,now,now,id).run();
+  if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown brand.'},404);
+  if(b.location_status){await db.prepare('UPDATE br_locations SET status=?,updated_at=? WHERE brand_id=?').bind(st==='PUBLISHED'?'PUBLISHED':st==='DELETED'?'DELETED':'DRAFT',now,id).run()}
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'brand-'+st.toLowerCase(),id,clean(b.note,200),now).run();
+  return JSONR({ok:true,status:st});
+ }
+ if(p==='/studio/api/review/location-status'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const st=clean(b.status,20);if(!['DRAFT','PUBLISHED','UNPUBLISHED','DELETED'].includes(st))return JSONR({error:'Unknown status.'},400);
+  const r=await db.prepare('UPDATE br_locations SET status=?,updated_at=? WHERE id=?').bind(st,now,clean(b.location_id,40)).run();
+  if(!(r.meta&&r.meta.changes))return JSONR({error:'Unknown location.'},404);
+  return JSONR({ok:true,status:st});
+ }
+ if(p==='/studio/api/review/brand-attach'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40),mid=clean(b.media_id,64),pillar=clean(b.pillar,20);
+  if(!['identity','tour','product','marketing'].includes(pillar))return JSONR({error:'pillar must be identity, tour, product or marketing.'},400);
+  const br=await db.prepare("SELECT id FROM br_brands WHERE id=? AND status!='DELETED'").bind(bid).first();if(!br)return JSONR({error:'Unknown brand.'},404);
+  if(pillar!=='identity'){const ok=await db.prepare("SELECT sub_no FROM stu_submissions WHERE status IN ('APPROVED','PUBLISHED') AND items LIKE '%'||?||'%' LIMIT 1").bind(mid).first();if(!ok)return JSONR({error:'Media must come from an approved or published submission.'},400)}
+  const kind=clean(b.kind,10)==='video'?'video':'photo';
+  const id=crypto.randomUUID();
+  await db.prepare('INSERT INTO br_media_links(id,brand_id,location_id,media_id,kind,pillar,category,title,description,credit,featured,pinned,position,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(id,bid,clean(b.location_id,40)||null,mid,kind,pillar,clean(b.category,60),clean(b.title,160),clean(b.description,600),clean(b.credit,160),b.featured?1:0,b.pinned?1:0,typeof b.position==='number'?b.position:0,now).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'media-attach',bid,pillar+':'+mid.slice(0,12),now).run();
+  return JSONR({ok:true,id});
+ }
+ if(p==='/studio/api/review/brand-detach'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const r=await db.prepare('DELETE FROM br_media_links WHERE id=?').bind(clean(b.id,40)).run();
+  return JSONR({ok:true,changed:(r.meta&&r.meta.changes)||0});
+ }
+ if(p==='/studio/api/review/brand-faq'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  if(b.delete){const r=await db.prepare('DELETE FROM br_faqs WHERE id=?').bind(clean(b.id,40)).run();return JSONR({ok:true,changed:(r.meta&&r.meta.changes)||0})}
+  const bid=clean(b.brand_id,40),q=clean(b.q,300),a=clean(b.a,2000);
+  if(!q||!a)return JSONR({error:'q and a required.'},400);
+  const id=clean(b.id,40)||crypto.randomUUID();
+  const ex=await db.prepare('SELECT id FROM br_faqs WHERE id=?').bind(id).first();
+  if(ex)await db.prepare('UPDATE br_faqs SET q=?,a=?,position=?,location_id=? WHERE id=?').bind(q,a,typeof b.position==='number'?b.position:0,clean(b.location_id,40)||null,id).run();
+  else await db.prepare('INSERT INTO br_faqs(id,brand_id,location_id,q,a,position) VALUES(?,?,?,?,?,?)').bind(id,bid,clean(b.location_id,40)||null,q,a,typeof b.position==='number'?b.position:0).run();
+  return JSONR({ok:true,id});
+ }
+ if(p==='/studio/api/review/brand-delete'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const id=clean(b.brand_id,40);
+  await db.prepare('DELETE FROM br_media_links WHERE brand_id=?').bind(id).run();
+  await db.prepare('DELETE FROM br_faqs WHERE brand_id=?').bind(id).run();
+  await db.prepare('DELETE FROM br_campaigns WHERE brand_id=?').bind(id).run();
+  await db.prepare('DELETE FROM br_products WHERE brand_id=?').bind(id).run();
+  await db.prepare('DELETE FROM br_views WHERE brand_id=?').bind(id).run();
+  await db.prepare('DELETE FROM br_locations WHERE brand_id=?').bind(id).run();
+  const r=await db.prepare('DELETE FROM br_brands WHERE id=?').bind(id).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'brand-delete',id,clean(b.note,200),now).run();
+  return JSONR({ok:true,changed:(r.meta&&r.meta.changes)||0});
+ }
+ return null;
+}
+
 
 export default{async fetch(request,env){
   const u=new URL(request.url);
@@ -907,5 +1169,6 @@ export default{async fetch(request,env){
     }
    }catch{}
   }
+  if(u.pathname.startsWith('/brands/')&&(u.pathname==='/brands/sitemap.xml'||!/\.(css|js|png|jpg|jpeg|svg|webp|ico|json|xml)$/.test(u.pathname))){try{const r=await brandsRoute(request,env);if(r)return r}catch(e){return JSONR({error:'Brands unavailable.'},503)}}
   return env.ASSETS.fetch(request);
 }};
