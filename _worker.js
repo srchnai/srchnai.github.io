@@ -1585,6 +1585,8 @@ async function clubTables(db){
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_bookings(id TEXT PRIMARY KEY,booking_no TEXT UNIQUE NOT NULL,member_id TEXT NOT NULL,brand_id TEXT NOT NULL,location_id TEXT NOT NULL,visit_date TEXT NOT NULL,visit_time TEXT,people INTEGER NOT NULL DEFAULT 1,fee_inr INTEGER NOT NULL DEFAULT 0,pay_status TEXT NOT NULL DEFAULT 'PAY_NOT_ENABLED',status TEXT NOT NULL DEFAULT 'CONFIRMED',conditions TEXT,checked_in_at INTEGER,cancelled_at INTEGER,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_commission(id TEXT PRIMARY KEY,booking_id TEXT NOT NULL,brand_id TEXT NOT NULL,bill_inr INTEGER NOT NULL DEFAULT 0,fee_pct REAL NOT NULL DEFAULT 0,commission_inr INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'PENDING',note TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_cashback(id TEXT PRIMARY KEY,booking_id TEXT NOT NULL,member_id TEXT NOT NULL,commission_id TEXT,cashback_inr INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'PENDING',period_start INTEGER NOT NULL,note TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_consents(id TEXT PRIMARY KEY,member_id TEXT NOT NULL,purpose TEXT NOT NULL,scope TEXT NOT NULL,text_version TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'GIVEN',given_at INTEGER NOT NULL,withdrawn_at INTEGER)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_verification(id TEXT PRIMARY KEY,member_id TEXT NOT NULL,provider TEXT NOT NULL DEFAULT 'DIGILOCKER',status TEXT NOT NULL,audit_ref TEXT UNIQUE NOT NULL,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
 }
 async function clubAuth(request,db){
  const h=request.headers.get('Authorization')||'';const m=/^Bearer ([a-f0-9]{64})$/.exec(h);if(!m)return null;
@@ -1712,6 +1714,41 @@ async function clubRoute(request,env){
   if(k.visit_date!==today)return JSONR({error:'Check-in opens on the visit date ('+k.visit_date+').'},409);
   await db.prepare("UPDATE br_club_bookings SET status='CHECKED_IN',checked_in_at=?,updated_at=? WHERE id=?").bind(now,now,k.id).run();
   return JSONR({ok:true,status:'CHECKED_IN',checked_in_at:now});
+ }
+ const VTEXT='v1-2026-11-03';
+ const VPURPOSE='Identity verification for SRCHN CLUB membership and higher-risk transaction journeys, when legally and commercially necessary.';
+ const VSCOPE='Name and date-of-birth verification result from a document you choose and share in the official DigiLocker flow. SRCHN never receives or stores your DigiLocker password, OTP or Aadhaar number. Only the minimum verification result and an audit reference are stored.';
+ if(p==='/club/api/verification'&&request.method==='GET'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const c=await db.prepare('SELECT * FROM br_club_consents WHERE member_id=? ORDER BY given_at DESC LIMIT 1').bind(m.id).first();
+  const v=await db.prepare('SELECT * FROM br_club_verification WHERE member_id=? ORDER BY created_at DESC LIMIT 1').bind(m.id).first();
+  return JSONR({provider:{name:'DigiLocker',enabled:false,label:'Configuration required - currently disabled'},consent:c?{status:c.status,given_at:c.given_at,withdrawn_at:c.withdrawn_at||null,text_version:c.text_version}:null,verification:v?{status:v.status,audit_ref:v.audit_ref,since:v.created_at}:null,purpose:VPURPOSE,scope:VSCOPE,text_version:VTEXT});
+ }
+ if(p==='/club/api/verification-consent'&&request.method==='POST'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const b=await request.json().catch(()=>null);
+  if(!b||b.accept!==true)return JSONR({error:'Explicit consent is required to continue.'},400);
+  const active=await db.prepare("SELECT id FROM br_club_consents WHERE member_id=? AND status='GIVEN'").bind(m.id).first();
+  if(active)return JSONR({error:'Consent is already recorded. You can withdraw it below.'},409);
+  const cid=crypto.randomUUID(),vid=crypto.randomUUID();
+  const ref='VRF-'+crypto.randomUUID().replace(/-/g,'').slice(0,8).toUpperCase();
+  await db.prepare('INSERT INTO br_club_consents(id,member_id,purpose,scope,text_version,status,given_at) VALUES(?,?,?,?,?,?,?)').bind(cid,m.id,VPURPOSE,VSCOPE,VTEXT,'GIVEN',now).run();
+  await db.prepare('INSERT INTO br_club_verification(id,member_id,provider,status,audit_ref,created_at,updated_at) VALUES(?,?,?,?,?,?,?)').bind(vid,m.id,'DIGILOCKER','PROVIDER_DISABLED',ref,now,now).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(m.email,'club-verify-consent',null,ref,now).run();
+  return JSONR({ok:true,verification:{status:'PROVIDER_DISABLED',audit_ref:ref},message:'Consent recorded. The DigiLocker integration is configuration-required and currently disabled, so verification cannot start yet. You can withdraw consent at any time.'});
+ }
+ if(p==='/club/api/verification-start'&&request.method==='POST'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  return JSONR({error:'DigiLocker integration is configuration-required and currently disabled. SRCHN requester onboarding and API approval are pending, so verification cannot start yet.',configuration_required:true},503);
+ }
+ if(p==='/club/api/verification-withdraw'&&request.method==='POST'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const c=await db.prepare("SELECT * FROM br_club_consents WHERE member_id=? AND status='GIVEN' ORDER BY given_at DESC LIMIT 1").bind(m.id).first();
+  if(!c)return JSONR({error:'No active consent to withdraw.'},409);
+  await db.prepare("UPDATE br_club_consents SET status='WITHDRAWN',withdrawn_at=? WHERE id=?").bind(now,c.id).run();
+  await db.prepare("UPDATE br_club_verification SET status='WITHDRAWN',updated_at=? WHERE member_id=? AND status='PROVIDER_DISABLED'").bind(now,m.id).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(m.email,'club-verify-withdraw',null,'consent '+c.id.slice(0,8)+' withdrawn',now).run();
+  return JSONR({ok:true,status:'WITHDRAWN',message:'Consent withdrawn. Your verification record has been closed; no identity data is stored.'});
  }
  if(p==='/club/'||p==='/club'){
   const clubBrands=(await brListQuery(db,"b.status='PUBLISHED' AND b.club=1",[])).results||[];

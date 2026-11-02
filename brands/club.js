@@ -39,10 +39,10 @@ if(clm){
   const T=localStorage.getItem('srchn_club_token')||'';
   if(!T){location.href='/club/#signin';return}
   const api=(p,o)=>{o=o||{};o.headers=o.headers||{};o.headers['Authorization']='Bearer '+T;if(o.json!==undefined){o.headers['Content-Type']='application/json';o.body=JSON.stringify(o.json)}return fetch(p,o).then(r=>r.json().then(d=>({status:r.status,data:d})))};
-  Promise.all([api('/club/api/me'),api('/club/api/brands'),api('/club/api/bookings'),api('/club/api/cashback'),api('/club/api/booking-options')]).then(rs=>{
+  Promise.all([api('/club/api/me'),api('/club/api/brands'),api('/club/api/bookings'),api('/club/api/cashback'),api('/club/api/booking-options'),api('/club/api/verification')]).then(rs=>{
     const me=rs[0];
     if(me.status===401){localStorage.removeItem('srchn_club_token');location.href='/club/#signin';return}
-    const M=me.data.member,MS=me.data.membership,brands=(rs[1].data&&rs[1].data.brands)||[],bks=(rs[2].data&&rs[2].data.bookings)||[],cb=(rs[3].data&&rs[3].data.cashback)||[],opts=(rs[4].data&&rs[4].data.options)||[];
+    const M=me.data.member,MS=me.data.membership,brands=(rs[1].data&&rs[1].data.brands)||[],bks=(rs[2].data&&rs[2].data.bookings)||[],cb=(rs[3].data&&rs[3].data.cashback)||[],opts=(rs[4].data&&rs[4].data.options)||[];const VF=rs[5].data||{};
     const today=todayIST();
     let h='<div class="cl-cards">'
       +'<div class="cl-card"><h3>MEMBERSHIP</h3><p class="cl-stat">'+esc(M.status)+'</p><p>'+esc(M.name)+' · '+esc(M.email)+'</p><p class="cl-sub">Member since '+dt(M.member_since)+' · 12-month period: '+dt(MS.period_start)+' - '+dt(MS.period_end)+'</p></div>'
@@ -72,7 +72,20 @@ if(clm){
     h+='<h2 class="cl-h">Payment history</h2><div class="cl-note"><b>SRCHN PAY - configuration required, currently disabled.</b><br/>No payments have been taken. When SRCHN PAY goes live, your payments appear here.</div>';
     h+='<h2 class="cl-h">Cashback history</h2>';
     h+=cb.length?'<div class="cl-scroll"><table class="cl-table"><tr><th>DATE</th><th>AMOUNT</th><th>STATUS</th><th>NOTE</th></tr>'+cb.map(c=>'<tr><td>'+dt(c.created_at)+'</td><td>'+inr(c.cashback_inr)+'</td><td><span class="cl-pill">'+esc(c.status)+'</span></td><td>'+esc(c.note||'-')+'</td></tr>').join('')+'</table></div>':'<p class="br-empty">No cashback yet. Eligible cashback is up to 5% of the SRCHN success fee, capped at up to Rs 5,000 per 12-month membership period, and is credited only after the underlying payment and commission eligibility are confirmed.</p>';
-    h+='<div class="cl-note" style="margin-top:26px"><b>Identity verification - configuration required, currently disabled.</b><br/>Some Club journeys may ask you to verify your identity when legally and commercially necessary. SRCHN will never ask for your DigiLocker password or OTP.</div>';
+    h+='<h2 class="cl-h">Identity verification</h2>';
+    h+='<div class="cl-note"><b>Why verification may be requested.</b><br/>Some Club journeys may ask you to verify your identity when it is legally and commercially necessary - for example before higher-risk transactions. Browsing SRCHN never requires identity verification.<br/><br/><b>What would be requested.</b><br/>Only with your explicit consent, SRCHN would use DigiLocker to verify your name and date of birth from a document you choose and share in the official DigiLocker flow. SRCHN never sees or stores your DigiLocker password or OTP, and never collects your Aadhaar number.<br/><br/><b>What we store.</b><br/>Only the minimum verification result and an audit reference. You can withdraw consent at any time; withdrawal closes the verification record.<br/><br/>DigiLocker is a Government of India platform. SRCHN is not affiliated with, or endorsed by, DigiLocker, UIDAI or DigiYatra.</div>';
+    const vc=VF.consent,vv=VF.verification;
+    if(vc&&vc.status==='GIVEN'){
+      h+='<div class="cl-card" style="margin-top:12px"><h3>VERIFICATION STATUS</h3><p class="cl-stat">'+(vv&&vv.status==='PROVIDER_DISABLED'?'NOT STARTED':esc(vv?vv.status:'-'))+'</p><p class="cl-sub">Consent given '+dt(vc.given_at)+' ('+esc(vc.text_version)+')'+(vv?' &middot; audit reference '+esc(vv.audit_ref):'')+'</p>'
+        +'<p><button class="br-btn br-btn-primary" id="cl-vf-start" disabled>CONTINUE TO DIGILOCKER</button></p>'
+        +'<p class="cl-sub"><b>DigiLocker integration - configuration required, currently disabled.</b> SRCHN requester onboarding and API approval are pending, so verification cannot start yet.</p>'
+        +'<p><button class="br-btn br-btn-ghost cl-mini" id="cl-vf-withdraw">Withdraw consent</button></p><p class="cl-msg" id="cl-vf-msg"></p></div>';
+    }else{
+      h+='<form id="cl-vf" class="cl-form" style="margin-top:12px">'
+        +(vc&&vc.status==='WITHDRAWN'?'<p class="cl-sub">You withdrew consent on '+dt(vc.withdrawn_at)+'. No identity data is stored.</p>':'')
+        +'<label style="display:flex;flex-direction:row;align-items:flex-start;gap:8px"><input type="checkbox" name="accept" style="width:auto;margin-top:4px"/> <span>I consent to SRCHN requesting identity verification via DigiLocker for the purpose described above. I understand I can withdraw this consent at any time.</span></label>'
+        +'<button class="br-btn br-btn-primary" type="submit">GIVE CONSENT AND CONTINUE</button><p class="cl-msg" id="cl-vf-msg"></p></form>';
+    }
     h+='<p style="margin-top:22px"><button class="br-btn br-btn-ghost" id="clm-out">SIGN OUT</button></p>';
     clm.innerHTML=h;
     $('clm-out').onclick=()=>{fetch('/club/api/logout',{method:'POST',headers:{Authorization:'Bearer '+T}}).finally(()=>{localStorage.removeItem('srchn_club_token');location.href='/club/'})};
@@ -92,6 +105,10 @@ if(clm){
     }
     clm.querySelectorAll('[data-ci]').forEach(x=>x.onclick=()=>{x.disabled=true;api('/club/api/check-in',{json:{booking_no:x.dataset.ci}}).then(r=>{if(r.data&&r.data.ok)location.reload();else{alert((r.data&&r.data.error)||'Check-in failed.');x.disabled=false}})});
     clm.querySelectorAll('[data-cx]').forEach(x=>x.onclick=()=>{if(!confirm('Cancel booking '+x.dataset.cx+'?'))return;x.disabled=true;api('/club/api/cancel-booking',{json:{booking_no:x.dataset.cx}}).then(r=>{if(r.data&&r.data.ok)location.reload();else{alert((r.data&&r.data.error)||'Could not cancel.');x.disabled=false}})});
+    const vff=$('cl-vf');
+    if(vff)vff.onsubmit=e=>{e.preventDefault();if(!vff.accept.checked){$('cl-vf-msg').textContent='Please tick the consent box to continue.';return}const b=vff.querySelector('button[type=submit]');b.disabled=true;$('cl-vf-msg').textContent='Recording consent...';api('/club/api/verification-consent',{json:{accept:true}}).then(r=>{const d=r.data||{};if(d.ok)location.reload();else{$('cl-vf-msg').textContent=d.error||'Could not record consent.';b.disabled=false}}).catch(()=>{$('cl-vf-msg').textContent='Network error. Please try again.';b.disabled=false})};
+    const vfw=$('cl-vf-withdraw');
+    if(vfw)vfw.onclick=()=>{if(!confirm('Withdraw your identity-verification consent? Your verification record will be closed and no identity data is stored.'))return;vfw.disabled=true;api('/club/api/verification-withdraw',{json:{}}).then(r=>{if(r.data&&r.data.ok)location.reload();else{alert((r.data&&r.data.error)||'Could not withdraw.');vfw.disabled=false}})};
   }).catch(()=>{clm.innerHTML='<p class="br-empty">Could not load your membership. Please try again.</p>'});
 }
 })();
