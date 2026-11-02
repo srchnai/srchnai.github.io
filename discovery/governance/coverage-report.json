@@ -1,0 +1,3758 @@
+{
+  "generated_at": "2026-11-02T10:12:00+05:30",
+  "source_note": "Existing subset fetched 27-28 October 2026; selected tags re-read 30 October. Additional named shop features retrieved 30 October within Bengaluru-area bounding box 77.40,12.80 to 77.80,13.15. Three Cloud Kitchens candidates and a targeted expansion for drink, cinema, food-court, local-market, specialty-store, camping, travel-agency and selected play subcategories were retrieved on 1 November 2026 from OpenStreetMap through QLever/Overpass within the same Bengaluru-area bounding box. Planet snapshot date unknown. Not an administrative-city inventory and not live business verification. Seventeen nearby same-name shop features held out pending duplicate review; unique source IDs do not prove distinct business entities. Duplicate source IDs with multiple category labels were merged without dropping category labels. Seven nearby same-name features from the 1 November expansion were held out pending duplicate review.",
+  "summary": {
+    "canonical_place_records": 12973,
+    "unique_place_ids": 12973,
+    "raw_source_records": 12955,
+    "official_starter_records": 18,
+    "submitted_records": 0,
+    "claimed_pending_records": 0,
+    "verified_records": 0,
+    "permitted_photo_records": 3,
+    "locality_labels": 65,
+    "records_without_locality": 12576
+  },
+  "categories": [
+    {
+      "category": "live",
+      "subcategory": "Homes",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "live",
+      "subcategory": "Apartments",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "live",
+      "subcategory": "Rentals",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "live",
+      "subcategory": "Co-Living",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "live",
+      "subcategory": "Stays",
+      "available": 947,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 947,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Coworking Spaces",
+      "available": 113,
+      "official": 3,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 113,
+        "official_starter": 3,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Managed Offices",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Private Offices",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Virtual Offices",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Commercial Office Spaces",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Business Centres",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Meeting Rooms",
+      "available": 0,
+      "official": 2,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 2,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Conference Rooms",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Training Centres",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Startup Incubators",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Corporate Campuses",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "work",
+      "subcategory": "Flexible Workspaces",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Restaurants",
+      "available": 3255,
+      "official": 2,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 3255,
+        "official_starter": 2,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Cafés",
+      "available": 1136,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 1136,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Fine Dining",
+      "available": 2,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 2,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Casual Dining",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "South Indian Restaurants",
+      "available": 113,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 113,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "North Indian Restaurants",
+      "available": 28,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 28,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Street Food",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Bakeries",
+      "available": 30,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 30,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Dessert Parlours",
+      "available": 240,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 240,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Breakfast & Brunch",
+      "available": 0,
+      "official": 2,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 2,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Family Restaurants",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Buffets",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Cloud Kitchens",
+      "available": 3,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 3,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Food Courts",
+      "available": 51,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 51,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Vegetarian Restaurants",
+      "available": 156,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 156,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Vegan Restaurants",
+      "available": 3,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 3,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Fast Food",
+      "available": 1727,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 1727,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "eat",
+      "subcategory": "Specialty Cuisine",
+      "available": 783,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 783,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Pubs & Bars",
+      "available": 437,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 437,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Breweries & Microbreweries",
+      "available": 58,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 58,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Whisky Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Cocktail Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Wine Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Rooftop Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Nightclubs & Discotheques",
+      "available": 6,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 6,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "DJ Nights & Party Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Luxury Hotel Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Sports Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Live Music Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Lounge Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Taprooms",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Beer Gardens",
+      "available": 1,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 1,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "drink",
+      "subcategory": "Karaoke Bars",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Gaming Zones & Arcades",
+      "available": 1,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 1,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Bowling Alleys",
+      "available": 3,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 3,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Sports Arenas",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Indoor Sports",
+      "available": 8,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 8,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Outdoor Sports",
+      "available": 51,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 51,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Adventure Activities",
+      "available": 4,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 4,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Escape Rooms",
+      "available": 5,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 5,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Amusement Parks",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Trampoline Parks",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Go-Karting",
+      "available": 3,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 3,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Paintball",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Laser Tag",
+      "available": 1,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 1,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Swimming Pools",
+      "available": 72,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 72,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Fitness & Recreation",
+      "available": 599,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 599,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "VR Experiences",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Board Game Cafés",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Badminton & Squash",
+      "available": 38,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 38,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Cricket & Football Grounds",
+      "available": 39,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 39,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Trekking & Outdoor Adventures",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "play",
+      "subcategory": "Family Entertainment Centres",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Shopping Malls",
+      "available": 74,
+      "official": 0,
+      "verified": 0,
+      "photos": 3,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 74,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Fashion & Apparel",
+      "available": 1445,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 1445,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Luxury Boutiques",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Footwear",
+      "available": 227,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 227,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Jewellery",
+      "available": 348,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 348,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Watches & Accessories",
+      "available": 68,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 68,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Electronics",
+      "available": 331,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 331,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Mobile & Gadgets",
+      "available": 233,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 233,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Furniture & Home Décor",
+      "available": 257,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 257,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Beauty & Cosmetics",
+      "available": 57,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 57,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Supermarkets",
+      "available": 687,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 687,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Department Stores",
+      "available": 96,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 96,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Bookstores",
+      "available": 82,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 82,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Sports & Fitness Stores",
+      "available": 175,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 175,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Lifestyle Stores",
+      "available": 13,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 13,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Home Improvement",
+      "available": 15,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 15,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Gift Shops",
+      "available": 89,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 89,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Local Markets",
+      "available": 50,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 50,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Organic & Specialty Stores",
+      "available": 7,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 7,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "shop",
+      "subcategory": "Kids & Baby Stores",
+      "available": 34,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 34,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Hotels",
+      "available": 555,
+      "official": 2,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 555,
+        "official_starter": 2,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Luxury Resorts",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Boutique Hotels",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Homestays",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Serviced Apartments",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Hostels",
+      "available": 322,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 322,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Villas",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Weekend Getaways",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Hill Stations",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Beach Destinations",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Adventure Travel",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Nature Retreats",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Wildlife & Safari",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Road Trips",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "International Travel",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Domestic Travel",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Travel Experiences",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Camping & Glamping",
+      "available": 1,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 1,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Spa & Wellness Retreats",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "travel",
+      "subcategory": "Travel Agencies",
+      "available": 21,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 21,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Live Music",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Concerts",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Music Festivals",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "DJ Nights",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Comedy Shows",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Stand-up Comedy",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Cultural Festivals",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Art Exhibitions",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Food Festivals",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Beer Festivals",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Startup Events",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Business Conferences",
+      "available": 0,
+      "official": 2,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 2,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Networking Events",
+      "available": 0,
+      "official": 2,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 2,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Workshops",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Masterclasses",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "College Festivals",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Sports Events",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Fashion Shows",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Theatre & Performing Arts",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Community Events",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Pop-up Markets",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "events",
+      "subcategory": "Seasonal Celebrations",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Multiplex Cinemas",
+      "available": 35,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 35,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "IMAX",
+      "available": 0,
+      "official": 2,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 2,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "4DX Cinemas",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Dolby Atmos",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Premium Large Format Screens",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Luxury Cinemas",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Independent Cinemas",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Regional Movies",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "English Movies",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Hindi Movies",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Kannada Movies",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Tamil Movies",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Telugu Movies",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Malayalam Movies",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Film Festivals",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Special Screenings",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Classic Movie Screenings",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Movie Premieres",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Drive-in Cinemas",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "movies",
+      "subcategory": "Private Theatre Experiences",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Founders & Startup Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Business & Networking Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Sports & Fitness Clubs",
+      "available": 13,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 13,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Travel & Adventure Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Photography & Creative Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Automobile & Bike Clubs",
+      "available": 2,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 2,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Book & Reading Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Foodie Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Gaming & Esports Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Social & Lifestyle Clubs",
+      "available": 14,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 14,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Alumni Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Pet Lovers Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Music & Entertainment Clubs",
+      "available": 1,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 1,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Technology & Developer Clubs",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Women Entrepreneurs Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Running & Cycling Clubs",
+      "available": 0,
+      "official": 1,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 1,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Art & Culture Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Wellness & Yoga Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Volunteering & Social Impact Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    },
+    {
+      "category": "clubs",
+      "subcategory": "Neighbourhood Clubs",
+      "available": 0,
+      "official": 0,
+      "verified": 0,
+      "photos": 0,
+      "target": 100,
+      "submitted": 0,
+      "claimed": 0,
+      "record_status_counts": {
+        "raw_source": 0,
+        "official_starter": 0,
+        "submitted": 0,
+        "claimed_pending": 0,
+        "verified": 0
+      }
+    }
+  ],
+  "localities": [
+    {
+      "locality": "1st Sector HSR Layout",
+      "records": 1,
+      "categories": {
+        "eat": 1
+      }
+    },
+    {
+      "locality": "4th Block, 5th Block Jayanagar",
+      "records": 1,
+      "categories": {
+        "eat": 1
+      }
+    },
+    {
+      "locality": "Adugodi",
+      "records": 1,
+      "categories": {
+        "work": 1
+      }
+    },
+    {
+      "locality": "Arekere",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Ashok Nagar",
+      "records": 62,
+      "categories": {
+        "eat": 57,
+        "shop": 10,
+        "drink": 8,
+        "work": 6,
+        "movies": 1
+      }
+    },
+    {
+      "locality": "Ashoka Residency, Patel Narayana Reddy Layout",
+      "records": 1,
+      "categories": {
+        "travel": 1,
+        "live": 1
+      }
+    },
+    {
+      "locality": "Ashwath Nagar",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Bagmane Solarium City",
+      "records": 2,
+      "categories": {
+        "eat": 3
+      }
+    },
+    {
+      "locality": "Banashankari",
+      "records": 2,
+      "categories": {
+        "eat": 1,
+        "shop": 1
+      }
+    },
+    {
+      "locality": "Begur Hobli",
+      "records": 1,
+      "categories": {
+        "work": 1
+      }
+    },
+    {
+      "locality": "Bellandur",
+      "records": 2,
+      "categories": {
+        "eat": 2,
+        "work": 1
+      }
+    },
+    {
+      "locality": "Bhartiya City",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Bommanahalli",
+      "records": 1,
+      "categories": {
+        "shop": 1
+      }
+    },
+    {
+      "locality": "Brookefield",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Chikkalsandra",
+      "records": 1,
+      "categories": {
+        "eat": 4
+      }
+    },
+    {
+      "locality": "Cox Town",
+      "records": 1,
+      "categories": {
+        "shop": 1
+      }
+    },
+    {
+      "locality": "Doddakannahalli",
+      "records": 1,
+      "categories": {
+        "clubs": 2
+      }
+    },
+    {
+      "locality": "Doddanekundi",
+      "records": 1,
+      "categories": {
+        "work": 1
+      }
+    },
+    {
+      "locality": "Domlur",
+      "records": 1,
+      "categories": {
+        "work": 1
+      }
+    },
+    {
+      "locality": "Domlur I Stage",
+      "records": 2,
+      "categories": {
+        "work": 2
+      }
+    },
+    {
+      "locality": "Electronic City",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Fraser Town",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Gandhi Nagar",
+      "records": 1,
+      "categories": {
+        "travel": 1,
+        "live": 1
+      }
+    },
+    {
+      "locality": "Geddalahalli",
+      "records": 1,
+      "categories": {
+        "eat": 1
+      }
+    },
+    {
+      "locality": "HSR Layout",
+      "records": 8,
+      "categories": {
+        "eat": 5,
+        "shop": 2,
+        "work": 2,
+        "drink": 1
+      }
+    },
+    {
+      "locality": "Halasuru",
+      "records": 2,
+      "categories": {
+        "drink": 1,
+        "work": 1
+      }
+    },
+    {
+      "locality": "Hebbal",
+      "records": 6,
+      "categories": {
+        "eat": 5,
+        "drink": 1,
+        "travel": 1,
+        "live": 1,
+        "work": 1
+      }
+    },
+    {
+      "locality": "Hebbal Kempapura",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Hennur",
+      "records": 1,
+      "categories": {
+        "eat": 1
+      }
+    },
+    {
+      "locality": "High Grounds",
+      "records": 2,
+      "categories": {
+        "travel": 1,
+        "live": 1,
+        "work": 1
+      }
+    },
+    {
+      "locality": "Indiranagar",
+      "records": 38,
+      "categories": {
+        "eat": 41,
+        "shop": 5,
+        "work": 3
+      }
+    },
+    {
+      "locality": "JP Nagar",
+      "records": 6,
+      "categories": {
+        "eat": 5,
+        "drink": 2,
+        "work": 1
+      }
+    },
+    {
+      "locality": "JP Nagar 5th Phase",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Jakkur",
+      "records": 1,
+      "categories": {
+        "eat": 1
+      }
+    },
+    {
+      "locality": "Jayanagar",
+      "records": 5,
+      "categories": {
+        "eat": 7
+      }
+    },
+    {
+      "locality": "Kadubeesanahalli",
+      "records": 2,
+      "categories": {
+        "eat": 2,
+        "work": 1
+      }
+    },
+    {
+      "locality": "Kalyan Nagar",
+      "records": 9,
+      "categories": {
+        "eat": 11,
+        "drink": 1
+      }
+    },
+    {
+      "locality": "Kasavanahalli",
+      "records": 1,
+      "categories": {
+        "play": 14
+      }
+    },
+    {
+      "locality": "Konanakunte",
+      "records": 3,
+      "categories": {
+        "eat": 5
+      }
+    },
+    {
+      "locality": "Koramangala",
+      "records": 18,
+      "categories": {
+        "eat": 19,
+        "work": 4,
+        "drink": 1,
+        "movies": 1,
+        "shop": 1
+      }
+    },
+    {
+      "locality": "Kothanur",
+      "records": 2,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Lakksandra",
+      "records": 1,
+      "categories": {
+        "eat": 1
+      }
+    },
+    {
+      "locality": "Mahadevapura",
+      "records": 17,
+      "categories": {
+        "shop": 13,
+        "eat": 3,
+        "drink": 2
+      }
+    },
+    {
+      "locality": "Mahalaxmipuram",
+      "records": 1,
+      "categories": {
+        "work": 1
+      }
+    },
+    {
+      "locality": "Malleshwaram",
+      "records": 1,
+      "categories": {
+        "shop": 1
+      }
+    },
+    {
+      "locality": "Marathahalli",
+      "records": 6,
+      "categories": {
+        "eat": 4,
+        "drink": 2,
+        "shop": 1,
+        "work": 1
+      }
+    },
+    {
+      "locality": "Nagarvarapalya",
+      "records": 1,
+      "categories": {
+        "shop": 1
+      }
+    },
+    {
+      "locality": "Nagasandra",
+      "records": 1,
+      "categories": {
+        "shop": 1
+      }
+    },
+    {
+      "locality": "Nagavara",
+      "records": 7,
+      "categories": {
+        "work": 5,
+        "drink": 2,
+        "eat": 2
+      }
+    },
+    {
+      "locality": "RMV 2nd Stage",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Rajajinagar",
+      "records": 10,
+      "categories": {
+        "eat": 5,
+        "drink": 2,
+        "work": 2,
+        "play": 1,
+        "travel": 1,
+        "live": 1
+      }
+    },
+    {
+      "locality": "Rajarajeshwari Nagar",
+      "records": 2,
+      "categories": {
+        "eat": 3
+      }
+    },
+    {
+      "locality": "Richmond Town",
+      "records": 1,
+      "categories": {
+        "work": 1
+      }
+    },
+    {
+      "locality": "Sadashivanagar",
+      "records": 2,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Sahakar Nagar",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Sampangi Rama Nagar",
+      "records": 9,
+      "categories": {
+        "eat": 12
+      }
+    },
+    {
+      "locality": "Sanjay Nagar",
+      "records": 1,
+      "categories": {
+        "drink": 1
+      }
+    },
+    {
+      "locality": "Shanthala Nagar",
+      "records": 15,
+      "categories": {
+        "eat": 11,
+        "drink": 3,
+        "clubs": 2,
+        "play": 2,
+        "travel": 1,
+        "live": 1,
+        "work": 1
+      }
+    },
+    {
+      "locality": "Shantinagar",
+      "records": 2,
+      "categories": {
+        "eat": 4
+      }
+    },
+    {
+      "locality": "Shivajinagar",
+      "records": 2,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Ulsoor",
+      "records": 2,
+      "categories": {
+        "eat": 3
+      }
+    },
+    {
+      "locality": "Varthur",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Vasanth Nagar",
+      "records": 6,
+      "categories": {
+        "eat": 3,
+        "work": 2,
+        "travel": 1,
+        "live": 1
+      }
+    },
+    {
+      "locality": "Whitefield",
+      "records": 1,
+      "categories": {
+        "eat": 2
+      }
+    },
+    {
+      "locality": "Yelahanka",
+      "records": 111,
+      "categories": {
+        "shop": 73,
+        "eat": 43,
+        "drink": 2,
+        "movies": 1,
+        "work": 1
+      }
+    }
+  ],
+  "open_source_datasets": [
+    {
+      "slug": "cafes",
+      "label": "Cafes",
+      "public_category": "Eat",
+      "record_count": 1136
+    },
+    {
+      "slug": "restaurants",
+      "label": "Restaurants",
+      "public_category": "Eat",
+      "record_count": 3255
+    },
+    {
+      "slug": "fast-food",
+      "label": "Fast food",
+      "public_category": "Eat",
+      "record_count": 1727
+    },
+    {
+      "slug": "ice-cream",
+      "label": "Ice cream shops",
+      "public_category": "Eat",
+      "record_count": 201
+    },
+    {
+      "slug": "coworking",
+      "label": "Coworking spaces",
+      "public_category": "Work",
+      "record_count": 119
+    },
+    {
+      "slug": "stays",
+      "label": "Hotels, hostels and guest houses",
+      "public_category": "Travel",
+      "record_count": 947
+    },
+    {
+      "slug": "parks",
+      "label": "Parks",
+      "public_category": "Play",
+      "record_count": 606
+    },
+    {
+      "slug": "sports-centres",
+      "label": "Sports centres",
+      "public_category": "Play",
+      "record_count": 364
+    },
+    {
+      "slug": "fitness",
+      "label": "Fitness",
+      "public_category": "Play",
+      "record_count": 236
+    },
+    {
+      "slug": "turfs",
+      "label": "Turfs",
+      "public_category": "Play",
+      "record_count": 153
+    },
+    {
+      "slug": "cinemas",
+      "label": "Cinemas",
+      "public_category": "Movies",
+      "record_count": 106
+    },
+    {
+      "slug": "theatres",
+      "label": "Theatres",
+      "public_category": "Events",
+      "record_count": 113
+    },
+    {
+      "slug": "event-spaces",
+      "label": "Event spaces",
+      "public_category": "Events",
+      "record_count": 178
+    },
+    {
+      "slug": "community-spaces",
+      "label": "Community spaces",
+      "public_category": "Community",
+      "record_count": 243
+    },
+    {
+      "slug": "clubs",
+      "label": "Clubs",
+      "public_category": "Community",
+      "record_count": 50
+    },
+    {
+      "slug": "malls",
+      "label": "Malls",
+      "public_category": "Shop",
+      "record_count": 73
+    },
+    {
+      "slug": "shopping",
+      "label": "Shopping",
+      "public_category": "Shop",
+      "record_count": 96
+    },
+    {
+      "slug": "attractions",
+      "label": "Attractions",
+      "public_category": "Travel",
+      "record_count": 60
+    },
+    {
+      "slug": "resorts",
+      "label": "Resorts",
+      "public_category": "Travel",
+      "record_count": 40
+    },
+    {
+      "slug": "museums",
+      "label": "Museums",
+      "public_category": "Travel",
+      "record_count": 32
+    },
+    {
+      "slug": "galleries",
+      "label": "Galleries",
+      "public_category": "Events",
+      "record_count": 26
+    }
+  ],
+  "limitations": [
+    "Raw map/source records are not verified businesses.",
+    "Counts are category-record counts, not unique verified business totals.",
+    "No submitted, claimed-pending or verified public place records are present in the current public discovery dataset.",
+    "Locality is source-supplied and absent on most raw records; counts do not imply legal neighbourhood boundaries."
+  ]
+}

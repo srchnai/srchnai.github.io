@@ -1,0 +1,173 @@
+category,category_label,route,subcategory,subcategory_slug,discovery_url
+live,LIVE,/live/,Homes,homes,/discovery/?category=live&sub=Homes
+live,LIVE,/live/,Apartments,apartments,/discovery/?category=live&sub=Apartments
+live,LIVE,/live/,Rentals,rentals,/discovery/?category=live&sub=Rentals
+live,LIVE,/live/,Co-Living,co-living,/discovery/?category=live&sub=Co-Living
+live,LIVE,/live/,Stays,stays,/discovery/?category=live&sub=Stays
+work,WORK,/work/,Coworking Spaces,coworking-spaces,/discovery/?category=work&sub=Coworking+Spaces
+work,WORK,/work/,Managed Offices,managed-offices,/discovery/?category=work&sub=Managed+Offices
+work,WORK,/work/,Private Offices,private-offices,/discovery/?category=work&sub=Private+Offices
+work,WORK,/work/,Virtual Offices,virtual-offices,/discovery/?category=work&sub=Virtual+Offices
+work,WORK,/work/,Commercial Office Spaces,commercial-office-spaces,/discovery/?category=work&sub=Commercial+Office+Spaces
+work,WORK,/work/,Business Centres,business-centres,/discovery/?category=work&sub=Business+Centres
+work,WORK,/work/,Meeting Rooms,meeting-rooms,/discovery/?category=work&sub=Meeting+Rooms
+work,WORK,/work/,Conference Rooms,conference-rooms,/discovery/?category=work&sub=Conference+Rooms
+work,WORK,/work/,Training Centres,training-centres,/discovery/?category=work&sub=Training+Centres
+work,WORK,/work/,Startup Incubators,startup-incubators,/discovery/?category=work&sub=Startup+Incubators
+work,WORK,/work/,Corporate Campuses,corporate-campuses,/discovery/?category=work&sub=Corporate+Campuses
+work,WORK,/work/,Flexible Workspaces,flexible-workspaces,/discovery/?category=work&sub=Flexible+Workspaces
+eat,EAT,/eat/,Restaurants,restaurants,/discovery/?category=eat&sub=Restaurants
+eat,EAT,/eat/,Cafés,cafes,/discovery/?category=eat&sub=Caf%C3%A9s
+eat,EAT,/eat/,Fine Dining,fine-dining,/discovery/?category=eat&sub=Fine+Dining
+eat,EAT,/eat/,Casual Dining,casual-dining,/discovery/?category=eat&sub=Casual+Dining
+eat,EAT,/eat/,South Indian Restaurants,south-indian-restaurants,/discovery/?category=eat&sub=South+Indian+Restaurants
+eat,EAT,/eat/,North Indian Restaurants,north-indian-restaurants,/discovery/?category=eat&sub=North+Indian+Restaurants
+eat,EAT,/eat/,Street Food,street-food,/discovery/?category=eat&sub=Street+Food
+eat,EAT,/eat/,Bakeries,bakeries,/discovery/?category=eat&sub=Bakeries
+eat,EAT,/eat/,Dessert Parlours,dessert-parlours,/discovery/?category=eat&sub=Dessert+Parlours
+eat,EAT,/eat/,Breakfast & Brunch,breakfast-brunch,/discovery/?category=eat&sub=Breakfast+%26+Brunch
+eat,EAT,/eat/,Family Restaurants,family-restaurants,/discovery/?category=eat&sub=Family+Restaurants
+eat,EAT,/eat/,Buffets,buffets,/discovery/?category=eat&sub=Buffets
+eat,EAT,/eat/,Cloud Kitchens,cloud-kitchens,/discovery/?category=eat&sub=Cloud+Kitchens
+eat,EAT,/eat/,Food Courts,food-courts,/discovery/?category=eat&sub=Food+Courts
+eat,EAT,/eat/,Vegetarian Restaurants,vegetarian-restaurants,/discovery/?category=eat&sub=Vegetarian+Restaurants
+eat,EAT,/eat/,Vegan Restaurants,vegan-restaurants,/discovery/?category=eat&sub=Vegan+Restaurants
+eat,EAT,/eat/,Fast Food,fast-food,/discovery/?category=eat&sub=Fast+Food
+eat,EAT,/eat/,Specialty Cuisine,specialty-cuisine,/discovery/?category=eat&sub=Specialty+Cuisine
+drink,DRINK,/drink/,Pubs & Bars,pubs-bars,/discovery/?category=drink&sub=Pubs+%26+Bars
+drink,DRINK,/drink/,Breweries & Microbreweries,breweries-microbreweries,/discovery/?category=drink&sub=Breweries+%26+Microbreweries
+drink,DRINK,/drink/,Whisky Bars,whisky-bars,/discovery/?category=drink&sub=Whisky+Bars
+drink,DRINK,/drink/,Cocktail Bars,cocktail-bars,/discovery/?category=drink&sub=Cocktail+Bars
+drink,DRINK,/drink/,Wine Bars,wine-bars,/discovery/?category=drink&sub=Wine+Bars
+drink,DRINK,/drink/,Rooftop Bars,rooftop-bars,/discovery/?category=drink&sub=Rooftop+Bars
+drink,DRINK,/drink/,Nightclubs & Discotheques,nightclubs-discotheques,/discovery/?category=drink&sub=Nightclubs+%26+Discotheques
+drink,DRINK,/drink/,DJ Nights & Party Bars,dj-nights-party-bars,/discovery/?category=drink&sub=DJ+Nights+%26+Party+Bars
+drink,DRINK,/drink/,Luxury Hotel Bars,luxury-hotel-bars,/discovery/?category=drink&sub=Luxury+Hotel+Bars
+drink,DRINK,/drink/,Sports Bars,sports-bars,/discovery/?category=drink&sub=Sports+Bars
+drink,DRINK,/drink/,Live Music Bars,live-music-bars,/discovery/?category=drink&sub=Live+Music+Bars
+drink,DRINK,/drink/,Lounge Bars,lounge-bars,/discovery/?category=drink&sub=Lounge+Bars
+drink,DRINK,/drink/,Taprooms,taprooms,/discovery/?category=drink&sub=Taprooms
+drink,DRINK,/drink/,Beer Gardens,beer-gardens,/discovery/?category=drink&sub=Beer+Gardens
+drink,DRINK,/drink/,Karaoke Bars,karaoke-bars,/discovery/?category=drink&sub=Karaoke+Bars
+play,PLAY,/play/,Gaming Zones & Arcades,gaming-zones-arcades,/discovery/?category=play&sub=Gaming+Zones+%26+Arcades
+play,PLAY,/play/,Bowling Alleys,bowling-alleys,/discovery/?category=play&sub=Bowling+Alleys
+play,PLAY,/play/,Sports Arenas,sports-arenas,/discovery/?category=play&sub=Sports+Arenas
+play,PLAY,/play/,Indoor Sports,indoor-sports,/discovery/?category=play&sub=Indoor+Sports
+play,PLAY,/play/,Outdoor Sports,outdoor-sports,/discovery/?category=play&sub=Outdoor+Sports
+play,PLAY,/play/,Adventure Activities,adventure-activities,/discovery/?category=play&sub=Adventure+Activities
+play,PLAY,/play/,Escape Rooms,escape-rooms,/discovery/?category=play&sub=Escape+Rooms
+play,PLAY,/play/,Amusement Parks,amusement-parks,/discovery/?category=play&sub=Amusement+Parks
+play,PLAY,/play/,Trampoline Parks,trampoline-parks,/discovery/?category=play&sub=Trampoline+Parks
+play,PLAY,/play/,Go-Karting,go-karting,/discovery/?category=play&sub=Go-Karting
+play,PLAY,/play/,Paintball,paintball,/discovery/?category=play&sub=Paintball
+play,PLAY,/play/,Laser Tag,laser-tag,/discovery/?category=play&sub=Laser+Tag
+play,PLAY,/play/,Swimming Pools,swimming-pools,/discovery/?category=play&sub=Swimming+Pools
+play,PLAY,/play/,Fitness & Recreation,fitness-recreation,/discovery/?category=play&sub=Fitness+%26+Recreation
+play,PLAY,/play/,VR Experiences,vr-experiences,/discovery/?category=play&sub=VR+Experiences
+play,PLAY,/play/,Board Game Cafés,board-game-cafes,/discovery/?category=play&sub=Board+Game+Caf%C3%A9s
+play,PLAY,/play/,Badminton & Squash,badminton-squash,/discovery/?category=play&sub=Badminton+%26+Squash
+play,PLAY,/play/,Cricket & Football Grounds,cricket-football-grounds,/discovery/?category=play&sub=Cricket+%26+Football+Grounds
+play,PLAY,/play/,Trekking & Outdoor Adventures,trekking-outdoor-adventures,/discovery/?category=play&sub=Trekking+%26+Outdoor+Adventures
+play,PLAY,/play/,Family Entertainment Centres,family-entertainment-centres,/discovery/?category=play&sub=Family+Entertainment+Centres
+shop,SHOP,/shop/,Shopping Malls,shopping-malls,/discovery/?category=shop&sub=Shopping+Malls
+shop,SHOP,/shop/,Fashion & Apparel,fashion-apparel,/discovery/?category=shop&sub=Fashion+%26+Apparel
+shop,SHOP,/shop/,Luxury Boutiques,luxury-boutiques,/discovery/?category=shop&sub=Luxury+Boutiques
+shop,SHOP,/shop/,Footwear,footwear,/discovery/?category=shop&sub=Footwear
+shop,SHOP,/shop/,Jewellery,jewellery,/discovery/?category=shop&sub=Jewellery
+shop,SHOP,/shop/,Watches & Accessories,watches-accessories,/discovery/?category=shop&sub=Watches+%26+Accessories
+shop,SHOP,/shop/,Electronics,electronics,/discovery/?category=shop&sub=Electronics
+shop,SHOP,/shop/,Mobile & Gadgets,mobile-gadgets,/discovery/?category=shop&sub=Mobile+%26+Gadgets
+shop,SHOP,/shop/,Furniture & Home Décor,furniture-home-decor,/discovery/?category=shop&sub=Furniture+%26+Home+D%C3%A9cor
+shop,SHOP,/shop/,Beauty & Cosmetics,beauty-cosmetics,/discovery/?category=shop&sub=Beauty+%26+Cosmetics
+shop,SHOP,/shop/,Supermarkets,supermarkets,/discovery/?category=shop&sub=Supermarkets
+shop,SHOP,/shop/,Department Stores,department-stores,/discovery/?category=shop&sub=Department+Stores
+shop,SHOP,/shop/,Bookstores,bookstores,/discovery/?category=shop&sub=Bookstores
+shop,SHOP,/shop/,Sports & Fitness Stores,sports-fitness-stores,/discovery/?category=shop&sub=Sports+%26+Fitness+Stores
+shop,SHOP,/shop/,Lifestyle Stores,lifestyle-stores,/discovery/?category=shop&sub=Lifestyle+Stores
+shop,SHOP,/shop/,Home Improvement,home-improvement,/discovery/?category=shop&sub=Home+Improvement
+shop,SHOP,/shop/,Gift Shops,gift-shops,/discovery/?category=shop&sub=Gift+Shops
+shop,SHOP,/shop/,Local Markets,local-markets,/discovery/?category=shop&sub=Local+Markets
+shop,SHOP,/shop/,Organic & Specialty Stores,organic-specialty-stores,/discovery/?category=shop&sub=Organic+%26+Specialty+Stores
+shop,SHOP,/shop/,Kids & Baby Stores,kids-baby-stores,/discovery/?category=shop&sub=Kids+%26+Baby+Stores
+travel,TRAVEL,/travel/,Hotels,hotels,/discovery/?category=travel&sub=Hotels
+travel,TRAVEL,/travel/,Luxury Resorts,luxury-resorts,/discovery/?category=travel&sub=Luxury+Resorts
+travel,TRAVEL,/travel/,Boutique Hotels,boutique-hotels,/discovery/?category=travel&sub=Boutique+Hotels
+travel,TRAVEL,/travel/,Homestays,homestays,/discovery/?category=travel&sub=Homestays
+travel,TRAVEL,/travel/,Serviced Apartments,serviced-apartments,/discovery/?category=travel&sub=Serviced+Apartments
+travel,TRAVEL,/travel/,Hostels,hostels,/discovery/?category=travel&sub=Hostels
+travel,TRAVEL,/travel/,Villas,villas,/discovery/?category=travel&sub=Villas
+travel,TRAVEL,/travel/,Weekend Getaways,weekend-getaways,/discovery/?category=travel&sub=Weekend+Getaways
+travel,TRAVEL,/travel/,Hill Stations,hill-stations,/discovery/?category=travel&sub=Hill+Stations
+travel,TRAVEL,/travel/,Beach Destinations,beach-destinations,/discovery/?category=travel&sub=Beach+Destinations
+travel,TRAVEL,/travel/,Adventure Travel,adventure-travel,/discovery/?category=travel&sub=Adventure+Travel
+travel,TRAVEL,/travel/,Nature Retreats,nature-retreats,/discovery/?category=travel&sub=Nature+Retreats
+travel,TRAVEL,/travel/,Wildlife & Safari,wildlife-safari,/discovery/?category=travel&sub=Wildlife+%26+Safari
+travel,TRAVEL,/travel/,Road Trips,road-trips,/discovery/?category=travel&sub=Road+Trips
+travel,TRAVEL,/travel/,International Travel,international-travel,/discovery/?category=travel&sub=International+Travel
+travel,TRAVEL,/travel/,Domestic Travel,domestic-travel,/discovery/?category=travel&sub=Domestic+Travel
+travel,TRAVEL,/travel/,Travel Experiences,travel-experiences,/discovery/?category=travel&sub=Travel+Experiences
+travel,TRAVEL,/travel/,Camping & Glamping,camping-glamping,/discovery/?category=travel&sub=Camping+%26+Glamping
+travel,TRAVEL,/travel/,Spa & Wellness Retreats,spa-wellness-retreats,/discovery/?category=travel&sub=Spa+%26+Wellness+Retreats
+travel,TRAVEL,/travel/,Travel Agencies,travel-agencies,/discovery/?category=travel&sub=Travel+Agencies
+events,EVENTS,/events/,Live Music,live-music,/discovery/?category=events&sub=Live+Music
+events,EVENTS,/events/,Concerts,concerts,/discovery/?category=events&sub=Concerts
+events,EVENTS,/events/,Music Festivals,music-festivals,/discovery/?category=events&sub=Music+Festivals
+events,EVENTS,/events/,DJ Nights,dj-nights,/discovery/?category=events&sub=DJ+Nights
+events,EVENTS,/events/,Comedy Shows,comedy-shows,/discovery/?category=events&sub=Comedy+Shows
+events,EVENTS,/events/,Stand-up Comedy,stand-up-comedy,/discovery/?category=events&sub=Stand-up+Comedy
+events,EVENTS,/events/,Cultural Festivals,cultural-festivals,/discovery/?category=events&sub=Cultural+Festivals
+events,EVENTS,/events/,Art Exhibitions,art-exhibitions,/discovery/?category=events&sub=Art+Exhibitions
+events,EVENTS,/events/,Food Festivals,food-festivals,/discovery/?category=events&sub=Food+Festivals
+events,EVENTS,/events/,Beer Festivals,beer-festivals,/discovery/?category=events&sub=Beer+Festivals
+events,EVENTS,/events/,Startup Events,startup-events,/discovery/?category=events&sub=Startup+Events
+events,EVENTS,/events/,Business Conferences,business-conferences,/discovery/?category=events&sub=Business+Conferences
+events,EVENTS,/events/,Networking Events,networking-events,/discovery/?category=events&sub=Networking+Events
+events,EVENTS,/events/,Workshops,workshops,/discovery/?category=events&sub=Workshops
+events,EVENTS,/events/,Masterclasses,masterclasses,/discovery/?category=events&sub=Masterclasses
+events,EVENTS,/events/,College Festivals,college-festivals,/discovery/?category=events&sub=College+Festivals
+events,EVENTS,/events/,Sports Events,sports-events,/discovery/?category=events&sub=Sports+Events
+events,EVENTS,/events/,Fashion Shows,fashion-shows,/discovery/?category=events&sub=Fashion+Shows
+events,EVENTS,/events/,Theatre & Performing Arts,theatre-performing-arts,/discovery/?category=events&sub=Theatre+%26+Performing+Arts
+events,EVENTS,/events/,Community Events,community-events,/discovery/?category=events&sub=Community+Events
+events,EVENTS,/events/,Pop-up Markets,pop-up-markets,/discovery/?category=events&sub=Pop-up+Markets
+events,EVENTS,/events/,Seasonal Celebrations,seasonal-celebrations,/discovery/?category=events&sub=Seasonal+Celebrations
+movies,MOVIES,/movies/,Multiplex Cinemas,multiplex-cinemas,/discovery/?category=movies&sub=Multiplex+Cinemas
+movies,MOVIES,/movies/,IMAX,imax,/discovery/?category=movies&sub=IMAX
+movies,MOVIES,/movies/,4DX Cinemas,4dx-cinemas,/discovery/?category=movies&sub=4DX+Cinemas
+movies,MOVIES,/movies/,Dolby Atmos,dolby-atmos,/discovery/?category=movies&sub=Dolby+Atmos
+movies,MOVIES,/movies/,Premium Large Format Screens,premium-large-format-screens,/discovery/?category=movies&sub=Premium+Large+Format+Screens
+movies,MOVIES,/movies/,Luxury Cinemas,luxury-cinemas,/discovery/?category=movies&sub=Luxury+Cinemas
+movies,MOVIES,/movies/,Independent Cinemas,independent-cinemas,/discovery/?category=movies&sub=Independent+Cinemas
+movies,MOVIES,/movies/,Regional Movies,regional-movies,/discovery/?category=movies&sub=Regional+Movies
+movies,MOVIES,/movies/,English Movies,english-movies,/discovery/?category=movies&sub=English+Movies
+movies,MOVIES,/movies/,Hindi Movies,hindi-movies,/discovery/?category=movies&sub=Hindi+Movies
+movies,MOVIES,/movies/,Kannada Movies,kannada-movies,/discovery/?category=movies&sub=Kannada+Movies
+movies,MOVIES,/movies/,Tamil Movies,tamil-movies,/discovery/?category=movies&sub=Tamil+Movies
+movies,MOVIES,/movies/,Telugu Movies,telugu-movies,/discovery/?category=movies&sub=Telugu+Movies
+movies,MOVIES,/movies/,Malayalam Movies,malayalam-movies,/discovery/?category=movies&sub=Malayalam+Movies
+movies,MOVIES,/movies/,Film Festivals,film-festivals,/discovery/?category=movies&sub=Film+Festivals
+movies,MOVIES,/movies/,Special Screenings,special-screenings,/discovery/?category=movies&sub=Special+Screenings
+movies,MOVIES,/movies/,Classic Movie Screenings,classic-movie-screenings,/discovery/?category=movies&sub=Classic+Movie+Screenings
+movies,MOVIES,/movies/,Movie Premieres,movie-premieres,/discovery/?category=movies&sub=Movie+Premieres
+movies,MOVIES,/movies/,Drive-in Cinemas,drive-in-cinemas,/discovery/?category=movies&sub=Drive-in+Cinemas
+movies,MOVIES,/movies/,Private Theatre Experiences,private-theatre-experiences,/discovery/?category=movies&sub=Private+Theatre+Experiences
+clubs,CLUBS,/clubs/,Founders & Startup Clubs,founders-startup-clubs,/discovery/?category=clubs&sub=Founders+%26+Startup+Clubs
+clubs,CLUBS,/clubs/,Business & Networking Clubs,business-networking-clubs,/discovery/?category=clubs&sub=Business+%26+Networking+Clubs
+clubs,CLUBS,/clubs/,Sports & Fitness Clubs,sports-fitness-clubs,/discovery/?category=clubs&sub=Sports+%26+Fitness+Clubs
+clubs,CLUBS,/clubs/,Travel & Adventure Clubs,travel-adventure-clubs,/discovery/?category=clubs&sub=Travel+%26+Adventure+Clubs
+clubs,CLUBS,/clubs/,Photography & Creative Clubs,photography-creative-clubs,/discovery/?category=clubs&sub=Photography+%26+Creative+Clubs
+clubs,CLUBS,/clubs/,Automobile & Bike Clubs,automobile-bike-clubs,/discovery/?category=clubs&sub=Automobile+%26+Bike+Clubs
+clubs,CLUBS,/clubs/,Book & Reading Clubs,book-reading-clubs,/discovery/?category=clubs&sub=Book+%26+Reading+Clubs
+clubs,CLUBS,/clubs/,Foodie Clubs,foodie-clubs,/discovery/?category=clubs&sub=Foodie+Clubs
+clubs,CLUBS,/clubs/,Gaming & Esports Clubs,gaming-esports-clubs,/discovery/?category=clubs&sub=Gaming+%26+Esports+Clubs
+clubs,CLUBS,/clubs/,Social & Lifestyle Clubs,social-lifestyle-clubs,/discovery/?category=clubs&sub=Social+%26+Lifestyle+Clubs
+clubs,CLUBS,/clubs/,Alumni Clubs,alumni-clubs,/discovery/?category=clubs&sub=Alumni+Clubs
+clubs,CLUBS,/clubs/,Pet Lovers Clubs,pet-lovers-clubs,/discovery/?category=clubs&sub=Pet+Lovers+Clubs
+clubs,CLUBS,/clubs/,Music & Entertainment Clubs,music-entertainment-clubs,/discovery/?category=clubs&sub=Music+%26+Entertainment+Clubs
+clubs,CLUBS,/clubs/,Technology & Developer Clubs,technology-developer-clubs,/discovery/?category=clubs&sub=Technology+%26+Developer+Clubs
+clubs,CLUBS,/clubs/,Women Entrepreneurs Clubs,women-entrepreneurs-clubs,/discovery/?category=clubs&sub=Women+Entrepreneurs+Clubs
+clubs,CLUBS,/clubs/,Running & Cycling Clubs,running-cycling-clubs,/discovery/?category=clubs&sub=Running+%26+Cycling+Clubs
+clubs,CLUBS,/clubs/,Art & Culture Clubs,art-culture-clubs,/discovery/?category=clubs&sub=Art+%26+Culture+Clubs
+clubs,CLUBS,/clubs/,Wellness & Yoga Clubs,wellness-yoga-clubs,/discovery/?category=clubs&sub=Wellness+%26+Yoga+Clubs
+clubs,CLUBS,/clubs/,Volunteering & Social Impact Clubs,volunteering-social-impact-clubs,/discovery/?category=clubs&sub=Volunteering+%26+Social+Impact+Clubs
+clubs,CLUBS,/clubs/,Neighbourhood Clubs,neighbourhood-clubs,/discovery/?category=clubs&sub=Neighbourhood+Clubs

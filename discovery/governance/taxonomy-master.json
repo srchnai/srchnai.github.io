@@ -1,0 +1,989 @@
+{
+  "version": "2026-11-02",
+  "source_brief_sha256": "dd4be4b8b3d091e738e7cfa24f57b044f3e5ba2cc7f203377b01d43834895edd",
+  "source_kit_sha256": "1ae5dc405945f79976085a36e05735c983f5e9676407eedcd11c08def932946b",
+  "total_categories": 10,
+  "total_subcategories": 172,
+  "categories": [
+    {
+      "id": "live",
+      "label": "LIVE",
+      "route": "/live/",
+      "h1": "Homes, apartments, rentals, co-living and stays",
+      "headline": "Find a place that feels like yours.",
+      "description": "A first rental, a shared home or a slower weekend stay—explore spaces that fit the way you live.",
+      "discovery_url": "/discovery/?category=live",
+      "subcategory_count": 5,
+      "subcategories": [
+        {
+          "id": "homes",
+          "label": "Homes",
+          "discovery_url": "/discovery/?category=live&sub=Homes"
+        },
+        {
+          "id": "apartments",
+          "label": "Apartments",
+          "discovery_url": "/discovery/?category=live&sub=Apartments"
+        },
+        {
+          "id": "rentals",
+          "label": "Rentals",
+          "discovery_url": "/discovery/?category=live&sub=Rentals"
+        },
+        {
+          "id": "co-living",
+          "label": "Co-Living",
+          "discovery_url": "/discovery/?category=live&sub=Co-Living"
+        },
+        {
+          "id": "stays",
+          "label": "Stays",
+          "discovery_url": "/discovery/?category=live&sub=Stays"
+        }
+      ]
+    },
+    {
+      "id": "work",
+      "label": "WORK",
+      "route": "/work/",
+      "h1": "Coworking, offices and places to meet",
+      "headline": "Make room for your next big idea.",
+      "description": "Find a desk, a team space or a room to bring good people together.",
+      "discovery_url": "/discovery/?category=work",
+      "subcategory_count": 12,
+      "subcategories": [
+        {
+          "id": "coworking-spaces",
+          "label": "Coworking Spaces",
+          "discovery_url": "/discovery/?category=work&sub=Coworking+Spaces"
+        },
+        {
+          "id": "managed-offices",
+          "label": "Managed Offices",
+          "discovery_url": "/discovery/?category=work&sub=Managed+Offices"
+        },
+        {
+          "id": "private-offices",
+          "label": "Private Offices",
+          "discovery_url": "/discovery/?category=work&sub=Private+Offices"
+        },
+        {
+          "id": "virtual-offices",
+          "label": "Virtual Offices",
+          "discovery_url": "/discovery/?category=work&sub=Virtual+Offices"
+        },
+        {
+          "id": "commercial-office-spaces",
+          "label": "Commercial Office Spaces",
+          "discovery_url": "/discovery/?category=work&sub=Commercial+Office+Spaces"
+        },
+        {
+          "id": "business-centres",
+          "label": "Business Centres",
+          "discovery_url": "/discovery/?category=work&sub=Business+Centres"
+        },
+        {
+          "id": "meeting-rooms",
+          "label": "Meeting Rooms",
+          "discovery_url": "/discovery/?category=work&sub=Meeting+Rooms"
+        },
+        {
+          "id": "conference-rooms",
+          "label": "Conference Rooms",
+          "discovery_url": "/discovery/?category=work&sub=Conference+Rooms"
+        },
+        {
+          "id": "training-centres",
+          "label": "Training Centres",
+          "discovery_url": "/discovery/?category=work&sub=Training+Centres"
+        },
+        {
+          "id": "startup-incubators",
+          "label": "Startup Incubators",
+          "discovery_url": "/discovery/?category=work&sub=Startup+Incubators"
+        },
+        {
+          "id": "corporate-campuses",
+          "label": "Corporate Campuses",
+          "discovery_url": "/discovery/?category=work&sub=Corporate+Campuses"
+        },
+        {
+          "id": "flexible-workspaces",
+          "label": "Flexible Workspaces",
+          "discovery_url": "/discovery/?category=work&sub=Flexible+Workspaces"
+        }
+      ]
+    },
+    {
+      "id": "eat",
+      "label": "EAT",
+      "route": "/eat/",
+      "h1": "Restaurants, cafés and food experiences",
+      "headline": "Follow the flavour.",
+      "description": "From darshini breakfasts to long dinners, discover the food stories around you.",
+      "discovery_url": "/discovery/?category=eat",
+      "subcategory_count": 18,
+      "subcategories": [
+        {
+          "id": "restaurants",
+          "label": "Restaurants",
+          "discovery_url": "/discovery/?category=eat&sub=Restaurants"
+        },
+        {
+          "id": "cafes",
+          "label": "Cafés",
+          "discovery_url": "/discovery/?category=eat&sub=Caf%C3%A9s"
+        },
+        {
+          "id": "fine-dining",
+          "label": "Fine Dining",
+          "discovery_url": "/discovery/?category=eat&sub=Fine+Dining"
+        },
+        {
+          "id": "casual-dining",
+          "label": "Casual Dining",
+          "discovery_url": "/discovery/?category=eat&sub=Casual+Dining"
+        },
+        {
+          "id": "south-indian-restaurants",
+          "label": "South Indian Restaurants",
+          "discovery_url": "/discovery/?category=eat&sub=South+Indian+Restaurants"
+        },
+        {
+          "id": "north-indian-restaurants",
+          "label": "North Indian Restaurants",
+          "discovery_url": "/discovery/?category=eat&sub=North+Indian+Restaurants"
+        },
+        {
+          "id": "street-food",
+          "label": "Street Food",
+          "discovery_url": "/discovery/?category=eat&sub=Street+Food"
+        },
+        {
+          "id": "bakeries",
+          "label": "Bakeries",
+          "discovery_url": "/discovery/?category=eat&sub=Bakeries"
+        },
+        {
+          "id": "dessert-parlours",
+          "label": "Dessert Parlours",
+          "discovery_url": "/discovery/?category=eat&sub=Dessert+Parlours"
+        },
+        {
+          "id": "breakfast-brunch",
+          "label": "Breakfast & Brunch",
+          "discovery_url": "/discovery/?category=eat&sub=Breakfast+%26+Brunch"
+        },
+        {
+          "id": "family-restaurants",
+          "label": "Family Restaurants",
+          "discovery_url": "/discovery/?category=eat&sub=Family+Restaurants"
+        },
+        {
+          "id": "buffets",
+          "label": "Buffets",
+          "discovery_url": "/discovery/?category=eat&sub=Buffets"
+        },
+        {
+          "id": "cloud-kitchens",
+          "label": "Cloud Kitchens",
+          "discovery_url": "/discovery/?category=eat&sub=Cloud+Kitchens"
+        },
+        {
+          "id": "food-courts",
+          "label": "Food Courts",
+          "discovery_url": "/discovery/?category=eat&sub=Food+Courts"
+        },
+        {
+          "id": "vegetarian-restaurants",
+          "label": "Vegetarian Restaurants",
+          "discovery_url": "/discovery/?category=eat&sub=Vegetarian+Restaurants"
+        },
+        {
+          "id": "vegan-restaurants",
+          "label": "Vegan Restaurants",
+          "discovery_url": "/discovery/?category=eat&sub=Vegan+Restaurants"
+        },
+        {
+          "id": "fast-food",
+          "label": "Fast Food",
+          "discovery_url": "/discovery/?category=eat&sub=Fast+Food"
+        },
+        {
+          "id": "specialty-cuisine",
+          "label": "Specialty Cuisine",
+          "discovery_url": "/discovery/?category=eat&sub=Specialty+Cuisine"
+        }
+      ]
+    },
+    {
+      "id": "drink",
+      "label": "DRINK",
+      "route": "/drink/",
+      "h1": "Pubs, bars, breweries and nightlife",
+      "headline": "Find your evening rhythm.",
+      "description": "A quiet catch-up, a live set or a night that becomes a story. Find your kind of evening.",
+      "discovery_url": "/discovery/?category=drink",
+      "subcategory_count": 15,
+      "subcategories": [
+        {
+          "id": "pubs-bars",
+          "label": "Pubs & Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Pubs+%26+Bars"
+        },
+        {
+          "id": "breweries-microbreweries",
+          "label": "Breweries & Microbreweries",
+          "discovery_url": "/discovery/?category=drink&sub=Breweries+%26+Microbreweries"
+        },
+        {
+          "id": "whisky-bars",
+          "label": "Whisky Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Whisky+Bars"
+        },
+        {
+          "id": "cocktail-bars",
+          "label": "Cocktail Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Cocktail+Bars"
+        },
+        {
+          "id": "wine-bars",
+          "label": "Wine Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Wine+Bars"
+        },
+        {
+          "id": "rooftop-bars",
+          "label": "Rooftop Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Rooftop+Bars"
+        },
+        {
+          "id": "nightclubs-discotheques",
+          "label": "Nightclubs & Discotheques",
+          "discovery_url": "/discovery/?category=drink&sub=Nightclubs+%26+Discotheques"
+        },
+        {
+          "id": "dj-nights-party-bars",
+          "label": "DJ Nights & Party Bars",
+          "discovery_url": "/discovery/?category=drink&sub=DJ+Nights+%26+Party+Bars"
+        },
+        {
+          "id": "luxury-hotel-bars",
+          "label": "Luxury Hotel Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Luxury+Hotel+Bars"
+        },
+        {
+          "id": "sports-bars",
+          "label": "Sports Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Sports+Bars"
+        },
+        {
+          "id": "live-music-bars",
+          "label": "Live Music Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Live+Music+Bars"
+        },
+        {
+          "id": "lounge-bars",
+          "label": "Lounge Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Lounge+Bars"
+        },
+        {
+          "id": "taprooms",
+          "label": "Taprooms",
+          "discovery_url": "/discovery/?category=drink&sub=Taprooms"
+        },
+        {
+          "id": "beer-gardens",
+          "label": "Beer Gardens",
+          "discovery_url": "/discovery/?category=drink&sub=Beer+Gardens"
+        },
+        {
+          "id": "karaoke-bars",
+          "label": "Karaoke Bars",
+          "discovery_url": "/discovery/?category=drink&sub=Karaoke+Bars"
+        }
+      ]
+    },
+    {
+      "id": "play",
+      "label": "PLAY",
+      "route": "/play/",
+      "h1": "Sports, games and active experiences",
+      "headline": "Make today a little more alive.",
+      "description": "Move, compete, explore or simply try something new with your people.",
+      "discovery_url": "/discovery/?category=play",
+      "subcategory_count": 20,
+      "subcategories": [
+        {
+          "id": "gaming-zones-arcades",
+          "label": "Gaming Zones & Arcades",
+          "discovery_url": "/discovery/?category=play&sub=Gaming+Zones+%26+Arcades"
+        },
+        {
+          "id": "bowling-alleys",
+          "label": "Bowling Alleys",
+          "discovery_url": "/discovery/?category=play&sub=Bowling+Alleys"
+        },
+        {
+          "id": "sports-arenas",
+          "label": "Sports Arenas",
+          "discovery_url": "/discovery/?category=play&sub=Sports+Arenas"
+        },
+        {
+          "id": "indoor-sports",
+          "label": "Indoor Sports",
+          "discovery_url": "/discovery/?category=play&sub=Indoor+Sports"
+        },
+        {
+          "id": "outdoor-sports",
+          "label": "Outdoor Sports",
+          "discovery_url": "/discovery/?category=play&sub=Outdoor+Sports"
+        },
+        {
+          "id": "adventure-activities",
+          "label": "Adventure Activities",
+          "discovery_url": "/discovery/?category=play&sub=Adventure+Activities"
+        },
+        {
+          "id": "escape-rooms",
+          "label": "Escape Rooms",
+          "discovery_url": "/discovery/?category=play&sub=Escape+Rooms"
+        },
+        {
+          "id": "amusement-parks",
+          "label": "Amusement Parks",
+          "discovery_url": "/discovery/?category=play&sub=Amusement+Parks"
+        },
+        {
+          "id": "trampoline-parks",
+          "label": "Trampoline Parks",
+          "discovery_url": "/discovery/?category=play&sub=Trampoline+Parks"
+        },
+        {
+          "id": "go-karting",
+          "label": "Go-Karting",
+          "discovery_url": "/discovery/?category=play&sub=Go-Karting"
+        },
+        {
+          "id": "paintball",
+          "label": "Paintball",
+          "discovery_url": "/discovery/?category=play&sub=Paintball"
+        },
+        {
+          "id": "laser-tag",
+          "label": "Laser Tag",
+          "discovery_url": "/discovery/?category=play&sub=Laser+Tag"
+        },
+        {
+          "id": "swimming-pools",
+          "label": "Swimming Pools",
+          "discovery_url": "/discovery/?category=play&sub=Swimming+Pools"
+        },
+        {
+          "id": "fitness-recreation",
+          "label": "Fitness & Recreation",
+          "discovery_url": "/discovery/?category=play&sub=Fitness+%26+Recreation"
+        },
+        {
+          "id": "vr-experiences",
+          "label": "VR Experiences",
+          "discovery_url": "/discovery/?category=play&sub=VR+Experiences"
+        },
+        {
+          "id": "board-game-cafes",
+          "label": "Board Game Cafés",
+          "discovery_url": "/discovery/?category=play&sub=Board+Game+Caf%C3%A9s"
+        },
+        {
+          "id": "badminton-squash",
+          "label": "Badminton & Squash",
+          "discovery_url": "/discovery/?category=play&sub=Badminton+%26+Squash"
+        },
+        {
+          "id": "cricket-football-grounds",
+          "label": "Cricket & Football Grounds",
+          "discovery_url": "/discovery/?category=play&sub=Cricket+%26+Football+Grounds"
+        },
+        {
+          "id": "trekking-outdoor-adventures",
+          "label": "Trekking & Outdoor Adventures",
+          "discovery_url": "/discovery/?category=play&sub=Trekking+%26+Outdoor+Adventures"
+        },
+        {
+          "id": "family-entertainment-centres",
+          "label": "Family Entertainment Centres",
+          "discovery_url": "/discovery/?category=play&sub=Family+Entertainment+Centres"
+        }
+      ]
+    },
+    {
+      "id": "shop",
+      "label": "SHOP",
+      "route": "/shop/",
+      "h1": "Retail, fashion, markets and everyday finds",
+      "headline": "Find things with a story.",
+      "description": "Independent labels, local markets, useful essentials and thoughtful gifts—worth a closer look.",
+      "discovery_url": "/discovery/?category=shop",
+      "subcategory_count": 20,
+      "subcategories": [
+        {
+          "id": "shopping-malls",
+          "label": "Shopping Malls",
+          "discovery_url": "/discovery/?category=shop&sub=Shopping+Malls"
+        },
+        {
+          "id": "fashion-apparel",
+          "label": "Fashion & Apparel",
+          "discovery_url": "/discovery/?category=shop&sub=Fashion+%26+Apparel"
+        },
+        {
+          "id": "luxury-boutiques",
+          "label": "Luxury Boutiques",
+          "discovery_url": "/discovery/?category=shop&sub=Luxury+Boutiques"
+        },
+        {
+          "id": "footwear",
+          "label": "Footwear",
+          "discovery_url": "/discovery/?category=shop&sub=Footwear"
+        },
+        {
+          "id": "jewellery",
+          "label": "Jewellery",
+          "discovery_url": "/discovery/?category=shop&sub=Jewellery"
+        },
+        {
+          "id": "watches-accessories",
+          "label": "Watches & Accessories",
+          "discovery_url": "/discovery/?category=shop&sub=Watches+%26+Accessories"
+        },
+        {
+          "id": "electronics",
+          "label": "Electronics",
+          "discovery_url": "/discovery/?category=shop&sub=Electronics"
+        },
+        {
+          "id": "mobile-gadgets",
+          "label": "Mobile & Gadgets",
+          "discovery_url": "/discovery/?category=shop&sub=Mobile+%26+Gadgets"
+        },
+        {
+          "id": "furniture-home-decor",
+          "label": "Furniture & Home Décor",
+          "discovery_url": "/discovery/?category=shop&sub=Furniture+%26+Home+D%C3%A9cor"
+        },
+        {
+          "id": "beauty-cosmetics",
+          "label": "Beauty & Cosmetics",
+          "discovery_url": "/discovery/?category=shop&sub=Beauty+%26+Cosmetics"
+        },
+        {
+          "id": "supermarkets",
+          "label": "Supermarkets",
+          "discovery_url": "/discovery/?category=shop&sub=Supermarkets"
+        },
+        {
+          "id": "department-stores",
+          "label": "Department Stores",
+          "discovery_url": "/discovery/?category=shop&sub=Department+Stores"
+        },
+        {
+          "id": "bookstores",
+          "label": "Bookstores",
+          "discovery_url": "/discovery/?category=shop&sub=Bookstores"
+        },
+        {
+          "id": "sports-fitness-stores",
+          "label": "Sports & Fitness Stores",
+          "discovery_url": "/discovery/?category=shop&sub=Sports+%26+Fitness+Stores"
+        },
+        {
+          "id": "lifestyle-stores",
+          "label": "Lifestyle Stores",
+          "discovery_url": "/discovery/?category=shop&sub=Lifestyle+Stores"
+        },
+        {
+          "id": "home-improvement",
+          "label": "Home Improvement",
+          "discovery_url": "/discovery/?category=shop&sub=Home+Improvement"
+        },
+        {
+          "id": "gift-shops",
+          "label": "Gift Shops",
+          "discovery_url": "/discovery/?category=shop&sub=Gift+Shops"
+        },
+        {
+          "id": "local-markets",
+          "label": "Local Markets",
+          "discovery_url": "/discovery/?category=shop&sub=Local+Markets"
+        },
+        {
+          "id": "organic-specialty-stores",
+          "label": "Organic & Specialty Stores",
+          "discovery_url": "/discovery/?category=shop&sub=Organic+%26+Specialty+Stores"
+        },
+        {
+          "id": "kids-baby-stores",
+          "label": "Kids & Baby Stores",
+          "discovery_url": "/discovery/?category=shop&sub=Kids+%26+Baby+Stores"
+        }
+      ]
+    },
+    {
+      "id": "travel",
+      "label": "TRAVEL",
+      "route": "/travel/",
+      "h1": "Hotels, getaways and travel experiences",
+      "headline": "Take the scenic way.",
+      "description": "From coffee country to coastlines, plan the next place you want to wake up.",
+      "discovery_url": "/discovery/?category=travel",
+      "subcategory_count": 20,
+      "subcategories": [
+        {
+          "id": "hotels",
+          "label": "Hotels",
+          "discovery_url": "/discovery/?category=travel&sub=Hotels"
+        },
+        {
+          "id": "luxury-resorts",
+          "label": "Luxury Resorts",
+          "discovery_url": "/discovery/?category=travel&sub=Luxury+Resorts"
+        },
+        {
+          "id": "boutique-hotels",
+          "label": "Boutique Hotels",
+          "discovery_url": "/discovery/?category=travel&sub=Boutique+Hotels"
+        },
+        {
+          "id": "homestays",
+          "label": "Homestays",
+          "discovery_url": "/discovery/?category=travel&sub=Homestays"
+        },
+        {
+          "id": "serviced-apartments",
+          "label": "Serviced Apartments",
+          "discovery_url": "/discovery/?category=travel&sub=Serviced+Apartments"
+        },
+        {
+          "id": "hostels",
+          "label": "Hostels",
+          "discovery_url": "/discovery/?category=travel&sub=Hostels"
+        },
+        {
+          "id": "villas",
+          "label": "Villas",
+          "discovery_url": "/discovery/?category=travel&sub=Villas"
+        },
+        {
+          "id": "weekend-getaways",
+          "label": "Weekend Getaways",
+          "discovery_url": "/discovery/?category=travel&sub=Weekend+Getaways"
+        },
+        {
+          "id": "hill-stations",
+          "label": "Hill Stations",
+          "discovery_url": "/discovery/?category=travel&sub=Hill+Stations"
+        },
+        {
+          "id": "beach-destinations",
+          "label": "Beach Destinations",
+          "discovery_url": "/discovery/?category=travel&sub=Beach+Destinations"
+        },
+        {
+          "id": "adventure-travel",
+          "label": "Adventure Travel",
+          "discovery_url": "/discovery/?category=travel&sub=Adventure+Travel"
+        },
+        {
+          "id": "nature-retreats",
+          "label": "Nature Retreats",
+          "discovery_url": "/discovery/?category=travel&sub=Nature+Retreats"
+        },
+        {
+          "id": "wildlife-safari",
+          "label": "Wildlife & Safari",
+          "discovery_url": "/discovery/?category=travel&sub=Wildlife+%26+Safari"
+        },
+        {
+          "id": "road-trips",
+          "label": "Road Trips",
+          "discovery_url": "/discovery/?category=travel&sub=Road+Trips"
+        },
+        {
+          "id": "international-travel",
+          "label": "International Travel",
+          "discovery_url": "/discovery/?category=travel&sub=International+Travel"
+        },
+        {
+          "id": "domestic-travel",
+          "label": "Domestic Travel",
+          "discovery_url": "/discovery/?category=travel&sub=Domestic+Travel"
+        },
+        {
+          "id": "travel-experiences",
+          "label": "Travel Experiences",
+          "discovery_url": "/discovery/?category=travel&sub=Travel+Experiences"
+        },
+        {
+          "id": "camping-glamping",
+          "label": "Camping & Glamping",
+          "discovery_url": "/discovery/?category=travel&sub=Camping+%26+Glamping"
+        },
+        {
+          "id": "spa-wellness-retreats",
+          "label": "Spa & Wellness Retreats",
+          "discovery_url": "/discovery/?category=travel&sub=Spa+%26+Wellness+Retreats"
+        },
+        {
+          "id": "travel-agencies",
+          "label": "Travel Agencies",
+          "discovery_url": "/discovery/?category=travel&sub=Travel+Agencies"
+        }
+      ]
+    },
+    {
+      "id": "events",
+      "label": "EVENTS",
+      "route": "/events/",
+      "h1": "Concerts, festivals, workshops and gatherings",
+      "headline": "Be where the story happens.",
+      "description": "Find live music, ideas, culture, comedy and community across the city.",
+      "discovery_url": "/discovery/?category=events",
+      "subcategory_count": 22,
+      "subcategories": [
+        {
+          "id": "live-music",
+          "label": "Live Music",
+          "discovery_url": "/discovery/?category=events&sub=Live+Music"
+        },
+        {
+          "id": "concerts",
+          "label": "Concerts",
+          "discovery_url": "/discovery/?category=events&sub=Concerts"
+        },
+        {
+          "id": "music-festivals",
+          "label": "Music Festivals",
+          "discovery_url": "/discovery/?category=events&sub=Music+Festivals"
+        },
+        {
+          "id": "dj-nights",
+          "label": "DJ Nights",
+          "discovery_url": "/discovery/?category=events&sub=DJ+Nights"
+        },
+        {
+          "id": "comedy-shows",
+          "label": "Comedy Shows",
+          "discovery_url": "/discovery/?category=events&sub=Comedy+Shows"
+        },
+        {
+          "id": "stand-up-comedy",
+          "label": "Stand-up Comedy",
+          "discovery_url": "/discovery/?category=events&sub=Stand-up+Comedy"
+        },
+        {
+          "id": "cultural-festivals",
+          "label": "Cultural Festivals",
+          "discovery_url": "/discovery/?category=events&sub=Cultural+Festivals"
+        },
+        {
+          "id": "art-exhibitions",
+          "label": "Art Exhibitions",
+          "discovery_url": "/discovery/?category=events&sub=Art+Exhibitions"
+        },
+        {
+          "id": "food-festivals",
+          "label": "Food Festivals",
+          "discovery_url": "/discovery/?category=events&sub=Food+Festivals"
+        },
+        {
+          "id": "beer-festivals",
+          "label": "Beer Festivals",
+          "discovery_url": "/discovery/?category=events&sub=Beer+Festivals"
+        },
+        {
+          "id": "startup-events",
+          "label": "Startup Events",
+          "discovery_url": "/discovery/?category=events&sub=Startup+Events"
+        },
+        {
+          "id": "business-conferences",
+          "label": "Business Conferences",
+          "discovery_url": "/discovery/?category=events&sub=Business+Conferences"
+        },
+        {
+          "id": "networking-events",
+          "label": "Networking Events",
+          "discovery_url": "/discovery/?category=events&sub=Networking+Events"
+        },
+        {
+          "id": "workshops",
+          "label": "Workshops",
+          "discovery_url": "/discovery/?category=events&sub=Workshops"
+        },
+        {
+          "id": "masterclasses",
+          "label": "Masterclasses",
+          "discovery_url": "/discovery/?category=events&sub=Masterclasses"
+        },
+        {
+          "id": "college-festivals",
+          "label": "College Festivals",
+          "discovery_url": "/discovery/?category=events&sub=College+Festivals"
+        },
+        {
+          "id": "sports-events",
+          "label": "Sports Events",
+          "discovery_url": "/discovery/?category=events&sub=Sports+Events"
+        },
+        {
+          "id": "fashion-shows",
+          "label": "Fashion Shows",
+          "discovery_url": "/discovery/?category=events&sub=Fashion+Shows"
+        },
+        {
+          "id": "theatre-performing-arts",
+          "label": "Theatre & Performing Arts",
+          "discovery_url": "/discovery/?category=events&sub=Theatre+%26+Performing+Arts"
+        },
+        {
+          "id": "community-events",
+          "label": "Community Events",
+          "discovery_url": "/discovery/?category=events&sub=Community+Events"
+        },
+        {
+          "id": "pop-up-markets",
+          "label": "Pop-up Markets",
+          "discovery_url": "/discovery/?category=events&sub=Pop-up+Markets"
+        },
+        {
+          "id": "seasonal-celebrations",
+          "label": "Seasonal Celebrations",
+          "discovery_url": "/discovery/?category=events&sub=Seasonal+Celebrations"
+        }
+      ]
+    },
+    {
+      "id": "movies",
+      "label": "MOVIES",
+      "route": "/movies/",
+      "h1": "Cinemas, formats and film experiences",
+      "headline": "A better seat for every story.",
+      "description": "Explore screens, formats, languages and the films bringing people together.",
+      "discovery_url": "/discovery/?category=movies",
+      "subcategory_count": 20,
+      "subcategories": [
+        {
+          "id": "multiplex-cinemas",
+          "label": "Multiplex Cinemas",
+          "discovery_url": "/discovery/?category=movies&sub=Multiplex+Cinemas"
+        },
+        {
+          "id": "imax",
+          "label": "IMAX",
+          "discovery_url": "/discovery/?category=movies&sub=IMAX"
+        },
+        {
+          "id": "4dx-cinemas",
+          "label": "4DX Cinemas",
+          "discovery_url": "/discovery/?category=movies&sub=4DX+Cinemas"
+        },
+        {
+          "id": "dolby-atmos",
+          "label": "Dolby Atmos",
+          "discovery_url": "/discovery/?category=movies&sub=Dolby+Atmos"
+        },
+        {
+          "id": "premium-large-format-screens",
+          "label": "Premium Large Format Screens",
+          "discovery_url": "/discovery/?category=movies&sub=Premium+Large+Format+Screens"
+        },
+        {
+          "id": "luxury-cinemas",
+          "label": "Luxury Cinemas",
+          "discovery_url": "/discovery/?category=movies&sub=Luxury+Cinemas"
+        },
+        {
+          "id": "independent-cinemas",
+          "label": "Independent Cinemas",
+          "discovery_url": "/discovery/?category=movies&sub=Independent+Cinemas"
+        },
+        {
+          "id": "regional-movies",
+          "label": "Regional Movies",
+          "discovery_url": "/discovery/?category=movies&sub=Regional+Movies"
+        },
+        {
+          "id": "english-movies",
+          "label": "English Movies",
+          "discovery_url": "/discovery/?category=movies&sub=English+Movies"
+        },
+        {
+          "id": "hindi-movies",
+          "label": "Hindi Movies",
+          "discovery_url": "/discovery/?category=movies&sub=Hindi+Movies"
+        },
+        {
+          "id": "kannada-movies",
+          "label": "Kannada Movies",
+          "discovery_url": "/discovery/?category=movies&sub=Kannada+Movies"
+        },
+        {
+          "id": "tamil-movies",
+          "label": "Tamil Movies",
+          "discovery_url": "/discovery/?category=movies&sub=Tamil+Movies"
+        },
+        {
+          "id": "telugu-movies",
+          "label": "Telugu Movies",
+          "discovery_url": "/discovery/?category=movies&sub=Telugu+Movies"
+        },
+        {
+          "id": "malayalam-movies",
+          "label": "Malayalam Movies",
+          "discovery_url": "/discovery/?category=movies&sub=Malayalam+Movies"
+        },
+        {
+          "id": "film-festivals",
+          "label": "Film Festivals",
+          "discovery_url": "/discovery/?category=movies&sub=Film+Festivals"
+        },
+        {
+          "id": "special-screenings",
+          "label": "Special Screenings",
+          "discovery_url": "/discovery/?category=movies&sub=Special+Screenings"
+        },
+        {
+          "id": "classic-movie-screenings",
+          "label": "Classic Movie Screenings",
+          "discovery_url": "/discovery/?category=movies&sub=Classic+Movie+Screenings"
+        },
+        {
+          "id": "movie-premieres",
+          "label": "Movie Premieres",
+          "discovery_url": "/discovery/?category=movies&sub=Movie+Premieres"
+        },
+        {
+          "id": "drive-in-cinemas",
+          "label": "Drive-in Cinemas",
+          "discovery_url": "/discovery/?category=movies&sub=Drive-in+Cinemas"
+        },
+        {
+          "id": "private-theatre-experiences",
+          "label": "Private Theatre Experiences",
+          "discovery_url": "/discovery/?category=movies&sub=Private+Theatre+Experiences"
+        }
+      ]
+    },
+    {
+      "id": "clubs",
+      "label": "CLUBS",
+      "route": "/clubs/",
+      "h1": "Communities, interests and clubs",
+      "headline": "Find your kind of people.",
+      "description": "Meet around shared interests, build friendships and make the city feel smaller.",
+      "discovery_url": "/discovery/?category=clubs",
+      "subcategory_count": 20,
+      "subcategories": [
+        {
+          "id": "founders-startup-clubs",
+          "label": "Founders & Startup Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Founders+%26+Startup+Clubs"
+        },
+        {
+          "id": "business-networking-clubs",
+          "label": "Business & Networking Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Business+%26+Networking+Clubs"
+        },
+        {
+          "id": "sports-fitness-clubs",
+          "label": "Sports & Fitness Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Sports+%26+Fitness+Clubs"
+        },
+        {
+          "id": "travel-adventure-clubs",
+          "label": "Travel & Adventure Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Travel+%26+Adventure+Clubs"
+        },
+        {
+          "id": "photography-creative-clubs",
+          "label": "Photography & Creative Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Photography+%26+Creative+Clubs"
+        },
+        {
+          "id": "automobile-bike-clubs",
+          "label": "Automobile & Bike Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Automobile+%26+Bike+Clubs"
+        },
+        {
+          "id": "book-reading-clubs",
+          "label": "Book & Reading Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Book+%26+Reading+Clubs"
+        },
+        {
+          "id": "foodie-clubs",
+          "label": "Foodie Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Foodie+Clubs"
+        },
+        {
+          "id": "gaming-esports-clubs",
+          "label": "Gaming & Esports Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Gaming+%26+Esports+Clubs"
+        },
+        {
+          "id": "social-lifestyle-clubs",
+          "label": "Social & Lifestyle Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Social+%26+Lifestyle+Clubs"
+        },
+        {
+          "id": "alumni-clubs",
+          "label": "Alumni Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Alumni+Clubs"
+        },
+        {
+          "id": "pet-lovers-clubs",
+          "label": "Pet Lovers Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Pet+Lovers+Clubs"
+        },
+        {
+          "id": "music-entertainment-clubs",
+          "label": "Music & Entertainment Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Music+%26+Entertainment+Clubs"
+        },
+        {
+          "id": "technology-developer-clubs",
+          "label": "Technology & Developer Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Technology+%26+Developer+Clubs"
+        },
+        {
+          "id": "women-entrepreneurs-clubs",
+          "label": "Women Entrepreneurs Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Women+Entrepreneurs+Clubs"
+        },
+        {
+          "id": "running-cycling-clubs",
+          "label": "Running & Cycling Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Running+%26+Cycling+Clubs"
+        },
+        {
+          "id": "art-culture-clubs",
+          "label": "Art & Culture Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Art+%26+Culture+Clubs"
+        },
+        {
+          "id": "wellness-yoga-clubs",
+          "label": "Wellness & Yoga Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Wellness+%26+Yoga+Clubs"
+        },
+        {
+          "id": "volunteering-social-impact-clubs",
+          "label": "Volunteering & Social Impact Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Volunteering+%26+Social+Impact+Clubs"
+        },
+        {
+          "id": "neighbourhood-clubs",
+          "label": "Neighbourhood Clubs",
+          "discovery_url": "/discovery/?category=clubs&sub=Neighbourhood+Clubs"
+        }
+      ]
+    }
+  ]
+}

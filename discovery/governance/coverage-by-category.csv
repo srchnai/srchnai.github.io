@@ -1,0 +1,173 @@
+category,subcategory,raw_source,official_starter,submitted,claimed_pending,verified,permitted_photos,target
+live,Homes,0,0,0,0,0,0,100
+live,Apartments,0,0,0,0,0,0,100
+live,Rentals,0,0,0,0,0,0,100
+live,Co-Living,0,0,0,0,0,0,100
+live,Stays,947,0,0,0,0,0,100
+work,Coworking Spaces,113,3,0,0,0,0,100
+work,Managed Offices,0,1,0,0,0,0,100
+work,Private Offices,0,1,0,0,0,0,100
+work,Virtual Offices,0,0,0,0,0,0,100
+work,Commercial Office Spaces,0,0,0,0,0,0,100
+work,Business Centres,0,0,0,0,0,0,100
+work,Meeting Rooms,0,2,0,0,0,0,100
+work,Conference Rooms,0,1,0,0,0,0,100
+work,Training Centres,0,0,0,0,0,0,100
+work,Startup Incubators,0,0,0,0,0,0,100
+work,Corporate Campuses,0,0,0,0,0,0,100
+work,Flexible Workspaces,0,1,0,0,0,0,100
+eat,Restaurants,3255,2,0,0,0,0,100
+eat,Cafés,1136,0,0,0,0,0,100
+eat,Fine Dining,2,0,0,0,0,0,100
+eat,Casual Dining,0,0,0,0,0,0,100
+eat,South Indian Restaurants,113,1,0,0,0,0,100
+eat,North Indian Restaurants,28,0,0,0,0,0,100
+eat,Street Food,0,0,0,0,0,0,100
+eat,Bakeries,30,0,0,0,0,0,100
+eat,Dessert Parlours,240,0,0,0,0,0,100
+eat,Breakfast & Brunch,0,2,0,0,0,0,100
+eat,Family Restaurants,0,0,0,0,0,0,100
+eat,Buffets,0,1,0,0,0,0,100
+eat,Cloud Kitchens,3,0,0,0,0,0,100
+eat,Food Courts,51,0,0,0,0,0,100
+eat,Vegetarian Restaurants,156,0,0,0,0,0,100
+eat,Vegan Restaurants,3,0,0,0,0,0,100
+eat,Fast Food,1727,0,0,0,0,0,100
+eat,Specialty Cuisine,783,0,0,0,0,0,100
+drink,Pubs & Bars,437,0,0,0,0,0,100
+drink,Breweries & Microbreweries,58,0,0,0,0,0,100
+drink,Whisky Bars,0,0,0,0,0,0,100
+drink,Cocktail Bars,0,0,0,0,0,0,100
+drink,Wine Bars,0,0,0,0,0,0,100
+drink,Rooftop Bars,0,0,0,0,0,0,100
+drink,Nightclubs & Discotheques,6,0,0,0,0,0,100
+drink,DJ Nights & Party Bars,0,0,0,0,0,0,100
+drink,Luxury Hotel Bars,0,0,0,0,0,0,100
+drink,Sports Bars,0,0,0,0,0,0,100
+drink,Live Music Bars,0,0,0,0,0,0,100
+drink,Lounge Bars,0,0,0,0,0,0,100
+drink,Taprooms,0,0,0,0,0,0,100
+drink,Beer Gardens,1,0,0,0,0,0,100
+drink,Karaoke Bars,0,0,0,0,0,0,100
+play,Gaming Zones & Arcades,1,1,0,0,0,0,100
+play,Bowling Alleys,3,1,0,0,0,0,100
+play,Sports Arenas,0,1,0,0,0,0,100
+play,Indoor Sports,8,0,0,0,0,0,100
+play,Outdoor Sports,51,0,0,0,0,0,100
+play,Adventure Activities,4,1,0,0,0,0,100
+play,Escape Rooms,5,1,0,0,0,0,100
+play,Amusement Parks,0,0,0,0,0,0,100
+play,Trampoline Parks,0,1,0,0,0,0,100
+play,Go-Karting,3,1,0,0,0,0,100
+play,Paintball,0,1,0,0,0,0,100
+play,Laser Tag,1,1,0,0,0,0,100
+play,Swimming Pools,72,1,0,0,0,0,100
+play,Fitness & Recreation,599,1,0,0,0,0,100
+play,VR Experiences,0,1,0,0,0,0,100
+play,Board Game Cafés,0,0,0,0,0,0,100
+play,Badminton & Squash,38,1,0,0,0,0,100
+play,Cricket & Football Grounds,39,1,0,0,0,0,100
+play,Trekking & Outdoor Adventures,0,0,0,0,0,0,100
+play,Family Entertainment Centres,0,1,0,0,0,0,100
+shop,Shopping Malls,74,0,0,0,0,3,100
+shop,Fashion & Apparel,1445,0,0,0,0,0,100
+shop,Luxury Boutiques,0,0,0,0,0,0,100
+shop,Footwear,227,0,0,0,0,0,100
+shop,Jewellery,348,0,0,0,0,0,100
+shop,Watches & Accessories,68,0,0,0,0,0,100
+shop,Electronics,331,0,0,0,0,0,100
+shop,Mobile & Gadgets,233,0,0,0,0,0,100
+shop,Furniture & Home Décor,257,1,0,0,0,0,100
+shop,Beauty & Cosmetics,57,0,0,0,0,0,100
+shop,Supermarkets,687,0,0,0,0,0,100
+shop,Department Stores,96,0,0,0,0,0,100
+shop,Bookstores,82,0,0,0,0,0,100
+shop,Sports & Fitness Stores,175,1,0,0,0,0,100
+shop,Lifestyle Stores,13,0,0,0,0,0,100
+shop,Home Improvement,15,0,0,0,0,0,100
+shop,Gift Shops,89,0,0,0,0,0,100
+shop,Local Markets,50,0,0,0,0,0,100
+shop,Organic & Specialty Stores,7,0,0,0,0,0,100
+shop,Kids & Baby Stores,34,0,0,0,0,0,100
+travel,Hotels,555,2,0,0,0,0,100
+travel,Luxury Resorts,0,0,0,0,0,0,100
+travel,Boutique Hotels,0,0,0,0,0,0,100
+travel,Homestays,0,0,0,0,0,0,100
+travel,Serviced Apartments,0,0,0,0,0,0,100
+travel,Hostels,322,0,0,0,0,0,100
+travel,Villas,0,0,0,0,0,0,100
+travel,Weekend Getaways,0,0,0,0,0,0,100
+travel,Hill Stations,0,0,0,0,0,0,100
+travel,Beach Destinations,0,0,0,0,0,0,100
+travel,Adventure Travel,0,0,0,0,0,0,100
+travel,Nature Retreats,0,0,0,0,0,0,100
+travel,Wildlife & Safari,0,0,0,0,0,0,100
+travel,Road Trips,0,0,0,0,0,0,100
+travel,International Travel,0,0,0,0,0,0,100
+travel,Domestic Travel,0,0,0,0,0,0,100
+travel,Travel Experiences,0,0,0,0,0,0,100
+travel,Camping & Glamping,1,0,0,0,0,0,100
+travel,Spa & Wellness Retreats,0,0,0,0,0,0,100
+travel,Travel Agencies,21,0,0,0,0,0,100
+events,Live Music,0,0,0,0,0,0,100
+events,Concerts,0,0,0,0,0,0,100
+events,Music Festivals,0,0,0,0,0,0,100
+events,DJ Nights,0,0,0,0,0,0,100
+events,Comedy Shows,0,0,0,0,0,0,100
+events,Stand-up Comedy,0,0,0,0,0,0,100
+events,Cultural Festivals,0,0,0,0,0,0,100
+events,Art Exhibitions,0,0,0,0,0,0,100
+events,Food Festivals,0,0,0,0,0,0,100
+events,Beer Festivals,0,0,0,0,0,0,100
+events,Startup Events,0,1,0,0,0,0,100
+events,Business Conferences,0,2,0,0,0,0,100
+events,Networking Events,0,2,0,0,0,0,100
+events,Workshops,0,0,0,0,0,0,100
+events,Masterclasses,0,0,0,0,0,0,100
+events,College Festivals,0,0,0,0,0,0,100
+events,Sports Events,0,0,0,0,0,0,100
+events,Fashion Shows,0,0,0,0,0,0,100
+events,Theatre & Performing Arts,0,0,0,0,0,0,100
+events,Community Events,0,0,0,0,0,0,100
+events,Pop-up Markets,0,0,0,0,0,0,100
+events,Seasonal Celebrations,0,0,0,0,0,0,100
+movies,Multiplex Cinemas,35,0,0,0,0,0,100
+movies,IMAX,0,2,0,0,0,0,100
+movies,4DX Cinemas,0,0,0,0,0,0,100
+movies,Dolby Atmos,0,0,0,0,0,0,100
+movies,Premium Large Format Screens,0,0,0,0,0,0,100
+movies,Luxury Cinemas,0,0,0,0,0,0,100
+movies,Independent Cinemas,0,0,0,0,0,0,100
+movies,Regional Movies,0,0,0,0,0,0,100
+movies,English Movies,0,0,0,0,0,0,100
+movies,Hindi Movies,0,0,0,0,0,0,100
+movies,Kannada Movies,0,0,0,0,0,0,100
+movies,Tamil Movies,0,0,0,0,0,0,100
+movies,Telugu Movies,0,0,0,0,0,0,100
+movies,Malayalam Movies,0,0,0,0,0,0,100
+movies,Film Festivals,0,0,0,0,0,0,100
+movies,Special Screenings,0,0,0,0,0,0,100
+movies,Classic Movie Screenings,0,0,0,0,0,0,100
+movies,Movie Premieres,0,0,0,0,0,0,100
+movies,Drive-in Cinemas,0,0,0,0,0,0,100
+movies,Private Theatre Experiences,0,0,0,0,0,0,100
+clubs,Founders & Startup Clubs,0,0,0,0,0,0,100
+clubs,Business & Networking Clubs,0,0,0,0,0,0,100
+clubs,Sports & Fitness Clubs,13,1,0,0,0,0,100
+clubs,Travel & Adventure Clubs,0,0,0,0,0,0,100
+clubs,Photography & Creative Clubs,0,0,0,0,0,0,100
+clubs,Automobile & Bike Clubs,2,0,0,0,0,0,100
+clubs,Book & Reading Clubs,0,0,0,0,0,0,100
+clubs,Foodie Clubs,0,0,0,0,0,0,100
+clubs,Gaming & Esports Clubs,0,0,0,0,0,0,100
+clubs,Social & Lifestyle Clubs,14,0,0,0,0,0,100
+clubs,Alumni Clubs,0,0,0,0,0,0,100
+clubs,Pet Lovers Clubs,0,0,0,0,0,0,100
+clubs,Music & Entertainment Clubs,1,0,0,0,0,0,100
+clubs,Technology & Developer Clubs,0,1,0,0,0,0,100
+clubs,Women Entrepreneurs Clubs,0,0,0,0,0,0,100
+clubs,Running & Cycling Clubs,0,1,0,0,0,0,100
+clubs,Art & Culture Clubs,0,0,0,0,0,0,100
+clubs,Wellness & Yoga Clubs,0,0,0,0,0,0,100
+clubs,Volunteering & Social Impact Clubs,0,0,0,0,0,0,100
+clubs,Neighbourhood Clubs,0,0,0,0,0,0,100
