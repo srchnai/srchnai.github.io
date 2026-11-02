@@ -673,12 +673,28 @@ async function studioRoute(request,env){
     teams[m.brand_id]=(await db.prepare("SELECT mm.creator_id,mm.role,mm.status,mm.created_at,cr.display_name,cr.email FROM br_members mm LEFT JOIN stu_creators cr ON cr.id=mm.creator_id WHERE mm.brand_id=? AND mm.status='ACTIVE' ORDER BY mm.created_at").bind(m.brand_id).all()).results||[];
    }
   }
+  await db.prepare("UPDATE br_subscriptions SET status='GRACE',updated_at=? WHERE status='ACTIVE' AND renew_at<?").bind(now,now).run();
   const subs={},invs={};
   for(const m of mem){
    subs[m.brand_id]=(await db.prepare("SELECT plan,status,price_inr,start_at,renew_at,note FROM br_subscriptions WHERE brand_id=? AND status IN ('ACTIVE','GRACE') ORDER BY created_at DESC LIMIT 1").bind(m.brand_id).first())||null;
    invs[m.brand_id]=(await db.prepare('SELECT inv_no,period,amount_inr,status,issued_at,paid_at FROM br_invoices WHERE brand_id=? ORDER BY issued_at DESC LIMIT 10').bind(m.brand_id).all()).results||[];
   }
   return JSONR({memberships:mem,claims,products:prods,stats,teams,subscriptions:subs,invoices:invs});
+ }
+ if(p==='/studio/api/workspace/analytics'&&request.method==='GET'){
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  await brTables(db);
+  const bid=clean(u.searchParams.get('brand_id')||'',40);
+  const role=await brRole(db,bid,c.id);
+  if(!role)return JSONR({error:'You do not have access to this brand.'},403);
+  const b=await db.prepare('SELECT id,name,slug,status FROM br_brands WHERE id=?').bind(bid).first();
+  if(!b)return JSONR({error:'Unknown brand.'},404);
+  const daily=(await db.prepare("SELECT date(ts/1000,'unixepoch') d,COUNT(*) n FROM br_views WHERE brand_id=? AND ts>? GROUP BY d ORDER BY d").bind(b.slug,now-30*86400000).all()).results||[];
+  const locs=(await db.prepare("SELECT name,locality,status,(SELECT COUNT(*) FROM br_locations l2 WHERE l2.brand_id=l.brand_id) x FROM br_locations l WHERE brand_id=? AND status!='DELETED'").bind(bid).all()).results||[];
+  const subs=(await db.prepare("SELECT id,kind,status,created_at,details FROM stu_submissions WHERE details LIKE '%'||?||'%' ORDER BY created_at DESC LIMIT 20").bind(bid).all()).results||[];
+  const media=(await db.prepare("SELECT kind,COUNT(*) n FROM br_media_links WHERE brand_id=? GROUP BY kind").bind(bid).all()).results||[];
+  const sub=await db.prepare("SELECT plan,status,renew_at FROM br_subscriptions WHERE brand_id=? AND status IN ('ACTIVE','GRACE') ORDER BY created_at DESC LIMIT 1").bind(bid).first();
+  return JSONR({brand:{id:b.id,name:b.name,status:b.status},views_daily:daily,locations:locs,submissions:subs,media,subscription:sub||null});
  }
  if(p==='/studio/api/workspace/member-save'&&request.method==='POST'){
   const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
@@ -1260,6 +1276,7 @@ async function brReviewRoute(p,request,env,db,now){
   const prods=(await db.prepare("SELECT * FROM br_products WHERE brand_id=? AND status!='DELETED' ORDER BY created_at").bind(id).all()).results||[];
   const mems=(await db.prepare("SELECT m.role,m.status,m.created_at,c.display_name,c.creator_no,c.email FROM br_members m LEFT JOIN stu_creators c ON c.id=m.creator_id WHERE m.brand_id=?").bind(id).all()).results||[];
   const audit=(await db.prepare('SELECT actor,action,detail,ts FROM br_audit WHERE brand_id=? ORDER BY ts DESC LIMIT 20').bind(id).all()).results||[];
+  await db.prepare("UPDATE br_subscriptions SET status='GRACE',updated_at=? WHERE brand_id=? AND status='ACTIVE' AND renew_at<?").bind(now,id,now).run();
   const sub=await db.prepare("SELECT * FROM br_subscriptions WHERE brand_id=? AND status IN ('ACTIVE','GRACE') ORDER BY created_at DESC LIMIT 1").bind(id).first();
   const invs=(await db.prepare('SELECT id,inv_no,period,amount_inr,status,pay_ref,issued_at,paid_at FROM br_invoices WHERE brand_id=? ORDER BY issued_at DESC LIMIT 20').bind(id).all()).results||[];
   const videos=((await db.prepare("SELECT COUNT(*) n FROM br_media_links WHERE brand_id=? AND kind='video'").bind(id).first())||{}).n||0;
@@ -1291,6 +1308,24 @@ async function brReviewRoute(p,request,env,db,now){
   await db.prepare('INSERT INTO br_invoices(id,inv_no,brand_id,subscription_id,period,amount_inr,status,issued_at,created_by) VALUES(?,?,?,?,?,?,?,?,?)').bind(crypto.randomUUID(),invNo,bid,id,new Date(now).toISOString().slice(0,7)+' ('+plan+')',price,'ISSUED',now,rv.email).run();
   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'subscription-save',bid,plan+' '+invNo+' '+note,now).run();
   return JSONR({ok:true,subscription_id:id,invoice:invNo,message:'Plan recorded and invoice '+invNo+' issued. Mark it PAID only against a real payment reference.'});
+ }
+ if(p==='/studio/api/review/subscription-renew'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const bid=clean(b.brand_id,40);
+  const note=clean(b.note,400);if(!note)return JSONR({error:'A documented note is required (renewal discussion reference).'},400);
+  const cur=await db.prepare("SELECT * FROM br_subscriptions WHERE brand_id=? AND status IN ('ACTIVE','GRACE') ORDER BY created_at DESC LIMIT 1").bind(bid).first();
+  if(!cur)return JSONR({error:'No active or grace subscription to renew. Use subscription-save to start a new plan.'},404);
+  const months=cur.plan==='annual'?12:1;
+  const start=Math.max(now,cur.renew_at);
+  await db.prepare("UPDATE br_subscriptions SET status='SUPERSEDED',updated_at=? WHERE id=?").bind(now,cur.id).run();
+  const id=crypto.randomUUID();
+  await db.prepare('INSERT INTO br_subscriptions(id,brand_id,plan,status,price_inr,start_at,renew_at,note,created_by,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(id,bid,cur.plan,'ACTIVE',cur.price_inr,start,start+months*30*86400000,note,rv.email,now,now).run();
+  const seq=(await db.prepare('SELECT COUNT(*) n FROM br_invoices').first()).n+1;
+  const invNo='SRCHN-INV-'+new Date(now).getUTCFullYear()+'-'+String(seq).padStart(5,'0');
+  await db.prepare('INSERT INTO br_invoices(id,inv_no,brand_id,subscription_id,period,amount_inr,status,issued_at,created_by) VALUES(?,?,?,?,?,?,?,?,?)').bind(crypto.randomUUID(),invNo,bid,id,new Date(start).toISOString().slice(0,7)+' ('+cur.plan+' renewal)',cur.price_inr,'ISSUED',now,rv.email).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'subscription-renew',bid,invNo+' '+note,now).run();
+  return JSONR({ok:true,subscription_id:id,invoice:invNo,message:'Renewal recorded and invoice '+invNo+' issued. Mark it PAID only against a real payment reference.'});
  }
  if(p==='/studio/api/review/subscription-status'&&request.method==='POST'){
   if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);

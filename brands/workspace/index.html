@@ -21,6 +21,8 @@ body{background:#fff;color:#111;font-family:inherit;margin:0}
 .bw-meta{color:#737373;font-size:.82rem;margin:2px 0 10px}
 .bw-badge{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;border:1px solid #111;border-radius:999px;padding:3px 10px;margin-right:6px;text-transform:uppercase}
 .bw-badge.soft{border-color:#bbb;color:#555}
+.bw-badge.warn{border-color:#111;background:#111;color:#fff}
+.bw-note.warn-note{border-left:3px solid #111;background:#f2f2f2;padding:10px 12px;border-radius:0 8px 8px 0}
 label{display:block;font-size:.8rem;font-weight:600;color:#333;margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
 input[type=text],input[type=url],textarea,select{width:100%;box-sizing:border-box;border:1px solid #d4d4d4;border-radius:12px;padding:11px 12px;font-size:1rem;background:#fff;color:#111}
 textarea{min-height:88px;resize:vertical}
@@ -104,6 +106,25 @@ function load(){
  });
 }
 function inr(n){return 'Rs '+Number(n||0).toLocaleString('en-IN')}
+async function toggleAnalytics(bid,btn){
+ var panel=el('an-'+bid);
+ if(!panel.hidden){panel.hidden=true;btn.textContent='View analytics';return}
+ btn.textContent='Loading...';btn.disabled=true;
+ var r=await api('/studio/api/workspace/analytics?brand_id='+encodeURIComponent(bid));
+ btn.disabled=false;btn.textContent='Hide analytics';
+ if(!r.data||r.data.error){panel.innerHTML='<p class="bw-meta">'+esc((r.data&&r.data.error)||'Could not load analytics.')+'</p>';panel.hidden=false;return}
+ var d=r.data,daily=d.views_daily||[],locs=d.locations||[],subs2=d.submissions||[],media=d.media||[];
+ var mx=1;daily.forEach(function(x){if(x.n>mx)mx=x.n});
+ var bars=daily.length?daily.map(function(x){var h=Math.max(2,Math.round(x.n/mx*60));return '<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center" title="'+esc(x.d)+': '+x.n+' views"><div style="width:100%;background:#111;height:'+h+'px;border-radius:2px 2px 0 0"></div></div>'}).join(''):'<p class="bw-meta">No views recorded in the last 30 days yet.</p>';
+ var mediamap={};media.forEach(function(x){mediamap[x.kind]=x.n});
+ panel.innerHTML='<h3>Analytics - last 30 days</h3>'
+  +'<p class="bw-meta">Profile views by day (real beacon counts only):</p>'
+  +(daily.length?'<div style="display:flex;gap:2px;align-items:flex-end;height:64px;margin:6px 0 2px">'+bars+'</div><p class="bw-meta">'+daily[0].d+' to '+daily[daily.length-1].d+' · total '+daily.reduce(function(a,x){return a+x.n},0)+' views</p>':bars)
+  +'<p class="bw-meta">Media on brand page: '+(mediamap.photo||0)+' photos, '+(mediamap.video||0)+' videos</p>'
+  +'<h3>Locations ('+locs.length+')</h3>'+(locs.length?'<ul class="bw-list">'+locs.map(function(l){return '<li>'+esc(l.name)+(l.locality?' · '+esc(l.locality):'')+' · '+esc(l.status)+'</li>'}).join('')+'</ul>':'<p class="bw-meta">No locations yet.</p>')
+  +'<h3>Recent submissions ('+subs2.length+')</h3>'+(subs2.length?'<ul class="bw-list">'+subs2.map(function(x){return '<li>'+esc(x.kind)+' · '+esc(x.status)+' · <span class="bw-meta">'+new Date(x.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+'</span></li>'}).join('')+'</ul>':'<p class="bw-meta">No submissions linked to this brand yet.</p>');
+ panel.hidden=false;
+}
 function renderBrands(list,stats,teams,subs,invs){
  var w=el('brands');
  if(!list.length){w.innerHTML='<div class="bw-card"><p class="bw-meta">No brands yet. Claim an existing brand or request a new one below.</p></div>';return}
@@ -114,7 +135,15 @@ function renderBrands(list,stats,teams,subs,invs){
   var inv=invs[b.brand_id]||[];
   var subHtml='<h3>Subscription</h3>'
    +(sub
-    ?'<p><span class="bw-badge">'+esc(sub.status)+'</span> <strong>'+(sub.plan==='annual'?'Annual':'Monthly')+'</strong> · '+inr(sub.price_inr)+(sub.plan==='annual'?'/year':'/month')+'</p><p class="bw-meta">Renews '+new Date(sub.renew_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+'</p>'
+    ?(function(){
+      var nowMs=Date.now(),left=sub.renew_at-nowMs,days=Math.ceil(left/86400000);
+      var badge=sub.status==='GRACE'?'<span class="bw-badge warn">GRACE PERIOD</span>':'<span class="bw-badge">'+esc(sub.status)+'</span>';
+      var when=days>0
+        ?'Renews in '+days+' day'+(days===1?'':'s')+' ('+new Date(sub.renew_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+')'
+        :(sub.status==='GRACE'?'Renewal date passed '+Math.abs(days)+' day'+(Math.abs(days)===1?'':'s')+' ago - your plan stays active during the grace period while Team SRCHN confirms your payment.':'Renewal is being processed.');
+      var warn=(days<=7&&sub.status!=='GRACE')?'<p class="bw-note warn-note">Your plan renews soon. Team SRCHN will share your renewal invoice here; it is marked PAID only against your real payment reference.</p>':'';
+      return '<p>'+badge+' <strong>'+(sub.plan==='annual'?'Annual':'Monthly')+'</strong> · '+inr(sub.price_inr)+(sub.plan==='annual'?'/year':'/month')+'</p><p class="bw-meta">'+when+'</p>'+warn;
+     })()
     :'<p class="bw-meta">No active plan. Monthly: Rs 3,000/month. Annual: Rs 30,000/year (saves Rs 6,000 against 12 monthly payments).</p>')
    +'<p class="bw-meta">Videos on the brand page: '+st.videos+' of 30 active slots</p>'
    +(inv.length?'<ul class="bw-list">'+inv.map(function(i){return '<li>'+esc(i.inv_no)+' · '+inr(i.amount_inr)+' · '+esc(i.status)+' <span class="bw-meta">'+new Date(i.issued_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+'</span></li>'}).join('')+'</ul>':'')
@@ -161,6 +190,7 @@ function renderBrands(list,stats,teams,subs,invs){
   +'</div>';
  }).join('');
  Array.prototype.forEach.call(document.querySelectorAll('[data-save]'),function(btn){btn.onclick=function(){saveBrand(btn.getAttribute('data-save'))}});
+ Array.prototype.forEach.call(document.querySelectorAll('[data-analytics]'),function(btn){btn.onclick=function(){toggleAnalytics(btn.getAttribute('data-analytics'),btn)}});
  Array.prototype.forEach.call(document.querySelectorAll('[data-loc]'),function(btn){btn.onclick=function(){saveLoc(btn.getAttribute('data-loc'))}});
  Array.prototype.forEach.call(document.querySelectorAll('[data-prod]'),function(btn){btn.onclick=function(){saveProd(btn.getAttribute('data-prod'))}});
  Array.prototype.forEach.call(document.querySelectorAll('[data-media]'),function(btn){btn.onclick=function(){sendMedia(btn.getAttribute('data-media'),btn)}});
