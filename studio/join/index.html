@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Become a Creator — SRCHN STUDIO</title>
+<meta content="Join SRCHN STUDIO as a creator. Register, verify your email and receive your SRCHN Creator ID." name="description"/>
+<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>
+<link href="/assets/brand/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="/assets/brand/brand.css" rel="stylesheet"/>
+<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>
+<link href="../studio.css" rel="stylesheet"/>
+</head>
+<body class="stu-body">
+<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><span>Explore</span></a><a href="/localities/"><span>Localities</span></a><a href="/discovery/profile/"><span>Saved</span></a><a href="/plan/"><span>Plan</span></a><a aria-current="page" href="/studio/"><span>Studio</span></a><a href="/club/"><span>Club</span></a><a href="/property/"><span>Property</span></a></nav></header>
+<main class="stu-main">
+  <section class="stu-section" style="border-bottom:none">
+    <p class="stu-eyebrow">SRCHN STUDIO</p>
+    <h1 id="stu-join-title">Become a Creator</h1>
+    <p class="stu-lede" id="stu-join-lede">Register once, verify your email, and receive your unique SRCHN Creator ID. Already registered? <a href="#" id="stu-toggle">Sign in</a>.</p>
+
+    <form class="stu-form" id="stu-join-form" novalidate>
+      <div class="stu-field"><label for="f-name">Full name</label><input id="f-name" autocomplete="name" maxlength="120" required/></div>
+      <div class="stu-field"><label for="f-display">Display name (shown with your credit)</label><input id="f-display" maxlength="80" placeholder="Defaults to your full name"/></div>
+      <div class="stu-field"><label for="f-email">Email</label><input id="f-email" type="email" autocomplete="email" maxlength="160" required/></div>
+      <div class="stu-field"><label for="f-mobile">Mobile (10-digit Indian number)</label><input id="f-mobile" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="98765 43210" required/></div>
+      <div class="stu-field"><label>Creator categories (pick at least one)</label>
+        <div id="f-cats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px"></div>
+      </div>
+      <div class="stu-field"><label for="f-city">City</label><input id="f-city" maxlength="80" placeholder="Bengaluru"/></div>
+      <div class="stu-field"><label for="f-bio">Short bio (optional)</label><textarea id="f-bio" rows="3" maxlength="600"></textarea></div>
+      <div class="stu-field"><label for="f-insta">Instagram (optional)</label><input id="f-insta" maxlength="120" placeholder="@yourhandle"/></div>
+      <div class="stu-field"><label for="f-yt">YouTube (optional)</label><input id="f-yt" maxlength="120"/></div>
+      <div class="stu-field"><label for="f-other">Other link (optional)</label><input id="f-other" maxlength="120" placeholder="Portfolio, website…"/></div>
+      <div class="stu-field" style="display:flex;gap:10px;align-items:flex-start"><input id="f-honest" type="checkbox" style="width:auto;margin-top:4px" required/><label for="f-honest" style="font-weight:400;font-size:14px;line-height:1.5">I will only submit real content I have the rights to. I understand fake content ends creator access.</label></div>
+      <div class="stu-err" id="stu-err" role="alert"></div>
+      <div class="stu-ok" id="stu-ok" role="status"></div>
+      <button class="stu-btn-submit" id="stu-join-btn" type="submit">Send verification code</button>
+    </form>
+
+    <form class="stu-form" id="stu-otp-form" style="display:none" novalidate>
+      <div class="stu-field"><label for="f-code">6-digit verification code</label><input id="f-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="••••••" required/><p class="stu-hint" id="stu-otp-hint">Sent to your email. Expires in 10 minutes.</p></div>
+      <div class="stu-err" id="stu-err2" role="alert"></div>
+      <button class="stu-btn-submit" id="stu-otp-btn" type="submit">Verify</button>
+      <p class="stu-micro" style="margin-top:14px"><a href="#" id="stu-back">Start over</a></p>
+    </form>
+
+    <div id="stu-done" style="display:none">
+      <div class="stu-ok" style="display:block;font-size:15px" id="stu-done-msg"></div>
+      <div class="stu-cta-row" style="margin-top:18px"><a class="stu-btn stu-btn-primary" href="/studio/add/">Submit a Place</a><a class="stu-btn stu-btn-ghost" href="/studio/profile/">Open your profile</a></div>
+    </div>
+  </section>
+</main>
+<script src="../studio.js"></script>
+<script>
+(function(){
+const CATS=['Individual Contributor','Influencer','Blogger','Vlogger','Writer','Editor','Photographer','Videographer','Filmmaker','Social Media Creator','Digital Marketer','Graphic Designer','Creative Agency','Media Production Team','Business Owner','Student Creator','Other'];
+const catsEl=document.getElementById('f-cats');
+CATS.forEach((c,i)=>{const l=document.createElement('label');l.style.cssText='font-size:13.5px;font-weight:400;display:flex;gap:7px;align-items:center';const cb=document.createElement('input');cb.type='checkbox';cb.value=c;cb.style.width='auto';l.appendChild(cb);l.appendChild(document.createTextNode(c));catsEl.appendChild(l)});
+let mode='join',pendingEmail='';
+const $=id=>document.getElementById(id);
+// already signed in?
+stu.req('/me').then(r=>{if(r&&r.status===200)location.href='/studio/profile/'});
+function bindToggle(){
+  $('stu-toggle').addEventListener('click',e=>{e.preventDefault();
+    mode=mode==='join'?'login':'join';
+    $('stu-join-title').textContent=mode==='join'?'Become a Creator':'Creator sign in';
+    $('stu-join-lede').innerHTML=mode==='join'
+      ?'Register once, verify your email, and receive your unique SRCHN Creator ID. Already registered? <a href="#" id="stu-toggle">Sign in</a>.'
+      :'Sign in with your registered email. New here? <a href="#" id="stu-toggle">Become a Creator</a>.';
+    const joinOnly=['f-name','f-display','f-mobile','f-city','f-bio','f-insta','f-yt','f-other','f-honest'];
+    joinOnly.forEach(id=>{const f=$(id).closest('.stu-field');if(f)f.style.display=mode==='join'?'':'none'});
+    catsEl.closest('.stu-field').style.display=mode==='join'?'':'none';
+    $('stu-join-btn').textContent=mode==='join'?'Send verification code':'Email me a sign-in code';
+    bindToggle();
+  });
+}
+bindToggle();
+$('stu-join-form').addEventListener('submit',async e=>{
+  e.preventDefault();$('stu-err').style.display='none';
+  const btn=$('stu-join-btn');btn.disabled=true;
+  try{
+    let r;
+    if(mode==='login'){
+      r=await stu.req('/login/start',{method:'POST',json:{email:$('f-email').value.trim()}});
+    }else{
+      if(!$('f-honest').checked){stu.err($('stu-err'),'Please confirm the honesty declaration.');btn.disabled=false;return}
+      const cats=[...catsEl.querySelectorAll('input:checked')].map(x=>x.value);
+      r=await stu.req('/join/start',{method:'POST',json:{full_name:$('f-name').value.trim(),display_name:$('f-display').value.trim(),email:$('f-email').value.trim(),mobile:$('f-mobile').value.trim(),categories:cats,city:$('f-city').value.trim(),bio:$('f-bio').value.trim(),instagram:$('f-insta').value.trim(),youtube:$('f-yt').value.trim(),other_link:$('f-other').value.trim()}});
+    }
+    if(!r)return;
+    if(r.status===201){
+      pendingEmail=$('f-email').value.trim().toLowerCase();
+      $('stu-join-form').style.display='none';$('stu-otp-form').style.display='';
+      $('stu-otp-hint').textContent='Sent to '+pendingEmail+'. Expires in 10 minutes.';
+      $('f-code').focus();
+    }else stu.err($('stu-err'),(r.data&&r.data.error)||'Something went wrong. Please try again.');
+  }finally{btn.disabled=false}
+});
+$('stu-otp-form').addEventListener('submit',async e=>{
+  e.preventDefault();$('stu-err2').style.display='none';
+  const btn=$('stu-otp-btn');btn.disabled=true;
+  try{
+    const r=await stu.req(mode==='join'?'/join/verify':'/login/verify',{method:'POST',json:{email:pendingEmail,code:$('f-code').value.trim()}});
+    if(!r)return;
+    if(r.status===201&&r.data.session){
+      stu.save(r.data.session,r.data.creator);
+      $('stu-otp-form').style.display='none';$('stu-done').style.display='';
+      $('stu-done-msg').innerHTML=mode==='join'
+        ?'You are in. Your SRCHN Creator ID is <strong>'+stu.esc(r.data.creator.creator_no)+'</strong> - keep it. You are signed in for 30 days.'
+        :'Welcome back, '+stu.esc(r.data.creator.display_name)+' ('+stu.esc(r.data.creator.creator_no)+').';
+    }else stu.err($('stu-err2'),(r.data&&r.data.error)||'Verification failed. Please try again.');
+  }finally{btn.disabled=false}
+});
+$('stu-back').addEventListener('click',e=>{e.preventDefault();location.reload()});
+})();
+</script>
+</body>
+</html>

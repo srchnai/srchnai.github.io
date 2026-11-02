@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Submit a Place — SRCHN STUDIO</title>
+<meta content="Contribute photos and videos of real places to SRCHN. Seven steps, reviewed by Team SRCHN, published with credit." name="description"/>
+<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>
+<link href="/assets/brand/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="/assets/brand/brand.css" rel="stylesheet"/>
+<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<link href="../studio.css" rel="stylesheet"/>
+<link href="wizard.css" rel="stylesheet"/>
+</head>
+<body class="stu-body">
+<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><span>Explore</span></a><a href="/localities/"><span>Localities</span></a><a href="/discovery/profile/"><span>Saved</span></a><a href="/plan/"><span>Plan</span></a><a aria-current="page" href="/studio/"><span>Studio</span></a><a href="/club/"><span>Club</span></a><a href="/property/"><span>Property</span></a></nav></header>
+
+<main class="stu-main wiz">
+  <div class="wiz-top">
+    <p class="stu-eyebrow">SRCHN STUDIO</p>
+    <div class="wiz-progress" id="wiz-progress" aria-hidden="true"></div>
+    <p class="wiz-step-label" id="wiz-step-label"></p>
+  </div>
+
+  <div class="stu-err" id="wiz-err" role="alert"></div>
+
+  <!-- STEP 01 -->
+  <section class="wiz-step" data-step="1">
+    <h1>WHAT DID YOU DISCOVER?</h1>
+    <p class="wiz-sub">Pick what fits best. You can contribute to more than one kind over time.</p>
+    <div class="wiz-cards" id="kind-cards">
+      <button type="button" class="wiz-card" data-kind="places"><span class="wiz-card-t">PLACES</span><span class="wiz-card-d">Physical destinations people visit.</span><span class="wiz-card-e">Cafes, restaurants, breweries, hotels, hospitals, salons, shops, malls, bookstores, entertainment venues, educational institutions.</span></button>
+      <button type="button" class="wiz-card" data-kind="spaces"><span class="wiz-card-t">SPACES</span><span class="wiz-card-d">Physical environments people use, work or live in.</span><span class="wiz-card-e">Offices, co-working spaces, apartments, villas, commercial properties, event halls, studios, meeting rooms, conference centres, warehouses, exhibition spaces.</span></button>
+      <button type="button" class="wiz-card" data-kind="experiences"><span class="wiz-card-t">EXPERIENCES</span><span class="wiz-card-d">Activities, events and things people enjoy.</span><span class="wiz-card-e">Live music, concerts, workshops, food experiences, travel, sports, adventure, cultural events, festivals, exhibitions, meetups.</span></button>
+    </div>
+  </section>
+
+  <!-- STEP 02 -->
+  <section class="wiz-step" data-step="2" hidden>
+    <h1>WHERE IS IT?</h1>
+    <p class="wiz-sub">Search first - if the place is already on SRCHN, we add your content to it instead of creating a duplicate.</p>
+    <div class="stu-form" style="max-width:none">
+      <div class="stu-field wiz-name-wrap">
+        <label for="w-name">Place / Space / Experience name</label>
+        <input id="w-name" maxlength="160" autocomplete="off" placeholder="Start typing to search SRCHN places…"/>
+        <div class="wiz-suggest" id="w-suggest" hidden></div>
+      </div>
+      <div class="wiz-dupe" id="w-dupe" hidden>
+        <strong>THIS PLACE IS ALREADY ON SRCHN.</strong>
+        <span id="w-dupe-detail"></span>
+        <div class="wiz-dupe-actions">
+          <button type="button" class="stu-btn stu-btn-primary" data-dupe="add">Add new content</button>
+          <button type="button" class="stu-btn stu-btn-ghost" data-dupe="update">Suggest an update</button>
+          <button type="button" class="stu-btn stu-btn-ghost" data-dupe="report">Report incorrect information</button>
+        </div>
+      </div>
+      <div class="wiz-grid">
+        <div class="stu-field"><label for="w-pcat">Primary category</label><input id="w-pcat" maxlength="80" placeholder="e.g. Cafe, Salon, Co-working"/></div>
+        <div class="stu-field"><label for="w-scat">Secondary category (optional)</label><input id="w-scat" maxlength="80"/></div>
+        <div class="stu-field"><label for="w-addr">Address</label><input id="w-addr" maxlength="240"/></div>
+        <div class="stu-field"><label for="w-loc">Locality</label><input id="w-loc" maxlength="80" placeholder="e.g. Indiranagar"/></div>
+        <div class="stu-field"><label for="w-city">City</label><input id="w-city" maxlength="80" value="Bengaluru"/></div>
+        <div class="stu-field"><label for="w-pin">PIN code</label><input id="w-pin" inputmode="numeric" maxlength="6"/></div>
+        <div class="stu-field"><label for="w-state">State</label><input id="w-state" maxlength="60" value="Karnataka"/></div>
+        <div class="stu-field"><label for="w-country">Country</label><input id="w-country" maxlength="60" value="India"/></div>
+      </div>
+      <div class="stu-field" id="w-dates-wrap" hidden><label for="w-dates">Event dates and timings</label><input id="w-dates" maxlength="120" placeholder="e.g. 14-16 Nov, 6 PM onwards"/></div>
+      <div class="stu-field">
+        <label>Pin the location (optional)</label>
+        <div id="w-map"></div>
+        <p class="stu-hint" id="w-map-hint">Tap the map to drop a pin, or <a href="#" id="w-geoloc">use your current location</a>. We store it as a maps link.</p>
+      </div>
+      <div class="wiz-grid">
+        <div class="stu-field"><label for="w-web">Website (optional)</label><input id="w-web" maxlength="160"/></div>
+        <div class="stu-field"><label for="w-insta">Instagram page (optional)</label><input id="w-insta" maxlength="160"/></div>
+        <div class="stu-field"><label for="w-contact">Business contact (optional)</label><input id="w-contact" maxlength="40"/></div>
+        <div class="stu-field"><label for="w-book">Booking URL (optional)</label><input id="w-book" maxlength="160"/></div>
+        <div class="stu-field"><label for="w-maps">Google Maps link (optional)</label><input id="w-maps" maxlength="200"/></div>
+        <div class="stu-field"><label for="w-hours">Operating hours (optional)</label><input id="w-hours" maxlength="120" placeholder="e.g. 9 AM - 11 PM"/></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 03 -->
+  <section class="wiz-step" data-step="3" hidden>
+    <h1>WHAT WOULD YOU LIKE TO CREATE?</h1>
+    <p class="wiz-sub">Choose one content type, then pick everything you plan to show.</p>
+    <div class="wiz-cards" id="pillar-cards">
+      <button type="button" class="wiz-card" data-pillar="tour"><span class="wiz-card-t">VIRTUAL TOUR CONTENT</span><span class="wiz-card-d">Show people what a place or space actually looks like before they visit.</span></button>
+      <button type="button" class="wiz-card" data-pillar="product"><span class="wiz-card-t">PRODUCT CONTENT</span><span class="wiz-card-d">Showcase what a business offers, what makes it special and who makes it happen.</span></button>
+      <button type="button" class="wiz-card" data-pillar="marketing"><span class="wiz-card-t">MARKETING CONTENT</span><span class="wiz-card-d">Tell the story of a brand, announce something new and give people a reason to discover it.</span></button>
+    </div>
+    <div id="subcats-wrap" hidden>
+      <h3 class="wiz-h3">Subcategories (pick all that apply)</h3>
+      <div id="subcats-main" class="wiz-checkgrid"></div>
+      <details class="wiz-more"><summary>More subcategories</summary><div id="subcats-extra" class="wiz-checkgrid"></div></details>
+    </div>
+  </section>
+
+  <!-- STEP 04 -->
+  <section class="wiz-step" data-step="4" hidden>
+    <h1>SHOW US WHAT YOU SEE.</h1>
+    <p class="wiz-sub">A photograph, a 30-second video or a collection of moments. Every contribution helps people discover something new.</p>
+    <div class="wiz-drop" id="w-drop">
+      <p><strong>Drag and drop</strong> photos or videos here</p>
+      <p class="stu-hint">or</p>
+      <div class="stu-cta-row" style="justify-content:center">
+        <button type="button" class="stu-btn stu-btn-ghost" id="w-pick-photo">Upload photos</button>
+        <button type="button" class="stu-btn stu-btn-ghost" id="w-pick-video">Upload a video</button>
+        <button type="button" class="stu-btn stu-btn-ghost" id="w-pick-cam">Use camera</button>
+      </div>
+      <p class="stu-hint" style="margin-top:14px">Photos: JPG, PNG or WEBP, exactly 1080p (we normalise on your device). Videos: MP4, MOV or WEBM, up to 30 seconds, 1080p HD. Nothing leaves your phone until you submit.</p>
+    </div>
+    <input type="file" id="w-file-photo" accept="image/jpeg,image/png,image/webp" multiple hidden/>
+    <input type="file" id="w-file-video" accept="video/mp4,video/quicktime,video/webm" hidden/>
+    <input type="file" id="w-file-cam" accept="image/*,video/*" capture="environment" hidden/>
+    <div class="wiz-media-list" id="w-media-list"></div>
+    <template id="w-media-tpl">
+      <div class="wiz-media">
+        <div class="wiz-media-thumb"></div>
+        <div class="wiz-media-info">
+          <strong class="wiz-media-name"></strong>
+          <span class="wiz-media-meta"></span>
+          <span class="wiz-media-status"></span>
+        </div>
+        <div class="wiz-media-actions">
+          <button type="button" data-act="left" title="Move earlier">&#8592;</button>
+          <button type="button" data-act="right" title="Move later">&#8594;</button>
+          <button type="button" data-act="motion" title="Create photo motion video" class="wiz-act-motion">Motion</button>
+          <button type="button" data-act="remove" title="Remove">&#10005;</button>
+        </div>
+      </div>
+    </template>
+    <div class="wiz-trim" id="w-trim" hidden>
+      <h3 class="wiz-h3">Trim your video to 30 seconds</h3>
+      <p class="stu-hint" id="w-trim-info"></p>
+      <input type="range" id="w-trim-start" min="0" value="0" step="0.5" style="width:100%"/>
+      <video id="w-trim-video" controls muted playsinline style="width:100%;max-width:420px;border-radius:10px;margin-top:10px"></video>
+      <div class="stu-cta-row" style="margin-top:12px">
+        <button type="button" class="stu-btn stu-btn-primary" id="w-trim-go">Prepare this clip</button>
+        <button type="button" class="stu-btn stu-btn-ghost" id="w-trim-cancel">Cancel</button>
+      </div>
+      <div class="wiz-encode" id="w-encode" hidden><div class="wiz-encode-bar"><span id="w-encode-fill"></span></div><p class="stu-hint" id="w-encode-label">Preparing 1080p clip on your device…</p></div>
+    </div>
+  </section>
+
+  <!-- STEP 05 -->
+  <section class="wiz-step" data-step="5" hidden>
+    <h1>ADD DETAILS AND CREDITS</h1>
+    <p class="wiz-sub">Captions and credits travel with the media wherever SRCHN publishes it.</p>
+    <div id="w-items"></div>
+    <div class="stu-field" style="max-width:520px">
+      <label>WHO CREATED THIS CONTENT?</label>
+      <select id="w-creator-type">
+        <option value="I created it">I created it</option>
+        <option value="My team created it">My team created it</option>
+        <option value="Another creator created it with permission">Another creator created it with permission</option>
+        <option value="The business supplied it">The business supplied it</option>
+        <option value="Other authorised source">Other authorised source</option>
+      </select>
+    </div>
+    <div id="w-third-party" class="stu-form" style="max-width:520px" hidden>
+      <div class="stu-field"><label for="w-tp-name">Original creator name</label><input id="w-tp-name" maxlength="120"/></div>
+      <div class="stu-field"><label for="w-tp-source">Original source</label><input id="w-tp-source" maxlength="200"/></div>
+      <div class="stu-field"><label for="w-tp-licence">Permission or licence details</label><input id="w-tp-licence" maxlength="200"/></div>
+    </div>
+    <div class="stu-field" style="max-width:520px"><label for="w-desc">Short description of this contribution (optional)</label><textarea id="w-desc" rows="3" maxlength="1000"></textarea></div>
+    <p class="stu-hint" style="max-width:520px">By continuing you confirm you hold the rights for every file, including consent for identifiable people, private spaces, music and commercially sensitive material. Stolen or unauthorised content is not accepted.</p>
+  </section>
+
+  <!-- STEP 06 -->
+  <section class="wiz-step" data-step="6" hidden>
+    <h1>YOUR CONTENT IS ALMOST READY TO DISCOVER.</h1>
+    <div class="wiz-review" id="w-review"></div>
+    <div class="stu-field" style="display:flex;gap:10px;align-items:flex-start;max-width:560px">
+      <input id="w-confirm" type="checkbox" style="width:auto;margin-top:4px"/>
+      <label for="w-confirm" style="font-weight:400;font-size:14px;line-height:1.5">I confirm that I have the necessary rights and permissions to submit this content to SRCHN and that the information provided is accurate to the best of my knowledge.</label>
+    </div>
+  </section>
+
+  <!-- STEP 07 -->
+  <section class="wiz-step" data-step="7" hidden>
+    <h1>THANK YOU FOR CONTRIBUTING TO SRCHN.</h1>
+    <div class="wiz-done" id="w-done"></div>
+    <div class="stu-cta-row" style="margin-top:20px">
+      <a class="stu-btn stu-btn-primary" href="/studio/profile/">Track in your profile</a>
+      <a class="stu-btn stu-btn-ghost" href="/studio/add/">Submit another</a>
+    </div>
+  </section>
+
+  <nav class="wiz-nav" id="wiz-nav">
+    <button type="button" class="stu-btn stu-btn-ghost" id="w-back">Back</button>
+    <span class="wiz-draft-state" id="w-draft-state"></span>
+    <button type="button" class="stu-btn stu-btn-primary" id="w-next">Continue</button>
+  </nav>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="../studio.js"></script>
+<script src="wizard.js"></script>
+</body>
+</html>

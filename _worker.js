@@ -362,6 +362,8 @@ async function stuTables(db){
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_places(id TEXT PRIMARY KEY,name TEXT NOT NULL,kind TEXT,primary_cat TEXT,secondary_cat TEXT,address TEXT,locality TEXT,city TEXT,pincode TEXT,state TEXT,country TEXT,website TEXT,instagram TEXT,contact TEXT,booking_url TEXT,maps_link TEXT,hours TEXT,created_by TEXT,created_at INTEGER NOT NULL)').run();
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_submissions(id TEXT PRIMARY KEY,sub_no TEXT UNIQUE NOT NULL,creator_id TEXT NOT NULL,place_id TEXT,place_name TEXT,kind TEXT,cats TEXT,content_pillar TEXT,subcats TEXT,items TEXT,details TEXT,rights TEXT,status TEXT NOT NULL,email_status TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)').run();
  await db.prepare('CREATE TABLE IF NOT EXISTS stu_drafts(creator_id TEXT PRIMARY KEY,payload TEXT,updated_at INTEGER NOT NULL)').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_media(id TEXT PRIMARY KEY,creator_id TEXT NOT NULL,kind TEXT NOT NULL,mime TEXT NOT NULL,bytes INTEGER NOT NULL,chunk_count INTEGER NOT NULL,status TEXT NOT NULL,meta TEXT,created_at INTEGER NOT NULL)').run();
+ await db.prepare('CREATE TABLE IF NOT EXISTS stu_media_chunks(media_id TEXT NOT NULL,seq INTEGER NOT NULL,data BLOB NOT NULL,PRIMARY KEY(media_id,seq))').run();
 }
 function stuMail(env,body){return env.REVIEWMAIL.fetch(new Request('https://srchn-inference.internal/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}))}
 async function stuAuth(request,db){
@@ -487,7 +489,20 @@ async function studioRoute(request,env){
    const placeName=clean(b.place_name,160);if(!placeName)return JSONR({error:'Place name is required.'},400);
    if(!b.rights||b.rights.confirm!==true)return JSONR({error:'Rights confirmation is required.'},400);
    const subcats=(Array.isArray(b.subcats)?b.subcats:[]).map(x=>clean(x,60)).filter(Boolean).slice(0,30);
-   const items=(Array.isArray(b.items)?b.items:[]).map(x=>({type:x.type==='video'?'video':'photo',caption:clean(x.caption,240),credit:clean(x.credit,120),aspect:x.aspect==='16:9'?'16:9':'9:16',media_status:'pending-upload'})).slice(0,20);
+   const rawItems=(Array.isArray(b.items)?b.items:[]).slice(0,20);
+   const items=[];
+   for(const x of rawItems){
+    const it={type:x.type==='video'?'video':'photo',caption:clean(x.caption,240),credit:clean(x.credit,120),aspect:x.aspect==='16:9'?'16:9':'9:16',media_status:'pending-upload'};
+    const mid=clean(x.media_id,40);
+    if(mid){
+     const mrow=await db.prepare("SELECT id,kind,status FROM stu_media WHERE id=? AND creator_id=?").bind(mid,c.id).first();
+     if(!mrow||mrow.status!=='ready'||mrow.kind!==it.type)return JSONR({error:'One of your uploads is missing or still uploading. Please re-check step 4.'},400);
+     it.media_id=mid;it.media_status='uploaded';
+    }
+    items.push(it);
+   }
+   if(!items.length)return JSONR({error:'Add at least one photo or video.'},400);
+   if(!items.some(i=>i.media_id))return JSONR({error:'At least one item must have an uploaded file.'},400);
    const cnt=await db.prepare('SELECT count(*) AS n FROM stu_submissions WHERE created_at>?').bind(now-86400000).first();
    if(cnt&&cnt.n>=100)return JSONR({error:'Daily submission limit reached. Try again tomorrow.'},429);
    const seq=(await db.prepare('SELECT count(*) AS n FROM stu_submissions').first()).n+1;
@@ -507,6 +522,78 @@ async function studioRoute(request,env){
    return JSONR({ok:true,submission_id:subNo,status:'SUBMITTED',email:es,message:'Your submission has been received. Our editorial team will review the location, information and media before publication.'},201);
   }
   return JSONR({error:'Method not allowed.'},405);
+ }
+ // ---- media: chunked zero-spend storage in D1 (photos<=1.2MB, videos<=26MB, 30s) ----
+ const STU_MEDIA_MAX_TOTAL=3000*1024*1024,STU_MEDIA_MAX_CREATOR=200*1024*1024,STU_CHUNK=950*1024;
+ if(p==='/studio/api/media/start'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const kind=b.kind==='video'?'video':b.kind==='photo'?'photo':'';
+  if(!kind)return JSONR({error:'Choose photo or video.'},400);
+  const mime=clean(b.mime,60),bytes=Math.floor(+b.bytes||0);
+  const okMimes=kind==='photo'?['image/jpeg','image/png','image/webp']:['video/mp4','video/webm','video/quicktime'];
+  if(!okMimes.includes(mime))return JSONR({error:kind==='photo'?'Photos must be JPG, PNG or WEBP.':'Videos must be MP4, WEBM or MOV.'},400);
+  const maxB=kind==='photo'?1200000:26000000;
+  if(!bytes||bytes>maxB)return JSONR({error:kind==='photo'?'Photo must be 1.2 MB or smaller after on-device optimisation.':'Video must be 26 MB or smaller after on-device optimisation.'},400);
+  const tot=(await db.prepare("SELECT COALESCE(SUM(bytes),0) s FROM stu_media WHERE status!='receiving'").first()).s;
+  if(tot+bytes>STU_MEDIA_MAX_TOTAL)return JSONR({error:'Studio media storage is full right now. Please try again later.'},507);
+  const mine=(await db.prepare("SELECT COALESCE(SUM(bytes),0) s FROM stu_media WHERE creator_id=? AND status!='receiving'").bind(c.id).first()).s;
+  if(mine+bytes>STU_MEDIA_MAX_CREATOR)return JSONR({error:'You have reached your media storage limit. Delete older uploads or contact Team SRCHN.'},507);
+  const id=crypto.randomUUID(),chunks=Math.ceil(bytes/STU_CHUNK);
+  await db.prepare("INSERT INTO stu_media(id,creator_id,kind,mime,bytes,chunk_count,status,meta,created_at) VALUES(?,?,?,?,?,?,'receiving','{}',?)").bind(id,c.id,kind,mime,bytes,chunks,now).run();
+  return JSONR({ok:true,media_id:id,chunk_size:STU_CHUNK,chunk_count:chunks},201);
+ }
+ if(p==='/studio/api/media/chunk'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  const id=clean(u.searchParams.get('id')||'',40),seq=Math.floor(+u.searchParams.get('seq'));
+  const m=await db.prepare("SELECT * FROM stu_media WHERE id=? AND creator_id=?").bind(id,c.id).first();
+  if(!m||m.status!=='receiving')return JSONR({error:'Unknown or finished upload.'},404);
+  if(!(seq>=0&&seq<m.chunk_count))return JSONR({error:'Bad chunk number.'},400);
+  const raw=new Uint8Array(await request.arrayBuffer());
+  if(!raw.length||raw.length>STU_CHUNK+1024)return JSONR({error:'Bad chunk size.'},400);
+  await db.prepare('INSERT OR REPLACE INTO stu_media_chunks(media_id,seq,data) VALUES(?,?,?)').bind(id,seq,raw).run();
+  return JSONR({ok:true,seq},201);
+ }
+ if(p==='/studio/api/media/finish'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const c=await stuAuth(request,db);if(!c)return JSONR({error:'Sign in required.'},401);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const id=clean(b.media_id,40);
+  const m=await db.prepare("SELECT * FROM stu_media WHERE id=? AND creator_id=?").bind(id,c.id).first();
+  if(!m||m.status!=='receiving')return JSONR({error:'Unknown or finished upload.'},404);
+  const got=(await db.prepare('SELECT count(*) n,COALESCE(SUM(length(data)),0) s FROM stu_media_chunks WHERE media_id=?').bind(id).first());
+  if(got.n!==m.chunk_count||got.s!==m.bytes)return JSONR({error:'Upload incomplete - some chunks are missing. Please retry the upload.'},409);
+  const meta=JSON.stringify({caption:clean(b.caption,240),credit:clean(b.credit,120),aspect:b.aspect==='16:9'?'16:9':'9:16',captured_at:clean(b.captured_at,40),duration_sec:Math.min(30,Math.max(0,+b.duration_sec||0))||null,width:Math.floor(+b.width||0)||null,height:Math.floor(+b.height||0)||null,source:clean(b.source,200),motion_from_photo:b.motion_from_photo===true});
+  await db.prepare("UPDATE stu_media SET status='ready',meta=? WHERE id=?").bind(meta,id).run();
+  return JSONR({ok:true,media_id:id},201);
+ }
+ const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
+ if(mm&&request.method==='GET'){
+  const id=mm[1];
+  const m=await db.prepare("SELECT * FROM stu_media WHERE id=? AND status='ready'").bind(id).first();
+  if(!m)return JSONR({error:'Not found.'},404);
+  const c=await stuAuth(request,db);
+  const rv=await (async()=>{const t=(request.headers.get('Authorization')||'').replace(/^Bearer /,'');if(!/^[a-f0-9]{64}$/.test(t))return null;return db.prepare("SELECT email FROM sessions WHERE digest=? AND kind='session' AND expires>?").bind(await hash(t),now).first()})();
+  if(!c&&!rv)return JSONR({error:'Sign in required.'},401);
+  if(c&&c.id!==m.creator_id)return JSONR({error:'Not your upload.'},403);
+  const range=request.headers.get('Range');
+  let start=0,end=m.bytes-1;
+  if(range){const rm=/bytes=(\d+)-(\d*)/.exec(range);if(rm){start=+rm[1];if(rm[2])end=Math.min(+rm[2],m.bytes-1)}}
+  if(start>=m.bytes||start>end)return new Response(null,{status:416,headers:{'Content-Range':'bytes */'+m.bytes}});
+  const maxSpan=4*STU_CHUNK;
+  if(end-start+1>maxSpan)end=start+maxSpan-1;
+  const s0=Math.floor(start/STU_CHUNK),s1=Math.floor(end/STU_CHUNK);
+  const rows=await db.prepare('SELECT seq,data FROM stu_media_chunks WHERE media_id=? AND seq>=? AND seq<=? ORDER BY seq').bind(id,s0,s1).all();
+  if((rows.results||[]).length!==s1-s0+1)return JSONR({error:'Media data incomplete.'},500);
+  const total=(rows.results||[]).reduce((a,r)=>a+r.data.byteLength,0);
+  const buf=new Uint8Array(total);let off=0;
+  for(const r of rows.results){buf.set(new Uint8Array(r.data),off);off+=r.data.byteLength}
+  const slice=buf.subarray(start-s0*STU_CHUNK,end-s0*STU_CHUNK+1);
+  const h={'Content-Type':m.mime,'Accept-Ranges':'bytes','Cache-Control':'private, max-age=3600','Content-Length':String(slice.byteLength)};
+  if(range){h['Content-Range']='bytes '+start+'-'+end+'/'+m.bytes;return new Response(slice,{status:206,headers:h})}
+  return new Response(slice,{status:200,headers:h});
  }
  return JSONR({error:'Not found.'},404);
 }

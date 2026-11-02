@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Your Profile — SRCHN STUDIO</title>
+<meta content="Your SRCHN STUDIO creator profile, Creator ID and submission tracking." name="description"/>
+<link href="/assets/brand/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/assets/brand/favicon-32.png" rel="icon" sizes="any"/>
+<link href="/assets/brand/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="/assets/brand/brand.css" rel="stylesheet"/>
+<link href="/assets/fonts/typography-base.css" rel="stylesheet"/>
+<link href="../studio.css" rel="stylesheet"/>
+<style>
+.pf-head{display:flex;flex-direction:column;gap:8px;padding:28px 0 22px;border-bottom:1px solid #eee}
+.pf-id{font-size:14px;color:#0b5fff;font-weight:600;letter-spacing:.06em}
+.pf-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));padding:22px 0}
+.pf-card{border:1px solid #e8e8e8;border-radius:12px;padding:18px}
+.pf-card h3{margin:0 0 6px;font-size:13px;color:#8a8a8a;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.pf-card p{margin:0;font-size:15.5px}
+.pf-subs{padding:8px 0 40px}
+.pf-sub{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;border:1px solid #e8e8e8;border-radius:12px;padding:16px 18px;margin-bottom:10px;font-size:14.5px}
+.pf-sub .id{font-weight:700}
+.pf-sub .st{margin-left:auto;font-size:12.5px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;background:#f0f0f0}
+.pf-sub .st.SUBMITTED{background:#e7f0ff;color:#0b5fff}
+.pf-sub .st.PUBLISHED,.pf-sub .st.APPROVED{background:#e6f7ec;color:#146c2e}
+.pf-sub .st.REJECTED{background:#fdeaea;color:#a11}
+.pf-empty{color:#8a8a8a;font-size:15px;padding:20px 0}
+</style>
+</head>
+<body class="stu-body">
+<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><span>Explore</span></a><a href="/localities/"><span>Localities</span></a><a href="/discovery/profile/"><span>Saved</span></a><a href="/plan/"><span>Plan</span></a><a aria-current="page" href="/studio/"><span>Studio</span></a><a href="/club/"><span>Club</span></a><a href="/property/"><span>Property</span></a></nav></header>
+<main class="stu-main">
+  <div class="pf-head">
+    <p class="stu-eyebrow">SRCHN STUDIO</p>
+    <h1 id="pf-name" style="margin:0;font-size:clamp(26px,4.5vw,36px)">Your profile</h1>
+    <p class="pf-id" id="pf-id"></p>
+  </div>
+  <div class="pf-grid" id="pf-grid"></div>
+  <section class="pf-subs">
+    <h2 style="font-size:20px;margin:8px 0 16px">Your submissions</h2>
+    <div id="pf-subs"></div>
+  </section>
+</main>
+<script src="../studio.js"></script>
+<script>
+(async function(){
+const r=await stu.req('/me');
+if(!r)return;
+if(r.status!==200){location.href='/studio/join/';return}
+const c=r.data.creator;
+document.getElementById('pf-name').textContent=c.display_name||c.full_name;
+document.getElementById('pf-id').textContent='SRCHN Creator ID: '+c.creator_no;
+const g=document.getElementById('pf-grid');
+const card=(t,v)=>{if(!v)return;const d=document.createElement('div');d.className='pf-card';d.innerHTML='<h3>'+t+'</h3><p>'+stu.esc(v)+'</p>';g.appendChild(d)};
+card('Categories',(c.categories||[]).join(', '));
+card('Email',c.email);card('Mobile','+91 '+c.mobile);card('City',c.city);
+if(c.socials&&(c.socials.instagram||c.socials.youtube||c.socials.other))card('Links',[c.socials.instagram,c.socials.youtube,c.socials.other].filter(Boolean).join(' · '));
+card('Status',c.status);
+const s=await stu.req('/submissions');
+const box=document.getElementById('pf-subs');
+if(s&&s.status===200&&s.data.submissions.length){
+ s.data.submissions.forEach(x=>{
+  const d=document.createElement('div');d.className='pf-sub';
+  d.innerHTML='<span class="id">'+stu.esc(x.sub_no)+'</span><span>'+stu.esc(x.place_name)+'</span><span style="color:#8a8a8a">'+new Date(x.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+'</span><span class="st '+stu.esc(x.status)+'">'+stu.esc(x.status)+'</span>';
+  box.appendChild(d);
+ });
+}else{
+ box.innerHTML='<p class="pf-empty">No submissions yet. <a href="/studio/add/" style="color:#0b5fff">Submit your first place</a>.</p>';
+}
+})();
+</script>
+</body>
+</html>
