@@ -33,7 +33,11 @@ function showStep(n){
  saveDraft();
 }
 $('w-back').addEventListener('click',()=>{if(W.step>1)showStep(W.step-1)});
-$('w-next').addEventListener('click',()=>{
+$('w-next').addEventListener('click',async()=>{
+ if(W.step===2&&!W.place_id){
+  const ok=await ensurePlace();
+  if(!ok)return;
+ }
  const err=validateStep(W.step);
  if(err){stu.err($('wiz-err'),err);return}
  if(W.step===6){doSubmit();return}
@@ -101,8 +105,16 @@ $('w-name').addEventListener('input',()=>{
   }else box.hidden=true;
  },300);
 });
+async function ensurePlace(){
+ const name=$('w-name').value.trim();if(!name)return true;
+ const r=await stu.req('/places',{method:'POST',json:{name,pincode:$('w-pin').value.trim(),kind:W.kind,primary_cat:$('w-pcat').value.trim(),secondary_cat:$('w-scat')?$('w-scat').value.trim():'',address:$('w-addr').value.trim(),locality:$('w-loc').value.trim(),city:$('w-city').value.trim(),state:$('w-state').value.trim(),website:$('w-website')?$('w-website').value.trim():'',hours:$('w-hours')?$('w-hours').value.trim():''}});
+ if(r&&(r.status===201||r.status===200)&&r.data&&(r.data.place&&r.data.place.id)){W.place_id=r.data.place.id;return true}
+ if(r&&r.data&&r.data.error){const e=$('w-err');if(e){e.textContent=r.data.error;e.hidden=false}}
+ return false;
+}
 function selectDupe(pl){
  $('w-suggest').hidden=true;
+ W.place_id=pl.id;
  $('w-name').value=pl.name;
  if(pl.locality)$('w-loc').value=pl.locality;
  if(pl.city)$('w-city').value=pl.city;
@@ -114,7 +126,7 @@ document.querySelectorAll('[data-dupe]').forEach(b=>b.addEventListener('click',a
  W.dupe_mode=b.dataset.dupe;
  const name=$('w-name').value.trim(),pin=$('w-pin').value.trim();
  const r=await stu.req('/places',{method:'POST',json:{name,pincode:pin,kind:W.kind,primary_cat:$('w-pcat').value.trim()}});
- if(r&&r.status===200&&r.data.exists){W.place_id=r.data.place.id}
+ if(r&&r.data&&r.data.place&&r.data.place.id){W.place_id=r.data.place.id}
  document.querySelectorAll('[data-dupe]').forEach(x=>x.classList.remove('stu-btn-primary'));
  b.classList.add('stu-btn-primary');
 }));

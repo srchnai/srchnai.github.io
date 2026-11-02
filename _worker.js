@@ -687,6 +687,12 @@ async function studioRoute(request,env){
   for(const k of['address','locality','city','pincode','hours','phone','website']){if(typeof b[k]==='string'&&clean(b[k],200)!==(det[k]||'')){det[k]=clean(b[k],200);dd=true;changes.push(k)}}
   if(dd){await db.prepare('UPDATE stu_submissions SET details=? WHERE sub_no=?').bind(JSON.stringify(det),subNo).run();
    if(sub.place_id)await db.prepare('UPDATE stu_places SET address=?,locality=?,city=?,pincode=? WHERE id=?').bind(det.address||'',det.locality||'',det.city||'',det.pincode||'',sub.place_id).run()}
+  if(typeof b.place_id==='string'&&clean(b.place_id,40)){
+   const pid=clean(b.place_id,40);
+   const pl=await db.prepare('SELECT id,name FROM stu_places WHERE id=?').bind(pid).first();
+   if(!pl)return JSONR({error:'Unknown place record.'},404);
+   if(pid!==sub.place_id){await db.prepare('UPDATE stu_submissions SET place_id=?,place_name=? WHERE sub_no=?').bind(pid,pl.name,subNo).run();changes.push('attached to place '+pl.name)}
+  }
   if(!changes.length)return JSONR({error:'Nothing changed.'},400);
   await db.prepare('INSERT INTO stu_review_events(id,submission_id,reviewer,action,notes,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),subNo,rv.email,'edit','Metadata edited: '+changes.join(', '),now).run();
   return JSONR({ok:true,changes});
