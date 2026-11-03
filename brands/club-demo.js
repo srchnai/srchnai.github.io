@@ -27,10 +27,29 @@ function head(title,sub){return '<div class="cd-top"><div><p class="cd-eyebrow">
 /* ---------- SRCHN PAY demo ---------- */
 function pay(opts){
   opts=opts||{};
-  const amount=opts.amount||850,brand=opts.brand||'Demo Bistro - Indiranagar',refCtx=opts.booking||'';
-  let method='upi';
-  const fee=Math.round(amount*0.20),cb=Math.max(1,Math.round(fee*0.05));
-  const ref='DEMO-PAY-'+Math.random().toString(36).slice(2,8).toUpperCase();
+  let amount=+(opts.amount||0),brand=opts.brand||'This place',refCtx=opts.booking||'',sample=false;
+  let method='upi',failDemo=false;
+  const ref='SRCHN-PAY-DEMO-'+Math.random().toString(36).slice(2,8).toUpperCase();
+  const fee=()=>Math.round(amount*0.20),cb=()=>Math.max(1,Math.round(fee()*0.05));
+  function saveReceipt(){
+    try{
+      const rs=JSON.parse(localStorage.getItem('srchn_pay_receipts')||'[]');
+      rs.unshift({ref,amount,method,brand,booking:refCtx,ts:Date.now(),demo:true});
+      localStorage.setItem('srchn_pay_receipts',JSON.stringify(rs.slice(0,20)));
+    }catch(e){}
+  }
+  function begin(){
+    if(amount>0){summary();return}
+    const ctxUrl=opts.loc?('/club/api/book/context?l='+encodeURIComponent(opts.loc)):(opts.brandId?('/club/api/book/context?b='+encodeURIComponent(opts.brandId)):null);
+    if(!ctxUrl){amount=100;sample=true;summary();return}
+    fetch(ctxUrl).then(r=>r.json()).then(d=>{
+      let f=0;
+      if(d&&d.location&&d.location.fee_inr)f=d.location.fee_inr;
+      else if(d&&d.options){const o=d.options.find(o=>o.fee_inr>0);if(o)f=o.fee_inr}
+      if(f>0)amount=f;else{amount=100;sample=true}
+      summary();
+    }).catch(()=>{amount=100;sample=true;summary()});
+  }
   function summary(){
     const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
       +steps(1,4)
@@ -38,10 +57,11 @@ function pay(opts){
       +'<div class="cd-receipt">'
       +'<div class="cd-row"><span>'+esc(brand)+'</span><b>'+inr(amount)+'</b></div>'
       +(refCtx?'<div class="cd-row cd-dim"><span>Booking</span><span>'+esc(refCtx)+'</span></div>':'')
-      +'<div class="cd-row cd-dim"><span>SRCHN success fee (20% illustration)</span><span>'+inr(fee)+'</span></div>'
+      +'<div class="cd-row cd-dim"><span>SRCHN success fee (20% illustration)</span><span>'+inr(fee())+'</span></div>'
       +'<div class="cd-row cd-total"><span>You pay</span><b>'+inr(amount)+'</b></div>'
       +'</div>'
-      +'<p class="cd-note">Eligible cashback illustration: <b>'+inr(cb)+'</b> (5% of the SRCHN fee) would move to pending after this payment. Cashback is on SRCHN&#39;s fee, never on your bill.</p>'
+      +(sample?'<p class="cd-note">This place has no booking fee configured, so the amount above is a sample for the demo only.</p>':'')
+      +'<p class="cd-note">Eligible cashback illustration: <b>'+inr(cb())+'</b> (5% of the SRCHN fee) would move to pending after this payment. Cashback is on SRCHN&#39;s fee, never on your bill.</p>'
       +'<div class="cd-actions"><button class="br-btn br-btn-primary" id="cd-next">CONTINUE</button></div>');
     el.querySelector('#cd-next').onclick=methods;
   }
@@ -55,22 +75,38 @@ function pay(opts){
       +opt('card','Card','Visa, Mastercard, RuPay - credit or debit','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#111" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>')
       +opt('wallet','SRCHN Wallet','Balance and eligible cashback','<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#111" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 15h2"/></svg>')
       +'</div>'
-      +'<div class="cd-actions"><button class="br-btn br-btn-ghost" id="cd-back">BACK</button><button class="br-btn br-btn-primary" id="cd-pay">PAY '+inr(amount)+' &middot; DEMO</button></div>'
-      +'<p class="cd-note">In the real flow this button opens your chosen payment app or a secure card page. This demo goes nowhere and stores nothing.</p>');
+      +'<label class="cd-consent"><input type="checkbox" id="cd-fail"/> <span>Simulate a failed attempt (demo)</span></label>'
+      +'<div class="cd-actions"><button class="br-btn br-btn-ghost" id="cd-back">BACK</button><button class="br-btn br-btn-primary" id="cd-pay">PAY '+inr(amount)+'</button></div>'
+      +'<p class="cd-note">In the real flow this button opens your chosen payment app or a secure card page. This demo goes nowhere and stores nothing on any server.</p>');
     el.querySelectorAll('.cd-opt').forEach(o=>o.onclick=()=>{method=o.dataset.m;el.querySelectorAll('.cd-opt').forEach(x=>x.classList.toggle('sel',x===o));});
     el.querySelector('#cd-back').onclick=summary;
-    el.querySelector('#cd-pay').onclick=processing;
+    el.querySelector('#cd-pay').onclick=()=>{failDemo=el.querySelector('#cd-fail').checked;processing(failDemo)};
   }
-  function processing(){
+  function processing(willFail){
     const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
       +steps(3,4)
       +'<h3 class="cd-h">Processing</h3>'
       +'<div class="cd-proc"><span class="cd-spinner"></span><p id="cd-proc-msg" class="cd-proc-msg">Contacting your bank...</p></div>');
     const msgs=['Contacting your bank...','Confirming the payment...','Recording the receipt...'];
     msgs.forEach((m,i)=>later(()=>{const p=el.querySelector('#cd-proc-msg');if(p)p.textContent=m;},i*750));
-    later(success,msgs.length*750+350);
+    later(()=>{willFail?failure():success()},msgs.length*750+350);
+  }
+  function failure(){
+    const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
+      +steps(3,4)
+      +'<div class="cd-done"><span class="cd-check" style="background:#fff;border:2px solid #111"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#111" stroke-width="3"><path d="M6 6l12 12M18 6L6 18"/></svg></span>'
+      +'<h3 class="cd-h" style="text-align:center">Payment could not be completed</h3></div>'
+      +'<div class="cd-receipt">'
+      +'<div class="cd-row"><span>Amount</span><b>'+inr(amount)+'</b></div>'
+      +'<div class="cd-row"><span>Reason</span><span>Your bank declined this attempt (simulated)</span></div>'
+      +'<div class="cd-row"><span>Status</span><span><b>FAILED &middot; DEMO - no charge made</b></span></div>'
+      +'</div>'
+      +'<p class="cd-note">In the real flow a failed attempt never charges you, and any amount held by the bank is auto-reversed by your bank.</p>'
+      +'<div class="cd-actions"><button class="br-btn br-btn-ghost" data-cd-close>CANCEL</button><button class="br-btn br-btn-primary" id="cd-retry">RETRY</button></div>');
+    el.querySelector('#cd-retry').onclick=()=>processing(false);
   }
   function success(){
+    saveReceipt();
     const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
       +steps(4,4)
       +'<div class="cd-done"><span class="cd-check"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12.5l5 5L20 6.5"/></svg></span>'
@@ -78,14 +114,15 @@ function pay(opts){
       +'<div class="cd-receipt">'
       +'<div class="cd-row"><span>Amount</span><b>'+inr(amount)+'</b></div>'
       +'<div class="cd-row"><span>Method</span><span>'+({upi:'UPI',card:'Card',wallet:'SRCHN Wallet'})[method]+'</span></div>'
-      +'<div class="cd-row"><span>Reference</span><span>'+ref+'</span></div>'
+      +(refCtx?'<div class="cd-row"><span>Booking</span><span>'+esc(refCtx)+'</span></div>':'')
+      +'<div class="cd-row"><span>Receipt</span><span>'+ref+'</span></div>'
       +'<div class="cd-row"><span>Status</span><span><b>DEMO - no charge made</b></span></div>'
-      +'<div class="cd-row cd-dim"><span>Cashback</span><span>'+inr(cb)+' pending (illustration)</span></div>'
+      +'<div class="cd-row cd-dim"><span>Cashback</span><span>'+inr(cb())+' pending (illustration)</span></div>'
       +'</div>'
-      +'<p class="cd-note">This demo did not charge anything, did not contact any bank, and did not change any booking, payment or ledger record. SRCHN PAY is configuration-required and currently disabled.</p>'
-      +'<div class="cd-actions"><button class="br-btn br-btn-primary" data-cd-close>DONE</button></div>');
+      +'<p class="cd-note">This demo did not charge anything, did not contact any bank, and did not change any booking, payment or ledger record. The demo receipt is saved on this device only and appears on your <a href="/club/member/">member page</a>. SRCHN PAY is configuration-required and currently disabled.</p>'
+      +'<div class="cd-actions"><a class="br-btn br-btn-ghost" href="/club/member/">VIEW ON MEMBER PAGE</a><button class="br-btn br-btn-primary" data-cd-close>DONE</button></div>');
   }
-  summary();
+  begin();
 }
 
 /* ---------- DigiLocker (Aadhaar) verification demo ---------- */
@@ -174,7 +211,7 @@ document.addEventListener('click',e=>{
   const b=e.target.closest&&e.target.closest('[data-demo-open]');
   if(!b)return;
   e.preventDefault();const k=b.dataset.demoOpen;
-  if(k==='pay')pay({amount:+(b.dataset.amt||0)||undefined,brand:b.dataset.brand,booking:b.dataset.booking});
+  if(k==='pay')pay({amount:+(b.dataset.amt||0)||undefined,brand:b.dataset.brand,booking:b.dataset.booking,loc:b.dataset.loc,brandId:b.dataset.brandId});
   else if(k==='digilocker')digilocker();
   else if(k==='face')face();
 });

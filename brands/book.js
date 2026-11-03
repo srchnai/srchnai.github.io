@@ -46,10 +46,11 @@ $('#bk-v').onsubmit=e=>{
   try{localStorage.setItem('srchn_club_token',d.token);
    const bk=JSON.parse(localStorage.getItem('srchn_bookings')||'{}');
    bk[body.location_id||('d:'+(ctx.place.ref||ctx.place.name))]=d.booking.booking_no;
+   if(ctx.kind==='brand'&&ctx.brand&&ctx.brand.id)bk['b:'+ctx.brand.id]=d.booking.booking_no;
    localStorage.setItem('srchn_bookings',JSON.stringify(bk));}catch(x){}
   $('#bk-v').hidden=true;const dn=$('#bk-done');dn.hidden=false;
   dn.innerHTML='<div class="cl-note"><b>Booking confirmed.</b><br/>Booking ID <b>'+esc(d.booking.booking_no)+'</b> - '+esc(d.booking.brand)+(d.booking.location?', '+esc(d.booking.location):'')+' on '+esc(d.booking.visit_date)+' for '+esc(d.booking.people)+' '+(+d.booking.people===1?'person':'people')+'.<br/>'+(d.email==='sent'?'A confirmation email was sent.':'The confirmation email could not be sent - the booking ID above is your record.')+'<br/>'+esc(d.payment_note)+'<br/><br/>The VISIT button for this place is now active on this device.</div>'
-  +'<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="br-btn br-btn-primary" href="/club/member/">GO TO YOUR MEMBERSHIP</a><button class="br-btn br-btn-ghost" data-demo-open="pay" data-brand="'+esc(d.booking.brand)+'" data-booking="'+esc(d.booking.booking_no)+'">PAY &middot; DEMO</button></p>';
+  +'<p style="display:flex;gap:10px;flex-wrap:wrap"><a class="br-btn br-btn-primary" href="/club/member/">GO TO YOUR MEMBERSHIP</a><button class="br-btn br-btn-ghost" data-demo-open="pay" data-brand="'+esc(d.booking.brand)+'" data-booking="'+esc(d.booking.booking_no)+'"'+(d.booking.fee_inr?' data-amt="'+d.booking.fee_inr+'"':'')+'">PAY</button></p>';
  }).catch(()=>$('#bk-vmsg').textContent='Network error. Please try again.');
 };
 })();
