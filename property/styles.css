@@ -346,3 +346,5 @@ details.acc>ul,details.acc>ol,details.acc>.note{margin:0 18px 16px}
 @media (prefers-reduced-motion:reduce){
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+.hero-media img.hero-poster{aspect-ratio:auto;object-fit:contain;background:#fff}
