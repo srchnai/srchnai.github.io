@@ -27,3 +27,12 @@ main>a#back{display:inline-flex;align-items:center;gap:6px;min-height:44px}.tool
 
 #place a,main>p>a,.pilot-panel a{display:inline-flex;min-height:44px;align-items:center}
 .status-pill{width:max-content;max-width:100%;margin:0;border-color:#d4d4d4;background:#fafafa;color:#111;font-size:12px;text-transform:none;letter-spacing:0}
+
+/* toolbar + dialog actions: monochrome pill system (were unstyled bare buttons) */
+#openfilters,#loadmap,.maptoggle,#resetfilters,#setpoint,#geolocate,#clearpoint,#more,#filtersheet button,.modal button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border:1px solid #111;border-radius:999px;background:#fff;color:#111;font:600 14px/1 Inter,sans-serif;cursor:pointer;text-decoration:none}
+#openfilters:hover,#loadmap:hover,.maptoggle:hover,#resetfilters:hover,#setpoint:hover,#geolocate:hover,#clearpoint:hover,#more:hover,#filtersheet button:hover,.modal button:hover{background:#f2f2f2}
+#loadmap,#more{background:#111;border-color:#111;color:#fff}
+#loadmap:hover,#more:hover{background:#333}
+#openfilters svg,#loadmap svg,.maptoggle svg,#resetfilters svg,#setpoint svg,#geolocate svg,#clearpoint svg,#more svg{width:18px;height:18px;flex:none}
+.check-control{font:600 13px/1.2 Inter,sans-serif;color:#262626}
+@media(max-width:650px){#openfilters{width:100%;justify-content:flex-start;text-align:left}}
