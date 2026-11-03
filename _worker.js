@@ -1874,6 +1874,6 @@ export default{async fetch(request,env){
    }catch{}
   }
   if((u.pathname==='/club'||u.pathname.startsWith('/club/'))&&!/\.(css|js|png|jpg|jpeg|svg|webp|ico|json|xml)$/.test(u.pathname)){try{const r=await clubRoute(request,env);if(r)return r}catch(e){return JSONR({error:'Club unavailable.'},503)}}
-  if(u.pathname.startsWith('/brands/')&&(u.pathname==='/brands/sitemap.xml'||!/\.(css|js|png|jpg|jpeg|svg|webp|ico|json|xml)$/.test(u.pathname))){try{const r=await brandsRoute(request,env);if(r)return r}catch(e){return JSONR({error:'Brands unavailable.'},503)}}
+  if(u.pathname.startsWith('/brands/')&&!u.pathname.startsWith('/brands/demo/')&&(u.pathname==='/brands/sitemap.xml'||!/\.(css|js|png|jpg|jpeg|svg|webp|ico|json|xml)$/.test(u.pathname))){try{const r=await brandsRoute(request,env);if(r)return r}catch(e){return JSONR({error:'Brands unavailable.'},503)}}
   return env.ASSETS.fetch(request);
 }};
