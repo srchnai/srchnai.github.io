@@ -40,7 +40,8 @@ const SUGGESTED=['Rooftop parties','DJ nights','Live music','Breweries','Date ni
 const PROMPTS=['Find a rooftop for tonight.','Where can six friends celebrate a birthday?','Show me live music near Indiranagar.','Plan a date night under \u20B93,000.','Find a Saturday DJ night in Koramangala.','Find places with live music and food.','What\u2019s happening this weekend in Bengaluru?'];
 const COLLS={rooftop:/roof|terrace|skyline/i,brewery:/brew/i,club:/club|pub|bar/i,live:/live|music|band/i,date:/restaurant|caf|dining|lounge/i,afterwork:/pub|bar|brew/i,group:/pub|bar|brew|restaurant/i,hidden:/caf|lounge|restaurant/i};
 
-const vCard=v=>'<article class="pt-vcard"><h3><a href="/brands/'+esc(v.slug)+'/">'+esc(v.name)+'</a></h3><p class="pt-vmeta">'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+'</p>'+(v.tagline?'<p class="pt-vtag">'+esc(v.tagline)+'</p>':'')+'<div class="pt-vacts"><a class="pt-vxplr" href="/brands/'+esc(v.slug)+'/">EXPLORE BRAND</a>'+(v.club?'<a class="pt-vbook" href="/parties/book/?b='+esc(v.id)+'" data-city-book="'+esc(v.name)+'" data-city-category="'+esc(v.category)+'">BOOK DEMO</a>':'')+'</div></article>';
+const venueHref=v=>v.recordId?'/discovery/place/?id='+encodeURIComponent(v.recordId):'/brands/'+encodeURIComponent(v.slug)+'/';
+const vCard=v=>'<article class="pt-vcard"><h3><a href="'+esc(venueHref(v))+'">'+esc(v.name)+'</a></h3><p class="pt-vmeta">'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+'</p>'+(v.tagline?'<p class="pt-vtag">'+esc(v.tagline)+'</p>':'')+(v.sourceLabel?'<p class="pt-src">'+esc(v.sourceLabel)+'</p>':'')+'<div class="pt-vacts"><a class="pt-vxplr" href="'+esc(venueHref(v))+'">VIEW PLACE</a>'+(v.club?'<a class="pt-vbook" href="/parties/book/?b='+esc(v.id)+'" data-city-book="'+esc(v.name)+'" data-city-category="'+esc(v.category)+'">BOOK DEMO</a>':'')+'</div></article>';
 
 /* hero: mood select, suggested chips, search */
 const moodSel=$('pt-mood');
@@ -53,7 +54,7 @@ function applySearch(){
  const when=($('pt-when')||{}).value||'';if(when){renderTonight(when==='Tonight'?'today':when==='Tomorrow'?'tomorrow':'weekend');$('tonight').scrollIntoView({behavior:'smooth'});}
  if(loc)list=list.filter(v=>(v.locality||'').toLowerCase()===loc.toLowerCase());
  if(mi!=='')list=list.filter(MOODS[+mi].f);
- if(q){const w=q.toLowerCase();list=list.filter(v=>(v.name+' '+v.category+' '+(v.tagline||'')+' '+(v.locality||'')).toLowerCase().includes(w))}
+ if(q){const tokens=q.toLowerCase().split(/\s+/).filter(x=>!['in','near','the','a','for'].includes(x));list=list.filter(v=>tokens.every(w=>(v.name+' '+v.category+' '+(v.tagline||'')+' '+(v.locality||'')).toLowerCase().includes(w)))}
  renderEdit(list,q||loc||mi!==''?'Matching your search':null);
 }
 const sf=$('pt-search');if(sf)sf.onsubmit=e=>{e.preventDefault();applySearch();document.getElementById('edit').scrollIntoView({behavior:'smooth'})};
@@ -71,8 +72,8 @@ let coll='all';
 function renderEdit(list,label){
  const g=$('pt-edit-grid');if(!g)return;
  if(coll!=='all'&&!label)list=list.filter(v=>COLLS[coll].test(v.name+' '+(v.tagline||'')+' '+v.category));
- $('pt-edit-count').textContent=(label?label+': ':'')+list.length+' venue'+(list.length===1?'':'s')+' from live SRCHN listings'+(list.length?'':' - nothing listed here yet');
- g.innerHTML=list.length?list.map(vCard).join(''):'<div class="pt-empty" style="grid-column:1/-1"><p class="pt-empty-big">Nothing listed in this edit yet.</p><p>Venues appear here only from genuine SRCHN listings - never stock grids. Try another edit or ALL.</p></div>';
+ $('pt-edit-count').textContent=(label?label+': ':'')+list.length+' record'+(list.length===1?'':'s')+' from SRCHN listings and labelled source data'+(list.length?'':' - nothing listed here yet');
+ g.innerHTML=list.length?list.slice(0,24).map(vCard).join('')+(list.length>24?'<p class="pt-more" style="grid-column:1/-1"><a class="pt-btn pt-btn-ghost" href="/discovery/?category=pulse">SEARCH ALL '+list.length+' MATCHING RECORDS</a></p>':''):'<div class="pt-empty" style="grid-column:1/-1"><p class="pt-empty-big">Nothing listed in this edit yet.</p><p>Venues appear here only from genuine SRCHN listings - never stock grids. Try another edit or ALL.</p></div>';
 }
 const pc=$('pt-coll');if(pc)pc.querySelectorAll('.pt-chip').forEach(b=>b.onclick=()=>{pc.querySelectorAll('.pt-chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');coll=b.dataset.c;renderEdit(venues.slice())});
 renderEdit(venues.slice());
@@ -93,7 +94,7 @@ function evtCard(e){
  return '<article class="pt-evt"><h3><a href="/parties/events/'+esc(e.id)+'/">'+esc(e.title)+'</a></h3>'
  +'<p class="pt-evt-line">'+esc([e.venue,e.locality].filter(Boolean).join(' \u00B7 '))+'</p>'
  +'<p class="pt-evt-line">'+esc([e.date,e.time?'from '+e.time:'',e.price,e.category,e.age].filter(Boolean).join(' \u00B7 '))+'</p>'
- +'<div class="pt-vacts"><a class="pt-vxplr" href="/parties/events/'+esc(e.id)+'/">VIEW EVENT</a>'+(e.booking?'<a class="pt-vbook" href="'+esc(e.booking)+'" rel="noopener nofollow" target="_blank">BOOK TICKETS</a>':'')+'</div>'
+ +(v.sourceLabel?'<p class="pt-src">'+esc(v.sourceLabel)+'</p>':'')+'<div class="pt-vacts"><a class="pt-vxplr" href="/parties/events/'+esc(e.id)+'/">VIEW EVENT</a>'+(e.booking?'<a class="pt-vbook" href="'+esc(e.booking)+'" rel="noopener nofollow" target="_blank">BOOK TICKETS</a>':'')+'</div>'
  +'<p class="pt-evt-src">Source: '+esc(e.source)+' \u00B7 verified '+esc(e.verified)+'</p></article>';
 }
 function emptyEvt(txt){return '<div class="pt-empty"><p class="pt-empty-big">No verified events listed for this yet.</p><p>'+txt+'</p><p>We list events only when they verify against a genuine source. While listings build up, discover the venues that make the night:</p></div>'}
@@ -102,6 +103,7 @@ function renderTonight(f){
  const box=$('pt-events');if(!box)return;
  let list=events.slice();
  if(DATES[f])list=list.filter(e=>e.date===DATES[f]);
+ if(f==='near'){box.innerHTML=emptyEvt('Nearby event locations are not verified in this feed. Choose a locality or ask Buddy with an area name.');return}
  if(f==='weekend')list=events.filter(e=>[DATES.friday,DATES.saturday,DATES.sunday].includes(e.date));
  if(f==='free')list=events.filter(e=>/^(?:free(?: entry)?|(?:₹|rs\.?\s*)?0(?:\.00)?(?: entry)?)$/i.test(e.price.trim()));
  if(f==='u500'||f==='u1000'){const cap=f==='u500'?500:1000;list=events.filter(e=>{const m=String(e.price).replace(/[, ]/g,'').match(/\u20B9?(\d+)/);return m&&+m[1]<cap})}
@@ -138,34 +140,29 @@ if(al){
 /* buddy */
 const BUDDY_AREAS=AREAS.map(a=>a.n.toLowerCase());
 function buddyAnswer(q){
- const ql=q.toLowerCase();
- const area=AREAS.find(a=>ql.includes(a.n.toLowerCase())||(a.n==='Church Street'&&(ql.includes('church street')||ql.includes('mg road')||ql.includes('brigade'))));
+ const ql=q.toLowerCase();const area=AREAS.find(a=>ql.includes(a.n.toLowerCase()));
  let list=venues.slice(),why=[];
  if(area){list=list.filter(v=>(v.locality||'').toLowerCase().replace(/\s/g,'')===area.n.toLowerCase().replace(/\s/g,''));why.push('in '+area.n)}
- if(/roof|terrace|skyline|sunset/.test(ql)){list=list.filter(v=>/roof|terrace|skyline/i.test(v.name+v.tagline));why.push('rooftop')}
- if(/brew|beer|craft/.test(ql)){list=list.filter(v=>/brew/i.test(v.category+v.name+v.tagline));why.push('breweries')}
- if(/live music|band|gig|concert|acoustic/.test(ql)){list=list.filter(v=>/live|music|band/i.test(v.name+v.tagline+v.category));why.push('live music')}
- if(/dj|dance|club night|techno/.test(ql)){list=list.filter(v=>/pub|bar|club/i.test(v.category+v.name));why.push('dance-floor friendly')}
- if(/date|romantic|anniversary/.test(ql)){list=list.filter(v=>/restaurant|caf|lounge|dining/i.test(v.category+v.name));why.push('date-night spots')}
- if(/birthday|celebration|party|friends|group|bachelor/.test(ql)){list=list.filter(v=>/pub|bar|brew|restaurant/i.test(v.category));why.push('group-friendly venues')}
- if(/food|dinner|dining|eat/.test(ql)&&!/date/.test(ql)){list=list.filter(v=>/restaurant|caf|pub|brew/i.test(v.category));why.push('with food')}
- if(/weekend|saturday|sunday|friday/.test(ql)||/tonight|today|tomorrow|happening|event|what'?s on/.test(ql)){
-  const wkE=events.filter(e=>[DATES.today,DATES.tomorrow,DATES.friday,DATES.saturday,DATES.sunday].includes(e.date));
-  if(!list.length&&!area)list=venues.filter(v=>v.club).slice(0,5);
-  let r=wkE.length?'Here is what\u2019s verified on SRCHN for the coming nights:':'No verified events are listed for those dates yet - I only show events with a genuine source. Meanwhile, these venues are real SRCHN listings:';
-  return {text:r,evts:wkE,venues:list.slice(0,6),why:why.join(', ')};
+ const asksEvents=/tonight|today|tomorrow|weekend|saturday|sunday|friday|happening|event|music|comedy|concert|festival|social|founder|culture/.test(ql);
+ if(asksEvents){let es=events.slice();if(area)es=es.filter(e=>(e.locality||'').toLowerCase().includes(area.n.toLowerCase()));
+  if(/tonight|today/.test(ql))es=es.filter(e=>e.date===DATES.today);else if(/tomorrow/.test(ql))es=es.filter(e=>e.date===DATES.tomorrow);else if(/weekend/.test(ql))es=es.filter(e=>[DATES.friday,DATES.saturday,DATES.sunday].includes(e.date));else for(const day of ['friday','saturday','sunday'])if(ql.includes(day))es=es.filter(e=>e.date===DATES[day]);
+  const interest=/comedy/.test(ql)?/comedy|stand.up|improv/i:/live music|band|gig|concert/.test(ql)?/music|band|gig|concert/i:/festival|culture/.test(ql)?/festival|culture|theatre|exhibit/i:/social|founder|network/.test(ql)?/social|founder|network|meetup|mixer/i:/dj|dance/.test(ql)?/dj|dance|techno|electronic/i:null;if(interest)es=es.filter(e=>interest.test(e.category+' '+e.title));
+  const cap=ql.match(/under\s*(?:₹|rs\.?\s*)?([0-9,]+)/);if(cap)es=es.filter(e=>{const m=String(e.price).replace(/,/g,'').match(/^(?:₹|rs\.?\s*)?(\d+(?:\.\d+)?)(?:\s*(?:per person|each|entry))?$/i);return m&&+m[1]<+cap[1].replace(/,/g,'')});
+  return {text:es.length?'Matching source-labelled events. Confirm current admission, price and availability with the organiser.':'No source-labelled events match those dates, interests and budget in the current SRCHN feed. I cannot confirm there are no events in Bengaluru. Try the organiser source or browse Pulse venues.',evts:es.slice(0,8),venues:[],why:why.join(', ')};
  }
- if(/under|\u20B9|rs\.?|budget|cheap/.test(ql))return {text:'Honest answer: SRCHN listings don\u2019t carry verified entry prices yet, so I won\u2019t guess. These venues match the rest of your ask - check their pages for details:',venues:list.slice(0,6),why:why.join(', ')};
- if(!list.length)return {text:'I don\u2019t have genuine listings matching that yet - I won\u2019t invent places. Try a neighbourhood like Indiranagar or Koramangala, or a vibe like rooftop, brewery or live music.',venues:[],why:''};
- return {text:'From live SRCHN listings'+(why.length?' ('+why.join(', ')+')':'')+':',venues:list.slice(0,6),why:why.join(', ')};
+ if(/roof|terrace|skyline|sunset/.test(ql)){list=list.filter(v=>/roof|terrace|skyline/i.test(v.name+v.tagline));why.push('rooftop source match')}
+ if(/brew|beer|craft/.test(ql)){list=list.filter(v=>/brew/i.test(v.category+v.name+v.tagline));why.push('breweries')}
+ if(/under|₹|rs\.?|budget|cheap/.test(ql))return {text:'The venue records do not supply verified prices. I cannot guarantee your budget; these are source matches only.',venues:list.slice(0,6),why:why.join(', ')};
+ if(/pulse|drink|nightlife|pub|bar/.test(ql))list=list.filter(v=>/pub|bar|brew|club|pulse/i.test(v.category));
+ return {text:list.length?'Matching SRCHN records. Source records are not independently verified venues, opening hours or availability.':'No matching records in the current feed. I will not invent venue details.',venues:list.slice(0,6),why:why.join(', ')};
 }
 const bl=$('pt-buddy-log');
 function bMsg(html,me){const d=document.createElement('div');d.className='pt-msg '+(me?'pt-msg-u':'pt-msg-b');d.innerHTML=html;bl.appendChild(d);bl.scrollTop=bl.scrollHeight}
 function bRender(r){
  let h=esc(r.text);
  (r.evts||[]).forEach(e=>{h+='<a class="pt-bcard" href="/parties/events/'+esc(e.id)+'/"><b>'+esc(e.title)+'</b><span>'+esc([e.venue,e.locality,e.date,e.time].filter(Boolean).join(' \u00B7 '))+' \u00B7 Source: '+esc(e.source)+' \u00B7 verified '+esc(e.verified)+'</span></a>'});
- (r.venues||[]).forEach(v=>{h+='<a class="pt-bcard" href="/brands/'+esc(v.slug)+'/"><b>'+esc(v.name)+'</b><span>'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+' \u00B7 live SRCHN listing</span></a>'});
- h+='<span style="display:block;margin-top:8px;font-size:11.5px;color:var(--tx3)">Source: live SRCHN listings \u00B7 '+new Date().toISOString().slice(0,10)+' \u00B7 bookings confirm only with the venue or organiser</span>';
+ (r.venues||[]).forEach(v=>{h+='<a class="pt-bcard" href="'+esc(venueHref(v))+'"><b>'+esc(v.name)+'</b><span>'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+' \u00B7 '+esc(v.sourceLabel||'SRCHN listing')+'</span></a>'});
+ h+='<span style="display:block;margin-top:8px;font-size:11.5px;color:var(--tx3)">Source: SRCHN event and place records \u00B7 '+new Date(Date.now()+330*60000).toISOString().slice(0,10)+' \u00B7 bookings confirm only with the venue or organiser</span>';
  bMsg(h,false);
 }
 if(bl){
@@ -197,6 +194,9 @@ if(pp){
  };
  try{const saved=JSON.parse(localStorage.getItem('srchn_night_plan')||'null');if(saved&&saved.length){pp.innerHTML='';saved.forEach(r=>{const row=stopRow({t:r.t,l:'Suggested time'});if(venues.some(v=>v.slug===r.v))row.querySelector('select').value=r.v;pp.appendChild(row)});$('pt-plan-msg').textContent='Restored your saved plan.'}}catch(e){}
 }
+
+fetch('/discovery/data.json').then(r=>r.json()).then(d=>{const known=new Set(venues.filter(v=>v.recordId).map(v=>v.recordId));for(const r of d.records.filter(r=>r.subcategories.some(s=>s.startsWith('pulse|')))){const key=r.id;if(known.has(key))continue;known.add(key);venues.push({id:r.id,recordId:r.id,slug:'source:'+r.id,name:r.name,category:r.subcategories.filter(s=>s.startsWith('pulse|')).map(s=>s.split('|')[1]).join(', '),tagline:'',locality:r.neighbourhood||'',lat:r.lat,lon:r.lon,club:false,sourceLabel:'OpenStreetMap source record - not independently verified'})}renderEdit(venues.slice());const names=[...new Set(venues.map(v=>v.locality).filter(Boolean))].sort();if($('pt-loc'))for(const name of names)if(![...$('pt-loc').options].some(o=>o.value===name)){const op=document.createElement('option');op.textContent=name;$('pt-loc').appendChild(op)}if(pp){for(const select of pp.querySelectorAll('select')){const old=select.value;select.innerHTML='<option value="">Choose a venue...</option>'+venues.map(v=>'<option value="'+esc(v.slug)+'">'+esc(v.name)+(v.locality?' · '+esc(v.locality):'')+(v.sourceLabel?' (source record)':'')+'</option>').join('');select.value=old}}}).catch(()=>{});
+
 })();
 
 /* Pulse reuses source records by ID. No copies or production writes. */
