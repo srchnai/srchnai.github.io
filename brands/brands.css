@@ -119,3 +119,10 @@
 .cl-pill{display:inline-block;border:1px solid #111;border-radius:999px;padding:3px 10px;font-size:10.5px;font-weight:700;letter-spacing:.12em;color:#111}
 .cl-pill.solid{background:#111;color:#fff}
 .cl-mini{padding:5px 12px;font-size:11.5px;border-radius:16px}
+
+.cl-bks{display:grid;gap:12px;margin-top:10px}
+.cl-bk{border:1px solid #e3e3e3;border-radius:14px;padding:14px 16px}
+.cl-bk-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.cl-bk-name{margin:8px 0 2px;font-weight:600}
+.cl-bk-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.br-price-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:16px 0}
