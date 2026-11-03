@@ -1,4 +1,4 @@
-/* SRCHN.PARTIES - brand-kit monochrome (grey/black/white), photography full colour. */
+/* SRCHN.PULSE - brand-kit monochrome (grey/black/white), photography full colour. */
 .pt-body{--ink:#ffffff;--panel:#fafafa;--panel2:#f0f0f0;--line2:#e3e3e3;--tx:#111111;--tx2:#525252;--tx3:#8a8a8a;background:var(--ink);color:var(--tx)}
 .pt-body .srchn-header{background:rgba(255,255,255,.96);border-bottom:1px solid var(--line2)}
 .pt-body .srchn-nav a{color:#262626}

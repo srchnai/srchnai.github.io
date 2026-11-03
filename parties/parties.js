@@ -1,4 +1,4 @@
-/* SRCHN.PARTIES client - discovery, map, buddy, planner. Data: live SRCHN listings + verified events only. */
+/* SRCHN.PULSE client - discovery, buddy, planner. Data: live SRCHN listings + verified events only. */
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
@@ -40,7 +40,7 @@ const SUGGESTED=['Rooftop parties','DJ nights','Live music','Breweries','Date ni
 const PROMPTS=['Find a rooftop for tonight.','Where can six friends celebrate a birthday?','Show me live music near Indiranagar.','Plan a date night under \u20B93,000.','Find a Saturday DJ night in Koramangala.','Find places with live music and food.','What\u2019s happening this weekend in Bengaluru?'];
 const COLLS={rooftop:/roof|terrace|skyline/i,brewery:/brew/i,club:/club|pub|bar/i,live:/live|music|band/i,date:/restaurant|caf|dining|lounge/i,afterwork:/pub|bar|brew/i,group:/pub|bar|brew|restaurant/i,hidden:/caf|lounge|restaurant/i};
 
-const vCard=v=>'<article class="pt-vcard"><h3><a href="/brands/'+esc(v.slug)+'/">'+esc(v.name)+'</a></h3><p class="pt-vmeta">'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+'</p>'+(v.tagline?'<p class="pt-vtag">'+esc(v.tagline)+'</p>':'')+'<div class="pt-vacts"><a class="pt-vxplr" href="/brands/'+esc(v.slug)+'/">EXPLORE BRAND</a>'+(v.club?'<a class="pt-vbook" href="/parties/book/?b='+esc(v.id)+'">BOOK</a>':'')+'</div></article>';
+const vCard=v=>'<article class="pt-vcard"><h3><a href="/brands/'+esc(v.slug)+'/">'+esc(v.name)+'</a></h3><p class="pt-vmeta">'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+'</p>'+(v.tagline?'<p class="pt-vtag">'+esc(v.tagline)+'</p>':'')+'<div class="pt-vacts"><a class="pt-vxplr" href="/brands/'+esc(v.slug)+'/">EXPLORE BRAND</a>'+(v.club?'<a class="pt-vbook" href="/parties/book/?b='+esc(v.id)+'" data-city-book="'+esc(v.name)+'">BOOK DEMO</a>':'')+'</div></article>';
 
 /* hero: mood select, suggested chips, search */
 const moodSel=$('pt-mood');
@@ -105,6 +105,8 @@ function renderTonight(f){
  if(f==='free')list=events.filter(e=>/free/i.test(e.price));
  if(f==='u500'||f==='u1000'){const cap=f==='u500'?500:1000;list=events.filter(e=>{const m=String(e.price).replace(/[, ]/g,'').match(/\u20B9?(\d+)/);return m&&+m[1]<cap})}
  if(f==='music')list=events.filter(e=>/music|band|concert/i.test(e.category+e.title));
+ if(f==='week')list=events.filter(e=>e.date>=dayOff(0)&&e.date<=dayOff(6));
+ if(['nightlife','comedy','culture','food','sports'].includes(f)){const terms={nightlife:/night|dj|club|party|brew/i,comedy:/comedy|stand.up|improv/i,culture:/cultur|theatre|theater|art|exhibit|festival/i,food:/food|brunch|dining|tasting/i,sports:/sport|screening|match|run|fitness/i};list=events.filter(e=>terms[f].test(e.category+' '+e.title))}
  if(f==='dj')list=events.filter(e=>/dj|techno|electronic/i.test(e.category+e.title));
  if(f==='live')list=events.filter(e=>/live|band|comedy|show/i.test(e.category+e.title));
  if(f==='social')list=events.filter(e=>/mixer|social|quiz|meetup/i.test(e.category+e.title));
@@ -112,6 +114,7 @@ function renderTonight(f){
 }
 const tf=$('pt-tonight-f');if(tf)tf.querySelectorAll('.pt-chip').forEach(b=>b.onclick=()=>{tf.querySelectorAll('.pt-chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderTonight(b.dataset.f)});
 renderTonight('today');
+for(const [id,re] of Object.entries({live:/live|music|band|concert|gig/i,culture:/cultur|theatre|theater|art|exhibit|festival|food/i,social:/social|mixer|community|network|founder|meetup/i})){const el=$('pt-editorial-'+id);if(el){const found=events.filter(e=>re.test(e.category+' '+e.title));el.innerHTML=found.length?found.map(evtCard).join(''):emptyEvt('No source-labelled events in this collection yet.')}}
 function renderWk(d){
  const box=$('pt-wk');if(!box)return;
  const list=events.filter(e=>e.date===DATES[d]);
@@ -120,7 +123,7 @@ function renderWk(d){
 const wf=$('pt-wk-f');if(wf)wf.querySelectorAll('.pt-chip').forEach(b=>b.onclick=()=>{wf.querySelectorAll('.pt-chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderWk(b.dataset.d)});
 renderWk('friday');
 
-/* map + neighbourhood explorer */
+/* neighbourhood explorer */
 function areaCount(a){return venues.filter(v=>(v.locality||'').toLowerCase().replace(/\s/g,'')===a.n.toLowerCase().replace(/\s/g,'')).length}
 const al=$('pt-areas-list');
 if(al){
