@@ -1026,7 +1026,7 @@ async function studioRoute(request,env){
   await db.prepare('UPDATE stu_submissions SET email_status=? WHERE sub_no=?').bind(es,sub.sub_no).run();
   return JSONR({ok:true,email:es});
  }
- if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-renew'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'||p==='/studio/api/review/club'||p==='/studio/api/review/club-invite-decide'||p==='/studio/api/review/club-member-status'||p==='/studio/api/review/club-member-delete'||p==='/studio/api/review/club-booking-config'||p==='/studio/api/review/club-ledgers'||p==='/studio/api/review/club-settle'||p==='/studio/api/review/club-ledger-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
+ if(p.startsWith('/studio/api/review/brand')||p==='/studio/api/review/brands'||p==='/studio/api/review/location-status'||p==='/studio/api/review/claims'||p==='/studio/api/review/claim-decide'||p==='/studio/api/review/claim-delete'||p==='/studio/api/review/brand-detail'||p==='/studio/api/review/product-status'||p==='/studio/api/review/subscription-save'||p==='/studio/api/review/subscription-renew'||p==='/studio/api/review/subscription-status'||p==='/studio/api/review/invoice-status'||p==='/studio/api/review/club'||p==='/studio/api/review/club-invite-decide'||p==='/studio/api/review/club-member-status'||p==='/studio/api/review/club-member-delete'||p==='/studio/api/review/club-booking-config'||p==='/studio/api/review/club-ledgers'||p==='/studio/api/review/club-settle'||p==='/studio/api/review/club-ledger-status'){const brR=await brReviewRoute(p,request,env,db,now);if(brR)return brR}
  const mm=/^\/studio\/api\/media\/([0-9a-f-]{36})$/.exec(p);
  if(mm&&request.method==='GET'){
   const id=mm[1];
@@ -1449,6 +1449,16 @@ async function brReviewRoute(p,request,env,db,now){
   await db.prepare('DELETE FROM br_locations WHERE brand_id=?').bind(id).run();
   const r=await db.prepare('DELETE FROM br_brands WHERE id=?').bind(id).run();
   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'brand-delete',id,clean(b.note,200),now).run();
+  return JSONR({ok:true,changed:(r.meta&&r.meta.changes)||0});
+ }
+ if(p==='/studio/api/review/claim-delete'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const id=clean(b.claim_id,40);
+  const cl=await db.prepare('SELECT id,brand_id,requested_name,status FROM br_claims WHERE id=?').bind(id).first();
+  if(!cl)return JSONR({error:'Unknown claim.'},404);
+  const r=await db.prepare('DELETE FROM br_claims WHERE id=?').bind(id).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(rv.email,'claim-delete',cl.brand_id||null,'claim '+id+' ('+(cl.requested_name||'brand-claim')+', was '+cl.status+'): '+clean(b.note,160),now).run();
   return JSONR({ok:true,changed:(r.meta&&r.meta.changes)||0});
  }
  if(p==='/studio/api/review/club'&&request.method==='GET'){
