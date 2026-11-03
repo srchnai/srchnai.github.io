@@ -1878,7 +1878,7 @@ async function clubRoute(request,env){
   if(b.location_id){
    const loc=await db.prepare("SELECT l.*,b.name AS brand_name,b.status AS brand_status FROM br_locations l JOIN br_brands b ON b.id=l.brand_id WHERE l.id=?").bind(clean(b.location_id,40)).first();
    if(!loc||loc.status!=='PUBLISHED'||loc.brand_status!=='PUBLISHED')return JSONR({error:'This place is not available for booking.'},404);
-   brandId=loc.brand_id;locId=loc.id;brandName=loc.brand_name;locName=loc.name+(loc.locality?', '+loc.locality:'');
+   brandId=loc.brand_id;locId=loc.id;brandName=loc.brand_name;locName=loc.name+(loc.locality&&loc.locality.toLowerCase()!==loc.name.toLowerCase()?', '+loc.locality:'');
    const cfg=await db.prepare('SELECT * FROM br_club_booking_config WHERE brand_id=? AND location_id=? AND active=1').bind(loc.brand_id,loc.id).first();
    if(cfg){fee=cfg.fee_inr||0;terms=cfg.terms||null}
   }else{
