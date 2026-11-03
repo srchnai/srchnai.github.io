@@ -1084,7 +1084,7 @@ async function brRole(db,brandId,creatorId){const m=await db.prepare("SELECT rol
 const brEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const brMediaUrl=id=>'/studio/api/media/'+encodeURIComponent(id);
 function brNav(active){
- const items=[['/discovery/','i-compass','Explore'],['/localities/','i-map-pin','Localities'],['/brands/','i-shopping-bag','Brands'],['/discovery/profile/','i-bookmark','Saved'],['/plan/','i-calendar-check','Plan'],['/studio/','i-clapperboard','Studio'],['/club/','i-users','Club'],['/bangalore/','i-sparkles','Your Local Buddy']];
+ const items=[['/discovery/','i-compass','Explore'],['/localities/','i-map-pin','Localities'],['/brands/','i-shopping-bag','Brands'],['/studio/','i-clapperboard','Studio'],['/club/','i-users','Club'],['/bangalore/','i-sparkles','Your Local Buddy']];
  return items.map(([h,i,l])=>'<a '+(l===active?'aria-current="page" ':'')+'href="'+h+'"'+(l==='Your Local Buddy'?' rel="noopener" target="_blank"':'')+'><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#'+i+'"></use></svg><span>'+l+'</span></a>').join('');
 }
 function brChrome(o){
