@@ -170,15 +170,13 @@ function face(){
 }
 
 window.SRCHN_DEMO={pay,digilocker,face,close};
-function bind(root){
-  (root||document).querySelectorAll('[data-demo-open]').forEach(b=>{
-    if(b._cd)return;b._cd=1;
-    b.addEventListener('click',e=>{e.preventDefault();const k=b.dataset.demoOpen;
-      if(k==='pay')pay({amount:+(b.dataset.amt||0)||undefined,brand:b.dataset.brand,booking:b.dataset.booking});
-      else if(k==='digilocker')digilocker();
-      else if(k==='face')face();});
-  });
-}
-bind(document);
+document.addEventListener('click',e=>{
+  const b=e.target.closest&&e.target.closest('[data-demo-open]');
+  if(!b)return;
+  e.preventDefault();const k=b.dataset.demoOpen;
+  if(k==='pay')pay({amount:+(b.dataset.amt||0)||undefined,brand:b.dataset.brand,booking:b.dataset.booking});
+  else if(k==='digilocker')digilocker();
+  else if(k==='face')face();
+});
 if(location.hash==='#pay')pay();else if(location.hash==='#digilocker')digilocker();else if(location.hash==='#face')face();
 })();

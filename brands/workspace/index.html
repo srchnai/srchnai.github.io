@@ -84,6 +84,8 @@ h2.bw-sec{font-size:1.15rem;margin:34px 0 12px}
    <button id="claimBtn" class="bw-btn" type="button">Submit claim</button>
    <p id="claimErr" class="bw-err"></p><p id="claimOk" class="bw-ok"></p>
    <p class="bw-note">Every claim is verified manually by Team SRCHN. Approval gives you owner access to the brand workspace.</p>
+   <p class="bw-note">Coming to claims: verified ownership with DigiLocker and a quick face check. Try the interface demos - no real verification runs, nothing is captured or stored.</p>
+   <p style="display:flex;gap:10px;flex-wrap:wrap"><button class="bw-btn ghost" type="button" data-demo-open="digilocker">DigiLocker verification demo</button><button class="bw-btn ghost" type="button" data-demo-open="face">Face verification demo</button></p>
   </div>
 
   <h2 class="bw-sec">Your claims</h2>
@@ -91,6 +93,7 @@ h2.bw-sec{font-size:1.15rem;margin:34px 0 12px}
  </div>
 </div>
 <script src="/studio/studio.js"></script>
+<script src="/brands/club-demo.js" defer></script>
 <script>
 (function(){
 var pickedBrand=null;
@@ -147,7 +150,8 @@ function renderBrands(list,stats,teams,subs,invs){
     :'<p class="bw-meta">No active plan. Monthly: Rs 3,000/month. Annual: Rs 30,000/year (saves Rs 6,000 against 12 monthly payments).</p>')
    +'<p class="bw-meta">Videos on the brand page: '+st.videos+' of 30 active slots</p>'
    +(inv.length?'<ul class="bw-list">'+inv.map(function(i){return '<li>'+esc(i.inv_no)+' · '+inr(i.amount_inr)+' · '+esc(i.status)+' <span class="bw-meta">'+new Date(i.issued_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+'</span></li>'}).join('')+'</ul>':'')
-   +'<p class="bw-note">Online checkout launches with SRCHN PAY. Team SRCHN activates your plan after payment confirmation; invoices appear here.</p>';
+   +'<p class="bw-note">Online checkout launches with SRCHN PAY. Team SRCHN activates your plan after payment confirmation; invoices appear here.</p>'
+   +'<p><button class="bw-btn ghost" type="button" data-demo-open="pay" data-amt="'+(sub?sub.price_inr:3000)+'" data-brand="SRCHN BRANDS - '+(sub?(sub.plan==='annual'?'Annual':'Monthly')+' plan':'Monthly plan')+'">SRCHN PAY checkout demo</button></p>';
   return '<div class="bw-card"><h2>'+esc(b.name)+'</h2><p class="bw-meta">'+esc(b.category)+' · '+esc(b.locs)+' location(s) · '+st.views7d+' views this week · '+st.views30d+' this month · '+st.submissions+' submission(s)</p>'
   +'<span class="bw-badge">'+esc(b.status)+'</span><span class="bw-badge soft">'+esc(b.role)+'</span>'
   +(b.status==='PUBLISHED'?' <a class="bw-badge soft" href="/brands/'+esc(b.slug)+'/" style="text-decoration:none">View public page</a>':'')
