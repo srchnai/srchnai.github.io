@@ -2068,6 +2068,7 @@ async function clubRoute(request,env){
    +'<div id="pt-events"></div>'
    +'<p class="pt-pipeline">Only published, source-labelled events appear here, with the date they were last checked. Organisers can send events through Promote an Event.</p>'
    +'<p class="pt-more"><a class="pt-btn pt-btn-ghost" href="/parties/promote/">PROMOTE AN EVENT</a></p></section>';
+  body+='<section class="pt-sec" id="beverages"><p class="pt-zonechip">PULSE / BEVERAGES &amp; DRINKS</p><h2>FIND YOUR EVENING RHYTHM.</h2><p class="pt-lede">Pubs, bars, breweries, cocktails, mocktails and going-out experiences belong here. Café discovery has its own CAFÉS category.</p><p class="pt-src">Source records, not independently verified venues or current availability. Confirm age rules, admission and timings directly.</p><div class="pt-filters" id="pt-beverage-categories"></div><p id="pt-beverage-count" class="pt-count"></p><p class="pt-src">Data © OpenStreetMap contributors, ODbL. <a href="/discovery/SOURCES.md">Source, retrieval and licence details</a>. Category counts can overlap; the unique total counts each record once.</p><div class="pt-grid" id="pt-beverage-grid"></div><p class="pt-more"><a class="pt-btn pt-btn-ghost" href="/discovery/?category=pulse">SEARCH ALL PULSE VENUES</a></p></section>';
   body+='<section class="pt-sec" id="vibes"><p class="pt-zonechip">DISCOVER</p><p class="pt-kicker">NOT EVERY NIGHT NEEDS THE SAME ENERGY.</p><h2>FIND YOUR FREQUENCY</h2><div class="pt-moods" id="pt-moods"></div></section>';
   body+='<section class="pt-sec" id="areas"><p class="pt-zonechip">DISCOVER</p><p class="pt-kicker">EVERY PART OF BENGALURU HAS A DIFFERENT STORY AFTER DARK.</p><h2>BENGALURU BY PULSE</h2><div class="pt-areas"><div class="pt-areas-list" id="pt-areas-list"></div></div></section>';
   body+='<section class="pt-sec" id="edit"><p class="pt-zonechip">DISCOVER</p><p class="pt-kicker">THE PLACES THAT MAKE THE NIGHT.</p><h2>THE PULSE EDIT</h2>'
@@ -2111,6 +2112,8 @@ async function clubRoute(request,env){
 }
 
 export default{async fetch(request,env){
+ const legacyURL=new URL(request.url);if(legacyURL.pathname==='/drink'||legacyURL.pathname==='/drink/')return Response.redirect(legacyURL.origin+'/parties/#beverages',301);
+
   const u=new URL(request.url);
   if(u.pathname==='/club/api/whoami'){const g=await gidRead(request,env);return JSONR(g?{ok:true,email:g.e,name:g.n||''}:{ok:false},g?200:401)}
   if(u.pathname==='/auth/google/start'||u.pathname==='/auth/google/callback'){try{return await googleAuthRoute(request,env)}catch(e){return new Response(gPage('Google sign-in','Sign-in hit an error. Please try again in a moment.'),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}})}}
