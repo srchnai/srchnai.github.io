@@ -132,23 +132,16 @@ document.querySelectorAll('[data-dupe]').forEach(b=>b.addEventListener('click',a
 }));
 /* map */
 let map=null,marker=null;
-function initMap(){
- if(map||typeof L==='undefined')return;
- map=L.map('w-map').setView([12.9716,77.5946],12);
- L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
- map.on('click',e=>{setPin(e.latlng.lat,e.latlng.lng)});
-}
+function initMap(){}
 function setPin(lat,lon){
  W.lat=lat;W.lon=lon;
- if(!marker)marker=L.marker([lat,lon]).addTo(map);else marker.setLatLng([lat,lon]);
  const link='https://www.google.com/maps?q='+lat.toFixed(6)+','+lon.toFixed(6);
- if(!$('w-maps').value.trim()||/^https:\/\/www\.google\.com\/maps\?q=\d/.test($('w-maps').value.trim()))$('w-maps').value=link;
- $('w-map-hint').innerHTML='Pinned at '+lat.toFixed(5)+', '+lon.toFixed(5)+'. <a href="#" id="w-geoloc">Use your current location</a> instead.';
- bindGeo();
+ $('w-maps').value=link;
+ $('w-map-hint').textContent='Current coordinates saved as a directions link. Check the venue address before submitting.';
 }
 function bindGeo(){const g=$('w-geoloc');if(g)g.addEventListener('click',e=>{e.preventDefault();
- if(!navigator.geolocation){$('w-map-hint').textContent='This browser has no location access - tap the map to pin instead.';return}
- navigator.geolocation.getCurrentPosition(pos=>{setPin(pos.coords.latitude,pos.coords.longitude);if(map)map.setView([pos.coords.latitude,pos.coords.longitude],16)},()=>{$('w-map-hint').textContent='Location permission was not granted - tap the map to pin instead.'},{timeout:10000});
+ if(!navigator.geolocation){$('w-map-hint').textContent='This browser has no location access - enter the venue address or a directions link instead.';return}
+ navigator.geolocation.getCurrentPosition(pos=>{setPin(pos.coords.latitude,pos.coords.longitude);if(map)map.setView([pos.coords.latitude,pos.coords.longitude],16)},()=>{$('w-map-hint').textContent='Location permission was not granted - enter the venue address or a directions link instead.'},{timeout:10000});
 })}
 bindGeo();
 

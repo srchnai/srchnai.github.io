@@ -16,8 +16,8 @@ if(!x){nm.textContent='Place not found';return}
 document.title=x[0]+' | SRCHN preview';nm.textContent=x[0];document.getElementById('cat').textContent=d.cats[x[1]]||x[1];
 try{var ph=(await (await fetch('/place/photos.json')).json())[x[4]];if(ph){var h=document.getElementById('ph');h.textContent='';h.style.cssText='padding:0;border:0;display:block;aspect-ratio:auto';var im=document.createElement('img');im.src=ph.src;im.alt=ph.alt;im.style.cssText='width:100%;height:auto;display:block;border-radius:16px';h.appendChild(im);var c=document.createElement('p');c.className='n';c.style.margin='6px 0 0';c.append('Photo: '+ph.by+', ');var l=document.createElement('a');l.href=ph.file;l.textContent='Wikimedia Commons';l.rel='noopener';c.append(l,', CC BY-SA 4.0 ('+ph.yr+'). Cropped and resized only. ');var cr=document.createElement('a');cr.href='/credits/';cr.textContent='Credits';c.append(cr);h.after(c)}}catch(e){}
 var b=document.getElementById('bt');function a(t,h,c){var e=document.createElement('a');e.textContent=t;e.href=h;e.rel='noopener';if(c)e.className=c;b.appendChild(e)}
-a('Directions','https://www.openstreetmap.org/directions?to='+x[2]+'%2C'+x[3],'p');
-a('Map','https://www.openstreetmap.org/?mlat='+x[2]+'&mlon='+x[3]+'#map=18/'+x[2]+'/'+x[3]);
+a('Directions','https://www.google.com/maps/dir/?api=1&destination='+x[2]+'%2C'+x[3],'p');
+a('Open destination','https://www.google.com/maps/search/?api=1&query='+x[2]+','+x[3]);
 var m=/^([nwr])(\d+)$/.exec(x[4]||'');if(m)a('OSM record','https://www.openstreetmap.org/'+{n:'node',w:'way',r:'relation'}[m[1]]+'/'+m[2]);
 a('More '+(d.cats[x[1]]||'').toLowerCase(),'/open/'+x[1]+'/');
 }catch(e){nm.textContent='Could not load this place'}

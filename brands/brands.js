@@ -24,13 +24,7 @@ document.querySelectorAll('[data-br-report]').forEach(function(b){b.addEventList
  var note=window.prompt('What is incorrect about '+b.getAttribute('data-br-name')+'? Team SRCHN will review it.');if(!note)return;
  fetch('/studio/api/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:'correction',target:b.getAttribute('data-br-name'),note:note.slice(0,500)})}).then(function(r){toast(r.ok?'Reported - Team SRCHN will review.':'Could not send the report.')},function(){toast('Could not send the report.')})
 })});
-/* map */
-var mapEl=document.getElementById('br-map');
-if(mapEl&&window.L){try{var pts=JSON.parse(mapEl.getAttribute('data-points')||'[]');
- if(pts.length){var map=L.map(mapEl,{scrollWheelZoom:false});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
- var bounds=[];pts.forEach(function(p){var m=L.marker([p.lat,p.lon]).addTo(map);m.bindPopup('<a href="'+p.url+'">'+p.name+'</a>');bounds.push([p.lat,p.lon])});
- if(bounds.length)map.fitBounds(bounds,{padding:[24,24]})}else{mapEl.style.display='none'}}catch(e){mapEl.style.display='none'}}
-else if(mapEl){mapEl.style.display='none'}
+
 /* view beacon */
 try{var path=location.pathname;var meta=document.querySelector('link[rel=canonical]');
  fetch('/brands/api/view',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brand_id:(path.match(/^\/brands\/([a-z0-9-]+)/)||[])[1]||'landing',location_id:(path.match(/locations\/([a-z0-9-]+)/)||[])[1]||null,kind:'brand'})}).catch(function(){})}catch(e){}

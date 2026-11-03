@@ -39,3 +39,6 @@ main>a#back{display:inline-flex;align-items:center;gap:6px;min-height:44px}.tool
 
 .loc-link{margin:4px 0 0}.loc-link a{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:600;color:#111;text-decoration:underline}
 a.visit-locked{opacity:.55;border-style:dashed!important}
+
+/* Map-free locality discovery. */
+#maplayout{display:block}#resultwrap{width:100%}

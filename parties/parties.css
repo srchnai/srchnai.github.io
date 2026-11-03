@@ -184,3 +184,6 @@
 .pt-credits a{color:var(--tx2)}
 /* Google sign-in shares the monochrome primary button contrast. */
 .pt-body a.br-btn-primary,.pt-body a.br-btn-primary:visited{color:#fff!important}
+
+/* Map-free locality cards. */
+.pt-areas{display:block}.pt-areas-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));max-height:none;overflow:visible}
