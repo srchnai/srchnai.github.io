@@ -37,11 +37,11 @@ if(inv){
 const clm=$('clm');
 if(clm){
   const T=localStorage.getItem('srchn_club_token')||'';
-  if(!T){location.href='/club/#signin';return}
+  if(!T){location.href='/parties/#signin';return}
   const api=(p,o)=>{o=o||{};o.headers=o.headers||{};o.headers['Authorization']='Bearer '+T;if(o.json!==undefined){o.headers['Content-Type']='application/json';o.body=JSON.stringify(o.json)}return fetch(p,o).then(r=>r.json().then(d=>({status:r.status,data:d})))};
   Promise.all([api('/club/api/me'),api('/club/api/brands'),api('/club/api/bookings'),api('/club/api/cashback'),api('/club/api/booking-options'),api('/club/api/verification'),api('/club/api/payments')]).then(rs=>{
     const me=rs[0];
-    if(me.status===401){localStorage.removeItem('srchn_club_token');location.href='/club/#signin';return}
+    if(me.status===401){localStorage.removeItem('srchn_club_token');location.href='/parties/#signin';return}
     const M=me.data.member,MS=me.data.membership,brands=(rs[1].data&&rs[1].data.brands)||[],bks=(rs[2].data&&rs[2].data.bookings)||[],cb=(rs[3].data&&rs[3].data.cashback)||[],opts=(rs[4].data&&rs[4].data.options)||[],pays=(rs[6].data&&rs[6].data.payments)||[];const VF=rs[5].data||{};
     const today=todayIST();
     const MOCK=/\.pages\.dev$/.test(location.hostname);
@@ -73,7 +73,7 @@ if(clm){
     h+='<h2 class="cl-h">Payment history</h2>';
     h+=pays.length?'<div class="cl-bks">'+pays.map(p=>'<div class="cl-bk"><div class="cl-bk-top"><b>'+(p.kind==='FEE'?'Booking fee':'Visit bill')+' \u00b7 '+inr(p.amount_inr)+'</b><span class="cl-pill solid">PAID \u00b7 preview mock</span></div><p class="cl-sub">'+esc(p.booking_no)+' \u00b7 '+dt(p.created_at)+'</p></div>').join('')+'</div>':'<p class="br-empty">No payments yet.</p>';
     h+='<div id="clm-demorcpts"></div>';
-    h+='<div class="cl-note"><b>SRCHN PAY - configuration required, currently disabled.</b><br/>No real payments are taken on SRCHN.'+(MOCK?' Payments marked "preview mock" are demonstrations on this preview site only - no real charge was made.':'')+' <a href="/club/demo/#pay">See how SRCHN PAY will work - interface demo</a>.</div>';
+    h+='<div class="cl-note"><b>SRCHN PAY - configuration required, currently disabled.</b><br/>No real payments are taken on SRCHN.'+(MOCK?' Payments marked "preview mock" are demonstrations on this preview site only - no real charge was made.':'')+' <a href="/parties/demo/#pay">See how SRCHN PAY will work - interface demo</a>.</div>';
     h+='<h2 class="cl-h">Cashback history</h2>';
     h+=cb.length?'<div class="cl-scroll"><table class="cl-table"><tr><th>DATE</th><th>AMOUNT</th><th>STATUS</th><th>NOTE</th></tr>'+cb.map(c=>'<tr><td>'+dt(c.created_at)+'</td><td>'+inr(c.cashback_inr)+'</td><td><span class="cl-pill">'+esc(c.status)+'</span></td><td>'+esc(c.note||'-')+'</td></tr>').join('')+'</table></div>':'<p class="br-empty">No cashback yet. Eligible cashback is up to 5% of the SRCHN success fee, capped at up to Rs 5,000 per 12-month membership period, and is credited only after the underlying payment and commission eligibility are confirmed.</p>';
     h+='<h2 class="cl-h">Identity verification</h2>';
