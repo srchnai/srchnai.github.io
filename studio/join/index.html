@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -14,45 +15,42 @@
 <link href="../studio.css" rel="stylesheet"/>
 </head>
 <body class="stu-body">
-<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span class="brand-lockup-nav" aria-hidden="true"><img class="brand-maze" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"><img class="brand-wordmark" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" alt="" width="164" height="36" loading="eager" decoding="async"></span><img class="brand-logo brand-logo-icon" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" alt="" width="40" height="40" loading="eager" decoding="async"></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-compass"></use></svg><span>Explore</span></a><a href="/brands/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-shopping-bag"></use></svg><span>Brands</span></a><a aria-current="page" href="/studio/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-clapperboard"></use></svg><span>Studio</span></a><a href="/parties/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-users"></use></svg><span>Pulse</span></a><a href="/property/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-house"></use></svg><span>Property</span></a><a href="/bangalore/" rel="noopener" target="_blank"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-sparkles"></use></svg><span>Your Local Buddy</span></a></nav></header>
+<header class="srchn-header"><a aria-label="SRCHN home" class="srchn-logo brand-logo-link" href="/"><span aria-hidden="true" class="brand-lockup-nav"><img alt="" class="brand-maze" decoding="async" height="40" loading="eager" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" width="40"/><img alt="" class="brand-wordmark" decoding="async" height="36" loading="eager" src="/assets/brand/master-kit/01_Master_Logo/PNG/SRCHN_Wordmark_Black.png" width="164"/></span><img alt="" class="brand-logo brand-logo-icon" decoding="async" height="40" loading="eager" src="/assets/brand/master-kit/02_Maze_Icon/PNG/srchn-maze-64.png" width="40"/></a><nav aria-label="Primary" class="srchn-nav"><a href="/discovery/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-compass"></use></svg><span>Explore</span></a><a aria-current="page" href="/studio/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-clapperboard"></use></svg><span>Studio</span></a><a href="/parties/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-users"></use></svg><span>Pulse</span></a><a href="/property/"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-house"></use></svg><span>Property</span></a><a href="/bangalore/" rel="noopener" target="_blank"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-sparkles"></use></svg><span>Your Local Buddy</span></a></nav></header>
 <main class="stu-main">
-  <section class="stu-section" style="border-bottom:none">
-    <p class="stu-eyebrow">SRCHN STUDIO</p>
-    <h1 id="stu-join-title">Become a Creator</h1>
-    <p class="stu-lede" id="stu-join-lede">Register once, verify your email, and receive your unique SRCHN Creator ID. Already registered? <a href="#" id="stu-toggle">Sign in</a>.</p>
-
-    <p><a class="stu-btn" href="/auth/google/start?next=%2Fstudio%2Fjoin%2F">CONTINUE WITH GOOGLE</a></p><p id="stu-google-note"></p>
-    <form class="stu-form" id="stu-join-form" novalidate>
-      <div class="stu-field"><label for="f-name">Full name</label><input id="f-name" autocomplete="name" maxlength="120" required/></div>
-      <div class="stu-field"><label for="f-display">Display name (shown with your credit)</label><input id="f-display" maxlength="80" placeholder="Defaults to your full name"/></div>
-      <div class="stu-field"><label for="f-email">Email</label><input id="f-email" type="email" autocomplete="email" maxlength="160" required/></div>
-      <div class="stu-field"><label for="f-mobile">Mobile (10-digit Indian number)</label><input id="f-mobile" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="98765 43210" required/></div>
-      <div class="stu-field"><label>Creator categories (pick at least one)</label>
-        <div id="f-cats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px"></div>
-      </div>
-      <div class="stu-field"><label for="f-city">City</label><input id="f-city" maxlength="80" placeholder="Bengaluru"/></div>
-      <div class="stu-field"><label for="f-bio">Short bio (optional)</label><textarea id="f-bio" rows="3" maxlength="600"></textarea></div>
-      <div class="stu-field"><label for="f-insta">Instagram (optional)</label><input id="f-insta" maxlength="120" placeholder="@yourhandle"/></div>
-      <div class="stu-field"><label for="f-yt">YouTube (optional)</label><input id="f-yt" maxlength="120"/></div>
-      <div class="stu-field"><label for="f-other">Other link (optional)</label><input id="f-other" maxlength="120" placeholder="Portfolio, website…"/></div>
-      <div class="stu-field" style="display:flex;gap:10px;align-items:flex-start"><input id="f-honest" type="checkbox" style="width:auto;margin-top:4px" required/><label for="f-honest" style="font-weight:400;font-size:14px;line-height:1.5">I will only submit real content I have the rights to. I understand fake content ends creator access.</label></div>
-      <div class="stu-err" id="stu-err" role="alert"></div>
-      <div class="stu-ok" id="stu-ok" role="status"></div>
-      <button class="stu-btn-submit" id="stu-join-btn" type="submit">Send verification code</button>
-    </form>
-
-    <form class="stu-form" id="stu-otp-form" style="display:none" novalidate>
-      <div class="stu-field"><label for="f-code">6-digit verification code</label><input id="f-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="••••••" required/><p class="stu-hint" id="stu-otp-hint">Sent to your email. Expires in 10 minutes.</p></div>
-      <div class="stu-err" id="stu-err2" role="alert"></div>
-      <button class="stu-btn-submit" id="stu-otp-btn" type="submit">Verify</button>
-      <p class="stu-micro" style="margin-top:14px"><a href="#" id="stu-back">Start over</a></p>
-    </form>
-
-    <div id="stu-done" style="display:none">
-      <div class="stu-ok" style="display:block;font-size:15px" id="stu-done-msg"></div>
-      <div class="stu-cta-row" style="margin-top:18px"><a class="stu-btn stu-btn-primary" href="/studio/add/">Submit a Place</a><a class="stu-btn stu-btn-ghost" href="/studio/profile/">Open your profile</a></div>
-    </div>
-  </section>
+<section class="stu-section" style="border-bottom:none">
+<p class="stu-eyebrow">SRCHN STUDIO</p>
+<h1 id="stu-join-title">Become a Creator</h1>
+<p class="stu-lede" id="stu-join-lede">Register once, verify your email, and receive your unique SRCHN Creator ID. Already registered? <a href="#" id="stu-toggle">Sign in</a>.</p>
+<p><a class="stu-btn" href="/auth/google/start?next=%2Fstudio%2Fjoin%2F">CONTINUE WITH GOOGLE</a></p><p id="stu-google-note"></p>
+<form class="stu-form" id="stu-join-form" novalidate="">
+<div class="stu-field"><label for="f-name">Full name</label><input autocomplete="name" id="f-name" maxlength="120" required=""/></div>
+<div class="stu-field"><label for="f-display">Display name (shown with your credit)</label><input id="f-display" maxlength="80" placeholder="Defaults to your full name"/></div>
+<div class="stu-field"><label for="f-email">Email</label><input autocomplete="email" id="f-email" maxlength="160" required="" type="email"/></div>
+<div class="stu-field"><label for="f-mobile">Mobile (10-digit Indian number)</label><input autocomplete="tel" id="f-mobile" inputmode="numeric" maxlength="13" placeholder="98765 43210" required=""/></div>
+<div class="stu-field"><label>Creator categories (pick at least one)</label>
+<div id="f-cats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px"></div>
+</div>
+<div class="stu-field"><label for="f-city">City</label><input id="f-city" maxlength="80" placeholder="Bengaluru"/></div>
+<div class="stu-field"><label for="f-bio">Short bio (optional)</label><textarea id="f-bio" maxlength="600" rows="3"></textarea></div>
+<div class="stu-field"><label for="f-insta">Instagram (optional)</label><input id="f-insta" maxlength="120" placeholder="@yourhandle"/></div>
+<div class="stu-field"><label for="f-yt">YouTube (optional)</label><input id="f-yt" maxlength="120"/></div>
+<div class="stu-field"><label for="f-other">Other link (optional)</label><input id="f-other" maxlength="120" placeholder="Portfolio, website…"/></div>
+<div class="stu-field" style="display:flex;gap:10px;align-items:flex-start"><input id="f-honest" required="" style="width:auto;margin-top:4px" type="checkbox"/><label for="f-honest" style="font-weight:400;font-size:14px;line-height:1.5">I will only submit real content I have the rights to. I understand fake content ends creator access.</label></div>
+<div class="stu-err" id="stu-err" role="alert"></div>
+<div class="stu-ok" id="stu-ok" role="status"></div>
+<button class="stu-btn-submit" id="stu-join-btn" type="submit">Send verification code</button>
+</form>
+<form class="stu-form" id="stu-otp-form" novalidate="" style="display:none">
+<div class="stu-field"><label for="f-code">6-digit verification code</label><input autocomplete="one-time-code" id="f-code" inputmode="numeric" maxlength="6" placeholder="••••••" required=""/><p class="stu-hint" id="stu-otp-hint">Sent to your email. Expires in 10 minutes.</p></div>
+<div class="stu-err" id="stu-err2" role="alert"></div>
+<button class="stu-btn-submit" id="stu-otp-btn" type="submit">Verify</button>
+<p class="stu-micro" style="margin-top:14px"><a href="#" id="stu-back">Start over</a></p>
+</form>
+<div id="stu-done" style="display:none">
+<div class="stu-ok" id="stu-done-msg" style="display:block;font-size:15px"></div>
+<div class="stu-cta-row" style="margin-top:18px"><a class="stu-btn stu-btn-primary" href="/studio/add/">Submit a Place</a><a class="stu-btn stu-btn-ghost" href="/studio/profile/">Open your profile</a></div>
+</div>
+</section>
 </main>
 <script src="../studio.js"></script>
 <script>

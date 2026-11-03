@@ -40,7 +40,7 @@ const SUGGESTED=['Rooftop parties','DJ nights','Live music','Breweries','Date ni
 const PROMPTS=['Find a rooftop for tonight.','Where can six friends celebrate a birthday?','Show me live music near Indiranagar.','Plan a date night under \u20B93,000.','Find a Saturday DJ night in Koramangala.','Find places with live music and food.','What\u2019s happening this weekend in Bengaluru?'];
 const COLLS={rooftop:/roof|terrace|skyline/i,brewery:/brew/i,club:/club|pub|bar/i,live:/live|music|band/i,date:/restaurant|caf|dining|lounge/i,afterwork:/pub|bar|brew/i,group:/pub|bar|brew|restaurant/i,hidden:/caf|lounge|restaurant/i};
 
-const venueHref=v=>v.recordId?'/discovery/place/?id='+encodeURIComponent(v.recordId):'/brands/'+encodeURIComponent(v.slug)+'/';
+const venueHref=v=>v.recordId?'/discovery/place/?id='+encodeURIComponent(v.recordId):'/discovery/?q='+encodeURIComponent(v.name);
 const vCard=v=>'<article class="pt-vcard"><h3><a href="'+esc(venueHref(v))+'">'+esc(v.name)+'</a></h3><p class="pt-vmeta">'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+'</p>'+(v.tagline?'<p class="pt-vtag">'+esc(v.tagline)+'</p>':'')+(v.sourceLabel?'<p class="pt-src">'+esc(v.sourceLabel)+'</p>':'')+'<div class="pt-vacts"><a class="pt-vxplr" href="'+esc(venueHref(v))+'">VIEW PLACE</a>'+(v.club?'<a class="pt-vbook" href="/parties/book/?b='+esc(v.id)+'" data-city-book="'+esc(v.name)+'" data-city-category="'+esc(v.category)+'">BOOK DEMO</a>':'')+'</div></article>';
 
 /* hero: mood select, suggested chips, search */
