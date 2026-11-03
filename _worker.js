@@ -1868,10 +1868,6 @@ async function clubRoute(request,env){
   if(row.code_hash!==await hash(code))return JSONR({error:'Incorrect email code.'},400);
   const m=await db.prepare("SELECT * FROM br_club_members WHERE email=? AND status!='SUSPENDED'").bind(email).first();
   if(!m)return JSONR({error:'Registration was not found. Start the booking again.'},400);
-  await db.prepare('UPDATE stu_otp SET used_at=? WHERE id=?').bind(now,row.id).run();
-  if(m.status==='INVITED'){await db.prepare("UPDATE br_club_members SET status='ACTIVE',joined_at=?,member_since=?,updated_at=? WHERE id=?").bind(now,now,now,m.id).run()}
-  const t=randomHex(32);
-  await db.prepare('INSERT INTO br_club_sessions(token_hash,member_id,created_at,expires_at) VALUES(?,?,?,?)').bind(await hash(t),m.id,now,now+30*86400000).run();
   const date=clean(b.visit_date,10);
   if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return JSONR({error:'Choose a visit date.'},400);
   const today=new Date(now+330*60000).toISOString().slice(0,10),maxd=new Date(now+60*86400000).toISOString().slice(0,10);
@@ -1890,6 +1886,10 @@ async function clubRoute(request,env){
    placeDetail=clean(b.place_detail,200);brandName=placeName;locName=placeDetail||'Open-data place';
   }
   if(terms&&b.conditions_accepted!==true)return JSONR({error:'Please review and accept the booking conditions.'},400);
+  await db.prepare('UPDATE stu_otp SET used_at=? WHERE id=?').bind(now,row.id).run();
+  if(m.status==='INVITED'){await db.prepare("UPDATE br_club_members SET status='ACTIVE',joined_at=?,member_since=?,updated_at=? WHERE id=?").bind(now,now,now,m.id).run()}
+  const t=randomHex(32);
+  await db.prepare('INSERT INTO br_club_sessions(token_hash,member_id,created_at,expires_at) VALUES(?,?,?,?)').bind(await hash(t),m.id,now,now+30*86400000).run();
   let id=null,bno=null;
   for(let i=0;i<3;i++){
    id=crypto.randomUUID();bno='SRCHN-CLB-'+randomHex(4).toUpperCase();
