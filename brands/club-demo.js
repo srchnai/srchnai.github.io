@@ -160,7 +160,7 @@ function face(){
   later(()=>{pr.textContent='Matching with your verification photo...';prog.style.strokeDashoffset='8';},prompts.length*1700);
   later(()=>{
     if(!overlay)return;
-    el.querySelector('.cd-stage').innerHTML='<div class="cd-done" style="margin:90px 0"><span class="cd-check big"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12.5l5 5L20 6.5"/></svg></span></div>';
+    el.querySelector('.cd-stage').innerHTML='<div class="cd-done" style="margin:90px 0"><span class="cd-check big" style="background:#fff"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#111" stroke-width="3"><path d="M4 12.5l5 5L20 6.5"/></svg></span></div>';
     pr.textContent='Face verified - Demo';
     prog.style.strokeDashoffset='0';
     if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}

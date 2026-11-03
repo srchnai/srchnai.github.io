@@ -203,3 +203,5 @@ a.br-flag{text-decoration:none;color:inherit}
 .cd-ring-wrap{display:flex;align-items:center;gap:14px;margin-top:6px}
 .cd-ring{width:44px;height:44px;flex:none}
 .cd-prompt{font-size:16px;font-weight:600;color:#fff;margin:0}
+.cd-full .br-btn-primary{background:#fff;color:#111;border-color:#fff}
+.cd-full .br-btn-ghost{background:transparent;color:#fff;border-color:#666}
