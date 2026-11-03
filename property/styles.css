@@ -131,7 +131,7 @@ a.card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
 .svc-layout{display:grid;grid-template-columns:1fr 360px;gap:36px;padding:30px 0 60px;align-items:start}
 .svc-main{display:flex;flex-direction:column;gap:34px}
 .svc-sec h2{font-size:1.25rem;margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.svc-sec h2::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0}
+
 .svc-sec p{color:#26262b}
 .kv{display:grid;grid-template-columns:140px 1fr;gap:8px 14px;font-size:.92rem}
 .kv dt{color:var(--muted);font-weight:600}
