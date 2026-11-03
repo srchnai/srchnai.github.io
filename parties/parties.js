@@ -135,8 +135,8 @@ function initMap(){
  const el=$('pt-map');if(!el||typeof L==='undefined')return;
  const map=L.map(el,{scrollWheelZoom:false}).setView([12.9716,77.5946],11);
  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
- AREAS.forEach(a=>{const n=areaCount(a);L.circleMarker([a.lat,a.lon],{radius:7,color:'#8b5cf6',weight:2,fillColor:'#e79a2e',fillOpacity:.75}).addTo(map).bindPopup('<b>'+esc(a.n)+'</b><br/>'+esc(a.id)+(n?'<br/>'+n+' listed venue'+(n===1?'':'s'):'<br/>No SRCHN listings yet'))});
- venues.filter(v=>v.lat&&v.lon).forEach(v=>L.circleMarker([v.lat,v.lon],{radius:5,color:'#e79a2e',weight:1,fillColor:'#e79a2e',fillOpacity:.9}).addTo(map).bindPopup('<b>'+esc(v.name)+'</b><br/><a href="/brands/'+esc(v.slug)+'/">Explore Brand</a>'));
+ AREAS.forEach(a=>{const n=areaCount(a);L.circleMarker([a.lat,a.lon],{radius:7,color:'#111111',weight:2,fillColor:'#8a8a8a',fillOpacity:.75}).addTo(map).bindPopup('<b>'+esc(a.n)+'</b><br/>'+esc(a.id)+(n?'<br/>'+n+' listed venue'+(n===1?'':'s'):'<br/>No SRCHN listings yet'))});
+ venues.filter(v=>v.lat&&v.lon).forEach(v=>L.circleMarker([v.lat,v.lon],{radius:5,color:'#525252',weight:1,fillColor:'#8a8a8a',fillOpacity:.9}).addTo(map).bindPopup('<b>'+esc(v.name)+'</b><br/><a href="/brands/'+esc(v.slug)+'/">Explore Brand</a>'));
 }
 if(typeof L!=='undefined')initMap();else{const s=document.querySelector('script[src*="leaflet.js"]');if(s)s.addEventListener('load',initMap)}
 
