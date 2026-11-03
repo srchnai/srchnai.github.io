@@ -1,5 +1,5 @@
 /* SRCHN interface mockups - SRCHN PAY, DigiLocker verification, face verification.
-   Pure client-side demos: no network calls, no storage, no camera capture, no real payments. */
+   Client-side demos: no bank calls, no payment credentials, no camera capture, no real payments. Demo receipts may be saved on this device. */
 (function(){
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const inr=n=>'Rs '+Number(n||0).toLocaleString('en-IN');
@@ -51,7 +51,7 @@ function pay(opts){
     }).catch(()=>{amount=100;sample=true;summary()});
   }
   function summary(){
-    const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
+    const el=sheet(head('SRCHN PAY','DEMO ONLY. This is a visual simulation. No booking is confirmed and no payment is collected.')
       +steps(1,4)
       +'<h3 class="cd-h">Confirm your payment</h3>'
       +'<div class="cd-receipt">'
@@ -67,7 +67,7 @@ function pay(opts){
   }
   function methods(){
     const opt=(id,t,s,ic)=>'<button class="cd-opt'+(method===id?' sel':'')+'" data-m="'+id+'"><span class="cd-ic">'+ic+'</span><span class="cd-opt-t"><b>'+t+'</b><span>'+s+'</span></span><span class="cd-radio"></span></button>';
-    const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
+    const el=sheet(head('SRCHN PAY','DEMO ONLY. This is a visual simulation. No booking is confirmed and no payment is collected.')
       +steps(2,4)
       +'<h3 class="cd-h">Choose a payment method</h3>'
       +'<div class="cd-opts">'
@@ -83,16 +83,16 @@ function pay(opts){
     el.querySelector('#cd-pay').onclick=()=>{failDemo=el.querySelector('#cd-fail').checked;processing(failDemo)};
   }
   function processing(willFail){
-    const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
+    const el=sheet(head('SRCHN PAY','DEMO ONLY. This is a visual simulation. No booking is confirmed and no payment is collected.')
       +steps(3,4)
       +'<h3 class="cd-h">Processing</h3>'
-      +'<div class="cd-proc"><span class="cd-spinner"></span><p id="cd-proc-msg" class="cd-proc-msg">Contacting your bank...</p></div>');
-    const msgs=['Contacting your bank...','Confirming the payment...','Recording the receipt...'];
+      +'<div class="cd-proc"><span class="cd-spinner"></span><p id="cd-proc-msg" class="cd-proc-msg">Simulating a bank request...</p></div>');
+    const msgs=['Simulating a bank request...','Simulating confirmation...','Preparing a demo receipt...'];
     msgs.forEach((m,i)=>later(()=>{const p=el.querySelector('#cd-proc-msg');if(p)p.textContent=m;},i*750));
     later(()=>{willFail?failure():success()},msgs.length*750+350);
   }
   function failure(){
-    const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
+    const el=sheet(head('SRCHN PAY','DEMO ONLY. This is a visual simulation. No booking is confirmed and no payment is collected.')
       +steps(3,4)
       +'<div class="cd-done"><span class="cd-check" style="background:#fff;border:2px solid #111"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#111" stroke-width="3"><path d="M6 6l12 12M18 6L6 18"/></svg></span>'
       +'<h3 class="cd-h" style="text-align:center">Payment could not be completed</h3></div>'
@@ -101,13 +101,13 @@ function pay(opts){
       +'<div class="cd-row"><span>Reason</span><span>Your bank declined this attempt (simulated)</span></div>'
       +'<div class="cd-row"><span>Status</span><span><b>FAILED &middot; DEMO - no charge made</b></span></div>'
       +'</div>'
-      +'<p class="cd-note">In the real flow a failed attempt never charges you, and any amount held by the bank is auto-reversed by your bank.</p>'
+      +'<p class="cd-note">This simulated failure did not contact a bank or create any charge. Real payment and refund rules depend on the payment provider; none are represented by this demo.</p>'
       +'<div class="cd-actions"><button class="br-btn br-btn-ghost" data-cd-close>CANCEL</button><button class="br-btn br-btn-primary" id="cd-retry">RETRY</button></div>');
     el.querySelector('#cd-retry').onclick=()=>processing(false);
   }
   function success(){
     saveReceipt();
-    const el=sheet(head('SRCHN PAY','Interface mockup - no real payment is taken, nothing is charged.')
+    const el=sheet(head('SRCHN PAY','DEMO ONLY. This is a visual simulation. No booking is confirmed and no payment is collected.')
       +steps(4,4)
       +'<div class="cd-done"><span class="cd-check"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="3"><path d="M4 12.5l5 5L20 6.5"/></svg></span>'
       +'<h3 class="cd-h" style="text-align:center">Payment successful &middot; Demo</h3></div>'
