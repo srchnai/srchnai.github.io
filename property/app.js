@@ -295,7 +295,7 @@ if(admEl){
  var root=document.getElementById('buddy');if(!root)return;
  var out=document.getElementById('buddy-out'),qin=document.getElementById('buddy-q'),form=document.getElementById('buddy-form');
  function svcCard(s){return '<div class="card"><span class="catnum">'+esc(s.category_name||'SERVICE').toUpperCase()+'</span><h3><a href="/property/service/'+s.id+'/">'+esc(s.name)+'</a></h3><p class="desc">'+esc(s.short)+'</p><div class="svc-actions"><a class="btn btn-p" href="/property/book/?service='+s.id+'">Book</a><a class="btn btn-o" href="/property/service/'+s.id+'/">Details</a></div></div>'}
- function ctas(firstSvc){return '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px"><a class="btn btn-p" href="/property/book/'+(firstSvc?'?service='+firstSvc:'')+'">Book a service</a><a class="btn btn-o" href="tel:+917710052202">Call '+PHONE_H+'</a><span class="chip chip-blue">General information - not legal advice</span></div>'}
+ function ctas(firstSvc){return '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px"><a class="btn btn-p" href="/property/book/'+(firstSvc?'?service='+firstSvc:'')+'">Book</a><a class="btn btn-o" href="tel:+917710052202">Call '+PHONE_H+'</a><span class="chip chip-blue">General information - not legal advice</span></div>'}
  function renderAnswer(b){
   var svcs=b.services.map(function(id){return D.services.filter(function(s){return s.id===id})[0]}).filter(Boolean);
   var docs=[];svcs.forEach(function(s){(s.required_documents||[]).forEach(function(d){if(docs.indexOf(d)<0&&docs.length<8)docs.push(d)})});
