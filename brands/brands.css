@@ -129,3 +129,4 @@
 .br-media-empty .br-media-ph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border:1.5px dashed #d0d0d0;border-radius:12px;background:#fafafa;color:#bbb}
 .br-media-empty .br-media-ph .icon{width:28px;height:28px}
 a.br-flag{text-decoration:none;color:inherit}
+.br-locked{opacity:.55;border-style:dashed!important}
