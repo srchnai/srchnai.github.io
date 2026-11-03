@@ -1951,7 +1951,7 @@ async function clubRoute(request,env){
  {
   const mev=/^\/parties\/events\/([a-z0-9_]+)\/?$/.exec(p);
   if(mev){
-   const e=await db.prepare("SELECT * FROM pt_events WHERE id=? AND status='APPROVED'").bind(mev[1]).first();
+   let e=null;try{e=await db.prepare("SELECT * FROM pt_events WHERE id=? AND status='APPROVED'").bind(mev[1]).first()}catch(_e){}
    if(!e)return new Response(brChrome({title:'Event not found | SRCHN PARTIES',desc:'This event is not listed on SRCHN.PARTIES.',canon:u.origin+'/parties/',active:'Parties',body:'<section class="br-sec"><h1>Event not found</h1><p>This event is not currently listed. <a href="/parties/">Back to SRCHN Parties</a>.</p></section>',css:'/parties/parties.css',bodyClass:'pt-body'}),{status:404,headers:{'Content-Type':'text/html; charset=utf-8'}});
    const dstr=e.event_date+(e.start_time?'T'+e.start_time+':00':'T00:00:00');
    const body='<section class="br-sec"><p class="br-eyebrow">SRCHN PARTIES &middot; WHAT&#39;S ON</p><h1>'+brEsc(e.title)+'</h1>'
@@ -1976,7 +1976,7 @@ async function clubRoute(request,env){
   const vjson=JSON.stringify(venues.map(v=>({id:v.id,slug:v.slug,name:v.name,category:v.category,tagline:v.tagline||'',locality:v.locality||'',lat:v.lat||null,lon:v.lon||null,club:v.club===1})));
   const localities=[...new Set(venues.map(v=>v.locality).filter(Boolean))].sort();
   const todayIso=new Date(now+330*60000).toISOString().slice(0,10);
-  const events=(await db.prepare("SELECT * FROM pt_events WHERE status='APPROVED' AND event_date>=? ORDER BY event_date,start_time LIMIT 60").bind(todayIso).all().catch(()=>({results:[]}))).results||[];
+  let events=[];try{events=(await db.prepare("SELECT * FROM pt_events WHERE status='APPROVED' AND event_date>=? ORDER BY event_date,start_time LIMIT 60").bind(todayIso).all()).results||[]}catch(_e){}
   const ejson=JSON.stringify(events.map(e=>({id:e.id,title:e.title,organiser:e.organiser,venue:e.venue_name,locality:e.locality||'',date:e.event_date,time:e.start_time||'',price:e.price_text||'',category:e.category||'',age:e.age_restriction||'',booking:e.booking_url||'',source:e.source_name||'Organiser submission',verified:new Date(e.reviewed_at||e.created_at).toISOString().slice(0,10)})));
   let body='<section class="pt-hero" id="top">'
    +'<div class="pt-hero-bg" role="img" aria-label="A Bengaluru rooftop terrace at dusk, city skyline beyond"></div>'
