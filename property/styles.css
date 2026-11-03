@@ -348,3 +348,7 @@ details.acc>ul,details.acc>ol,details.acc>.note{margin:0 18px 16px}
 }
 
 .hero-media img.hero-poster{aspect-ratio:auto;object-fit:contain;background:#fff;width:auto;max-width:100%;max-height:min(85vh,860px);display:block;margin:0 auto}
+
+/* header: split lockup - SRCHN logo links to srchn.in home, PROPERTY to /property/ */
+.brand-home{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
+a.brand-p{text-decoration:none;color:inherit;min-height:44px}
