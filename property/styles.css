@@ -74,7 +74,6 @@ section{padding:56px 0}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
 .hero-media{position:relative}
 .hero-media img{border-radius:20px;aspect-ratio:4/3;object-fit:cover;width:100%;box-shadow:var(--shadow)}
-.hero-badge{position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,.95);border-radius:12px;padding:10px 14px;font-size:.8rem;font-weight:600;box-shadow:var(--shadow)}
 .searchbar{margin-top:28px;display:flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px;box-shadow:var(--shadow);max-width:620px}
 .searchbar input{flex:1;border:0;outline:0;padding:12px 18px;font-size:1rem;font-family:'Inter';background:transparent;min-width:0}
 .searchbar button{border-radius:999px}
