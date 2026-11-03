@@ -34,7 +34,7 @@
 .pt-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 /* hero */
 .pt-hero{position:relative;min-height:92vh;display:flex;align-items:center;border-bottom:1px solid var(--line2);margin:0 calc(-1*clamp(18px,4vw,48px))}
-.pt-hero-bg{position:absolute;inset:0;background:url('/photos/hero-rooftop-dusk.png') center 38%/cover no-repeat}
+.pt-hero-bg{position:absolute;inset:0;background:url('/parties/hero-rooftop-nights.png') center 38%/cover no-repeat}
 .pt-hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.48),rgba(0,0,0,.42) 45%,rgba(0,0,0,.78))}
 .pt-hero-inner{position:relative;z-index:1;width:100%;max-width:1240px;margin:0 auto;padding:72px clamp(18px,4vw,48px) 60px}
 .pt-eyebrow{color:#fff;font-weight:700;font-size:12px;letter-spacing:.22em;margin:0 0 16px}
