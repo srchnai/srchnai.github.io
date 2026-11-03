@@ -6,7 +6,7 @@ const stu={
   creator(){try{return JSON.parse(localStorage.getItem('stu_creator')||'null')}catch(e){return null}},
   clear(){localStorage.removeItem('stu_token');localStorage.removeItem('stu_creator')},
   async req(path,opts){
-    opts=opts||{};opts.headers=opts.headers||{};
+    opts=opts||{};opts.headers=opts.headers||{};try{opts.headers['X-SRCHN-Google']=localStorage.getItem('srchn_google')||''}catch{}
     if(opts.json!==undefined){opts.headers['Content-Type']='application/json';opts.body=JSON.stringify(opts.json)}
     const t=stu.token();if(t)opts.headers['Authorization']='Bearer '+t;
     const r=await fetch(API+path,opts);

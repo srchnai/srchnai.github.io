@@ -21,6 +21,7 @@
     <h1 id="stu-join-title">Become a Creator</h1>
     <p class="stu-lede" id="stu-join-lede">Register once, verify your email, and receive your unique SRCHN Creator ID. Already registered? <a href="#" id="stu-toggle">Sign in</a>.</p>
 
+    <p><a class="stu-btn" href="/auth/google/start?next=%2Fstudio%2Fjoin%2F">CONTINUE WITH GOOGLE</a></p><p id="stu-google-note"></p>
     <form class="stu-form" id="stu-join-form" novalidate>
       <div class="stu-field"><label for="f-name">Full name</label><input id="f-name" autocomplete="name" maxlength="120" required/></div>
       <div class="stu-field"><label for="f-display">Display name (shown with your credit)</label><input id="f-display" maxlength="80" placeholder="Defaults to your full name"/></div>
@@ -61,6 +62,7 @@ const catsEl=document.getElementById('f-cats');
 CATS.forEach((c,i)=>{const l=document.createElement('label');l.style.cssText='font-size:13.5px;font-weight:400;display:flex;gap:7px;align-items:center';const cb=document.createElement('input');cb.type='checkbox';cb.value=c;cb.style.width='auto';l.appendChild(cb);l.appendChild(document.createTextNode(c));catsEl.appendChild(l)});
 let mode='join',pendingEmail='';
 const $=id=>document.getElementById(id);
+fetch('/club/api/whoami',{headers:{'X-SRCHN-Google':localStorage.getItem('srchn_google')||''}}).then(r=>r.json()).then(d=>{if(d.ok){$('f-email').value=d.email;$('f-name').value=d.name||'';if($('stu-google-note'))$('stu-google-note').textContent='Google email verified. Complete your creator details below.'}}).catch(()=>{});
 // already signed in?
 stu.req('/me').then(r=>{if(r&&r.status===200)location.href='/studio/profile/'});
 function bindToggle(){
@@ -94,6 +96,7 @@ $('stu-join-form').addEventListener('submit',async e=>{
     if(r.status===201){
       pendingEmail=$('f-email').value.trim().toLowerCase();
       $('stu-join-form').style.display='none';$('stu-otp-form').style.display='';
+      if(r.data.google){const verified=await stu.req('/join/verify',{method:'POST',json:{email:pendingEmail}});if(verified&&verified.status===201){stu.save(verified.data.session,verified.data.creator);location.href='/studio/profile/';return}stu.err($('stu-err2'),verified?.data?.error||'Could not finish registration.');return}
       $('stu-otp-hint').textContent='Sent to '+pendingEmail+'. Expires in 10 minutes.';
       $('f-code').focus();
     }else stu.err($('stu-err'),(r.data&&r.data.error)||'Something went wrong. Please try again.');

@@ -8,6 +8,7 @@ const todayIST=()=>new Date(Date.now()+330*60000).toISOString().slice(0,10);
 
 /* ---- public page: invite request + member sign-in ---- */
 const inv=$('cl-inv'),lg=$('cl-login'),vf=$('cl-verify');
+if($('cl-google-notice')&&new URLSearchParams(location.search).get('google')==='nomember')$('cl-google-notice').textContent='Google sign-in succeeded. No Club membership is linked to this email yet. You can request an invite.';
 if(inv){
   let email='';
   inv.onsubmit=e=>{
@@ -16,6 +17,9 @@ if(inv){
     .then(r=>r.json().then(d=>{$('cl-inv-msg').textContent=d.message||d.error||'Something went wrong.';if(d.ok)inv.reset();b.disabled=false}))
     .catch(()=>{$('cl-inv-msg').textContent='Network error. Please try again.';b.disabled=false});
   };
+}
+if(lg&&vf){
+  let email='';
   lg.onsubmit=e=>{
     e.preventDefault();email=lg.email.value.trim();const b=lg.querySelector('button');b.disabled=true;$('cl-login-msg').textContent='Sending...';
     fetch('/club/api/login/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})})
@@ -41,7 +45,7 @@ if(clm){
   const api=(p,o)=>{o=o||{};o.headers=o.headers||{};o.headers['Authorization']='Bearer '+T;if(o.json!==undefined){o.headers['Content-Type']='application/json';o.body=JSON.stringify(o.json)}return fetch(p,o).then(r=>r.json().then(d=>({status:r.status,data:d})))};
   Promise.all([api('/club/api/me'),api('/club/api/brands'),api('/club/api/bookings'),api('/club/api/cashback'),api('/club/api/booking-options'),api('/club/api/verification'),api('/club/api/payments')]).then(rs=>{
     const me=rs[0];
-    if(me.status===401){localStorage.removeItem('srchn_club_token');location.href='/parties/#signin';return}
+    if(me.status===401){localStorage.removeItem('srchn_club_token');localStorage.removeItem('srchn_google');location.href='/parties/#signin';return}
     const M=me.data.member,MS=me.data.membership,brands=(rs[1].data&&rs[1].data.brands)||[],bks=(rs[2].data&&rs[2].data.bookings)||[],cb=(rs[3].data&&rs[3].data.cashback)||[],opts=(rs[4].data&&rs[4].data.options)||[],pays=(rs[6].data&&rs[6].data.payments)||[];const VF=rs[5].data||{};
     const today=todayIST();
     const MOCK=/\.pages\.dev$/.test(location.hostname);
@@ -101,7 +105,7 @@ if(clm){
     const ensureDemo=cb=>{if(window.SRCHN_DEMO)return cb(window.SRCHN_DEMO);const sc=document.createElement('script');sc.src='/brands/club-demo.js';sc.onload=()=>cb(window.SRCHN_DEMO);document.body.appendChild(sc)};
     clm.querySelectorAll('[data-dp]').forEach(x=>x.onclick=()=>ensureDemo(D=>D.pay({amount:+x.dataset.amt,brand:x.dataset.brand,booking:x.dataset.dp})));
     clm.querySelectorAll('[data-dv]').forEach(x=>x.onclick=()=>ensureDemo(D=>D[x.dataset.dv==='face'?'face':'digilocker']()));
-    $('clm-out').onclick=()=>{fetch('/club/api/logout',{method:'POST',headers:{Authorization:'Bearer '+T}}).finally(()=>{localStorage.removeItem('srchn_club_token');location.href='/club/'})};
+    $('clm-out').onclick=()=>{fetch('/club/api/logout',{method:'POST',headers:{Authorization:'Bearer '+T}}).finally(()=>{localStorage.removeItem('srchn_club_token');localStorage.removeItem('srchn_google');location.href='/club/'})};
     const bk=$('cl-book');
     if(bk){
       const sel=bk.location_id;
