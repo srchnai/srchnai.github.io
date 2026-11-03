@@ -347,4 +347,4 @@ details.acc>ul,details.acc>ol,details.acc>.note{margin:0 18px 16px}
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
-.hero-media img.hero-poster{aspect-ratio:auto;object-fit:contain;background:#fff}
+.hero-media img.hero-poster{aspect-ratio:auto;object-fit:contain;background:#fff;width:auto;max-width:100%;max-height:min(85vh,860px);display:block;margin:0 auto}
