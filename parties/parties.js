@@ -40,7 +40,7 @@ const SUGGESTED=['Rooftop parties','DJ nights','Live music','Breweries','Date ni
 const PROMPTS=['Find a rooftop for tonight.','Where can six friends celebrate a birthday?','Show me live music near Indiranagar.','Plan a date night under \u20B93,000.','Find a Saturday DJ night in Koramangala.','Find places with live music and food.','What\u2019s happening this weekend in Bengaluru?'];
 const COLLS={rooftop:/roof|terrace|skyline/i,brewery:/brew/i,club:/club|pub|bar/i,live:/live|music|band/i,date:/restaurant|caf|dining|lounge/i,afterwork:/pub|bar|brew/i,group:/pub|bar|brew|restaurant/i,hidden:/caf|lounge|restaurant/i};
 
-const vCard=v=>'<article class="pt-vcard"><h3><a href="/brands/'+esc(v.slug)+'/">'+esc(v.name)+'</a></h3><p class="pt-vmeta">'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+'</p>'+(v.tagline?'<p class="pt-vtag">'+esc(v.tagline)+'</p>':'')+'<div class="pt-vacts"><a class="pt-vxplr" href="/brands/'+esc(v.slug)+'/">EXPLORE BRAND</a>'+(v.club?'<a class="pt-vbook" href="/parties/book/?b='+esc(v.id)+'" data-city-book="'+esc(v.name)+'">BOOK DEMO</a>':'')+'</div></article>';
+const vCard=v=>'<article class="pt-vcard"><h3><a href="/brands/'+esc(v.slug)+'/">'+esc(v.name)+'</a></h3><p class="pt-vmeta">'+esc([v.category,v.locality].filter(Boolean).join(' \u00B7 '))+'</p>'+(v.tagline?'<p class="pt-vtag">'+esc(v.tagline)+'</p>':'')+'<div class="pt-vacts"><a class="pt-vxplr" href="/brands/'+esc(v.slug)+'/">EXPLORE BRAND</a>'+(v.club?'<a class="pt-vbook" href="/parties/book/?b='+esc(v.id)+'" data-city-book="'+esc(v.name)+'" data-city-category="'+esc(v.category)+'">BOOK DEMO</a>':'')+'</div></article>';
 
 /* hero: mood select, suggested chips, search */
 const moodSel=$('pt-mood');
@@ -50,6 +50,7 @@ if(sugg)SUGGESTED.forEach(q=>{const b=document.createElement('button');b.type='b
 function applySearch(){
  const q=($('pt-q')||{}).value||'',loc=($('pt-loc')||{}).value||'',mi=($('pt-mood')||{}).value||'';
  let list=venues.slice();
+ const when=($('pt-when')||{}).value||'';if(when){renderTonight(when==='Tonight'?'today':when==='Tomorrow'?'tomorrow':'weekend');$('tonight').scrollIntoView({behavior:'smooth'});}
  if(loc)list=list.filter(v=>(v.locality||'').toLowerCase()===loc.toLowerCase());
  if(mi!=='')list=list.filter(MOODS[+mi].f);
  if(q){const w=q.toLowerCase();list=list.filter(v=>(v.name+' '+v.category+' '+(v.tagline||'')+' '+(v.locality||'')).toLowerCase().includes(w))}
@@ -102,7 +103,7 @@ function renderTonight(f){
  let list=events.slice();
  if(DATES[f])list=list.filter(e=>e.date===DATES[f]);
  if(f==='weekend')list=events.filter(e=>[DATES.friday,DATES.saturday,DATES.sunday].includes(e.date));
- if(f==='free')list=events.filter(e=>/free/i.test(e.price));
+ if(f==='free')list=events.filter(e=>/^(?:free(?: entry)?|(?:₹|rs\.?\s*)?0(?:\.00)?(?: entry)?)$/i.test(e.price.trim()));
  if(f==='u500'||f==='u1000'){const cap=f==='u500'?500:1000;list=events.filter(e=>{const m=String(e.price).replace(/[, ]/g,'').match(/\u20B9?(\d+)/);return m&&+m[1]<cap})}
  if(f==='music')list=events.filter(e=>/music|band|concert/i.test(e.category+e.title));
  if(f==='week')list=events.filter(e=>e.date>=dayOff(0)&&e.date<=dayOff(6));
