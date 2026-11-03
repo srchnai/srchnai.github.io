@@ -1222,7 +1222,7 @@ async function brandsRoute(request,env){
   const jsonld=[{'@context':'https://schema.org','@type':'Organization',name:b.name,url:u.origin+'/brands/'+b.slug+'/',...(b.website?{sameAs:[b.website]}:{})},{'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Brands',item:u.origin+'/brands/'},{'@type':'ListItem',position:2,name:b.name}]}];
   for(const v of media.filter(x=>x.pillar!=='identity'))jsonld.push({'@context':'https://schema.org','@type':'VideoObject',name:v.title||b.name,description:v.description||b.tagline||b.name,contentUrl:u.origin+brMediaUrl(v.media_id),uploadDate:new Date(v.created_at).toISOString()});
   if(faqs.length)jsonld.push({'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a}}))});
-  return new Response(brChrome({title:b.name+' Bengaluru — Videos, Locations & Experiences | SRCHN',desc:(b.tagline||('Explore '+b.name+' through virtual tour videos, products, facilities, locations and experiences on SRCHN.')).slice(0,160)+' See it before you go.',canon:u.origin+'/brands/'+b.slug+'/',body,jsonld}),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'public, max-age=120'}});
+  return new Response(brChrome({title:(/bengaluru/i.test(b.name)?b.name:b.name+' Bengaluru')+' — Videos, Locations & Experiences | SRCHN',desc:(b.tagline||('Explore '+b.name+' through virtual tour videos, products, facilities, locations and experiences on SRCHN.')).slice(0,160)+' See it before you go.',canon:u.origin+'/brands/'+b.slug+'/',body,jsonld}),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'public, max-age=120'}});
  }
  return null;
 }
