@@ -221,3 +221,11 @@ button.br-flag:hover{background:#111;color:#fff}
 
 .br-card-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
 .br-card-actions .br-btn{padding:8px 14px;font-size:.72rem;letter-spacing:.08em;min-height:38px;flex:1;justify-content:center;text-align:center}
+.cl-faq{border:1px solid #e3e3e3;border-radius:14px;background:#fff;margin-top:12px}
+.cl-faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;font-weight:700;font-size:16px;color:#111}
+.cl-faq summary::-webkit-details-marker{display:none}
+.cl-faq summary::after{content:"+";flex:none;font-size:20px;font-weight:400;color:#111}
+.cl-faq[open] summary::after{content:"\2013"}
+.cl-faq>:not(summary){margin-left:18px;margin-right:18px}
+.cl-faq>:last-child{margin-bottom:18px}
+.cl-faq .br-steps{margin-top:0}
