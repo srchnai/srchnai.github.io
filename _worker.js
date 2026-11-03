@@ -1665,7 +1665,7 @@ async function clubRoute(request,env){
  }
  if(p==='/club/api/bookings'&&request.method==='GET'){
   const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
-  const rows=(await db.prepare("SELECT k.booking_no,k.visit_date,k.visit_time,k.people,k.fee_inr,k.pay_status,k.status,k.checked_in_at,k.created_at,b.name AS brand_name,b.slug AS brand_slug,l.name AS location_name,l.locality FROM br_club_bookings k JOIN br_brands b ON b.id=k.brand_id JOIN br_locations l ON l.id=k.location_id WHERE k.member_id=? ORDER BY k.created_at DESC LIMIT 100").bind(m.id).all()).results||[];
+  const rows=(await db.prepare("SELECT k.booking_no,k.location_id,k.visit_date,k.visit_time,k.people,k.fee_inr,k.pay_status,k.status,k.checked_in_at,k.created_at,b.name AS brand_name,b.slug AS brand_slug,l.name AS location_name,l.locality FROM br_club_bookings k JOIN br_brands b ON b.id=k.brand_id JOIN br_locations l ON l.id=k.location_id WHERE k.member_id=? ORDER BY k.created_at DESC LIMIT 100").bind(m.id).all()).results||[];
   return JSONR({bookings:rows});
  }
  if(p==='/club/api/cashback'&&request.method==='GET'){
