@@ -57,3 +57,10 @@ try{var path=location.pathname;var meta=document.querySelector('link[rel=canonic
   });
  });
 })();
+
+/* VISIT buttons: greyed (book first) until a confirmed booking exists on this device */
+(()=>{let bk={};try{bk=JSON.parse(localStorage.getItem('srchn_bookings')||'{}')}catch(e){}
+document.querySelectorAll('[data-visit-loc]').forEach(a=>{
+ const keys=(a.getAttribute('data-visit-loc')||'').split(',').filter(Boolean);
+ if(keys.length&&keys.some(k=>bk[k])){a.classList.remove('br-locked');a.textContent='VISIT';a.setAttribute('href','/club/member/#bookings');a.title='You have a confirmed booking - check in from your membership page.'}
+})})();

@@ -36,3 +36,6 @@ main>a#back{display:inline-flex;align-items:center;gap:6px;min-height:44px}.tool
 #openfilters svg,#loadmap svg,.maptoggle svg,#resetfilters svg,#setpoint svg,#geolocate svg,#clearpoint svg,#more svg{width:18px;height:18px;flex:none}
 .check-control{font:600 13px/1.2 Inter,sans-serif;color:#262626}
 @media(max-width:650px){#openfilters{width:100%;justify-content:flex-start;text-align:left}}
+
+.loc-link{margin:4px 0 0}.loc-link a{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:600;color:#111;text-decoration:underline}
+a.visit-locked{opacity:.55;border-style:dashed!important}

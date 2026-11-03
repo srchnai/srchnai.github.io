@@ -1084,7 +1084,7 @@ async function brRole(db,brandId,creatorId){const m=await db.prepare("SELECT rol
 const brEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const brMediaUrl=id=>'/studio/api/media/'+encodeURIComponent(id);
 function brNav(active){
- const items=[['/discovery/','i-compass','Explore'],['/localities/','i-map-pin','Localities'],['/brands/','i-shopping-bag','Brands'],['/studio/','i-clapperboard','Studio'],['/club/','i-users','Club'],['/bangalore/','i-sparkles','Your Local Buddy']];
+ const items=[['/discovery/','i-compass','Explore'],['/brands/','i-shopping-bag','Brands'],['/studio/','i-clapperboard','Studio'],['/club/','i-users','Club'],['/bangalore/','i-sparkles','Your Local Buddy']];
  return items.map(([h,i,l])=>'<a '+(l===active?'aria-current="page" ':'')+'href="'+h+'"'+(l==='Your Local Buddy'?' rel="noopener" target="_blank"':'')+'><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#'+i+'"></use></svg><span>'+l+'</span></a>').join('');
 }
 function brChrome(o){
@@ -1177,7 +1177,7 @@ async function brandsRoute(request,env){
    const dirs=l.lat&&l.lon?'https://www.google.com/maps/dir/?api=1&destination='+l.lat+','+l.lon:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent([b.name,l.address,l.locality,l.city].filter(Boolean).join(' '));
    const facs=(()=>{try{return JSON.parse(l.facilities||'[]')}catch{return[]}})();
    let body='<nav class="br-crumb" aria-label="Breadcrumb"><a href="/brands/">Brands</a> / <a href="/brands/'+brEsc(b.slug)+'/">'+brEsc(b.name)+'</a> / <span>'+brEsc(l.name)+'</span></nav>';
-   body+='<section class="br-sec"><p class="br-eyebrow">'+brEsc(b.category)+'</p><h1>'+brEsc(b.name)+' '+brEsc(l.name)+'</h1>'+(b.club?'<p class="br-club-badge">SRCHN CLUB</p>':'')+(l.address?'<p class="br-addr">'+brEsc([l.address,l.locality,l.city,l.state,l.pincode].filter(Boolean).join(', '))+'</p>':'')+'<div class="br-cta-row">'+(l.phone?'<a class="br-btn br-btn-ghost" href="tel:'+brEsc(l.phone)+'">Call</a>':'')+'<a class="br-btn br-btn-primary" href="'+brEsc(dirs)+'" rel="noopener" target="_blank">Directions</a>'+(l.booking_enabled?'<a class="br-btn br-btn-primary" href="/club/member/#book">BOOK</a>':'')+(l.visit_enabled?'<a class="br-btn br-btn-primary br-locked" data-br-unlock="visit" data-loc="'+brEsc(l.id)+'" href="/club/member/#book">VISIT &middot; book first</a>':'')+(l.pay_enabled?'<a class="br-btn br-btn-primary br-locked" data-br-unlock="pay" data-loc="'+brEsc(l.id)+'" href="/club/member/#book">PAY &middot; book first</a>':'')+'<button class="br-btn br-btn-ghost" data-demo-open="pay" data-brand="'+brEsc(b.name+' - '+l.name)+'">PAY &middot; DEMO</button></div>';
+   body+='<section class="br-sec"><p class="br-eyebrow">'+brEsc(b.category)+'</p><h1>'+brEsc(b.name)+' '+brEsc(l.name)+'</h1>'+(b.club?'<p class="br-club-badge">SRCHN CLUB</p>':'')+(l.address?'<p class="br-addr">'+brEsc([l.address,l.locality,l.city,l.state,l.pincode].filter(Boolean).join(', '))+'</p>':'')+'<div class="br-cta-row">'+(l.phone?'<a class="br-btn br-btn-ghost" href="tel:'+brEsc(l.phone)+'">Call</a>':'')+'<a class="br-btn br-btn-primary" href="'+brEsc(dirs)+'" rel="noopener" target="_blank">Directions</a>'+'<a class="br-btn br-btn-primary" href="/club/book/?l='+brEsc(l.id)+'">BOOK</a>'+'<a class="br-btn br-btn-ghost br-locked" data-visit-loc="'+brEsc(l.id)+'" href="/club/book/?l='+brEsc(l.id)+'">VISIT &middot; book first</a>'+'<button class="br-btn br-btn-ghost" data-demo-open="pay" data-brand="'+brEsc(b.name+' - '+l.name)+'">PAY &middot; DEMO</button></div>';
    body+='<dl class="br-facts">'+(l.locality?'<div><dt>Locality</dt><dd>'+brEsc(l.locality)+'</dd></div>':'')+(l.city?'<div><dt>City</dt><dd>'+brEsc(l.city)+'</dd></div>':'')+(l.hours?'<div><dt>Hours</dt><dd>'+brEsc(l.hours)+'</dd></div>':'')+'</dl>';
    if(facs.length)body+='<h2>Facilities</h2><ul class="br-list">'+facs.map(f=>'<li>'+brEsc(f)+'</li>').join('')+'</ul>';
    if(lmedia.length)body+='<h2>Videos and photos</h2><div class="br-media-grid">'+lmedia.map(x=>brMediaTile(x)).join('')+'</div>';
@@ -1195,7 +1195,7 @@ async function brandsRoute(request,env){
   let body='<nav class="br-crumb" aria-label="Breadcrumb"><a href="/brands/">Brands</a> / <span>'+brEsc(b.name)+'</span></nav>';
   body+='<section class="br-brand-head">'+(logo?'<img class="br-brand-logo" src="'+brMediaUrl(logo.media_id)+'" alt="'+brEsc(b.name)+' logo"/>':'')+'<p class="br-eyebrow">'+brEsc(b.category+(b.subcategory?' · '+b.subcategory:''))+'</p><h1>'+brEsc(b.name)+'</h1>'+(b.club?'<p class="br-club-badge">SRCHN CLUB</p>':'')+(b.tagline?'<p class="br-lede">'+brEsc(b.tagline)+'</p>':'')+(b.verified?'<p class="br-verified"><svg aria-hidden="true" class="icon"><use href="/assets/redesign/icons.svg#i-badge-check"></use></svg> Verified by SRCHN</p>':'');
   body+='<dl class="br-facts">'+(b.founded_year?'<div><dt>Founded</dt><dd>'+brEsc(b.founded_year)+'</dd></div>':'')+(b.founders?'<div><dt>Founders</dt><dd>'+brEsc(b.founders)+'</dd></div>':'')+(b.hq_city?'<div><dt>City</dt><dd>'+brEsc(b.hq_city)+'</dd></div>':'')+(locs.length?'<div><dt>Locations</dt><dd>'+locs.length+'</dd></div>':'')+'</dl>';
-  body+='<div class="br-cta-row">'+(locs.length?'<a class="br-btn br-btn-primary" href="#locations">EXPLORE LOCATIONS</a>':'')+(anyBook?'<a class="br-btn br-btn-primary" href="#locations">BOOK NOW</a>':'')+(anyPay?'<a class="br-btn br-btn-ghost" href="#locations">PAY</a>':'')+'<button class="br-btn br-btn-ghost" data-demo-open="pay" data-brand="'+brEsc(b.name)+'">PAY &middot; DEMO</button>'+'<button class="br-btn br-btn-ghost" data-br-save="'+brEsc(b.id)+'" data-br-name="'+brEsc(b.name)+'">Save</button><button class="br-btn br-btn-ghost" data-br-share="'+brEsc(b.name+'" data-br-url="'+u.origin+'/brands/'+b.slug+'/')+'">Share</button><a class="br-btn br-btn-ghost" href="/club/">JOIN SRCHN CLUB</a></div>';
+  body+='<div class="br-cta-row">'+(locs.length?'<a class="br-btn br-btn-primary" href="#locations">EXPLORE LOCATIONS</a>':'')+(locs.length?'<a class="br-btn br-btn-primary" href="/club/book/?b='+brEsc(b.id)+'">BOOK</a>':'')+(locs.length?'<a class="br-btn br-btn-ghost br-locked" data-visit-loc="'+brEsc(locs.map(x=>x.id).join(','))+'" href="/club/book/?b='+brEsc(b.id)+'">VISIT &middot; book first</a>':'')+'<button class="br-btn br-btn-ghost" data-demo-open="pay" data-brand="'+brEsc(b.name)+'">PAY &middot; DEMO</button>'+'<button class="br-btn br-btn-ghost" data-br-save="'+brEsc(b.id)+'" data-br-name="'+brEsc(b.name)+'">Save</button><button class="br-btn br-btn-ghost" data-br-share="'+brEsc(b.name+'" data-br-url="'+u.origin+'/brands/'+b.slug+'/')+'">Share</button><a class="br-btn br-btn-ghost" href="/club/">JOIN SRCHN CLUB</a></div>';
   if(b.website||Object.keys(socials).length)body+='<p class="br-links">'+(b.website?'<a href="'+brEsc(b.website)+'" rel="noopener" target="_blank">Official website</a> ':'')+Object.entries(socials).map(([k,v])=>'<a href="'+brEsc(v)+'" rel="noopener" target="_blank">'+brEsc(k)+'</a>').join(' ')+'</p>';
   body+='<p class="br-report"><button class="br-linkbtn" data-br-report="'+brEsc(b.id)+'" data-br-name="'+brEsc(b.name)+'">Report incorrect information</button></p></section>';
   if(hero)body+='<section class="br-hero-media"><div class="br-video-wrap">'+(hero.kind==='video'?'<video class="br-video" controls playsinline preload="none" poster="" src="'+brMediaUrl(hero.media_id)+'"></video>':'<img class="br-video" loading="lazy" src="'+brMediaUrl(hero.media_id)+'" alt="'+brEsc(hero.title||b.name)+'"/>')+'</div><p class="br-video-meta">'+brEsc(hero.title||b.name)+(hero.credit?' · '+brEsc(hero.credit):'')+'</p></section>';
@@ -1217,7 +1217,7 @@ async function brandsRoute(request,env){
    return '<div class="br-panel'+(i===0?' active':'')+'" data-br-panel="'+k+'"><div class="br-media-grid">'+slots+extra+'</div>'+campsHtml+'</div>';
   }).join('')+'</section>';
   if(locs.length){
-   body+='<section class="br-sec" id="locations"><h2>Locations</h2><div class="br-loc-wrap"><div id="br-map" class="br-map" data-points="'+brEsc(JSON.stringify(locs.filter(l=>l.lat&&l.lon).map(l=>({lat:l.lat,lon:l.lon,name:b.name+' '+l.name,url:'/brands/'+b.slug+'/locations/'+l.slug+'/'}))))+'"></div><div class="br-loc-list">'+locs.map(l=>'<article class="br-loc"><h3><a href="/brands/'+brEsc(b.slug)+'/locations/'+brEsc(l.slug)+'/">'+brEsc(l.name)+'</a></h3><p>'+brEsc([l.address,l.locality,l.city].filter(Boolean).join(', '))+'</p>'+(l.hours?'<p class="br-loc-hours">'+brEsc(l.hours)+'</p>':'')+'<p class="br-loc-flags">'+(l.booking_enabled?'<a class="br-flag" href="/club/member/#book">Book</a>':'')+(l.visit_enabled?'<a class="br-flag br-locked" data-br-unlock="visit" data-loc="'+brEsc(l.id)+'" href="/club/member/#book">Visit &middot; book first</a>':'')+(l.pay_enabled?'<a class="br-flag br-locked" data-br-unlock="pay" data-loc="'+brEsc(l.id)+'" href="/club/member/#book">Pay &middot; book first</a>':'')+'<button class="br-flag" data-demo-open="pay" data-brand="'+brEsc(b.name+' - '+l.name)+'">Pay demo</button></p></article>').join('')+'</div></div></section>';
+   body+='<section class="br-sec" id="locations"><h2>Locations</h2><div class="br-loc-wrap"><div id="br-map" class="br-map" data-points="'+brEsc(JSON.stringify(locs.filter(l=>l.lat&&l.lon).map(l=>({lat:l.lat,lon:l.lon,name:b.name+' '+l.name,url:'/brands/'+b.slug+'/locations/'+l.slug+'/'}))))+'"></div><div class="br-loc-list">'+locs.map(l=>'<article class="br-loc"><h3><a href="/brands/'+brEsc(b.slug)+'/locations/'+brEsc(l.slug)+'/">'+brEsc(l.name)+'</a></h3><p>'+brEsc([l.address,l.locality,l.city].filter(Boolean).join(', '))+'</p>'+(l.hours?'<p class="br-loc-hours">'+brEsc(l.hours)+'</p>':'')+'<p class="br-loc-flags"><a class="br-flag" href="/club/book/?l='+brEsc(l.id)+'">Book</a><a class="br-flag br-locked" data-visit-loc="'+brEsc(l.id)+'" href="/club/book/?l='+brEsc(l.id)+'">Visit &middot; book first</a><button class="br-flag" data-demo-open="pay" data-brand="'+brEsc(b.name+' - '+l.name)+'">Pay demo</button></p></article>').join('')+'</div></div></section>';
   }
   if(faqs.length)body+='<section class="br-sec"><h2>Questions about '+brEsc(b.name)+'</h2>'+faqs.map(f=>'<details class="br-faq"><summary>'+brEsc(f.q)+'</summary><p>'+brEsc(f.a)+'</p></details>').join('')+'</section>';
   const jsonld=[{'@context':'https://schema.org','@type':'Organization',name:b.name,url:u.origin+'/brands/'+b.slug+'/',...(b.website?{sameAs:[b.website]}:{})},{'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Brands',item:u.origin+'/brands/'},{'@type':'ListItem',position:2,name:b.name}]}];
@@ -1515,7 +1515,7 @@ async function brReviewRoute(p,request,env,db,now){
  }
  if(p==='/studio/api/review/club-ledgers'&&request.method==='GET'){
   await clubTables(db);
-  const bookings=(await db.prepare("SELECT k.booking_no,k.location_id,k.visit_date,k.visit_time,k.people,k.fee_inr,k.status,k.checked_in_at,k.created_at,b.name AS brand_name,l.name AS location_name,m.email AS member_email,m.name AS member_name FROM br_club_bookings k JOIN br_brands b ON b.id=k.brand_id JOIN br_locations l ON l.id=k.location_id JOIN br_club_members m ON m.id=k.member_id ORDER BY k.created_at DESC LIMIT 200").all()).results||[];
+  const bookings=(await db.prepare("SELECT k.booking_no,k.location_id,k.visit_date,k.visit_time,k.people,k.fee_inr,k.status,k.checked_in_at,k.created_at,COALESCE(b.name,k.place_name,'') AS brand_name,COALESCE(l.name,k.place_detail,'') AS location_name,m.email AS member_email,m.name AS member_name FROM br_club_bookings k LEFT JOIN br_brands b ON b.id=k.brand_id LEFT JOIN br_locations l ON l.id=k.location_id JOIN br_club_members m ON m.id=k.member_id ORDER BY k.created_at DESC LIMIT 200").all()).results||[];
   const commission=(await db.prepare('SELECT c.*,k.booking_no,m.email AS member_email FROM br_club_commission c LEFT JOIN br_club_bookings k ON k.id=c.booking_id LEFT JOIN br_club_members m ON m.id=k.member_id ORDER BY c.created_at DESC LIMIT 200').all()).results||[];
   const cashback=(await db.prepare('SELECT c.*,k.booking_no,m.email AS member_email FROM br_club_cashback c LEFT JOIN br_club_bookings k ON k.id=c.booking_id LEFT JOIN br_club_members m ON m.id=c.member_id ORDER BY c.created_at DESC LIMIT 200').all()).results||[];
   return JSONR({bookings,commission,cashback});
@@ -1608,6 +1608,9 @@ async function clubTables(db){
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_cashback(id TEXT PRIMARY KEY,booking_id TEXT NOT NULL,member_id TEXT NOT NULL,commission_id TEXT,cashback_inr INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'PENDING',period_start INTEGER NOT NULL,note TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_consents(id TEXT PRIMARY KEY,member_id TEXT NOT NULL,purpose TEXT NOT NULL,scope TEXT NOT NULL,text_version TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'GIVEN',given_at INTEGER NOT NULL,withdrawn_at INTEGER)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_verification(id TEXT PRIMARY KEY,member_id TEXT NOT NULL,provider TEXT NOT NULL DEFAULT 'DIGILOCKER',status TEXT NOT NULL,audit_ref TEXT UNIQUE NOT NULL,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
+ try{await db.prepare('ALTER TABLE br_club_members ADD COLUMN mobile TEXT').run()}catch{}
+ try{await db.prepare('ALTER TABLE br_club_bookings ADD COLUMN place_name TEXT').run()}catch{}
+ try{await db.prepare('ALTER TABLE br_club_bookings ADD COLUMN place_detail TEXT').run()}catch{}
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_payments(id TEXT PRIMARY KEY,booking_id TEXT NOT NULL,booking_no TEXT NOT NULL,member_id TEXT NOT NULL,kind TEXT NOT NULL,amount_inr INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL,mock INTEGER NOT NULL DEFAULT 1,created_at INTEGER NOT NULL)").run();
 }
 async function clubAuth(request,db){
@@ -1676,7 +1679,7 @@ async function clubRoute(request,env){
  }
  if(p==='/club/api/bookings'&&request.method==='GET'){
   const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
-  const rows=(await db.prepare("SELECT k.booking_no,k.location_id,k.visit_date,k.visit_time,k.people,k.fee_inr,k.pay_status,k.status,k.checked_in_at,k.created_at,b.name AS brand_name,b.slug AS brand_slug,l.name AS location_name,l.locality FROM br_club_bookings k JOIN br_brands b ON b.id=k.brand_id JOIN br_locations l ON l.id=k.location_id WHERE k.member_id=? ORDER BY k.created_at DESC LIMIT 100").bind(m.id).all()).results||[];
+  const rows=(await db.prepare("SELECT k.booking_no,k.location_id,k.visit_date,k.visit_time,k.people,k.fee_inr,k.pay_status,k.status,k.checked_in_at,k.created_at,COALESCE(b.name,k.place_name,'') AS brand_name,b.slug AS brand_slug,COALESCE(l.name,k.place_detail,'') AS location_name,l.locality FROM br_club_bookings k LEFT JOIN br_brands b ON b.id=k.brand_id LEFT JOIN br_locations l ON l.id=k.location_id WHERE k.member_id=? ORDER BY k.created_at DESC LIMIT 100").bind(m.id).all()).results||[];
   return JSONR({bookings:rows});
  }
  if(p==='/club/api/cashback'&&request.method==='GET'){
@@ -1817,6 +1820,108 @@ async function clubRoute(request,env){
   await db.prepare("UPDATE br_club_verification SET status='WITHDRAWN',updated_at=? WHERE member_id=? AND status='PROVIDER_DISABLED'").bind(now,m.id).run();
   await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(m.email,'club-verify-withdraw',null,'consent '+c.id.slice(0,8)+' withdrawn',now).run();
   return JSONR({ok:true,status:'WITHDRAWN',message:'Consent withdrawn. Your verification record has been closed; no identity data is stored.'});
+ }
+ if(p==='/club/api/book/context'&&request.method==='GET'){
+  const lid=clean(u.searchParams.get('l')||'',40),bid=clean(u.searchParams.get('b')||'',40);
+  if(lid){
+   const loc=await db.prepare("SELECT l.id,l.name,l.locality,l.address,b.id AS brand_id,b.name AS brand_name,b.slug FROM br_locations l JOIN br_brands b ON b.id=l.brand_id WHERE l.id=? AND l.status='PUBLISHED' AND b.status='PUBLISHED'").bind(lid).first();
+   if(!loc)return JSONR({error:'Place not found.'},404);
+   const options=(await db.prepare("SELECT id,name,locality FROM br_locations WHERE brand_id=? AND status='PUBLISHED' ORDER BY created_at").bind(loc.brand_id).all()).results||[];
+   return JSONR({ok:true,kind:'brand',brand:{id:loc.brand_id,name:loc.brand_name,slug:loc.slug},location:{id:loc.id,name:loc.name,locality:loc.locality||''},options});
+  }
+  if(bid){
+   const b=await db.prepare("SELECT id,name,slug FROM br_brands WHERE id=? AND status='PUBLISHED'").bind(bid).first();
+   if(!b)return JSONR({error:'Place not found.'},404);
+   const options=(await db.prepare("SELECT id,name,locality FROM br_locations WHERE brand_id=? AND status='PUBLISHED' ORDER BY created_at").bind(b.id).all()).results||[];
+   if(!options.length)return JSONR({error:'This brand has no published locations yet.'},404);
+   return JSONR({ok:true,kind:'brand',brand:b,location:options.length===1?options[0]:null,options});
+  }
+  const place=clean(u.searchParams.get('place')||'',120);
+  if(place)return JSONR({ok:true,kind:'place',place:{name:place,locality:clean(u.searchParams.get('locality')||'',80),ref:clean(u.searchParams.get('ref')||'',40)}});
+  return JSONR({error:'No place specified.'},400);
+ }
+ if(p==='/club/api/book/start'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const name=clean(b.name,80),email=clean(b.email,254).toLowerCase();
+  let mobile=String(b.mobile||'').replace(/\D/g,'');if(mobile.length===12&&mobile.startsWith('91'))mobile=mobile.slice(2);
+  if(!name||name.length<2)return JSONR({error:'Please share your full name.'},400);
+  if(!/^[6-9]\d{9}$/.test(mobile))return JSONR({error:'Enter a valid 10-digit Indian mobile number.'},400);
+  if(!EMAIL_RE2.test(email))return JSONR({error:'Please share a valid email address.'},400);
+  let m=await db.prepare("SELECT * FROM br_club_members WHERE email=? AND status!='SUSPENDED'").bind(email).first();
+  if(!m){const nid=crypto.randomUUID();await db.prepare("INSERT INTO br_club_members(id,email,name,city,status,invited_by,invited_at,created_at,updated_at,mobile) VALUES(?,?,?,?,'INVITED','self-service booking',?,?,?,?)").bind(nid,email,name,null,now,now,now,mobile).run();m=await db.prepare('SELECT * FROM br_club_members WHERE id=?').bind(nid).first()}
+  else await db.prepare('UPDATE br_club_members SET name=?,mobile=?,updated_at=? WHERE id=?').bind(name,mobile,now,m.id).run();
+  if(env.BUDGETDB){try{const ok=await env.BUDGETDB.prepare('INSERT INTO preview_mail_budget(key,count) VALUES(?,1) ON CONFLICT(key) DO UPDATE SET count=count+1 WHERE count<20 RETURNING count').bind('club:'+new Date(now).toISOString().slice(0,10)).first();if(!ok)return JSONR({error:'Too many codes requested today. Please try again tomorrow.'},429)}catch{}}
+  const code=String(Math.floor(100000+Math.random()*900000));
+  await db.prepare("INSERT INTO stu_otp(id,email,code_hash,purpose,expires_at,created_at) VALUES(?,?,?,?,?,?)").bind(crypto.randomUUID(),email,await hash(code),'club_login',now+600000,now).run();
+  let es='failed';try{const r=await stuMail(env,{task:'club_otp',to:email,code,name});es=r&&r.ok?'sent':'failed'}catch{}
+  const sms=String(Math.floor(100000+Math.random()*900000));
+  return JSONR({ok:true,email_code:es,sms_demo_code:sms,sms_note:'DEMO only - no SMS gateway is connected in this zero-spend build, so no SMS was sent. The demo SMS code is shown on screen.'});
+ }
+ if(p==='/club/api/book/confirm'&&request.method==='POST'){
+  if(request.headers.get('Origin')!==u.origin)return JSONR({error:'Origin refused.'},403);
+  const b=await request.json().catch(()=>null);if(!b)return JSONR({error:'Invalid JSON.'},400);
+  const email=clean(b.email,254).toLowerCase(),code=clean(b.code,6);
+  if(!/^\d{6}$/.test(code||''))return JSONR({error:'Enter the 6-digit email code.'},400);
+  const row=await db.prepare("SELECT * FROM stu_otp WHERE email=? AND purpose='club_login' AND used_at IS NULL ORDER BY created_at DESC LIMIT 1").bind(email).first();
+  if(!row||row.expires_at<now)return JSONR({error:'Code expired. Start the booking again.'},400);
+  if(row.code_hash!==await hash(code))return JSONR({error:'Incorrect email code.'},400);
+  const m=await db.prepare("SELECT * FROM br_club_members WHERE email=? AND status!='SUSPENDED'").bind(email).first();
+  if(!m)return JSONR({error:'Registration was not found. Start the booking again.'},400);
+  await db.prepare('UPDATE stu_otp SET used_at=? WHERE id=?').bind(now,row.id).run();
+  if(m.status==='INVITED'){await db.prepare("UPDATE br_club_members SET status='ACTIVE',joined_at=?,member_since=?,updated_at=? WHERE id=?").bind(now,now,now,m.id).run()}
+  const t=randomHex(32);
+  await db.prepare('INSERT INTO br_club_sessions(token_hash,member_id,created_at,expires_at) VALUES(?,?,?,?)').bind(await hash(t),m.id,now,now+30*86400000).run();
+  const date=clean(b.visit_date,10);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return JSONR({error:'Choose a visit date.'},400);
+  const today=new Date(now+330*60000).toISOString().slice(0,10),maxd=new Date(now+60*86400000).toISOString().slice(0,10);
+  if(date<today||date>maxd)return JSONR({error:'Choose a date between today and the next 60 days.'},400);
+  const time=clean(b.visit_time,5);if(time&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(time))return JSONR({error:'Choose a valid time.'},400);
+  const people=Math.max(1,Math.min(20,parseInt(b.people)||1));
+  let brandId='',locId='',placeName='',placeDetail='',brandName='',locName='',fee=0,terms=null;
+  if(b.location_id){
+   const loc=await db.prepare("SELECT l.*,b.name AS brand_name,b.status AS brand_status FROM br_locations l JOIN br_brands b ON b.id=l.brand_id WHERE l.id=?").bind(clean(b.location_id,40)).first();
+   if(!loc||loc.status!=='PUBLISHED'||loc.brand_status!=='PUBLISHED')return JSONR({error:'This place is not available for booking.'},404);
+   brandId=loc.brand_id;locId=loc.id;brandName=loc.brand_name;locName=loc.name+(loc.locality?', '+loc.locality:'');
+   const cfg=await db.prepare('SELECT * FROM br_club_booking_config WHERE brand_id=? AND location_id=? AND active=1').bind(loc.brand_id,loc.id).first();
+   if(cfg){fee=cfg.fee_inr||0;terms=cfg.terms||null}
+  }else{
+   placeName=clean(b.place_name,120);if(!placeName)return JSONR({error:'No place specified.'},400);
+   placeDetail=clean(b.place_detail,200);brandName=placeName;locName=placeDetail||'Open-data place';
+  }
+  if(terms&&b.conditions_accepted!==true)return JSONR({error:'Please review and accept the booking conditions.'},400);
+  let id=null,bno=null;
+  for(let i=0;i<3;i++){
+   id=crypto.randomUUID();bno='SRCHN-CLB-'+randomHex(4).toUpperCase();
+   try{await db.prepare("INSERT INTO br_club_bookings(id,booking_no,member_id,brand_id,location_id,visit_date,visit_time,people,fee_inr,pay_status,status,conditions,place_name,place_detail,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,'PAY_NOT_ENABLED','CONFIRMED',?,?,?,?,?)").bind(id,bno,m.id,brandId,locId,date,time||null,people,fee,terms,placeName||null,placeDetail||null,now,now).run();break}
+   catch(e){id=null}
+  }
+  if(!id)return JSONR({error:'Could not create the booking. Please try again.'},500);
+  let es='skipped';try{const r=await stuMail(env,{task:'club_booking',to:email,name:m.name,booking_no:bno,brand:brandName,location:locName,date,time:time||'',people:String(people),fee:String(fee)});es=r&&r.ok?'sent':'failed'}catch{}
+  return JSONR({ok:true,token:t,booking:{booking_no:bno,brand:brandName,location:locName,visit_date:date,visit_time:time||null,people,fee_inr:fee,pay_status:'PAY_NOT_ENABLED',status:'CONFIRMED'},email:es,payment_note:'No payment taken - SRCHN PAY is configuration-required and currently disabled. The Pay button on place pages is a clearly labelled interface demo.'},201);
+ }
+ if(p==='/club/book/'||p==='/club/book'){
+  let body='<section class="br-sec"><p class="br-eyebrow">SRCHN CLUB</p><h1>Book a visit</h1><div class="cl-note" id="bk-place">Loading place...</div>'
+  +'<form id="bk-f" class="cl-form"><div id="bk-locwrap"></div>'
+  +'<label>Full name<input required name="name" maxlength="80" autocomplete="name"/></label>'
+  +'<label>Mobile number<input required name="mobile" inputmode="numeric" maxlength="12" placeholder="10-digit mobile" autocomplete="tel"/></label>'
+  +'<label>Email<input required type="email" name="email" maxlength="254" autocomplete="email"/></label>'
+  +'<label>Visit date<input required type="date" name="visit_date"/></label>'
+  +'<label>Time (optional)<input type="time" name="visit_time"/></label>'
+  +'<label>People<input type="number" name="people" min="1" max="20" value="2"/></label>'
+  +'<p id="bk-terms-wrap" hidden><label style="display:flex;flex-direction:row;gap:8px;align-items:flex-start"><input type="checkbox" id="bk-accept" style="width:auto;margin-top:4px"/> <span id="bk-terms"></span></label></p>'
+  +'<button class="br-btn br-btn-primary" type="submit">REGISTER AND SEND CODES</button>'
+  +'<p class="cl-msg" id="bk-msg"></p></form>'
+  +'<form id="bk-v" class="cl-form" hidden>'
+  +'<p class="cl-note"><b>Two codes.</b> <b>Email:</b> a real one-time code was emailed to you (daily sending volume is limited). <b>SMS - DEMO:</b> no SMS gateway is connected in this zero-spend build, so no SMS was sent; the demo SMS code is shown here: <b id="bk-sms"></b></p>'
+  +'<label>Email code<input required name="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"/></label>'
+  +'<label>SMS code (demo)<input required name="sms" inputmode="numeric" pattern="[0-9]{6}" maxlength="6"/></label>'
+  +'<button class="br-btn br-btn-primary" type="submit">CONFIRM BOOKING</button>'
+  +'<p class="cl-msg" id="bk-vmsg"></p></form>'
+  +'<div id="bk-done" hidden></div>'
+  +'<p class="cl-note" style="margin-top:18px"><b>What is real and what is a demo.</b> Registration, the email code, your Club membership and the booking record are real. The SMS code is an on-screen demo - nothing is sent. Payment is not enabled anywhere on SRCHN; every Pay button is a labelled interface demo.</p>'
+  +'</section><script src="/brands/book.js" defer></script>';
+  return new Response(brChrome({title:'Book a visit | SRCHN CLUB',desc:'Book a visit at a listed place: register with name, mobile and email, verify with an email code (SMS step is a labelled demo), get a booking ID. No payment is taken.',canon:u.origin+'/club/book/',active:'Club',body}),{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'private, no-cache'}});
  }
  if(p==='/club/'||p==='/club'){
   const clubBrands=(await brListQuery(db,"b.status='PUBLISHED' AND b.club=1",[])).results||[];
