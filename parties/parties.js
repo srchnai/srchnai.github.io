@@ -7,34 +7,34 @@ const venues=JSON.parse(($('pt-venues')||{}).textContent||'[]');
 const events=JSON.parse(($('pt-events-data')||{}).textContent||'[]');
 
 const MOODS=[
- {n:'THE DANCE FLOOR',t:'For people who don\u2019t believe in standing still.',c:'DJ nights, electronic, Bollywood, commercial, club',f:v=>/pub|bar|club|brew/i.test(v.category+v.name)},
- {n:'ROOFTOP AFTER DARK',t:'The skyline is better with company.',c:'Rooftop lounges, sunset sessions, premium dining, city views',f:v=>/roof|skyye|terrace|skyline/i.test(v.name+v.tagline)},
- {n:'BREWERY CULTURE',t:'Good conversations. Better evenings.',c:'Microbreweries, craft beer, group tables, live entertainment',f:v=>/brew/i.test(v.category+v.name+v.tagline)},
- {n:'LIVE & LOUD',t:'Some nights deserve a soundtrack.',c:'Live bands, independent artists, concerts, acoustic, festivals',f:v=>/live|music|band|concert/i.test(v.name+v.tagline+v.category)},
- {n:'DATE NIGHT',t:'Make an ordinary evening extraordinary.',c:'Romantic dining, cocktail lounges, intimate, special occasions',f:v=>/restaurant|caf|dining|lounge/i.test(v.category+v.name)},
- {n:'THE SOCIAL CLUB',t:'Come for the experience. Leave with stories.',c:'Singles mixers, networking, community, quiz nights, social events',f:v=>/social|mixer|community|event/i.test(v.category+v.name)},
- {n:'COMEDY & CULTURE',t:'Laugh a little louder.',c:'Stand-up, improv, theatre, open mics, cultural',f:v=>/comedy|theatre|theater|improv|open mic|cultur/i.test(v.name+v.tagline+v.category)},
- {n:'THE BIG CELEBRATION',t:'Make your occasion the occasion.',c:'Birthdays, anniversaries, bachelor/bachelorette, corporate, private events',f:v=>/pub|bar|brew|restaurant/i.test(v.category)},
- {n:'SUNDAY SESSIONS',t:'Because weekends shouldn\u2019t end too soon.',c:'Brunch parties, sundowners, poolside, relaxed gatherings',f:v=>/caf|brew|restaurant|hotel|resort/i.test(v.category+v.name)},
- {n:'SOMETHING DIFFERENT',t:'The plans you didn\u2019t know existed.',c:'Karaoke, gaming, bowling, themed, workshops, unusual activities',f:v=>/entertainment|other|experience|karaoke|gaming|bowling/i.test(v.category+v.name)}];
+ {n:'THE DANCE FLOOR',img:'/parties/img/m-dance.jpg',t:'For people who don\u2019t believe in standing still.',c:'DJ nights, electronic, Bollywood, commercial, club',f:v=>/pub|bar|club|brew/i.test(v.category+v.name)},
+ {n:'ROOFTOP AFTER DARK',img:'/parties/img/m-rooftop.jpg',t:'The skyline is better with company.',c:'Rooftop lounges, sunset sessions, premium dining, city views',f:v=>/roof|skyye|terrace|skyline/i.test(v.name+v.tagline)},
+ {n:'BREWERY CULTURE',img:'/parties/img/m-brewery.jpg',t:'Good conversations. Better evenings.',c:'Microbreweries, craft beer, group tables, live entertainment',f:v=>/brew/i.test(v.category+v.name+v.tagline)},
+ {n:'LIVE & LOUD',img:'/parties/img/m-live.jpg',t:'Some nights deserve a soundtrack.',c:'Live bands, independent artists, concerts, acoustic, festivals',f:v=>/live|music|band|concert/i.test(v.name+v.tagline+v.category)},
+ {n:'DATE NIGHT',img:'/parties/img/m-date.jpg',t:'Make an ordinary evening extraordinary.',c:'Romantic dining, cocktail lounges, intimate, special occasions',f:v=>/restaurant|caf|dining|lounge/i.test(v.category+v.name)},
+ {n:'THE SOCIAL CLUB',img:'/parties/img/m-social.jpg',t:'Come for the experience. Leave with stories.',c:'Singles mixers, networking, community, quiz nights, social events',f:v=>/social|mixer|community|event/i.test(v.category+v.name)},
+ {n:'COMEDY & CULTURE',img:'/parties/img/m-comedy.jpg',t:'Laugh a little louder.',c:'Stand-up, improv, theatre, open mics, cultural',f:v=>/comedy|theatre|theater|improv|open mic|cultur/i.test(v.name+v.tagline+v.category)},
+ {n:'THE BIG CELEBRATION',img:'/parties/img/m-celebration.jpg',t:'Make your occasion the occasion.',c:'Birthdays, anniversaries, bachelor/bachelorette, corporate, private events',f:v=>/pub|bar|brew|restaurant/i.test(v.category)},
+ {n:'SUNDAY SESSIONS',img:'/parties/img/m-sunday.jpg',t:'Because weekends shouldn\u2019t end too soon.',c:'Brunch parties, sundowners, poolside, relaxed gatherings',f:v=>/caf|brew|restaurant|hotel|resort/i.test(v.category+v.name)},
+ {n:'SOMETHING DIFFERENT',img:'/parties/img/m-different.jpg',t:'The plans you didn\u2019t know existed.',c:'Karaoke, gaming, bowling, themed, workshops, unusual activities',f:v=>/entertainment|other|experience|karaoke|gaming|bowling/i.test(v.category+v.name)}];
 
 const AREAS=[
- {n:'Indiranagar',id:'Craft beer, cocktail bars, social dining, DJ nights',lat:12.9719,lon:77.6412},
- {n:'Koramangala',id:'Clubs, group celebrations, dance floors, live music',lat:12.9352,lon:77.6245},
- {n:'Church Street',id:'Pub crawls, live entertainment, social evenings',lat:12.9756,lon:77.6010},
- {n:'MG Road',id:'Pub crawls, live entertainment, social evenings',lat:12.9756,lon:77.6066},
- {n:'Brigade Road',id:'Pub crawls, live entertainment, social evenings',lat:12.9710,lon:77.6077},
- {n:'Lavelle Road',id:'Premium lounges and quiet luxury evenings',lat:12.9698,lon:77.5961},
- {n:'UB City',id:'Premium lounges and quiet luxury evenings',lat:12.9716,lon:77.5958},
- {n:'HSR Layout',id:'Community events, social mixers, pubs, casual nights',lat:12.9116,lon:77.6474},
- {n:'Whitefield',id:'Large breweries, team outings, music, celebrations',lat:12.9698,lon:77.7500},
- {n:'Marathahalli',id:'Expandable locality filter',lat:12.9591,lon:77.6974},
- {n:'Sarjapur Road',id:'Expandable locality filter',lat:12.9010,lon:77.6870},
- {n:'Jayanagar',id:'Neighbourhood pubs, music, dining, relaxed evenings',lat:12.9308,lon:77.5838},
- {n:'JP Nagar',id:'Neighbourhood pubs, music, dining, relaxed evenings',lat:12.9077,lon:77.5850},
- {n:'Electronic City',id:'Expandable locality filter',lat:12.8452,lon:77.6602},
- {n:'Hennur',id:'Expandable locality filter',lat:13.0367,lon:77.6430},
- {n:'Frazer Town',id:'Expandable locality filter',lat:12.9988,lon:77.6132}];
+ {n:'Indiranagar',img:'/parties/img/indiranagar.jpg',id:'Craft beer, cocktail bars, social dining, DJ nights',lat:12.9719,lon:77.6412},
+ {n:'Koramangala',img:'/parties/img/koramangala.jpg',id:'Clubs, group celebrations, dance floors, live music',lat:12.9352,lon:77.6245},
+ {n:'Church Street',img:'/parties/img/church-street.jpg',id:'Pub crawls, live entertainment, social evenings',lat:12.9756,lon:77.6010},
+ {n:'MG Road',img:'/parties/img/mg-road.jpg',id:'Pub crawls, live entertainment, social evenings',lat:12.9756,lon:77.6066},
+ {n:'Brigade Road',img:'/parties/img/brigade-road.jpg',id:'Pub crawls, live entertainment, social evenings',lat:12.9710,lon:77.6077},
+ {n:'Lavelle Road',img:'/parties/img/lavelle-road.jpg',id:'Premium lounges and quiet luxury evenings',lat:12.9698,lon:77.5961},
+ {n:'UB City',img:'/parties/img/ub-city.jpg',id:'Premium lounges and quiet luxury evenings',lat:12.9716,lon:77.5958},
+ {n:'HSR Layout',img:'/parties/img/hsr.jpg',id:'Community events, social mixers, pubs, casual nights',lat:12.9116,lon:77.6474},
+ {n:'Whitefield',img:'/parties/img/whitefield.jpg',id:'Large breweries, team outings, music, celebrations',lat:12.9698,lon:77.7500},
+ {n:'Marathahalli',img:'/parties/img/marathahalli.jpg',id:'Expandable locality filter',lat:12.9591,lon:77.6974},
+ {n:'Sarjapur Road',img:'/parties/img/sarjapur.jpg',id:'Expandable locality filter',lat:12.9010,lon:77.6870},
+ {n:'Jayanagar',img:'/parties/img/jayanagar.jpg',id:'Neighbourhood pubs, music, dining, relaxed evenings',lat:12.9308,lon:77.5838},
+ {n:'JP Nagar',img:'/parties/img/jp-nagar.jpg',id:'Neighbourhood pubs, music, dining, relaxed evenings',lat:12.9077,lon:77.5850},
+ {n:'Electronic City',img:'/parties/img/electronic-city.jpg',id:'Expandable locality filter',lat:12.8452,lon:77.6602},
+ {n:'Hennur',img:'/parties/img/hennur.jpg',id:'Expandable locality filter',lat:13.0367,lon:77.6430},
+ {n:'Frazer Town',img:'/parties/img/frazer-town.jpg',id:'Expandable locality filter',lat:12.9988,lon:77.6132}];
 
 const SUGGESTED=['Rooftop parties','DJ nights','Live music','Breweries','Date night','Comedy shows','Birthday celebrations','Ladies\u2019 night','Social mixers','Weekend parties'];
 const PROMPTS=['Find a rooftop for tonight.','Where can six friends celebrate a birthday?','Show me live music near Indiranagar.','Plan a date night under \u20B93,000.','Find a Saturday DJ night in Koramangala.','Find places with live music and food.','What\u2019s happening this weekend in Bengaluru?'];
@@ -59,7 +59,7 @@ const sf=$('pt-search');if(sf)sf.onsubmit=e=>{e.preventDefault();applySearch();d
 
 /* moods */
 const mm=$('pt-moods');
-if(mm){mm.innerHTML=MOODS.map((m,i)=>'<button class="pt-mood" data-i="'+i+'" type="button"><span class="pt-mood-num">'+String(i+1).padStart(2,'0')+'</span><h3>'+esc(m.n)+'</h3><p>'+esc(m.t)+'</p><span class="pt-mood-cats">'+esc(m.c)+'</span></button>').join('');
+if(mm){mm.innerHTML=MOODS.map((m,i)=>'<button class="pt-mood pt-mood-photo" data-i="'+i+'" type="button"><img src="'+m.img+'" alt="" loading="lazy" width="640" height="800"/><span class="pt-mood-ol"><span class="pt-mood-num">'+String(i+1).padStart(2,'0')+'</span><h3>'+esc(m.n)+'</h3><p>'+esc(m.t)+'</p><span class="pt-mood-cats">'+esc(m.c)+'</span></span></button>').join('');
  mm.querySelectorAll('.pt-mood').forEach(b=>b.onclick=()=>{
   mm.querySelectorAll('.pt-mood').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   const m=MOODS[+b.dataset.i];if(moodSel)moodSel.value=b.dataset.i;
@@ -124,7 +124,7 @@ renderWk('friday');
 function areaCount(a){return venues.filter(v=>(v.locality||'').toLowerCase().replace(/\s/g,'')===a.n.toLowerCase().replace(/\s/g,'')).length}
 const al=$('pt-areas-list');
 if(al){
- al.innerHTML=AREAS.map((a,i)=>{const n=areaCount(a);return '<button class="pt-area" data-i="'+i+'" type="button"><b>'+esc(a.n)+' <span class="pt-area-n">'+(n?n+' listed':'')+'</span></b><span>'+esc(a.id)+'</span></button>'}).join('');
+ al.innerHTML=AREAS.map((a,i)=>{const n=areaCount(a);return '<button class="pt-area pt-area-photo" data-i="'+i+'" type="button"><img src="'+a.img+'" alt="" loading="lazy" width="640" height="800"/><span class="pt-area-ol"><b>'+esc(a.n)+' <span class="pt-area-n">'+(n?n+' listed':'')+'</span></b><span>'+esc(a.id)+'</span></span></button>'}).join('');
  al.querySelectorAll('.pt-area').forEach(b=>b.onclick=()=>{
   al.querySelectorAll('.pt-area').forEach(x=>x.classList.remove('on'));b.classList.add('on');
   const a=AREAS[+b.dataset.i];
