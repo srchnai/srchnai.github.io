@@ -1587,6 +1587,7 @@ async function clubTables(db){
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_cashback(id TEXT PRIMARY KEY,booking_id TEXT NOT NULL,member_id TEXT NOT NULL,commission_id TEXT,cashback_inr INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'PENDING',period_start INTEGER NOT NULL,note TEXT,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_consents(id TEXT PRIMARY KEY,member_id TEXT NOT NULL,purpose TEXT NOT NULL,scope TEXT NOT NULL,text_version TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'GIVEN',given_at INTEGER NOT NULL,withdrawn_at INTEGER)").run();
  await db.prepare("CREATE TABLE IF NOT EXISTS br_club_verification(id TEXT PRIMARY KEY,member_id TEXT NOT NULL,provider TEXT NOT NULL DEFAULT 'DIGILOCKER',status TEXT NOT NULL,audit_ref TEXT UNIQUE NOT NULL,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL)").run();
+ await db.prepare("CREATE TABLE IF NOT EXISTS br_club_payments(id TEXT PRIMARY KEY,booking_id TEXT NOT NULL,booking_no TEXT NOT NULL,member_id TEXT NOT NULL,kind TEXT NOT NULL,amount_inr INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL,mock INTEGER NOT NULL DEFAULT 1,created_at INTEGER NOT NULL)").run();
 }
 async function clubAuth(request,db){
  const h=request.headers.get('Authorization')||'';const m=/^Bearer ([a-f0-9]{64})$/.exec(h);if(!m)return null;
@@ -1714,6 +1715,52 @@ async function clubRoute(request,env){
   if(k.visit_date!==today)return JSONR({error:'Check-in opens on the visit date ('+k.visit_date+').'},409);
   await db.prepare("UPDATE br_club_bookings SET status='CHECKED_IN',checked_in_at=?,updated_at=? WHERE id=?").bind(now,now,k.id).run();
   return JSONR({ok:true,status:'CHECKED_IN',checked_in_at:now});
+ }
+ if(p==='/club/api/payments'&&request.method==='GET'){
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const rows=(await db.prepare('SELECT booking_no,kind,amount_inr,status,mock,created_at FROM br_club_payments WHERE member_id=? ORDER BY created_at DESC LIMIT 100').bind(m.id).all()).results||[];
+  return JSONR({payments:rows});
+ }
+ if(p==='/club/api/mock-pay-fee'&&request.method==='POST'){
+  if(!/\.pages\.dev$/.test(u.hostname))return JSONR({error:'Not found.'},404);
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const b=await request.json().catch(()=>null);
+  const k=await db.prepare('SELECT * FROM br_club_bookings WHERE booking_no=? AND member_id=?').bind(clean(b&&b.booking_no,20),m.id).first();
+  if(!k)return JSONR({error:'Booking not found.'},404);
+  if(k.status!=='CONFIRMED'&&k.status!=='CHECKED_IN')return JSONR({error:'This booking is not payable.'},409);
+  if(k.pay_status==='MOCK_PAID')return JSONR({error:'The preview mock fee is already marked paid for this booking.'},409);
+  if(!k.fee_inr)return JSONR({error:'This booking has no fee.'},400);
+  const pid=crypto.randomUUID();
+  await db.prepare("INSERT INTO br_club_payments(id,booking_id,booking_no,member_id,kind,amount_inr,status,mock,created_at) VALUES(?,?,?,?,'FEE',?,'MOCK_PAID',1,?)").bind(pid,k.id,k.booking_no,m.id,k.fee_inr,now).run();
+  await db.prepare("UPDATE br_club_bookings SET pay_status='MOCK_PAID',updated_at=? WHERE id=?").bind(now,k.id).run();
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(m.email,'club-mock-pay-fee',k.brand_id,k.booking_no+' fee Rs'+k.fee_inr+' (preview mock, no real charge)',now).run();
+  return JSONR({ok:true,mock:true,payment:{booking_no:k.booking_no,kind:'FEE',amount_inr:k.fee_inr,status:'MOCK_PAID'},message:'Preview mock payment recorded - no real charge was made. SRCHN PAY remains configuration-required and disabled.'});
+ }
+ if(p==='/club/api/mock-pay-bill'&&request.method==='POST'){
+  if(!/\.pages\.dev$/.test(u.hostname))return JSONR({error:'Not found.'},404);
+  const m=await clubAuth(request,db);if(!m)return JSONR({error:'Sign in required.'},401);
+  const b=await request.json().catch(()=>null);
+  const k=await db.prepare('SELECT * FROM br_club_bookings WHERE booking_no=? AND member_id=?').bind(clean(b&&b.booking_no,20),m.id).first();
+  if(!k)return JSONR({error:'Booking not found.'},404);
+  if(k.status!=='CHECKED_IN')return JSONR({error:'Check in first - the bill is paid at the venue during your visit.'},409);
+  const dup=await db.prepare("SELECT id FROM br_club_commission WHERE booking_id=? AND status!='REVERSED'").bind(k.id).first();
+  if(dup)return JSONR({error:'The bill for this visit is already recorded.'},409);
+  const bill=Math.max(1,Math.min(1000000,parseInt(b&&b.bill_inr)||0));
+  const pct=20,cbpct=5;
+  const comm=Math.round(bill*pct/100);
+  let cb=Math.round(comm*cbpct/100);
+  const ps=m.member_since||m.joined_at||m.invited_at;
+  const used=((await db.prepare("SELECT COALESCE(SUM(cashback_inr),0) s FROM br_club_cashback WHERE member_id=? AND period_start=? AND status!='REVERSED'").bind(m.id,ps).first())||{}).s||0;
+  const room=Math.max(0,CLUB_CAP-used);let capped=false;
+  if(cb>room){cb=room;capped=true}
+  const pid=crypto.randomUUID(),cid=crypto.randomUUID();
+  const mnote='PREVIEW MOCK - no real charge. Bill settled at venue during visit; agreed success fee 20% illustration per Club terms.';
+  await db.prepare("INSERT INTO br_club_payments(id,booking_id,booking_no,member_id,kind,amount_inr,status,mock,created_at) VALUES(?,?,?,?,'BILL',?,'MOCK_PAID',1,?)").bind(pid,k.id,k.booking_no,m.id,bill,now).run();
+  await db.prepare("INSERT INTO br_club_commission(id,booking_id,brand_id,bill_inr,fee_pct,commission_inr,status,note,created_at,updated_at) VALUES(?,?,?,?,?,?,'PENDING',?,?,?)").bind(cid,k.id,k.brand_id,bill,pct,comm,mnote,now,now).run();
+  let cbid=null;
+  if(cb>0){cbid=crypto.randomUUID();await db.prepare("INSERT INTO br_club_cashback(id,booking_id,member_id,commission_id,cashback_inr,status,period_start,note,created_at,updated_at) VALUES(?,?,?,?,?,'PENDING',?,?,?,?)").bind(cbid,k.id,m.id,cid,cb,ps,mnote+(capped?' (capped at Rs 5,000 per 12-month membership period)':''),now,now).run()}
+  await db.prepare('INSERT INTO br_audit(actor,action,brand_id,detail,ts) VALUES(?,?,?,?,?)').bind(m.email,'club-mock-pay-bill',k.brand_id,k.booking_no+' bill Rs'+bill+' fee '+pct+'% = Rs'+comm+' cashback Rs'+cb+' (preview mock, no real charge)',now).run();
+  return JSONR({ok:true,mock:true,payment:{booking_no:k.booking_no,kind:'BILL',amount_inr:bill,status:'MOCK_PAID'},commission_inr:comm,cashback_inr:cb,capped,message:'Preview mock bill payment recorded - no real charge was made. Commission and cashback are PENDING illustration records. SRCHN PAY remains configuration-required and disabled.'});
  }
  const VTEXT='v1-2026-11-03';
  const VPURPOSE='Identity verification for SRCHN CLUB membership and higher-risk transaction journeys, when legally and commercially necessary.';
