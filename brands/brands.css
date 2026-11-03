@@ -128,3 +128,4 @@
 .br-price-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:16px 0}
 .br-media-empty .br-media-ph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border:1.5px dashed #d0d0d0;border-radius:12px;background:#fafafa;color:#bbb}
 .br-media-empty .br-media-ph .icon{width:28px;height:28px}
+a.br-flag{text-decoration:none;color:inherit}
