@@ -1200,10 +1200,20 @@ async function brandsRoute(request,env){
   if(hero)body+='<section class="br-hero-media"><div class="br-video-wrap">'+(hero.kind==='video'?'<video class="br-video" controls playsinline preload="none" poster="" src="'+brMediaUrl(hero.media_id)+'"></video>':'<img class="br-video" loading="lazy" src="'+brMediaUrl(hero.media_id)+'" alt="'+brEsc(hero.title||b.name)+'"/>')+'</div><p class="br-video-meta">'+brEsc(hero.title||b.name)+(hero.credit?' · '+brEsc(hero.credit):'')+'</p></section>';
   if(b.description)body+='<section class="br-sec"><h2>About '+brEsc(b.name)+'</h2><div class="br-prose">'+b.description.split(/\n{2,}/).map(x=>'<p>'+brEsc(x)+'</p>').join('')+'</div></section>';
   const pillars=[['tour','VIRTUAL TOUR'],['product','PRODUCTS'],['marketing','MARKETING']];
+  const BR_SLOTS={tour:['Interiors','Exteriors','Washrooms','Building view','Street view','Facade','Emergency exits','Parking','Lifts','Cafeteria'],product:['Categories','Menu','Facilities','Founders','Team','Departments','Town halls','Hiring','Ambassadors','Influencers'],marketing:['Brand origin story','New product launches','Festival offers','End-of-season sales','Customer testimonials','CSR activities','Weekly promotions','Monthly promotions','Meetups','Events']};
+  const slotSlug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-');
   body+='<section class="br-sec"><div class="br-tabs" role="tablist">'+pillars.map(([k,l],i)=>'<button class="br-tab'+(i===0?' active':'')+'" role="tab" data-br-tab="'+k+'">'+l+'</button>').join('')+'</div>'+pillars.map(([k,l],i)=>{
    const items=media.filter(x=>x.pillar===k);
+   const used=new Set();
+   const slots=(BR_SLOTS[k]||[]).map(sn=>{
+    const ss=slotSlug(sn);
+    const hit=items.find(x=>!used.has(x.media_id)&&slotSlug(x.category||'')===ss);
+    if(hit){used.add(hit.media_id);return brMediaTile(hit)}
+    return '<figure class="br-media br-media-empty"><div class="br-media-ph" aria-hidden="true"><svg class="icon"><use href="/assets/redesign/icons.svg#i-clapperboard"></use></svg></div><figcaption>'+brEsc(sn)+' <span class="br-credit">video coming soon</span></figcaption></figure>';
+   }).join('');
+   const extra=items.filter(x=>!used.has(x.media_id)).map(x=>brMediaTile(x)).join('');
    const campsHtml=k==='marketing'&&camps.length?'<div class="br-camps">'+camps.map(c=>'<article class="br-camp"><h3>'+brEsc(c.title)+'</h3><p>'+brEsc(c.description||'')+'</p>'+(c.start_at?'<p class="br-camp-dates">'+new Date(c.start_at*1000).toISOString().slice(0,10)+(c.end_at?' → '+new Date(c.end_at*1000).toISOString().slice(0,10):'')+'</p>':'')+(c.terms?'<p class="br-camp-terms">'+brEsc(c.terms)+'</p>':'')+(c.cta_url?'<a class="br-btn br-btn-ghost" href="'+brEsc(c.cta_url)+'">'+brEsc(c.cta_label||'Learn more')+'</a>':'')+'</article>').join('')+'</div>':'';
-   return '<div class="br-panel'+(i===0?' active':'')+'" data-br-panel="'+k+'">'+(items.length||campsHtml?'<div class="br-media-grid">'+items.map(x=>brMediaTile(x)).join('')+'</div>'+campsHtml:'<p class="br-empty">'+l.charAt(0)+l.slice(1).toLowerCase()+' videos for '+brEsc(b.name)+' will appear here after Team SRCHN approves them.</p>')+'</div>';
+   return '<div class="br-panel'+(i===0?' active':'')+'" data-br-panel="'+k+'"><div class="br-media-grid">'+slots+extra+'</div>'+campsHtml+'</div>';
   }).join('')+'</section>';
   if(locs.length){
    body+='<section class="br-sec" id="locations"><h2>Locations</h2><div class="br-loc-wrap"><div id="br-map" class="br-map" data-points="'+brEsc(JSON.stringify(locs.filter(l=>l.lat&&l.lon).map(l=>({lat:l.lat,lon:l.lon,name:b.name+' '+l.name,url:'/brands/'+b.slug+'/locations/'+l.slug+'/'}))))+'"></div><div class="br-loc-list">'+locs.map(l=>'<article class="br-loc"><h3><a href="/brands/'+brEsc(b.slug)+'/locations/'+brEsc(l.slug)+'/">'+brEsc(l.name)+'</a></h3><p>'+brEsc([l.address,l.locality,l.city].filter(Boolean).join(', '))+'</p>'+(l.hours?'<p class="br-loc-hours">'+brEsc(l.hours)+'</p>':'')+'<p class="br-loc-flags">'+(l.booking_enabled?'<span class="br-flag">Booking</span>':'')+(l.visit_enabled?'<span class="br-flag">Visit</span>':'')+(l.pay_enabled?'<span class="br-flag">Pay</span>':'')+'</p></article>').join('')+'</div></div></section>';
