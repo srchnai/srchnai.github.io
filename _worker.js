@@ -518,7 +518,7 @@ async function studioRoute(request,env){
    if(!items.some(i=>i.media_id))return JSONR({error:'At least one item must have an uploaded file.'},400);
    const cnt=await db.prepare('SELECT count(*) AS n FROM stu_submissions WHERE created_at>?').bind(now-86400000).first();
    if(cnt&&cnt.n>=100)return JSONR({error:'Daily submission limit reached. Try again tomorrow.'},429);
-   const seq=(await db.prepare('SELECT count(*) AS n FROM stu_submissions').first()).n+1;
+   const seq=(await db.prepare("SELECT COALESCE(MAX(CAST(substr(sub_no,-6) AS INTEGER)),0) AS n FROM stu_submissions").first()).n+1;
    const subNo='SRCHN-STU-'+new Date(now).getUTCFullYear()+'-'+String(seq).padStart(6,'0');
    const id=crypto.randomUUID();
    const details=JSON.stringify({address:clean(b.address,240),locality:clean(b.locality,80),city:clean(b.city,80),pincode:clean(b.pincode,6),state:clean(b.state,60),country:clean(b.country,60)||'India',dates:clean(b.dates,120),descriptions:clean(b.description,1000)});
@@ -832,7 +832,7 @@ async function studioRoute(request,env){
   if(!items.length||!items.some(i=>i.media_id))return JSONR({error:'Add at least one uploaded photo or video.'},400);
   const cnt=await db.prepare('SELECT count(*) AS n FROM stu_submissions WHERE created_at>?').bind(now-86400000).first();
   if(cnt&&cnt.n>=100)return JSONR({error:'Daily submission limit reached. Try again tomorrow.'},429);
-  const seq=(await db.prepare('SELECT count(*) AS n FROM stu_submissions').first()).n+1;
+  const seq=(await db.prepare("SELECT COALESCE(MAX(CAST(substr(sub_no,-6) AS INTEGER)),0) AS n FROM stu_submissions").first()).n+1;
   const subNo='SRCHN-STU-'+new Date(now).getUTCFullYear()+'-'+String(seq).padStart(6,'0');
   const details=JSON.stringify({brand_id:bid,brand_name:br.name,locality:clean(b.locality,80),city:clean(b.city,80)||'Bengaluru'});
   const rights=JSON.stringify({creator_type:'brand:'+role,confirmed:true});
