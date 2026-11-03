@@ -9,13 +9,13 @@ fetch('/club/api/book/context?'+qs).then(r=>r.json()).then(d=>{
  ctx=d;
  if(d.kind==='brand'){
   let h='Booking at: <b>'+esc(d.brand.name)+'</b>';
-  if(d.location)h+=' - '+esc(d.location.name)+(d.location.locality?', '+esc(d.location.locality):'');
+  if(d.location)h+=' - '+esc(d.location.name)+(d.location.locality&&d.location.locality.toLowerCase()!==d.location.name.toLowerCase()?', '+esc(d.location.locality):'');
   $('#bk-place').innerHTML=h+'. Registration creates your SRCHN Club membership.';
   if(d.options&&d.options.length>1){
    const l=document.createElement('label');l.textContent='Location';
    const sel=document.createElement('select');sel.id='bk-loc';
    sel.style.cssText='border:1px solid #d6d6d6;border-radius:10px;padding:11px 12px;font:inherit';
-   d.options.forEach(o=>{const op=document.createElement('option');op.value=o.id;op.textContent=o.name+(o.locality?', '+o.locality:'');sel.append(op)});
+   d.options.forEach(o=>{const op=document.createElement('option');op.value=o.id;op.textContent=o.name+(o.locality&&o.locality.toLowerCase()!==o.name.toLowerCase()?', '+o.locality:'');sel.append(op)});
    if(d.location)sel.value=d.location.id;
    l.append(sel);$('#bk-locwrap').append(l);
   }
